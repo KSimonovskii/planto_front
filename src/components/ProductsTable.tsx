@@ -1,15 +1,10 @@
-import RowTable from "./RowTable.tsx";
+import RowProductsTable from "./RowProductsTable.tsx";
 import {useContext} from "react";
 import {ProductsContext} from "../utils/Context.ts";
-import type Product from "./Product.ts";
 
-const Table = () => {
+const ProductsTable = () => {
 
-    const {products, setProducts} = useContext(ProductsContext);
-
-    const updateTable = (products: Product[]) => {
-        setProducts(products);
-    }
+    const {products} = useContext(ProductsContext);
 
     return (
 
@@ -26,10 +21,10 @@ const Table = () => {
                 </tr>
             </thead>
             <tbody>
-                {products.map(product => <RowTable key={product.id} product={product} updateTable={updateTable} />)}
+                {products.map(product => <RowProductsTable key={product.id} product={product}/>)}
             </tbody>
         </table>
     )
 }
 
-export default Table
+export default ProductsTable

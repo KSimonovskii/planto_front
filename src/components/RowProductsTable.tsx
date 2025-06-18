@@ -1,19 +1,19 @@
 import {ProductsContext} from "../utils/Context.ts";
 import {useContext} from "react";
 import type Product from "./Product.ts";
+import {getProductsTable, removeProductFromTable} from "../features/api/productAction.ts";
 
 interface PropsProduct {
     product: Product,
-    updateTable: (products: Product[]) => void
 }
 
 
-const RowTable = (props: PropsProduct) => {
+const RowProductsTable = (props: PropsProduct) => {
 
     const {products, setProducts} = useContext(ProductsContext);
     const product = props.product;
 
-    const editProduct = (id: number) => {
+    const editProduct = (id: string) => {
         const index = products.findIndex((product) => product.id === id);
         if (index >= 0){
             return  true;
@@ -22,14 +22,13 @@ const RowTable = (props: PropsProduct) => {
         return true;
     }
 
-    const removeProduct = (id: number) => {
-        const index = products.findIndex((product) => product.id === id);
-        if (index >= 0){
-            const newProducts = products.filter((p) => p.id !== id);
-            setProducts(newProducts);
+    const removeProduct = async (id: string) => {
+        const res = await removeProductFromTable(id);
+        if (res){
+            // const newProducts = products.filter((p) => p.id !== id);
+            setProducts(await getProductsTable());
         }
     }
-
 
     return (
         <tr className={"hover:bg-[#eec3a9] hover:text-[#cd663d]"}>
@@ -47,4 +46,4 @@ const RowTable = (props: PropsProduct) => {
     )
 }
 
-export default RowTable
+export default RowProductsTable

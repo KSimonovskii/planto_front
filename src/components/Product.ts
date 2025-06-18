@@ -1,12 +1,12 @@
 export default class Product {
 
-    private readonly _id: number
+    private readonly _id: string
     private _name: string
     private _category: string
     private _quantity: number
     private _price: number
 
-    constructor(id: number, name: string, category: string, quantity: number, price: number) {
+    constructor(id: string, name: string, category: string, quantity: number, price: number) {
         this._id = id;
         this._name = name;
         this._category = category;
@@ -14,7 +14,7 @@ export default class Product {
         this._price = price;
     }
 
-    get id(): number {
+    get id(): string {
         return this._id;
     }
 
