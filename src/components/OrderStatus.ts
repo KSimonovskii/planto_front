@@ -1,8 +1,9 @@
-export enum OrderStatus {
-    PENDING = 'PENDING',
-    PAID = 'PAID',
-    COMPLETED = 'COMPLETED',
-    SHIPPED = 'SHIPPED',
-    DELIVERED = 'DELIVERED',
-    CANCELLED = 'CANCELLED'
-}
+export type OrderStatus =
+    'PENDING' |
+    'PAID' |
+    'COMPLETED' |
+    'SHIPPED' |
+    'DELIVERED' |
+    'CANCELLED';
+
+

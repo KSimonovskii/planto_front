@@ -4,6 +4,6 @@ import Product from "../components/Product.ts";
 interface ContextData {
     products: Product[];
     setProducts: Dispatch<SetStateAction<Product[]>>
-}
+   }
 
 export const ProductsContext = React.createContext<ContextData>({products: [], setProducts: () => {}});
