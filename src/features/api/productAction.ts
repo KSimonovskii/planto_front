@@ -2,7 +2,7 @@ import Product from "../../components/Product.ts";
 import {BASE_URL} from "../../utils/constants.ts";
 
 export const getProductsTable = async () => {
-    const URL = BASE_URL;
+    const URL = `${BASE_URL}/product`;
     if (!URL){
         throw new Error("URL not found in the settings!");
     }
