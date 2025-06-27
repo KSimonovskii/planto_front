@@ -1,11 +1,9 @@
 import {useState} from "react";
 import {useNavigate} from "react-router";
 import {loginUser} from "../features/api/authActions.ts";
-import AccountDashboard from "./AccountDashboard.tsx";
 
 const PersonalAccount = () => {
-
-    const [username, setUsername] = useState('');
+    const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
@@ -17,11 +15,11 @@ const PersonalAccount = () => {
         setLoading(true);
 
         try {
-            await loginUser({username, password});
-            setUsername("");
+            await loginUser({ login, password });
+            setLogin("");
             setPassword("");
-            navigate({AccountDashboard});
-        } catch (err) {
+            navigate( "/accountDashboard");
+        } catch (err: any) {
             console.error("Login failed: ", err);
             setError(err.message);
         } finally {
@@ -30,41 +28,59 @@ const PersonalAccount = () => {
     };
 
     return (
-        <div className="personal-account-container">
-            <h2>Login to your personal account</h2>
-            <div>
-                {error && <p className="error-message">{error}</p>}
-            </div>
-            <form onSubmit={handleLogin} className="login-form">
-                <div className="form-group">
-                    <label htmlFor="username">Login :</label>
+        <div className="max-w-md mx-auto mt-24 p-8 bg-white shadow-lg rounded-xl">
+            <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
+                Login to your personal account
+            </h2>
+
+            {error && (
+                <p className="text-red-600 text-center mb-4 font-medium">
+                    {error}
+                </p>
+            )}
+
+            <form onSubmit={handleLogin} className="space-y-6">
+                <div>
+                    <label htmlFor="login" className="block text-sm font-semibold text-gray-700 mb-1">
+                        Login:
+                    </label>
                     <input
                         type="text"
-                        id="username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        id="login"
+                        value={login}
+                        onChange={(e) => setLogin(e.target.value)}
                         required
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="password">Password:</label>
+
+                <div>
+                    <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-1">
+                        Password:
+                    </label>
                     <input
                         type="password"
                         id="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
 
-                <button type="submit" className="login-button" disabled={loading}>
+                <button
+                    type="submit"
+                    disabled={loading}
+                    className={`w-full py-2 rounded-lg text-white font-semibold transition duration-300 
+                        ${loading
+                        ? "bg-blue-300 cursor-not-allowed"
+                        : "bg-blue-600 hover:bg-blue-700"}`}
+                >
                     {loading ? "Logging in..." : "Login"}
                 </button>
             </form>
         </div>
-
     );
-
 };
 
-export default PersonalAccount
+export default PersonalAccount;

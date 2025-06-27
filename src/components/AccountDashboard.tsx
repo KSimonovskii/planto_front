@@ -1,9 +1,10 @@
-
 const AccountDashboard = () => {
 
 
     return (
-        <div >
+        <div>
+            Personal dashboard
+            Personal dashboard
             Personal dashboard
         </div>
     )

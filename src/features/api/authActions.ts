@@ -1,8 +1,8 @@
 import {BASE_URL} from "../../utils/constants.ts";
 
 export const loginUser = async (credentials:
-                                    {username:string,password:string})=> {
-    const URL = `${BASE_URL}/account/login`;
+                                    {login:string,password:string})=> {
+    const URL = `${BASE_URL}/auth/login`;
     const response = await fetch(URL, {
         method: 'POST',
         headers: {

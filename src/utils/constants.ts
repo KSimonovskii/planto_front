@@ -8,7 +8,8 @@ import {
     // Users,
     // BarChart3,
     // Settings,
-    LogIn
+    LogIn,
+
 } from "lucide-react";
 
 export const navItems: Item[] = [
