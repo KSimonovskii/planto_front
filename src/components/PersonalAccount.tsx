@@ -27,6 +27,10 @@ const PersonalAccount = () => {
         }
     };
 
+    const handleRegisterRedirect = async () => {
+        navigate("/account/register");
+    }
+
     return (
         <div className="max-w-md mx-auto mt-24 p-8 bg-white shadow-lg rounded-xl">
             <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
@@ -78,6 +82,15 @@ const PersonalAccount = () => {
                 >
                     {loading ? "Logging in..." : "Login"}
                 </button>
+
+                <button
+                    type="button"
+                    onClick={handleRegisterRedirect}
+                    className="w-full mt-2 py-2 rounded-lg border border-blue-600 text-blue-600 font-semibold hover:bg-blue-50 transition duration-300"
+                    >
+                    Register
+                </button>
+
             </form>
         </div>
     );

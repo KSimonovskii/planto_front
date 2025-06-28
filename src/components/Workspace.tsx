@@ -5,6 +5,7 @@ import ProductsManager from "./ProductsManager.tsx";
 import ErrorPage from "./ErrorPage.tsx";
 import PersonalAccount from "./PersonalAccount.tsx";
 import AccountDashboard from "./AccountDashboard.tsx";
+import AccountRegister from "./AccountRegister.tsx";
 
 const Workspace = () => {
 
@@ -18,6 +19,8 @@ const Workspace = () => {
                 <Route key={path} path={path} element={<PersonalAccount/>}/>)}
             {['accountDashboard'].map(path =>
                 <Route key={path} path={path} element={<AccountDashboard/>}/>)}
+            {['account/register'].map(path =>
+                <Route key={path} path={path} element={<AccountRegister/>}/>)}
             <Route path={'*'} element={<ErrorPage/>}/>
         </Routes>
     )
