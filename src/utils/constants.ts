@@ -5,7 +5,7 @@ import {
     Home,
     Package,
     // ShoppingCart,
-    // Users,
+    // UserAccount,
     // BarChart3,
     // Settings,
     LogIn,

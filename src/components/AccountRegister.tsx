@@ -40,7 +40,7 @@ const AccountRegister = () => {
 
     const [dataAccount, setDataAccount] = useState(INITIAL_ACCOUNT_STATE);
     const [error, setError] = useState<string | null>(null);
-    const [success, setSuccess] = useState(false);
+
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -59,7 +59,7 @@ const AccountRegister = () => {
         setLoading(true);
 
         try {
-            await registerUser({
+           const result = await registerUser({
                 login: dataAccount.login,
                 firstname: dataAccount.firstname,
                 lastname: dataAccount.lastname,
@@ -67,9 +67,15 @@ const AccountRegister = () => {
                 password: dataAccount.password,
             });
 
+            if (result.token) {
+                localStorage.setItem('jwt', result.token);
+            } else {
+                throw new Error("No token received from server");
+            }
+
             setDataAccount(INITIAL_ACCOUNT_STATE);
-            setSuccess(true);
             navigate("/accountDashboard");
+
         } catch (err: any) {
             console.error("Login failed: ", err);
             setError(err.message || "Unknown error");
@@ -86,12 +92,6 @@ const AccountRegister = () => {
 
             {error && (
                 <p className="text-red-600 text-center mb-4 font-medium">{error}</p>
-            )}
-
-            {success && (
-                <p className="text-green-600 text-center mb-4 font-medium">
-                    Registration successful!
-                </p>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-5">

@@ -1,19 +1,19 @@
 import type {Address} from "./Address.ts";
-import  {type Role} from "./Role.ts";
+import {type UserRole} from "./UserRole.ts";
 import  {type Order} from "./Order.ts";
 
-export default class Users {
+export default class UserAccount {
     private _login: string;
     private _firstName: string;
     private _lastName: string;
     private _email: string;
     private _password: string;
     private _address: Address;
-    private _role: Role[];
+    private _role: UserRole[];
     private _orders: Order[];
 
 
-    constructor(login: string, firstName: string, lastName: string, email: string, password: string, address: Address, role: Role[], orders: Order[]) {
+    constructor(login: string, firstName: string, lastName: string, email: string, password: string, address: Address, role: UserRole[], orders: Order[]) {
         this._login = login;
         this._firstName = firstName;
         this._lastName = lastName;
@@ -73,11 +73,11 @@ export default class Users {
         this._address = value;
     }
 
-    get role(): Role[] {
+    get role(): UserRole[] {
         return this._role;
     }
 
-    set role(value: Role[]) {
+    set role(value: UserRole[]) {
         this._role = value;
     }
 
