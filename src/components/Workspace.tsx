@@ -1,6 +1,6 @@
 import {Route, Routes} from "react-router";
 import {navItems} from "../utils/constants.ts";
-import Home from "./Home.tsx";
+import Home from "./pages/home/Home.tsx";
 import ProductsManager from "./ProductsManager.tsx";
 import ErrorPage from "./ErrorPage.tsx";
 import PersonalAccount from "./PersonalAccount.tsx";

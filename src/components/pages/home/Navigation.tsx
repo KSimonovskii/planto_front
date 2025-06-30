@@ -1,5 +1,5 @@
-import {navItems} from "../utils/constants";
-import NavItem from "./NavItem";
+import {navItems} from "../../../utils/constants.ts";
+import NavItem from "./NavItem.tsx";
 
 const Navigation = () => {
     return (

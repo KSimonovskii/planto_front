@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import type Product from "./Product.ts";
-import { getProductsTable } from "../features/api/productAction.ts";
+import {useEffect, useState} from "react";
+import type Product from "../../Product.ts";
+import {getProductsTable} from "../../../features/api/productAction.ts";
 
 const HomePage = () => {
     const [products, setProducts] = useState<Product[]>([]);
@@ -30,11 +30,6 @@ const HomePage = () => {
                     <h1 className="text-5xl font-bold mb-4">Planto</h1>
                     <p className="text-lg text-[#5e6e63]">Let it grow</p>
                 </div>
-                <img
-                    src="/images/hero-plant.png"
-                    alt="Succulent"
-                    className="w-64 md:w-80"
-                />
             </section>
 
 
@@ -61,7 +56,8 @@ const HomePage = () => {
                                 <p className="text-gray-700 mt-1 mb-3">
                                     ${product.price.toFixed(2)}
                                 </p>
-                                <button className="bg-[#f0e9db] text-[#2a4637] font-semibold py-2 px-4 rounded hover:bg-[#e7dcc8] transition">
+                                <button
+                                    className="bg-[#f0e9db] text-[#2a4637] font-semibold py-2 px-4 rounded hover:bg-[#e7dcc8] transition">
                                     Add
                                 </button>
                             </div>
