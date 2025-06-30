@@ -1,13 +1,18 @@
-import {navItems} from "../utils/constants.ts";
-import NavItem from "./NavItem.tsx";
+import {navItems} from "../utils/constants";
+import NavItem from "./NavItem";
 
 const Navigation = () => {
     return (
-        <nav className={"col-span-1 bg-[#405443] h-full py-10 px-3"}>
-            <ul>
-                {navItems.map(item => <NavItem key={item.path} item={item} />)}
-            </ul>
-        </nav>
-    )
-}
-export default Navigation
+        <header className="w-full bg-green-50 border-b border-green-200 p-4 fixed top-0 left-0 z-50 shadow">
+            <div className="max-w-7xl mx-auto flex justify-between items-center">
+                <nav className="flex space-x-6">
+                    {navItems.map((item) => (
+                        <NavItem key={item.path} item={item}/>
+                    ))}
+                </nav>
+            </div>
+        </header>
+    );
+};
+
+export default Navigation;

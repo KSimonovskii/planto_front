@@ -1,6 +1,8 @@
+import { LucideIcon } from "lucide-react";
+
 export interface Item {
     title: string
     path: string
-    icon: React.ElementType
+    icon: LucideIcon
 }
 

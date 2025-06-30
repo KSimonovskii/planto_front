@@ -4,17 +4,17 @@ import type {Item} from './types'
 import {
     Home,
     Package,
-    // ShoppingCart,
-    // UserAccount,
-    // BarChart3,
-    // Settings,
+    ShoppingCart,
+    Info,
     LogIn,
 
 } from "lucide-react";
 
 export const navItems: Item[] = [
-    {title: 'Main', path: 'main', icon: Home},
-    {title: 'Products', path: 'products', icon: Package},
+    {title: 'Home', path: 'main', icon: Home},
+    {title: 'About us', path: 'about', icon: Info},
+    {title: 'Shop', path: 'products', icon: Package},
+    {title: 'My orders', path: 'orders', icon: ShoppingCart},
     {title: 'My account', path: 'auth', icon: LogIn}
 ]
 

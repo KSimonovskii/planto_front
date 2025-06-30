@@ -13,9 +13,9 @@ const Workspace = () => {
         <Routes>
             {['/', navItems[0].path, `${navItems[0].path}/`].map(path =>
                 <Route key={path} path={path} element={<Home/>}/>)}
-            {['/', navItems[1].path, `${navItems[1].path}/`].map(path =>
+            {['/', navItems[2].path, `${navItems[2].path}/`].map(path =>
                 <Route key={path} path={path} element={<ProductsManager/>}/>)}
-            {[navItems[2].path, `${navItems[2].path}/login`].map(path =>
+            {[navItems[4].path, `${navItems[4].path}/login`].map(path =>
                 <Route key={path} path={path} element={<PersonalAccount/>}/>)}
             {['accountDashboard'].map(path =>
                 <Route key={path} path={path} element={<AccountDashboard/>}/>)}

@@ -5,7 +5,7 @@
         height: 100%;
     }
     body{
-        background-color: #f5eade;
+        background-color: #F8F3EF;
     }
     #root{
         height: 100%;
@@ -32,4 +32,3 @@
 }
 @tailwind components;
 @tailwind utilities
-

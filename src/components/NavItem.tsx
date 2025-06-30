@@ -1,23 +1,28 @@
-import type {Item} from "../utils/types";
-import {NavLink} from "react-router";
+import { NavLink } from "react-router-dom";
+import type { Item } from "../utils/types";
 
 interface Props {
-    item: Item
+    item: Item;
 }
 
-const NavItem = (props: Props) => {
-
-    const activeStyle = "bg-[#cd663d] text-[#f5eade] rounded-md";
-    const defaultStyle = "text-[#9dbfab]";
+const NavItem = ({ item }: Props) => {
+    const Icon = item.icon;
 
     return (
-        <li>
-            <NavLink to={`${props.item.path}`} className={({isActive}) =>
-                    (`block my-3 w-full ${isActive? activeStyle : defaultStyle} font-bold hover:bg-[#cd663d] hover:text-[#f5eade] hover:rounded-md`)}>
-                <props.item.icon/> <span>{props.item.title}</span>
-            </NavLink>
-        </li>
-    )
-}
+        <NavLink
+            to={item.path}
+            className={({ isActive }) =>
+                `text-sm font-medium transition-colors ${
+                    isActive
+                        ? "text-green-800 underline"
+                        : "text-gray-600 hover:text-green-600"
+                }`
+            }
+        >
+            <Icon className="w-5 h-5" />
+            <span>{item.title}</span>
+        </NavLink>
+    );
+};
 
-export default NavItem
+export default NavItem;
