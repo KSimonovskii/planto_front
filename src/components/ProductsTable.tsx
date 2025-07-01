@@ -8,20 +8,22 @@ const ProductsTable = () => {
 
     return (
 
-        <table className={"text-light-green"}>
+        <table className={"text-base-form"}>
             <caption>List of products</caption>
-            <thead className={"border-y-2 border-base-text-color"}>
+            <thead className={"border-y-2 border-base-text"}>
             {/*    TODO change to fields from class Product*/}
-                <tr>
-                    <th>Name</th>
-                    <th>Category</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th></th>
-                </tr>
+            <tr>
+                <th className={"pl-2"}>Image</th>
+                <th className={"pl-2"}>Name</th>
+                <th className={"pl-2"}>Category</th>
+                <th className={"pl-2"}>Quantity</th>
+                <th className={"pl-2"}>Price</th>
+                <th className={"pl-2"}>Description</th>
+                <th className={"pl-2"}></th>
+            </tr>
             </thead>
             <tbody>
-                {products.map(product => <RowProductsTable key={product.id} product={product}/>)}
+            {products.map(product => <RowProductsTable key={product.id} product={product}/>)}
             </tbody>
         </table>
     )
