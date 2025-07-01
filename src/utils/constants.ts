@@ -4,7 +4,7 @@ import type {Item} from './types'
 import {
     Home,
     Package,
-
+    Store,
     ShoppingCart,
     Info,
     LogIn,
@@ -17,7 +17,8 @@ export const navItems: Item[] = [
     {title: 'About us', path: 'about', icon: Info},
     {title: 'Products', path: 'products', icon: Package},
     {title: 'My orders', path: 'orders', icon: ShoppingCart},
-    {title: 'My account', path: 'auth', icon: LogIn}
+    {title: 'My account', path: 'auth', icon: LogIn},
+    {title: 'Store', path: 'store', icon: Store}
 ]
 
 export const BASE_URL = "https://planto-gp2i.onrender.com"
