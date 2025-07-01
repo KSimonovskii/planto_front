@@ -24,7 +24,7 @@ const ProductsManager = () => {
     }, [])
 
     return (
-        <div className={"col-span-6"}>
+        <div className={"col-span-6, pt-24"}>
             <ProductsContext.Provider value={{products, setProducts}}>
                 <AddProduct/>
                 <ProductsTable/>

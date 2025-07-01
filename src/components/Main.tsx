@@ -1,4 +1,4 @@
-import Navigation from "./pages/home/Navigation.tsx";
+import Navigation from "./pages/NavigationPanel/Navigation.tsx";
 import Workspace from "./Workspace.tsx";
 
 const Main = () => {

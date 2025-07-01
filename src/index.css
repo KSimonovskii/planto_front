@@ -1,28 +1,35 @@
 @import "tailwindcss";
 @tailwind base;
-@layer base{
-    html, body{
+
+@layer base {
+    html, body {
         height: 100%;
     }
-    body{
+
+    body {
         background-color: #F8F3EF;
     }
-    #root{
+
+    #root {
         height: 100%;
     }
-    form{
+
+    form {
         color: #405443;
     }
-    form input{
+
+    form input {
         border-color: #405443;
         border-width: thick;
         margin: 0.5em;
     }
-    form input:focus{
+
+    form input:focus {
         border-color: #cd663d;
         outline: none;
     }
-    table{
+
+    table {
         margin-bottom: 1em;
         margin-top: 1em;
         color: #405443;
@@ -30,5 +37,15 @@
         text-align: left;
     }
 }
+
 @tailwind components;
-@tailwind utilities
+@tailwind utilities;
+
+.custom-pagination .swiper-pagination-bullet {
+    background-color: #9acfaf;
+    opacity: 1;
+}
+
+.custom-pagination .swiper-pagination-bullet-active {
+    background-color: #4b7846;
+}
