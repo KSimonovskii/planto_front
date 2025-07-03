@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import Product from "./Product.ts";
-import {getProductsTable} from "../features/api/productAction.ts";
-import {ProductsContext} from "../utils/Context.ts";
+import {getProductsTable} from "../../../features/api/productAction.ts";
+import {ProductsContext} from "../../../utils/Context.ts";
 import AddProduct from "./AddProduct.tsx";
 import ProductsTable from "./ProductsTable.tsx";
 

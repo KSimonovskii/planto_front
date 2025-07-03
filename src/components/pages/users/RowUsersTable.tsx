@@ -1,7 +1,7 @@
 import type UserAccount from "./UserAccount.ts";
-import {UserContext} from "../utils/userContext.ts";
+import {UserContext} from "../../../utils/userContext.ts";
 import {useContext} from "react";
-import {getUser, removeUserFromTable} from "../features/api/userAction.ts";
+import {getUser, removeUserFromTable} from "../../../features/api/userAction.ts";
 
 interface PropsUser {
     user: UserAccount,

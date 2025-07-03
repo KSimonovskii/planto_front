@@ -1,6 +1,6 @@
 import type {Address} from "./Address.ts";
 import {type UserRole} from "./UserRole.ts";
-import  {type Order} from "./Order.ts";
+import  {type Order} from "../orders/Order.ts";
 
 export default class UserAccount {
     private _login: string;

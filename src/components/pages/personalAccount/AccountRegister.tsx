@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {useNavigate} from "react-router";
-import {registerUser} from "../features/api/registAction.ts";
+import {registerUser} from "../../../features/api/registAction.ts";
 
 const INITIAL_ACCOUNT_STATE = {
     login: "",

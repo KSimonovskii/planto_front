@@ -1,5 +1,5 @@
 import React, {type Dispatch, type SetStateAction} from "react";
-import Product from "../components/Product.ts";
+import Product from "../components/pages/products/Product.ts";
 
 interface ContextData {
     products: Product[];

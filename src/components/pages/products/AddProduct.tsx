@@ -1,7 +1,7 @@
 import {useContext, useState} from "react";
 import Product from "./Product.ts";
-import {ProductsContext} from "../utils/Context.ts";
-import {getProductsTable, addProductToTable} from "../features/api/productAction.ts";
+import {ProductsContext} from "../../../utils/Context.ts";
+import {getProductsTable, addProductToTable} from "../../../features/api/productAction.ts";
 
 const AddProduct = () => {
 

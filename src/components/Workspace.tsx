@@ -1,11 +1,14 @@
 import {Route, Routes} from "react-router";
 import {navItems} from "../utils/constants.ts";
 import Home from "./pages/home/Home.tsx";
-import ProductsManager from "./ProductsManager.tsx";
+import ProductsManager from "./pages/products/ProductsManager.tsx";
 import ErrorPage from "./ErrorPage.tsx";
-import PersonalAccount from "./PersonalAccount.tsx";
-import AccountDashboard from "./AccountDashboard.tsx";
-import AccountRegister from "./AccountRegister.tsx";
+import PersonalAccount from "./pages/personalAccount/PersonalAccount.tsx";
+import AccountDashboard from "./pages/personalAccount/AccountDashboard.tsx";
+import AccountRegister from "./pages/personalAccount/AccountRegister.tsx";
+import ShoppingCart from "./pages/shoppingCart/ShoppingCart.tsx";
+import Store from "./pages/store/Store.tsx";
+
 
 const Workspace = () => {
 
@@ -21,6 +24,10 @@ const Workspace = () => {
                 <Route key={path} path={path} element={<AccountDashboard/>}/>)}
             {['account/register'].map(path =>
                 <Route key={path} path={path} element={<AccountRegister/>}/>)}
+            {[navItems[3].path].map(path =>
+                <Route key={path} path={path} element={<ShoppingCart/>}/>)}
+            {[navItems[5].path].map(path =>
+                <Route key={path} path={path} element={<Store/>}/>)}
             <Route path={'*'} element={<ErrorPage/>}/>
         </Routes>
     )

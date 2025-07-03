@@ -1,7 +1,7 @@
-import {ProductsContext} from "../utils/Context.ts";
+import {ProductsContext} from "../../../utils/Context.ts";
 import {useContext, useState} from "react";
 import Product from "./Product.ts";
-import {getProductsTable, removeProductFromTable, updateProduct} from "../features/api/productAction.ts";
+import {getProductsTable, removeProductFromTable, updateProduct} from "../../../features/api/productAction.ts";
 
 interface PropsProduct {
     product: Product,

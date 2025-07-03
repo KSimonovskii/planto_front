@@ -1,6 +1,6 @@
 import RowProductsTable from "./RowProductsTable.tsx";
 import {useContext} from "react";
-import {ProductsContext} from "../utils/Context.ts";
+import {ProductsContext} from "../../../utils/Context.ts";
 
 const ProductsTable = () => {
 

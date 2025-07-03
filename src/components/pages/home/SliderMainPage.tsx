@@ -1,7 +1,7 @@
 import {Navigation, Pagination} from "swiper/modules";
 import {Swiper, SwiperSlide} from "swiper/react";
 import {useEffect, useState} from "react";
-import type Product from "../../Product.ts";
+import type Product from "../products/Product.ts";
 import {getProductsTable} from "../../../features/api/productAction.ts";
 
 const SliderMainPage = () => {

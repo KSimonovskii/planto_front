@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import UploadWidget from "../components/UploadWidget";
+import UploadWidget from "./UploadWidget.tsx";
 
 const AddImage = () => {
     const [imageUrl, setImageUrl] = useState("");

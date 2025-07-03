@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {useNavigate} from "react-router";
-import {loginUser} from "../features/api/authActions.ts";
+import {loginUser} from "../../../features/api/authActions.ts";
 
 const PersonalAccount = () => {
     const [login, setLogin] = useState('');

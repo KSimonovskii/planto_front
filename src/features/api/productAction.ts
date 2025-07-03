@@ -1,4 +1,4 @@
-import Product from "../../components/Product.ts";
+import Product from "../../components/pages/products/Product.ts";
 import {uploadFile} from "./imageAction.ts";
 
 export const getProductsTable = async () => {
@@ -116,3 +116,10 @@ export const updateProduct = async (product: Product) => {
 
     return await response.json();
 }
+
+export const getProductById = async (productId: string): Promise<Product> => {
+    const BASE_URL = import.meta.env.VITE_BASE_PRODUCT_URL;
+    const response = await fetch(`${BASE_URL}/${productId}`);
+    if (!response.ok) throw new Error("Product not found");
+    return await response.json();
+};
