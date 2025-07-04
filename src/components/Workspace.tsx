@@ -8,6 +8,7 @@ import AccountDashboard from "./pages/personalAccount/AccountDashboard.tsx";
 import AccountRegister from "./pages/personalAccount/AccountRegister.tsx";
 import ShoppingCart from "./pages/shoppingCart/ShoppingCart.tsx";
 import Store from "./pages/store/Store.tsx";
+import RequireAuth from "./RequireAuth.tsx";
 
 
 const Workspace = () => {
@@ -25,7 +26,11 @@ const Workspace = () => {
             {['account/register'].map(path =>
                 <Route key={path} path={path} element={<AccountRegister/>}/>)}
             {[navItems[3].path].map(path =>
-                <Route key={path} path={path} element={<ShoppingCart/>}/>)}
+                <Route key={path} path={path} element={
+                    <RequireAuth>
+                        <ShoppingCart/>
+                    </RequireAuth>
+                }/>)}
             {[navItems[5].path].map(path =>
                 <Route key={path} path={path} element={<Store/>}/>)}
             <Route path={'*'} element={<ErrorPage/>}/>
