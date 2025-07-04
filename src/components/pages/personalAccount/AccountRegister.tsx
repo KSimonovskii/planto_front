@@ -1,6 +1,7 @@
 import {useState} from "react";
-import {useNavigate} from "react-router";
 import {registerUser} from "../../../features/api/registAction.ts";
+import {useNavigate} from "react-router";
+import {useLocation} from "react-router-dom";
 
 const INITIAL_ACCOUNT_STATE = {
     login: "",
@@ -40,9 +41,10 @@ const AccountRegister = () => {
 
     const [dataAccount, setDataAccount] = useState(INITIAL_ACCOUNT_STATE);
     const [error, setError] = useState<string | null>(null);
-
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = (location.state as { from?: Location })?.from?.pathname || "/";
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setDataAccount({...dataAccount, [event.target.name]: event.target.value});
@@ -72,9 +74,8 @@ const AccountRegister = () => {
             } else {
                 throw new Error("No token received from server");
             }
-
             setDataAccount(INITIAL_ACCOUNT_STATE);
-            navigate("/accountDashboard");
+            navigate(from, { replace: true });
 
         } catch (err: any) {
             console.error("Login failed: ", err);

@@ -15,24 +15,37 @@ const Workspace = () => {
 
     return (
         <Routes>
-            {['/', navItems[0].path, `${navItems[0].path}/`].map(path =>
-                <Route key={path} path={path} element={<Home/>}/>)}
-            {['/', navItems[2].path, `${navItems[2].path}/`].map(path =>
-                <Route key={path} path={path} element={<ProductsManager/>}/>)}
-            {[navItems[4].path, `${navItems[4].path}/login`].map(path =>
+
+            {[`auth/login`].map(path =>
                 <Route key={path} path={path} element={<PersonalAccount/>}/>)}
-            {['accountDashboard'].map(path =>
-                <Route key={path} path={path} element={<AccountDashboard/>}/>)}
+
             {['account/register'].map(path =>
                 <Route key={path} path={path} element={<AccountRegister/>}/>)}
+
+
+            {['/', navItems[0].path, `${navItems[0].path}/`].map(path =>
+                <Route key={path} path={path} element={<Home/>}/>)}
+
+            {['/', navItems[2].path, `${navItems[2].path}/`].map(path =>
+                <Route key={path} path={path} element={<ProductsManager/>}/>)}
+
             {[navItems[3].path].map(path =>
                 <Route key={path} path={path} element={
                     <RequireAuth>
                         <ShoppingCart/>
                     </RequireAuth>
                 }/>)}
+
+            {[navItems[4].path].map(path =>
+                <Route key={path} path={path} element={
+                    <RequireAuth>
+                        <AccountDashboard/>
+                    </RequireAuth>
+                }/>)}
+
             {[navItems[5].path].map(path =>
                 <Route key={path} path={path} element={<Store/>}/>)}
+
             <Route path={'*'} element={<ErrorPage/>}/>
         </Routes>
     )

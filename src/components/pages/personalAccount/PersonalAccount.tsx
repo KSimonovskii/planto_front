@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {useNavigate} from "react-router";
 import {loginUser} from "../../../features/api/authActions.ts";
+import {useLocation} from "react-router-dom";
 
 const PersonalAccount = () => {
     const [login, setLogin] = useState('');
@@ -8,6 +9,8 @@ const PersonalAccount = () => {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = (location.state as { from?: Location })?.from?.pathname || "/";
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -15,10 +18,10 @@ const PersonalAccount = () => {
         setLoading(true);
 
         try {
-            await loginUser({ login, password });
+            await loginUser({login, password});
             setLogin("");
             setPassword("");
-            navigate( "/accountDashboard");
+            navigate(from, {replace: true});
         } catch (err: any) {
             console.error("Login failed: ", err);
             setError(err.message);
@@ -28,7 +31,7 @@ const PersonalAccount = () => {
     };
 
     const handleRegisterRedirect = async () => {
-        navigate("/account/register");
+        navigate("/account/register", { state: { from } });
     }
 
     return (
@@ -87,7 +90,7 @@ const PersonalAccount = () => {
                     type="button"
                     onClick={handleRegisterRedirect}
                     className="w-full mt-2 py-2 rounded-lg border border-blue-600 text-blue-600 font-semibold hover:bg-blue-50 transition duration-300"
-                    >
+                >
                     Register
                 </button>
 

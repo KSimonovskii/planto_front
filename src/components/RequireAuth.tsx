@@ -1,4 +1,4 @@
-import {JSX} from "react";
+import type {JSX} from "react";
 import {Navigate, useLocation} from "react-router-dom";
 
 
@@ -11,7 +11,7 @@ const RequireAuth = ({children}: Props) => {
     const location = useLocation();
 
     if (!token){
-        return <Navigate to="/auth/login" state={{from: location}} replace />
+        return <Navigate to="/auth/login" state={{from: location}} replace/>
     }
 
     return children

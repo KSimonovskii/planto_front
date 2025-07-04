@@ -17,7 +17,7 @@ export const navItems: Item[] = [
     {title: 'About us', path: 'about', icon: Info},
     {title: 'Products', path: 'products', icon: Package},
     {title: 'Shopping cart', path: 'cart', icon: ShoppingCart},
-    {title: 'My account', path: 'auth', icon: LogIn},
+    {title: 'My account', path: 'accountDashboard', icon: LogIn},
     {title: 'Store', path: 'store', icon: Store}
 ]
 

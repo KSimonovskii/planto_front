@@ -1,4 +1,4 @@
-import UsersTable from "../personalAccount/UsersTable.tsx";
+import UsersTable from "./UsersTable.tsx";
 import {UserContext} from "../../../utils/userContext.ts";
 import {useEffect, useState} from "react";
 import type UserAccount from "./UserAccount.ts";
