@@ -13,12 +13,12 @@ import {
 } from "lucide-react";
 
 export const navItems: Item[] = [
-    {title: 'Home', path: 'main', icon: Home},
-    {title: 'About us', path: 'about', icon: Info},
-    {title: 'Products', path: 'products', icon: Package},
-    {title: 'Shopping cart', path: 'cart', icon: ShoppingCart},
-    {title: 'My account', path: 'accountDashboard', icon: LogIn},
-    {title: 'Store', path: 'store', icon: Store}
+    {title: 'Home', path: 'main', icon: Home, adminOnly: false},
+    {title: 'About us', path: 'about', icon: Info, adminOnly: false},
+    {title: 'Products', path: 'products', icon: Package, adminOnly: true},
+    {title: 'Shopping cart', path: 'cart', icon: ShoppingCart, adminOnly: false},
+    {title: 'My account', path: 'accountDashboard', icon: LogIn, adminOnly: false},
+    {title: 'Store', path: 'store', icon: Store, adminOnly: false}
 ]
 
 export const BASE_URL = "https://planto-gp2i.onrender.com"

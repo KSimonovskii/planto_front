@@ -58,4 +58,27 @@ export const getLoginFromToken = (token: string) => {
     }
 }
 
+export const getRolesFromToken = (token: string): string[] => {
+    try {
+        if (!token) return [];
+
+        const payloadBase64 = token.split('.')[1];
+        if (!payloadBase64) return [];
+
+        const payloadJson = atob(payloadBase64);
+        const payload = JSON.parse(payloadJson);
+
+        if (Array.isArray(payload.roles)) {
+            return payload.roles;
+        }
+
+        return [];
+    } catch (e) {
+        console.error("Invalid token:", e);
+        return [];
+    }
+};
+
+
+
 
