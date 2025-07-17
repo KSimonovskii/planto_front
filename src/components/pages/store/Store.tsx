@@ -1,13 +1,16 @@
 import {useEffect, useState} from "react";
 import type Product from "../products/Product.ts";
 import {getProductsTable} from "../../../features/api/productAction.ts";
-import {ArrowUp} from "lucide-react"; // если используешь lucide-react
+import {ArrowUp} from "lucide-react";
+import {useCartActions} from "../../../features/hooks/useCartAction.ts"; // если используешь lucide-react
+
 
 const Store = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [showScrollTop, setShowScrollTop] = useState(false);
+    const {addToCart, message} = useCartActions();
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -38,8 +41,14 @@ const Store = () => {
     };
 
     return (
+
+
         <div className="h-screen p-6 bg-[#fefaf1] text-[#2a4637] relative">
             <h2 className="text-3xl font-bold mb-4 text-center">Store</h2>
+
+            {message && (
+                <div className="text-center text-green-600 text-lg font-bold py-2 px-6 rounded shadow-lg z-50">{message}</div>
+            )}
 
             {loading ? (
                 <p className="text-center text-gray-500">Loading...</p>
@@ -64,7 +73,9 @@ const Store = () => {
 
                                 </p>
                                 <button
-                                    className="bg-[#2a4637] text-white py-2 px-4 rounded hover:bg-[#3d6653] transition">
+                                    onClick={() => addToCart(product.id)}
+                                    className="bg-[#9acfaf] text-[#2a4637] font-semibold py-2 px-4 rounded hover:bg-[#7aaa8d] transition"
+                                >
                                     Add
                                 </button>
                             </div>

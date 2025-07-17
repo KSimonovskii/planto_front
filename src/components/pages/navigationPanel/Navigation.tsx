@@ -1,16 +1,11 @@
 import {navItems} from "../../../utils/constants.ts";
 import NavItem from "./NavItem.tsx";
-import {getRolesFromToken} from "../../../features/api/userAction.ts";
+import {useCurrentUser} from "../../../features/hooks/useCurrentUser.ts";
+
 
 const Navigation = () => {
-    const token = localStorage.getItem("jwt");
-    let roles: string[] = [];
 
-    if (token) {
-        roles = getRolesFromToken(token);
-    }
-
-    const isAdmin = roles.includes("ADMINISTRATOR");
+    const {isAdmin} = useCurrentUser();
 
     const visibleItems = navItems.filter(i => {
         if (i.adminOnly && !isAdmin) {
@@ -18,7 +13,6 @@ const Navigation = () => {
         }
         return true;
     });
-
 
     return (
         <header className="w-full bg-green-50 border-b border-green-200 p-4 fixed top-0 left-0 z-50 shadow">

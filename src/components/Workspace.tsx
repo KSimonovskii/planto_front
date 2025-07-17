@@ -9,6 +9,7 @@ import AccountRegister from "./pages/personalAccount/AccountRegister.tsx";
 import ShoppingCart from "./pages/shoppingCart/ShoppingCart.tsx";
 import Store from "./pages/store/Store.tsx";
 import RequireAuth from "./RequireAuth.tsx";
+import AboutUs from "./pages/aboutUs/AboutUs.tsx";
 
 
 const Workspace = () => {
@@ -45,6 +46,9 @@ const Workspace = () => {
 
             {[navItems[5].path].map(path =>
                 <Route key={path} path={path} element={<Store/>}/>)}
+
+            {['about'].map(path =>
+                <Route key={path} path={path} element={<AboutUs/>}/>)}
 
             <Route path={'*'} element={<ErrorPage/>}/>
         </Routes>

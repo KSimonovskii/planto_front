@@ -2,6 +2,7 @@ import {useState} from "react";
 import {registerUser} from "../../../features/api/registAction.ts";
 import {useNavigate} from "react-router";
 import {useLocation} from "react-router-dom";
+import {useAuth} from "../../../features/hooks/useAuth.ts";
 
 const INITIAL_ACCOUNT_STATE = {
     login: "",
@@ -45,6 +46,7 @@ const AccountRegister = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const from = (location.state as { from?: Location })?.from?.pathname || "/";
+    const {setToken} = useAuth();
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setDataAccount({...dataAccount, [event.target.name]: event.target.value});
@@ -61,7 +63,7 @@ const AccountRegister = () => {
         setLoading(true);
 
         try {
-           const result = await registerUser({
+            const result = await registerUser({
                 login: dataAccount.login,
                 firstname: dataAccount.firstname,
                 lastname: dataAccount.lastname,
@@ -69,13 +71,13 @@ const AccountRegister = () => {
                 password: dataAccount.password,
             });
 
-            if (result.token) {
-                localStorage.setItem('jwt', result.token);
-            } else {
-                throw new Error("No token received from server");
+            if (!result.accessToken) {
+                throw new Error("No access token received from server");
             }
+            setToken(result.accessToken);
+
             setDataAccount(INITIAL_ACCOUNT_STATE);
-            navigate(from, { replace: true });
+            navigate(from, {replace: true});
 
         } catch (err: any) {
             console.error("Login failed: ", err);

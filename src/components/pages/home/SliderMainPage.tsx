@@ -3,11 +3,15 @@ import {Swiper, SwiperSlide} from "swiper/react";
 import {useEffect, useState} from "react";
 import type Product from "../products/Product.ts";
 import {getProductsTable} from "../../../features/api/productAction.ts";
+import {useCartActions} from "../../../features/hooks/useCartAction.ts";
+
 
 const SliderMainPage = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
+    const{addToCart, message} = useCartActions();
 
 
     useEffect(() => {
@@ -27,6 +31,10 @@ const SliderMainPage = () => {
 
     return (
         <div>
+
+            {message && (
+                <div className="text-center text-green-600 text-lg font-bold py-2 px-6 rounded shadow-lg z-50">{message}</div>
+            )}
 
             {loading ? (
                 <p className="text-center text-gray-500">Loading...</p>
@@ -68,7 +76,9 @@ const SliderMainPage = () => {
                                     ${product.price.toFixed(2)}
                                 </p>
                                 <button
-                                    className="bg-[#9acfaf] text-[#2a4637] font-semibold py-2 px-4 rounded hover:bg-[#7aaa8d] transition">
+                                    onClick={() => addToCart(product.id)}
+                                    className="bg-[#9acfaf] text-[#2a4637] font-semibold py-2 px-4 rounded hover:bg-[#7aaa8d] transition"
+                                >
                                     Add
                                 </button>
                             </div>

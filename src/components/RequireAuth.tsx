@@ -1,5 +1,6 @@
 import type {JSX} from "react";
 import {Navigate, useLocation} from "react-router-dom";
+import {useAuth} from "../features/hooks/useAuth.ts";
 
 
 interface Props {
@@ -7,10 +8,11 @@ interface Props {
 }
 
 const RequireAuth = ({children}: Props) => {
-    const token = localStorage.getItem("jwt");
+    const {token} = useAuth();
+
     const location = useLocation();
 
-    if (!token){
+    if (!token) {
         return <Navigate to="/auth/login" state={{from: location}} replace/>
     }
 

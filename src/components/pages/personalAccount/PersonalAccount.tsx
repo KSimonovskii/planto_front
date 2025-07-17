@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {useNavigate} from "react-router";
-import {loginUser} from "../../../features/api/authActions.ts";
 import {useLocation} from "react-router-dom";
+import {useAuthActions} from "../../../features/hooks/useAuthActions.ts";
 
 const PersonalAccount = () => {
     const [login, setLogin] = useState('');
@@ -10,6 +10,7 @@ const PersonalAccount = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
+    const {loginUser} = useAuthActions();
     const from = (location.state as { from?: Location })?.from?.pathname || "/";
 
     const handleLogin = async (e: React.FormEvent) => {
@@ -31,8 +32,8 @@ const PersonalAccount = () => {
     };
 
     const handleRegisterRedirect = async () => {
-        navigate("/account/register", { state: { from } });
-    }
+        navigate("/account/register", {state: {from}});
+    };
 
     return (
         <div className="max-w-md mx-auto mt-24 p-8 bg-white shadow-lg rounded-xl">

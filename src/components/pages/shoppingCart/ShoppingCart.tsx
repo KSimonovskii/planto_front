@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
-import CartItem from "./CartItem";
+
 import type Product from "../products/Product.ts";
-import { addToCart, removeFromCart, getCart } from "../../../features/api/cartAction.ts";
+
 import { getProductById } from "../../../features/api/productAction.ts";
+import CartItem from "./CartItem.tsx";
+import {useCartActions} from "../../../features/hooks/useCartAction.ts";
 
 const ShoppingCart = () => {
     const [items, setItems] = useState<{ product: Product; quantity: number }[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const {getCart, addToCart, removeFromCart } = useCartActions();
+
 
     const fetchCartItems = async () => {
         try {
@@ -49,7 +53,7 @@ const ShoppingCart = () => {
             <h2 className="text-3xl font-bold mb-4 text-center">Shopping Cart</h2>
 
             {items.length > 0 ? (
-                <div className="overflow-y-auto h-[80vh] space-y-4 pr-3">
+                <div className="w-80 h-[80vh] space-y-4 pr-3">
                     {items.map(({ product, quantity }) => (
                         <CartItem
                             key={product.id}

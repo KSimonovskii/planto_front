@@ -1,9 +1,38 @@
-import { LucideIcon } from "lucide-react";
+import {LucideIcon} from "lucide-react";
+import {Decimal} from "decimal.js";
+import type {OrderStatus} from "../components/pages/orders/OrderStatus.ts";
 
-export interface Item {
+interface AuthContextType {
+    token: string | null;
+    setToken: (token: string | null) => void;
+    logout: () => void;
+}
+
+interface Item {
     title: string
     path: string
     icon: LucideIcon
     adminOnly: boolean
+}
+
+interface OrderItemDto {
+    productId: string
+    name: string
+    quantity: number
+    priceUnit: Decimal
+}
+
+interface OrderDto {
+    id: string
+    items: OrderItem[]
+    status: OrderStatus
+    orderDate: string
+    paymentMethod: string
+    paid: boolean
+}
+
+interface CartItemDto {
+    productId: string
+    quantity: number
 }
 

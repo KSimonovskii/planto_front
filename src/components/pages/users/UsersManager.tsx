@@ -2,7 +2,7 @@ import UsersTable from "./UsersTable.tsx";
 import {UserContext} from "../../../utils/userContext.ts";
 import {useEffect, useState} from "react";
 import type UserAccount from "./UserAccount.ts";
-import {getUsersTable} from "../../../features/api/userAction.ts";
+import {getUsersTable} from "../../../features/hooks/useUserAction.ts";
 
 const UsersManager = () => {
     const [users, setUsers] = useState<UserAccount[]>([]);

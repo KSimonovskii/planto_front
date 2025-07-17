@@ -1,27 +1,30 @@
 import type {Address} from "./Address.ts";
 import {type UserRole} from "./UserRole.ts";
 import  {type Order} from "../orders/Order.ts";
+import type {CartItem} from "../orders/CartItem.ts";
+
+
 
 export default class UserAccount {
     private _login: string;
     private _firstName: string;
     private _lastName: string;
     private _email: string;
-    private _password: string;
-    private _address: Address;
+    private _address: Address | null;
     private _role: UserRole[];
     private _orders: Order[];
+    private _cart: CartItem[];
 
 
-    constructor(login: string, firstName: string, lastName: string, email: string, password: string, address: Address, role: UserRole[], orders: Order[]) {
+    constructor(login: string, firstName: string, lastName: string, email: string, address: Address | null, role: UserRole[], orders: Order[], cart: CartItem[]) {
         this._login = login;
         this._firstName = firstName;
         this._lastName = lastName;
         this._email = email;
-        this._password = password;
         this._address = address;
         this._role = role;
         this._orders = orders;
+        this._cart = cart;
     }
 
 
@@ -57,19 +60,11 @@ export default class UserAccount {
         this._email = value;
     }
 
-    get password(): string {
-        return this._password;
-    }
-
-    set password(value: string) {
-        this._password = value;
-    }
-
-    get address(): Address {
+    get address(): Address | null {
         return this._address;
     }
 
-    set address(value: Address) {
+    set address(value: Address | null) {
         this._address = value;
     }
 
@@ -87,5 +82,13 @@ export default class UserAccount {
 
     set orders(value: Order[]) {
         this._orders = value;
+    }
+
+    get cart(): CartItem[] {
+        return this._cart;
+    }
+
+    set cart(value: CartItem[]) {
+        this._cart = value;
     }
 }

@@ -1,23 +1,20 @@
 import {OrderItem} from "./OrderItem.ts";
-import type {Address} from "../users/Address.ts";
-import  {type OrderStatus} from "./OrderStatus.ts";
+import {type OrderStatus} from "./OrderStatus.ts";
 
 export class Order {
     private _id: string;
     private _items: OrderItem[];
     private _status: OrderStatus;
     private _orderDate: string;
-    private _shippingAddress: Address;
     private _paymentMethod: string;
     private _paid: boolean
 
 
-    constructor(id: string, items: OrderItem[], status: OrderStatus, orderDate: string, shippingAddress: Address, paymentMethod: string, paid: boolean) {
+    constructor(id: string, items: OrderItem[], status: OrderStatus, orderDate: string, paymentMethod: string, paid: boolean) {
         this._id = id;
         this._items = items;
         this._status = status;
         this._orderDate = orderDate;
-        this._shippingAddress = shippingAddress;
         this._paymentMethod = paymentMethod;
         this._paid = paid;
     }
@@ -55,15 +52,7 @@ export class Order {
         this._orderDate = value;
     }
 
-    get shippingAddress(): Address {
-        return this._shippingAddress;
-    }
-
-    set shippingAddress(value: Address) {
-        this._shippingAddress = value;
-    }
-
-    get paymentMethod(): string {
+   get paymentMethod(): string {
         return this._paymentMethod;
     }
 
