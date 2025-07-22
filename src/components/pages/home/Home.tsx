@@ -1,4 +1,4 @@
-import bgImage from "../../images/homeImage.jpg";
+import bgImage from "../../images/back2.jpg";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";

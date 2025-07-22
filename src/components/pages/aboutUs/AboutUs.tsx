@@ -1,4 +1,4 @@
-import aboutUs from "../../images/imageStory.jpg";
+import aboutUs from "../../images/Image_Story.jpg";
 
 const AboutUsPage = () => {
 
