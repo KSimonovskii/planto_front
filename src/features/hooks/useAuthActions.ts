@@ -2,7 +2,7 @@ import {BASE_URL} from "../../utils/constants.ts";
 import {useAuth} from "./useAuth.ts";
 
 export const useAuthActions = () => {
-    const {setToken} = useAuth();
+    const {setAccessToken} = useAuth();
 
     const loginUser = async (credentials:
                                  { login: string, password: string }) => {
@@ -29,7 +29,7 @@ export const useAuthActions = () => {
             throw new Error("Access token missing in response" + response.statusText);
         }
 
-        setToken(accessToken);
+        setAccessToken(accessToken);
 
     };
     return {loginUser};

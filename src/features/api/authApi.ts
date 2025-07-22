@@ -7,8 +7,11 @@ export const refreshToken = async () => {
         credentials: "include",
     });
 
-    if (!response.ok) {
+    if (response.ok) {
         const data = await response.json();
+
+        console.log("Data from refreshToken -> " + data);
+
         return data.token;
     } else {
         console.warn("Refresh token request failed");

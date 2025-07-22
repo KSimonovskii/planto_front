@@ -3,8 +3,8 @@ import {Decimal} from "decimal.js";
 import type {OrderStatus} from "../components/pages/orders/OrderStatus.ts";
 
 interface AuthContextType {
-    token: string | null;
-    setToken: (token: string | null) => void;
+    accessToken: string | null;
+    setAccessToken: (token: string | null) => void;
     logout: () => void;
 }
 

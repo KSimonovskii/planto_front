@@ -8,11 +8,10 @@ interface Props {
 }
 
 const RequireAuth = ({children}: Props) => {
-    const {token} = useAuth();
-
+    const {accessToken} = useAuth();
     const location = useLocation();
 
-    if (!token) {
+    if (!accessToken) {
         return <Navigate to="/auth/login" state={{from: location}} replace/>
     }
 

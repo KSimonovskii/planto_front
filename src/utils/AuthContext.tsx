@@ -1,15 +1,14 @@
-import type {ReactNode} from "react";
-import {createContext, useState} from "react";
+import {createContext, type ReactNode, useState} from "react";
 import {BASE_URL} from "./constants.ts";
 import type {AuthContextType} from "./types";
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({children}: { children: ReactNode }) => {
-    const [token, setTokenState] = useState<string | null>(null);
+    const [accessToken, setAccessTokenState] = useState<string | null>(null);
 
-    const setToken = (newToken: string | null) => {
-        setTokenState(newToken);
+    const setAccessToken = (newToken: string | null) => {
+        setAccessTokenState(newToken);
     };
 
     const logout = async () => {
@@ -21,12 +20,28 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
         } catch (e) {
             console.error("Logout failed: ", e);
         } finally {
-            setToken(null);
+            setAccessToken(null);
         }
     };
 
+    // useEffect(() => {
+    //     const restoreAccessToken = async () => {
+    //         try {
+    //             const newAccessToken = await refreshToken();
+    //             if (newAccessToken) {
+    //                 setAccessToken(newAccessToken);
+    //             }
+    //         } catch (error) {
+    //             console.warn("Could not refresh token on app load: ", error);
+    //             setAccessToken(null);
+    //         }
+    //     };
+    //
+    //     restoreAccessToken();
+    // }, []);
+
     return (
-        <AuthContext.Provider value={{token, setToken, logout}}>
+        <AuthContext.Provider value={{accessToken, setAccessToken, logout}}>
             {children}
         </AuthContext.Provider>
     );

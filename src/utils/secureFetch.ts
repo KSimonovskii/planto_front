@@ -1,4 +1,4 @@
-import {refreshToken} from "../features/api/authApi.ts";
+import { refreshToken } from "../features/api/authApi.ts";
 
 export const secureFetch = async (
     input: RequestInfo,
@@ -6,7 +6,7 @@ export const secureFetch = async (
     getToken: () => string | null,
     setToken: (token: string | null) => void
 ) => {
-    const accessToken = getToken();
+    let accessToken = getToken();
 
     const headers = new Headers(options.headers);
     if (accessToken) {
@@ -14,29 +14,29 @@ export const secureFetch = async (
     }
     headers.set("Content-Type", "application/json");
 
-    const response = await fetch(input, {
+    let response = await fetch(input, {
         ...options,
-        headers: headers,
-        credentials: "include"
+        headers,
+        credentials: "include",
     });
 
     if (response.status === 401) {
-        const newToken = await refreshToken();
-        if (newToken) {
-            setToken(newToken);
+        const newAccessToken = await refreshToken();
 
-            const retryResponse = await fetch(input, {
+        if (newAccessToken) {
+            setToken(newAccessToken);
+
+            const retryHeaders = new Headers(options.headers);
+            retryHeaders.set("Authorization", `Bearer ${newAccessToken}`);
+            retryHeaders.set("Content-Type", "application/json");
+
+            response = await fetch(input, {
                 ...options,
-                headers: {
-                    ...options.headers,
-                    Authorization: `Bearer ${newToken}`,
-                    "Content-Type": "application/json",
-                },
-                credentials: 'include',
+                headers: retryHeaders,
+                credentials: "include",
             });
-
-            return retryResponse;
         }
     }
+
     return response;
-}
+};

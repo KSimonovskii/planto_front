@@ -5,7 +5,7 @@ import type UserAccount from "../../components/pages/users/UserAccount.ts";
 import {parseJwt} from "../../utils/parseJwt.ts";
 
 export function useCurrentUser() {
-    const {token} = useAuth();
+    const {accessToken} = useAuth();
     const {getUserByLogin} = useUserActions();
     const [user, setUser] = useState<UserAccount | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
@@ -15,18 +15,30 @@ export function useCurrentUser() {
 
     useEffect(() => {
         const fetchUser = async () => {
-            if (!token) {
+            if (!accessToken) {
                 setUser(null);
                 setLoading(false);
                 return;
             }
 
             try {
-                const decoded = parseJwt(token);
+                const decoded = parseJwt(accessToken);
                 const login = decoded.sub;
+
+                //todo delete
+                console.log("LOGIN in useCurrentUser --> ", login);
+
                 const userAccount = await getUserByLogin(login);
+
+                //todo delete
+                console.log("UserAccount in useCurrentUser --> ", userAccount);
+
                 setUser(userAccount);
             } catch (e) {
+
+                //todo delete
+                console.log("TOKEN in useCurrentUser in catch --> ", accessToken);
+
                 console.error("Failed to load user:", e);
                 setUser(null);
             } finally {
@@ -35,7 +47,7 @@ export function useCurrentUser() {
         };
 
         fetchUser();
-    }, [token]);
+    }, [accessToken]);
 
     return {
         user,
