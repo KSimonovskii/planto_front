@@ -1,10 +1,10 @@
 import type {Item} from './types'
 
 import {Home, Package,} from "lucide-react";
-import Sort from "../components/classes/Sort.ts";
+import Sort from "../features/classes/Sort.ts";
 import {directions} from "./enums/directions.ts";
 import emptyPhoto from "../assets/empty-foto.jpg";
-import Filter from "../components/classes/Filter.ts";
+import Filter from "../features/classes/Filter.ts";
 import {filterTypes} from "./enums/filterTypes.ts";
 import type {Dispatch, SetStateAction} from "react";
 
@@ -26,7 +26,7 @@ export const EMPTY_PHOTO = emptyPhoto;
 
 export const FILTER_NAME = new Filter("name", filterTypes.like, "string", "");
 export const FILTER_CATEGORY = new Filter("category", filterTypes.in, "string", undefined, undefined, undefined, []);
-export const FILTER_PRICE = new Filter("price", filterTypes.range, "double",undefined, 0, 0);
+
 export const DATA_FOR_FILTERS = {maxPrice: 0, categories: []};
 export interface FILTER_PROPS {
     filter: Filter

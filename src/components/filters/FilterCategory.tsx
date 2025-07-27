@@ -1,6 +1,6 @@
 import {DATA_FOR_FILTERS, type FILTER_PROPS} from "../../utils/constants.ts";
 import {Listbox, ListboxButton, ListboxOption, ListboxOptions} from "@headlessui/react";
-import type {filterValueType} from "../classes/Filter.ts";
+import type {filterValueType} from "../../features/classes/Filter.ts";
 import {CheckIcon} from "lucide-react";
 
 const FilterCategory = ({filter, setFilter}: FILTER_PROPS) => {

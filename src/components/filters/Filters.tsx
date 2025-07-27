@@ -1,17 +1,29 @@
 import {useContext, useState} from "react";
 import {PageContext} from "../../utils/context.ts";
-import {FILTER_CATEGORY, FILTER_PRICE} from "../../utils/constants.ts";
+import {DATA_FOR_FILTERS, FILTER_CATEGORY} from "../../utils/constants.ts";
 import FilterPrice from "./FilterPrice.tsx";
 import FilterCategory from "./FilterCategory.tsx";
+import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
+import {getToInitialState} from "../../features/slices/priceRangeSlice.ts";
+import Filter from "../../features/classes/Filter.ts";
+import {filterTypes} from "../../utils/enums/filterTypes.ts";
 
 export const Filters = () => {
 
     const {filters, setPage} = useContext(PageContext);
 
     const [filterCategory, setFilterCategory] = useState(FILTER_CATEGORY);
-    const [filterPrice, setFilterPrice] = useState(FILTER_PRICE);
+
+    const priceValue = useAppSelector(state => state.filterPrice);
+    const filterPrice = new Filter("price", filterTypes.range, "double",undefined, priceValue.valueFrom, priceValue.valueTo)
+    const dispatch = useAppDispatch();
 
     const handlerAcceptFilters = () => {
+
+        if (filterPrice.valueFrom != 0 && filterPrice.valueTo != DATA_FOR_FILTERS.maxPrice) {
+            filterPrice.isChanged = true;
+        }
+
         const currFilters = [filterCategory, filterPrice];
         const newFilters = filters.slice();
 
@@ -43,18 +55,18 @@ export const Filters = () => {
     const handlerResetFilters = () => {
 
         const fields = ["category", "price"];
+        const newFilter = filters.slice();
 
         for (let i = 0; i < fields.length; i++) {
-            const index = filters.findIndex((filter) => filter.field == fields[i]);
-
+            const index = newFilter.findIndex((filter) => filter.field === fields[i]);
             if (index >= 0) {
-                filters.splice(index, 1);
+                newFilter.splice(index, 1);
             }
         }
 
         setFilterCategory(FILTER_CATEGORY.getCopy({...FILTER_CATEGORY}));
-        setFilterPrice(FILTER_PRICE.getCopy({...FILTER_PRICE}));
-        setPage((prevState) => ({...prevState, filters: filters.slice()}))
+        dispatch(getToInitialState());
+        setPage((prevState) => ({...prevState, filters: newFilter}))
     }
 
     return (
@@ -63,7 +75,7 @@ export const Filters = () => {
                 <FilterCategory filter={filterCategory} setFilter={setFilterCategory}/>
                 <div className={"flex flex-row items-start space-x-2"}>
                     <p className={"block text-base-text mt-2"}>Filter by price:</p>
-                    <FilterPrice filter={filterPrice} setFilter={setFilterPrice}/>
+                    <FilterPrice/>
                 </div>
                 <div className={"flex flex-row space-x-1"}>
                     <button className={"button w-20 px-2.5 pb-2.5 mt-2 h-8"} onClick={handlerAcceptFilters}>Accept</button>

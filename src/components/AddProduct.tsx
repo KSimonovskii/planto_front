@@ -1,5 +1,5 @@
 import {useContext, useState} from "react";
-import Product from "./classes/Product.ts";
+import Product from "../features/classes/Product.ts";
 import {PageContext, ProductsContext} from "../utils/context.ts";
 import {getProductsTable, addProductToTable} from "../features/api/productAction.ts";
 import {EMPTY_PHOTO} from "../utils/constants.ts"

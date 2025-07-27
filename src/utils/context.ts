@@ -1,9 +1,9 @@
 import React, {type Dispatch, type SetStateAction} from "react";
-import Product from "../components/classes/Product.ts";
+import Product from "../features/classes/Product.ts";
 import type {DataTableProducts, PageProductsData} from "./types";
 import {DEFAULT_SORT} from "./constants.ts";
-import type Sort from "../components/classes/Sort.ts";
-import type Filter from "../components/classes/Filter.ts";
+import type Sort from "../features/classes/Sort.ts";
+import type Filter from "../features/classes/Filter.ts";
 
 interface ContextData {
     products: Product[];

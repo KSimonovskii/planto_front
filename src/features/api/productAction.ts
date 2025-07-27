@@ -1,8 +1,8 @@
-import Product from "../../components/classes/Product.ts";
+import Product from "../classes/Product.ts";
 import {uploadFile} from "./imageAction.ts";
-import Sort from "../../components/classes/Sort.ts";
-import {DATA_FOR_FILTERS, FILTER_PRICE, SIZE_PAGE} from "../../utils/constants.ts";
-import type Filter from "../../components/classes/Filter.ts";
+import Sort from "../classes/Sort.ts";
+import {DATA_FOR_FILTERS, SIZE_PAGE} from "../../utils/constants.ts";
+import type Filter from "../classes/Filter.ts";
 
 interface answerTable {
     content: [];
@@ -188,5 +188,4 @@ const setDataForFilters = async () => {
 
     DATA_FOR_FILTERS.maxPrice = dataForFilters.price;
     DATA_FOR_FILTERS.categories = dataForFilters.categories;
-    FILTER_PRICE.valueTo = dataForFilters.price;
 }

@@ -1,19 +1,19 @@
-import {DATA_FOR_FILTERS, type FILTER_PROPS} from "../../utils/constants.ts";
+import {DATA_FOR_FILTERS} from "../../utils/constants.ts";
 import PriceSlider from "./PriceSlider.tsx";
+import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
+import {changePriceRange} from "../../features/slices/priceRangeSlice.ts";
 
 
-const FilterPrice = (props: FILTER_PROPS) => {
+const FilterPrice = () => {
+
+    const dispatch = useAppDispatch();
+    const priceRange = useAppSelector(state => state.filterPrice);
 
     const handlerChangePrice = (field: HTMLInputElement, value: string) => {
-        changeFilterPrice(field.id, Number.parseInt(value));
-    }
-
-    const changeFilterPrice = (fieldName: string, value: number) => {
-        if (fieldName === "priceFrom") {
-            props.setFilter((prevState) => prevState.getCopy({valueFrom:value}));
-        } else if (fieldName === "priceTo") {
-            props.setFilter((prevState) => prevState.getCopy({valueTo:value}));
-        }
+        dispatch(changePriceRange({
+            fieldName: field.id,
+            value: Number.parseFloat(value)
+            }));
     }
 
     return (
@@ -30,7 +30,8 @@ const FilterPrice = (props: FILTER_PROPS) => {
                         placeholder={" "}
                         min={0}
                         max={DATA_FOR_FILTERS.maxPrice}
-                        value={props.filter.valueFrom ? props.filter.valueFrom : 0}
+                        step={"0.01"}
+                        value={priceRange.valueFrom ? priceRange.valueFrom : 0}
                         onChange={(e) => handlerChangePrice(e.target, e.target.value)}/>
                 </div>
                 <p>-</p>
@@ -43,17 +44,15 @@ const FilterPrice = (props: FILTER_PROPS) => {
                         className={"inputFieldTable w-28 px-2.5 pb-2.5 mt-2 pt-4 h-8"}
                         id={"priceTo"}
                         placeholder={" "}
+                        min={0}
                         max={DATA_FOR_FILTERS.maxPrice}
-                        value={!props.filter.valueTo || props.filter.valueTo == 0? DATA_FOR_FILTERS.maxPrice : props.filter.valueTo}
+                        step={"0.01"}
+                        value={!priceRange.valueTo || priceRange.valueTo == 0? DATA_FOR_FILTERS.maxPrice : priceRange.valueTo}
                         onChange={(e) => handlerChangePrice(e.target, e.target.value)}/>
                 </div>
             </div>
-            {/*TODO add slider with 2 ranges for prices*/}
             <div>
-                <PriceSlider
-                    handlerChangeFilter = {changeFilterPrice}
-                    valueFrom={props.filter.valueFrom!}
-                    valueTo={!props.filter.valueTo || props.filter.valueTo == 0? DATA_FOR_FILTERS.maxPrice : props.filter.valueTo}/>
+                <PriceSlider/>
             </div>
         </div>
     )

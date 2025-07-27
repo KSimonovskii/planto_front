@@ -2,26 +2,30 @@ import {useState} from "react";
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import {DATA_FOR_FILTERS} from "../../utils/constants.ts";
+import {useDispatch} from "react-redux";
+import {changePriceRange} from "../../features/slices/priceRangeSlice.ts";
+import {useAppSelector} from "../../app/hooks.ts";
 
-
-interface PropsSlider{
-    handlerChangeFilter: (a: string, b: number) => void
-    valueFrom: number
-    valueTo: number
-}
-
-const PriceSlider = (props: PropsSlider) => {
-    const [values, setValues] = useState([props.valueFrom, props.valueTo]);
+const PriceSlider = () => {
+    const dispatch = useDispatch();
+    const priceRange = useAppSelector(state => state.filterPrice);
+    const [values, setValues] = useState([priceRange.valueFrom, priceRange.valueTo == 0? DATA_FOR_FILTERS.maxPrice : priceRange.valueTo]);
 
     const handleChange = (input: number|number[]) => {
         if (input instanceof Array) {
 
             if (input[0] != values[0]){
-                props.handlerChangeFilter("priceFrom", values[0]);
+                dispatch(changePriceRange({
+                    fieldName: "priceFrom",
+                    value: values[0]
+                }));
             }
 
             if (input[1] != values[1]){
-                props.handlerChangeFilter("priceTo", values[1]);
+                dispatch(changePriceRange({
+                    fieldName: "priceTo",
+                    value: values[1]
+                }));
             }
             setValues(input);
         }
@@ -34,7 +38,7 @@ const PriceSlider = (props: PropsSlider) => {
                 id={"price-slider"}
                 min={0}
                 max={DATA_FOR_FILTERS.maxPrice}
-                value={[props.valueFrom, props.valueTo]}
+                value={[priceRange.valueFrom, priceRange.valueTo == 0? DATA_FOR_FILTERS.maxPrice : priceRange.valueTo]}
                 step={0.01}
                 onChange={(value) => handleChange(value)}
             styles={{
