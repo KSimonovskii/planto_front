@@ -16,7 +16,7 @@ const RowProductsTable = (props: PropsProduct) => {
     const [category, setCategory] = useState(props.product.category);
     const [qty, setQty] = useState(props.product.quantity);
     const [price, setPrice] = useState(props.product.price);
-    const [imageUrl, setImageUrl] = useState(props.product.imageUrl);
+    const [imageUrl] = useState(props.product.imageUrl);
     const [description, setDescription] = useState(props.product.description);
 
     const product = props.product;
@@ -24,14 +24,14 @@ const RowProductsTable = (props: PropsProduct) => {
 
     const editProduct = (id: string) => {
         const index = products.findIndex((product) => product.id === id);
-        if (index >= 0){
+        if (index >= 0) {
             setIdEditProduct(id);
         }
     }
 
     const removeProduct = async (id: string) => {
         const res = await removeProductFromTable(id);
-        if (res){
+        if (res) {
             setProducts(await getProductsTable());
         }
     }
@@ -67,7 +67,8 @@ const RowProductsTable = (props: PropsProduct) => {
 
     return (
         <tr className={"hover:bg-light-orange hover:text-alt-text"}>
-            <th className={"w-20 h-20"}><img src={imageUrl? imageUrl : "src/assets/empty-foto.jpg"} alt={product.name} className={"rounded-full"}/></th>
+            <th className={"w-20 h-20"}><img src={imageUrl ? imageUrl : "src/assets/empty-foto.jpg"} alt={product.name}
+                                             className={"rounded-full"}/></th>
             <th className={"pl-2 font-normal w-70"}>{idEditProduct == product.id ? fieldName : product.name}</th>
             <th className={"font-normal w-70"}>{idEditProduct == product.id ? fieldCategory : product.category}</th>
             <th className={"pl-2 w-40"}>{idEditProduct == product.id ? fieldQty : product.quantity}</th>

@@ -5,14 +5,14 @@ import {useCurrentUser} from "../../../features/hooks/useCurrentUser.ts";
 const AccountDashboard = () => {
     const navigate = useNavigate();
     const {logout} = useAuth();
-    const {user, loading, isAuthenticated} = useCurrentUser();
+    const {user, loadingUser, isAuthenticated} = useCurrentUser();
 
     const handleLogout = () => {
         logout();
         navigate("/");
     };
 
-    if (loading) return <p className="text-center mt-10"> Please wait. Loading user data... </p>;
+    if (loadingUser) return <p className="text-center mt-10"> Please wait. Loading user data... </p>;
     if (!isAuthenticated || !user) return <p className="text-center mt-10"> No user data found </p>;
 
     return (

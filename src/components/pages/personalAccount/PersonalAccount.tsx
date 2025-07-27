@@ -1,7 +1,8 @@
 import {useState} from "react";
 import {useNavigate} from "react-router";
 import {useLocation} from "react-router-dom";
-import {useAuthActions} from "../../../features/hooks/useAuthActions.ts";
+import {useAuth} from "../../../features/hooks/useAuth.ts";
+import {loginUser} from "../../../features/api/loginAction.ts";
 
 const PersonalAccount = () => {
     const [login, setLogin] = useState('');
@@ -10,7 +11,7 @@ const PersonalAccount = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
-    const {loginUser} = useAuthActions();
+    const {setAccessToken} = useAuth();
     const from = (location.state as { from?: Location })?.from?.pathname || "/";
 
     const handleLogin = async (e: React.FormEvent) => {
@@ -19,10 +20,13 @@ const PersonalAccount = () => {
         setLoading(true);
 
         try {
-            await loginUser({login, password});
+            const authData = await loginUser({login, password});
+            setAccessToken(authData.accessToken);
+
             setLogin("");
             setPassword("");
             navigate(from, {replace: true});
+
         } catch (err: any) {
             console.error("Login failed: ", err);
             setError(err.message);
@@ -79,7 +83,7 @@ const PersonalAccount = () => {
                 <button
                     type="submit"
                     disabled={loading}
-                    className={`w-full py-2 rounded-lg text-white font-semibold transition duration-300 
+                    className={`w-full py-2 rounded-lg text-white font-semibold transition duration-300
                         ${loading
                         ? "bg-blue-300 cursor-not-allowed"
                         : "bg-blue-600 hover:bg-blue-700"}`}

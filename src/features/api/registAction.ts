@@ -1,4 +1,5 @@
-import {BASE_URL} from "../../utils/constants.ts";
+import { BASE_URL } from "../../utils/constants.ts";
+import type { AuthResponseData } from "../../utils/types"; // Теперь снова нужен этот импорт
 
 export const registerUser = async (dataUser: {
     login: string,
@@ -6,17 +7,38 @@ export const registerUser = async (dataUser: {
     lastname: string,
     email: string,
     password: string
-}) => {
+}): Promise<AuthResponseData> => {
     const URL = `${BASE_URL}/account/register`;
     const response = await fetch(URL, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(dataUser),
+             body: JSON.stringify(dataUser),
     });
+
     if (!response.ok) {
-        throw new Error(response.statusText);
+        let errorMessage = response.statusText;
+        try {
+            const errorData = await response.json();
+            if (errorData.message) {
+                errorMessage = errorData.message;
+            } else if (errorData.error) {
+                errorMessage = errorData.error;
+            }
+        } catch (e) {
+            console.error("Failed to parse error response from registration:", e);
+        }
+        throw new Error(`Registration failed: ${errorMessage} (Status: ${response.status})`);
     }
-    return await response.json()
-}
+
+    const data: AuthResponseData = await response.json();
+    const accessToken = data.accessToken;
+    const jwtExpirationMs = data.jwtExpirationMs;
+
+    if (!accessToken) {
+        throw new Error("Access token missing in response from server after registration.");
+    }
+
+    return { accessToken, jwtExpirationMs };
+};

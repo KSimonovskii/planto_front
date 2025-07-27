@@ -1,4 +1,3 @@
-import type {Item} from './types'
 
 
 import {
@@ -8,11 +7,11 @@ import {
     ShoppingCart,
     Info,
     LogIn,
-
-
 } from "lucide-react";
 
-export const navItems: Item[] = [
+import type {NavItem} from "./types";
+
+export const navItems: NavItem[] = [
     {title: 'Home', path: 'main', icon: Home, adminOnly: false},
     {title: 'About us', path: 'about', icon: Info, adminOnly: false},
     {title: 'Products', path: 'products', icon: Package, adminOnly: true},
@@ -22,4 +21,4 @@ export const navItems: Item[] = [
 ]
 
 export const BASE_URL = "https://planto-gp2i.onrender.com"
-// export const BASE_URL = "http://localhost:8080/product";
+// export const BASE_URL = "http://localhost:8080";

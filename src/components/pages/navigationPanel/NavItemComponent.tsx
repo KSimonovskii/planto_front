@@ -1,11 +1,11 @@
 import { NavLink } from "react-router-dom";
-import type { Item } from "../../../utils/types";
+import type { NavItem } from "../../../utils/types";
 
 interface Props {
-    item: Item;
+    item: NavItem;
 }
 
-const NavItem = ({ item }: Props) => {
+const NavItemComponent = ({ item }: Props) => {
     const Icon = item.icon;
 
     return (
@@ -25,4 +25,4 @@ const NavItem = ({ item }: Props) => {
     );
 };
 
-export default NavItem;
+export default NavItemComponent;

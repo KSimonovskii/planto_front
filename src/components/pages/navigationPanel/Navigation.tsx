@@ -1,6 +1,8 @@
 import {navItems} from "../../../utils/constants.ts";
-import NavItem from "./NavItem.tsx";
+
 import {useCurrentUser} from "../../../features/hooks/useCurrentUser.ts";
+import NavItemComponent from "./NavItemComponent.tsx";
+
 
 
 const Navigation = () => {
@@ -19,7 +21,7 @@ const Navigation = () => {
             <div className="max-w-7xl mx-auto flex justify-between items-center">
                 <nav className="flex space-x-6">
                     {visibleItems.map((item) => (
-                        <NavItem key={item.path} item={item}/>
+                        <NavItemComponent key={item.path} item={item}/>
                     ))}
                 </nav>
             </div>

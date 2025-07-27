@@ -46,7 +46,7 @@ const AccountRegister = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const from = (location.state as { from?: Location })?.from?.pathname || "/";
-    const {setToken} = useAuth();
+    const {setAccessToken} = useAuth();
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setDataAccount({...dataAccount, [event.target.name]: event.target.value});
@@ -63,7 +63,7 @@ const AccountRegister = () => {
         setLoading(true);
 
         try {
-            const result = await registerUser({
+            const authData = await registerUser({
                 login: dataAccount.login,
                 firstname: dataAccount.firstname,
                 lastname: dataAccount.lastname,
@@ -71,17 +71,13 @@ const AccountRegister = () => {
                 password: dataAccount.password,
             });
 
-            if (!result.accessToken) {
-                throw new Error("No access token received from server");
-            }
-            setToken(result.accessToken);
-
+            setAccessToken(authData.accessToken);
             setDataAccount(INITIAL_ACCOUNT_STATE);
             navigate(from, {replace: true});
 
         } catch (err: any) {
-            console.error("Login failed: ", err);
-            setError(err.message || "Unknown error");
+            console.error("Registration failed: ", err);
+            setError(err.message || "Unknown error during registration.");
         } finally {
             setLoading(false);
         }
@@ -125,4 +121,4 @@ const AccountRegister = () => {
 }
 
 
-export default AccountRegister
+export default AccountRegister;

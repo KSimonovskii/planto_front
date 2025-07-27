@@ -9,7 +9,7 @@ import {CartItem} from "../../components/pages/orders/CartItem.ts";
 import type {CartItemDto, OrderDto, OrderItemDto} from "../../utils/types";
 
 export const useUserActions = () => {
-    const {accessToken, setAccessToken} = useAuth();
+    const {getToken, setAccessToken} = useAuth();
 
     const getUserByLogin = async (login: string) => {
 
@@ -17,12 +17,10 @@ export const useUserActions = () => {
         if (!URL) {
             throw new Error("URL not found");
         }
-
         const options = {
             method: "GET",
         }
-
-        const response = await secureFetch(URL, options, () => accessToken, setAccessToken);
+        const response = await secureFetch(URL, options, getToken, setAccessToken);
 
         if (!response.ok) {
            const errorText = await response.text();

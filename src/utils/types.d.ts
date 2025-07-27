@@ -2,13 +2,20 @@ import {LucideIcon} from "lucide-react";
 import {Decimal} from "decimal.js";
 import type {OrderStatus} from "../components/pages/orders/OrderStatus.ts";
 
-interface AuthContextType {
-    accessToken: string | null;
-    setAccessToken: (token: string | null) => void;
-    logout: () => void;
+interface AuthResponseData {
+    accessToken: string
+    jwtExpirationMs: number
 }
 
-interface Item {
+interface AuthContextType {
+    accessToken: string | null
+    setAccessToken: (token: string | null) => void
+    logout: () => void
+    getToken: () => string | null
+    accessTokenLoaded: boolean
+}
+
+interface NavItem {
     title: string
     path: string
     icon: LucideIcon
@@ -24,7 +31,7 @@ interface OrderItemDto {
 
 interface OrderDto {
     id: string
-    items: OrderItem[]
+    items: OrderItemDto[]
     status: OrderStatus
     orderDate: string
     paymentMethod: string
