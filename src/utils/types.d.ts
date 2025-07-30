@@ -43,3 +43,14 @@ interface CartItemDto {
     quantity: number
 }
 
+
+export interface DataTableProducts{
+    products: Product[],
+    pages: number
+}
+
+export interface PageProductsData{
+    pageNumber: number;
+    sort: Sort;
+    filters: Filter[]
+}

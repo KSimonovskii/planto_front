@@ -16,22 +16,38 @@ export const useAuthActions = () => {
             credentials: "include" as RequestCredentials,
             body: JSON.stringify(credentials)
         }
+        try {
+            const response = await fetch(URL, options);
 
-        const response = await fetch(URL, options);
+            if (!response.ok) {
+                let errorMessage = `Login failed: ${response.status} ${response.statusText}`;
+                try {
+                    const errorData = await response.json();
+                    if (errorData.message) {
+                        errorMessage = errorData.message;
+                    }
+                } catch (e) {
+                    console.warn(e)
+                }
+                throw new Error(errorMessage);
+            }
 
-        if (!response.ok) {
-            throw new Error(response.statusText);
+            const data = await response.json();
+            const accessToken = data.accessToken;
+
+            if (!accessToken) {
+                throw new Error("Access token missing in response from login.");
+            }
+            setAccessToken(accessToken);
+            console.log("Login successful. Access token set.");
+            return {accessToken};
+
+        } catch (error) {
+            console.error("Error during login:", error);
+            setAccessToken(null);
+            throw error;
         }
-
-        const data = await response.json();
-        const accessToken = data.accessToken;
-        if (!accessToken) {
-            throw new Error("Access token missing in response" + response.statusText);
-        }
-
-        setAccessToken(accessToken);
-
     };
-    return {loginUser};
 
+    return {loginUser};
 };

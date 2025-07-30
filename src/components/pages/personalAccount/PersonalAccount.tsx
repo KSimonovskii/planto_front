@@ -1,8 +1,7 @@
 import {useState} from "react";
 import {useNavigate} from "react-router";
 import {useLocation} from "react-router-dom";
-import {useAuth} from "../../../features/hooks/useAuth.ts";
-import {loginUser} from "../../../features/api/loginAction.ts";
+import {useAuthActions} from "../../../features/hooks/useAuthActions.ts";
 
 const PersonalAccount = () => {
     const [login, setLogin] = useState('');
@@ -11,7 +10,8 @@ const PersonalAccount = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
-    const {setAccessToken} = useAuth();
+    const {loginUser} = useAuthActions();
+
     const from = (location.state as { from?: Location })?.from?.pathname || "/";
 
     const handleLogin = async (e: React.FormEvent) => {
@@ -20,9 +20,7 @@ const PersonalAccount = () => {
         setLoading(true);
 
         try {
-            const authData = await loginUser({login, password});
-            setAccessToken(authData.accessToken);
-
+            await loginUser({login, password})
             setLogin("");
             setPassword("");
             navigate(from, {replace: true});

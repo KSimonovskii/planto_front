@@ -1,24 +1,25 @@
 import {Navigation, Pagination} from "swiper/modules";
 import {Swiper, SwiperSlide} from "swiper/react";
-import {useEffect, useState} from "react";
-import type Product from "../products/Product.ts";
+import {useContext, useEffect, useState} from "react";
+
 import {getProductsTable} from "../../../features/api/productAction.ts";
+import {PageContext, ProductsContext} from "../../../utils/Context.ts";
 import {useCartActions} from "../../../features/hooks/useCartAction.ts";
 
 
 const SliderMainPage = () => {
-    const [products, setProducts] = useState<Product[]>([]);
+    const {products, setProductsData} = useContext(ProductsContext);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-
-    const{addToCart, message} = useCartActions();
-
+    const {pageNumber, sort, filters} = useContext(PageContext);
+    const {addToCart, message} = useCartActions();
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const result = await getProductsTable();
-                setProducts(result);
+                const result = await getProductsTable(pageNumber, sort, filters);
+                console.log(result.products);
+                setProductsData(result);
             } catch (err: any) {
                 setError(err.message || "Failed to fetch products.");
             } finally {
@@ -33,7 +34,8 @@ const SliderMainPage = () => {
         <div>
 
             {message && (
-                <div className="text-center text-green-600 text-lg font-bold py-2 px-6 rounded shadow-lg z-50">{message}</div>
+                <div
+                    className="text-center text-green-600 text-lg font-bold py-2 px-6 rounded shadow-lg z-50">{message}</div>
             )}
 
             {loading ? (

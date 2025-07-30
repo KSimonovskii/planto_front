@@ -1,5 +1,7 @@
-import RowProductsTable from "./RowProductsTable.tsx";
 import {useContext} from "react";
+
+import RowProductsTable from "./RowProductsTable.tsx";
+import EmptyRowTable from "./EmptyRowTable.tsx";
 import {ProductsContext} from "../../../utils/Context.ts";
 
 const ProductsTable = () => {
@@ -7,9 +9,7 @@ const ProductsTable = () => {
     const {products} = useContext(ProductsContext);
 
     return (
-
-        <table className={"text-base-form"}>
-            <caption>List of products</caption>
+        <table className={"text-base-form gap-4"}>
             <thead className={"border-y-2 border-base-text"}>
             {/*    TODO change to fields from class Product*/}
             <tr>
@@ -23,10 +23,13 @@ const ProductsTable = () => {
             </tr>
             </thead>
             <tbody>
-            {products.map(product => <RowProductsTable key={product.id} product={product}/>)}
+                {products.length == 0?
+                    <EmptyRowTable msg={"Can't receive data from database"}/> :
+                    products.map(product => <RowProductsTable key={product.id} product={product}/>)}
             </tbody>
         </table>
     )
+
 }
 
 export default ProductsTable

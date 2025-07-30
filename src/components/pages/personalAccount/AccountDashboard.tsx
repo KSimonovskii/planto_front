@@ -12,8 +12,8 @@ const AccountDashboard = () => {
         navigate("/");
     };
 
-    if (loadingUser) return <p className="text-center mt-10"> Please wait. Loading user data... </p>;
-    if (!isAuthenticated || !user) return <p className="text-center mt-10"> No user data found </p>;
+    if (loadingUser) return <p className="text-center mt-40"> Please wait. Loading user data... </p>;
+    if (!isAuthenticated || !user) return <p className="text-center mt-40"> No user data found </p>;
 
     return (
         <div className="max-w-4xl mx-auto mt-10 p-6 bg-white shadow-md rounded-lg">

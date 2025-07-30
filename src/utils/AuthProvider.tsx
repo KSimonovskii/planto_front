@@ -1,9 +1,9 @@
 import {type ReactNode, useCallback, useEffect, useMemo, useState} from "react";
-import { BASE_URL } from "./constants";
-import { refreshToken as apiRefreshToken } from "../features/api/authApi.ts";
-import { AuthContext } from "./AuthContext";
+import {BASE_URL} from "./constants";
+import {AuthContext} from "./AuthContext";
+import {refreshToken} from "../features/api/authApi.ts";
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
+export const AuthProvider = ({children}: { children: ReactNode }) => {
     const [accessToken, setAccessTokenState] = useState<string | null>(null);
     const [accessTokenLoaded, setAccessTokenLoaded] = useState(false);
 
@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const getToken = useCallback(() => accessToken, [accessToken]);
 
-    const logout = useCallback( async () => {
+    const logout = useCallback(async () => {
         try {
             await fetch(`${BASE_URL}/auth/logout`, {
                 method: "POST",
@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         const restoreAccessToken = async () => {
             try {
-                const newAccessToken = await apiRefreshToken();
+                const newAccessToken = await refreshToken();
                 if (newAccessToken) {
                     setAccessToken(newAccessToken);
                     console.log("AuthContext: Access token restored on app load.");

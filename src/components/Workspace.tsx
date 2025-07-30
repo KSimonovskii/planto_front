@@ -50,7 +50,7 @@ const Workspace = () => {
             {['about'].map(path =>
                 <Route key={path} path={path} element={<AboutUs/>}/>)}
 
-            <Route path={'*'} element={<ErrorPage/>}/>
+            <Route path={'*'} element={<ErrorPage msg={"Page not found"}/>}/>
         </Routes>
     )
 }

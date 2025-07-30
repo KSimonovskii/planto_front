@@ -1,4 +1,5 @@
-import type Product from "../products/Product.ts";
+import Product from "../../clasess/Product.ts";
+
 
 type Props = {
     product: Product;

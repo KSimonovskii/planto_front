@@ -1,7 +1,10 @@
 import {useContext, useState} from "react";
-import Product from "./Product.ts";
-import {ProductsContext} from "../../../utils/Context.ts";
-import {getProductsTable, addProductToTable} from "../../../features/api/productAction.ts";
+
+
+import Product from "../../clasess/Product.ts";
+import {PageContext, ProductsContext} from "../../../utils/Context.ts";
+import {EMPTY_PHOTO} from "../../../utils/constants.ts";
+import {addProductToTable, getProductsTable} from "../../../features/api/productAction.ts";
 
 const AddProduct = () => {
 
@@ -14,7 +17,8 @@ const AddProduct = () => {
     const [imageFile, setImage] = useState(EMPTY_FILE);
     const [imageUrl, setImageUrl] = useState("");
     const [description, setDescription] = useState("");
-    const {setProducts} = useContext(ProductsContext);
+    const {setProductsData: setProductsData} = useContext(ProductsContext);
+    const {pageNumber, sort, filters} = useContext(PageContext);
 
     const addProduct = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -31,7 +35,7 @@ const AddProduct = () => {
             setImage(EMPTY_FILE);
             setImageUrl("");
             setDescription("");
-            setProducts(await getProductsTable());
+            setProductsData(await getProductsTable(pageNumber, sort, filters));
         }
     }
 
@@ -55,50 +59,49 @@ const AddProduct = () => {
     }
 
     return (
-        <form className={"text-base-form"} onSubmit={addProduct}>
-            <h2 className={'text-base-form'}>Add new product:</h2>
+        <form onSubmit={addProduct}>
+            <h1 className={'text-base-form'}>Add new product:</h1>
             {/*TODO change to components    */}
-            <div className={"flex flex-row justify-between align-top w-130"}>
-                <div className={"flex flex-col place-items-stretch"}>
-                    <label className={"text-base-text"}>Name:
+            <div className={"flex flex-row justify-between align-top w-170"}>
+                <div className={"flex flex-col place-items-stretch w-2/3"}>
+                    <label className={"label flex"}>Name:
                         <input type={"text"} id={"name"} required={true} value={nameProduct}
                                onChange={(e) => setName(e.target.value)}
-                               className={"ml-8 mt-1 w-2/3 border-base-form border-2 text-base-text focus:border-alt-text"}></input>
+                               className={"inputField ml-8 mt-1 w-full"}/>
                     </label>
-                    <label className={"text-base-form"}>Category:
+                    <label className={"label flex"}>Category:
                         <input type={"text"} id={"category"} required={true} value={category}
                                onChange={(e) => setCategory(e.target.value)}
-                               className={"ml-2.5 w-2/3 border-base-form border-2 text-base-text focus:border-alt-text"}></input>
+                               className={"inputField ml-2.5 w-full"}/>
                     </label>
-                    <label className={"text-base-form"}>Quantity:
+                    <label className={"label flex"}>Quantity:
                         <input type={"number"} id={"qty"} value={qty == 0 ? "" : qty} min={0}
                                onChange={(e) => setQty(Number(e.target.value))}
-                               className={"ml-3 w-2/3 border-base-form border-2 text-base-text focus:border-alt-text"}></input>
+                               className={"inputField ml-3 w-full"}/>
                     </label>
-                    <label className={"text-base-text-color"}>Price:
+                    <label className={"label flex"}>Price:
                         <input type={"number"} step={"0.01"} id={"price"} value={price == 0 ? "" : price} min={0}
                                onChange={(e) => setPrice(Number(e.target.value))}
-                               className={"ml-9.5 w-2/3 border-base-form border-2 text-base-text-color focus:border-alt-text"}></input>
+                               className={"inputField ml-9.5 w-full"}/>
                     </label>
-                    <label className={"block text-base-text-color"}>Description:</label>
+                    <label className={"block text-base-form"}>Description:</label>
                     <textarea rows={5} cols={40} id={"description"} value={description}
                               onChange={(e) => setDescription(e.target.value)}
-                              className={"w-9/10 border-base-form border-2 text-base-text-color focus:border-alt-text"}/>
+                              className={"inputField"}/>
                 </div>
-                <div className={"flex flex-col"}>
-                    <div>
-                        <img src={imageUrl ? imageUrl : "src/assets/empty-foto.jpg"} alt={"Picture"}
+                <div>
+                    <div className={"flex flex-col justify-start"}>
+                        <img src={imageUrl ? imageUrl : EMPTY_PHOTO} alt={"Picture"}
                              className={"mt-1 w-50 h-50 border-base-form border-1"}/>
                         <label
-                            className={"inline-block bg-base-form text-light-green hover:bg-[#57805bff] text-center w-50 h-10 leading-10"}>Download
-                            image
-                            <input type={"file"} id={"image"}
+                            className={"flex button items-center justify-center w-50 h-10"}>Download image
+                            <input type={"file"} id={"image"} accept={"image/*"}
                                    onChange={(e) => handleSelectFile(e)}
-                                   className={"invisible"}></input>
+                                   className={"hidden w-50 h-5"}/>
                         </label>
                     </div>
-                    <button type={"submit"}
-                            className={"bg-base-form text-light-green w-20 border-2 hover:bg-[#57805bff] w-50 h-8"}>Add product
+                    <button type={"submit"} className={"button w-50 h-10 mt-5"}>
+                        Add product
                     </button>
                 </div>
             </div>

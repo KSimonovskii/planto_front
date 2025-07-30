@@ -1,6 +1,27 @@
-const ErrorPage = () => {
+import {useLocation} from "react-router";
+
+interface PropsError {
+    msg: string;
+}
+
+const ErrorPage = (props: PropsError) => {
+
+    const param = useLocation();
+    let message = "";
+    if (param) {
+        message = param.state as string? param.state.message : "";
+    }
+
+    console.log(message);
+
+    if (!message) {
+        message = props.msg;
+    }
+
     return (
-        <h1 className={"text-base-text-color"}>Page not found</h1>
+        <>
+            <p className={"text-base-form text-xl w-full"}>{message}</p>
+        </>
     )
 }
 

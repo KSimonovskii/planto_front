@@ -1,12 +1,11 @@
-
 import {useUserActions} from "./useUserAction.ts";
 import {useCallback, useEffect, useState} from "react";
-import type UserAccount from "../../components/pages/users/UserAccount.ts";
+import UserAccount from "../../components/pages/users/UserAccount.ts";
 import {parseJwt} from "../../utils/parseJwt.ts";
 import {useAuth} from "./useAuth.ts";
 
 export function useCurrentUser() {
-const {accessToken, accessTokenLoaded} = useAuth();
+    const {accessToken, accessTokenLoaded} = useAuth();
     const {getUserByLogin} = useUserActions();
     const [user, setUser] = useState<UserAccount | null>(null);
     const [loadingUser, setLoadingUser] = useState<boolean>(true);
@@ -16,21 +15,22 @@ const {accessToken, accessTokenLoaded} = useAuth();
         setLoadingUser(true);
         setErrorUser(null);
 
-        if (!accessToken) {
+        if (!accessToken && !accessTokenLoaded) {
             setUser(null);
             setLoadingUser(false);
-            console.log("useCurrentUser: No access token found, user data not loaded.");
+            setErrorUser("Access token missing and token loading not in progress");
             return;
         }
 
         try {
+            if (!accessToken) {
+                return;
+            }
             const decoded = parseJwt(accessToken);
             const login = decoded.sub;
-            console.log("useCurrentUser: Attempting to fetch user data for login:", login);
             const userAccount = await getUserByLogin(login);
             setUser(userAccount);
             setErrorUser(null);
-            console.log("useCurrentUser: User data loaded successfully.");
 
         } catch (e: any) {
             console.error("useCurrentUser: Failed to load user data:", e);
@@ -39,14 +39,15 @@ const {accessToken, accessTokenLoaded} = useAuth();
         } finally {
             setLoadingUser(false);
         }
-      }, [getUserByLogin, accessToken]);
+        }, [accessToken, accessTokenLoaded]);
 
 
     useEffect(() => {
-        if (accessToken) {
+        // if (accessToken) {
         fetchUser();
-        }
-    }, [accessToken, accessTokenLoaded]);
+        // }
+        // }, [accessToken, accessTokenLoaded]);
+    }, [fetchUser]);
 
     const refetchUser = useCallback(() => {
         fetchUser();
