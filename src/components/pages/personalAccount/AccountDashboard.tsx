@@ -34,11 +34,11 @@ const AccountDashboard = () => {
 
             <div>
                 <h3 className="text-lg font-semibold mb-2">Your Orders</h3>
-                {user.orders.length === 0 ? (
+                {user.orders && user.orders.length === 0 ? (
                     <p className="text-gray-600">You have no orders yet.</p>
                 ) : (
                     <ul className="space-y-3">
-                        {user.orders.map((order) => (
+                        {user.orders && user.orders.map((order) => (
                             <li key={order.id} className="border p-3 rounded-md">
                                 <p><strong>Order ID:</strong> {order.id}</p>
                                 <p><strong>Date:</strong> {new Date(order.orderDate).toLocaleDateString()}</p>

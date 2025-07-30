@@ -2,16 +2,20 @@ import {navItems} from "../../../utils/constants.ts";
 
 import {useCurrentUser} from "../../../features/hooks/useCurrentUser.ts";
 import NavItemComponent from "./NavItemComponent.tsx";
+import {useMemo} from "react";
 
 
 const Navigation = () => {
 
     const {isAdmin} = useCurrentUser();
 
-    const visibleItems = navItems.filter(i => {
-        return !(i.adminOnly && !isAdmin);
+    const visibleItems = useMemo(() => {
+        console.log("Recalculating visibleItems based on isAdmin:", isAdmin); // Для отладки
+        return navItems.filter(item => {
 
-    });
+            return !(item.adminOnly && !isAdmin);
+        });
+    }, [isAdmin]);
 
     return (
         <header className="w-full bg-green-50 border-b border-green-200 p-4 fixed top-0 left-0 z-50 shadow">

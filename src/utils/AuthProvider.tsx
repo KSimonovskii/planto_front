@@ -19,8 +19,10 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
                 method: "POST",
                 credentials: "include",
             });
+            setAccessTokenState(null);
         } catch (e) {
             console.error("Logout failed: ", e);
+            setAccessTokenState(null);
         }
     }, [setAccessToken]);
 
@@ -51,7 +53,7 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
         logout,
         getToken,
         accessTokenLoaded
-    }), [accessToken, setAccessToken, logout, getToken]);
+    }), [accessToken, setAccessToken, logout, getToken, accessTokenLoaded]);
 
     return (
         <AuthContext.Provider value={contextValue}>

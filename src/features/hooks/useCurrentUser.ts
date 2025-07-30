@@ -24,6 +24,8 @@ export function useCurrentUser() {
 
         try {
             if (!accessToken) {
+                setUser(null);
+                setLoadingUser(false);
                 return;
             }
             const decoded = parseJwt(accessToken);
