@@ -1,6 +1,19 @@
 import {LucideIcon} from "lucide-react";
 import {Decimal} from "decimal.js";
 import type {OrderStatus} from "../components/pages/orders/OrderStatus.ts";
+import type {CartItem} from "../components/pages/orders/CartItem.ts";
+
+interface UserInterfaceAccount {
+    login: string;
+    firstName: string | null;
+    lastName: string | null;
+    email: string;
+    address: Address | null;
+    roles: string[];
+    orders: Order[] | null;
+    cart: CartItem[]| null;
+}
+
 
 interface AuthResponseData {
     accessToken: string

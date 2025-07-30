@@ -11,21 +11,9 @@ export default class UserAccount {
     private _lastName: string;
     private _email: string;
     private _address: Address | null;
-    private _role: UserRole[];
-    private _orders: Order[];
-    private _cart: CartItem[];
-
-
-    constructor(login: string, firstName: string, lastName: string, email: string, address: Address | null, role: UserRole[], orders: Order[], cart: CartItem[]) {
-        this._login = login;
-        this._firstName = firstName;
-        this._lastName = lastName;
-        this._email = email;
-        this._address = address;
-        this._role = role;
-        this._orders = orders;
-        this._cart = cart;
-    }
+    private _roles: UserRole[];
+    private _orders: Order[] | null;
+    private _cart: CartItem[] | null;
 
 
     get login(): string {
@@ -68,27 +56,38 @@ export default class UserAccount {
         this._address = value;
     }
 
-    get role(): UserRole[] {
-        return this._role;
+    get roles(): UserRole[] {
+        return this._roles;
     }
 
-    set role(value: UserRole[]) {
-        this._role = value;
+    set roles(value: UserRole[]) {
+        this._roles = value;
     }
 
-    get orders(): Order[] {
+    get orders(): Order[] | null {
         return this._orders;
     }
 
-    set orders(value: Order[]) {
+    set orders(value: Order[] | null) {
         this._orders = value;
     }
 
-    get cart(): CartItem[] {
+    get cart(): CartItem[] | null {
         return this._cart;
     }
 
-    set cart(value: CartItem[]) {
+    set cart(value: CartItem[] | null) {
         this._cart = value;
+    }
+
+    constructor(login: string, firstName: string, lastName: string, email: string, address: Address | null, roles: UserRole[], orders: Order[] | null, cart: CartItem[] | null) {
+        this._login = login;
+        this._firstName = firstName;
+        this._lastName = lastName;
+        this._email = email;
+        this._address = address;
+        this._roles = roles;
+        this._orders = orders;
+        this._cart = cart;
     }
 }

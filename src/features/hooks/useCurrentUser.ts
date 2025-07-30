@@ -1,13 +1,13 @@
 import {useUserActions} from "./useUserAction.ts";
 import {useCallback, useEffect, useState} from "react";
-import UserAccount from "../../components/pages/users/UserAccount.ts";
 import {parseJwt} from "../../utils/parseJwt.ts";
 import {useAuth} from "./useAuth.ts";
+import type {UserInterfaceAccount} from "../../utils/types";
 
 export function useCurrentUser() {
     const {accessToken, accessTokenLoaded} = useAuth();
     const {getUserByLogin} = useUserActions();
-    const [user, setUser] = useState<UserAccount | null>(null);
+    const [user, setUser] = useState<UserInterfaceAccount | null>(null);
     const [loadingUser, setLoadingUser] = useState<boolean>(true);
     const [errorUser, setErrorUser] = useState<string | null>(null);
 
@@ -31,7 +31,6 @@ export function useCurrentUser() {
             const userAccount = await getUserByLogin(login);
             setUser(userAccount);
             setErrorUser(null);
-
         } catch (e: any) {
             console.error("useCurrentUser: Failed to load user data:", e);
             setUser(null);
@@ -39,22 +38,19 @@ export function useCurrentUser() {
         } finally {
             setLoadingUser(false);
         }
-        }, [accessToken, accessTokenLoaded]);
+    }, [accessToken, accessTokenLoaded]);
 
 
     useEffect(() => {
-        // if (accessToken) {
         fetchUser();
-        // }
-        // }, [accessToken, accessTokenLoaded]);
     }, [fetchUser]);
 
     const refetchUser = useCallback(() => {
         fetchUser();
     }, [fetchUser]);
 
-    const isAdmin = user?.role?.includes("ADMINISTRATOR") ?? false;
-    const isUser = user?.role?.includes("USER") ?? false;
+    const isAdmin = user?.roles?.includes("ADMINISTRATOR") ?? false;
+    const isUser = user?.roles?.includes("USER") ?? false;
     const isAuthenticated = !!user;
 
     return {

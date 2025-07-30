@@ -1,7 +1,7 @@
 import {BASE_URL} from "../../utils/constants.ts";
 import {secureFetch} from "../../utils/secureFetch.ts";
 import {useAuth} from "./useAuth.ts";
-import UserAccount from "../../components/pages/users/UserAccount.ts";
+
 import {Address} from "../../components/pages/users/Address.ts";
 import {OrderItem} from "../../components/pages/orders/OrderItem.ts";
 import {Order} from "../../components/pages/orders/Order.ts";
@@ -14,9 +14,7 @@ export const useUserActions = () => {
     const getUserByLogin = async (login: string) => {
 
         const URL = `${BASE_URL}/account/user/${login}`;
-        if (!URL) {
-            throw new Error("URL not found");
-        }
+
         const options = {
             method: "GET",
         }
@@ -43,16 +41,16 @@ export const useUserActions = () => {
             )
             : null;
 
-        return new UserAccount(
-            data.login,
-            data.firstName,
-            data.lastName,
-            data.email,
-            address,
-            data.role,
-            orders,
-            cart
-        );
+        return {
+            login: data.login,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email,
+            address: address,
+            roles: data.roles,
+            orders: orders,
+            cart: cart
+        }
     };
     return {getUserByLogin};
 

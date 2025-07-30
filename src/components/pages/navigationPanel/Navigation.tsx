@@ -9,15 +9,6 @@ const Navigation = () => {
     const {isAdmin} = useCurrentUser();
 
     const visibleItems = navItems.filter(i => {
-
-        // console.log("Navigation //// only for Admin ---> " + i.adminOnly)
-        // console.log("Navigation //// is not Admin ---> " + !isAdmin)
-        // if (Array.isArray(user?.role)) {
-        //     user.role.forEach(r => console.log("Navigation //// role:", r));
-        // } else {
-        //     console.log("Navigation //// role:", user?.role);
-        // }
-
         return !(i.adminOnly && !isAdmin);
 
     });
