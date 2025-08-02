@@ -6,7 +6,6 @@ import SliderMainPage from "./SliderMainPage.tsx";
 
 const HomePage = () => {
 
-
     return (
         <div className="bg-[#fefaf1] text-[#2a4637] min-h-screen pt-24">
 

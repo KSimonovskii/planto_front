@@ -3,6 +3,10 @@ import {getProductById} from "../../../features/api/productAction.ts";
 import CartItem from "./CartItem.tsx";
 import {useCartActions} from "../../../features/hooks/useCartAction.ts";
 import type Product from "../../clasess/Product.ts";
+import CheckoutForm from "../../common/CheckoutForm.tsx";
+import {useCurrentUser} from "../../../features/hooks/useCurrentUser.ts";
+import OrderSuccessPopup from "../../common/OrderSuccessPopup.tsx";
+import {useNavigate} from "react-router";
 
 interface CartItemType {
     product: Product;
@@ -14,6 +18,13 @@ const ShoppingCart = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const {getCart, addToCart, removeFromCart, removeAllFromCart} = useCartActions();
+
+    const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+    const {isAuthenticated} = useCurrentUser();
+    const [isOrderSuccessOpen, setIsOrderSuccessOpen] = useState(false);
+
+    const navigate = useNavigate();
+
 
     const fetchCartItems = useCallback(async () => {
         setLoading(true);
@@ -113,12 +124,33 @@ const ShoppingCart = () => {
         }
     }, [removeAllFromCart, fetchCartItems]);
 
+    const handleCheckoutClick = () => {
+        if (!isAuthenticated) {
+            alert("You must be logged in to proceed to checkout.");
+            return;
+        }
+        setIsCheckoutOpen(true);
+    };
+
     useEffect(() => {
         fetchCartItems();
     }, [fetchCartItems]);
 
+    const handleCheckoutSuccess = useCallback(() => {
+        setIsCheckoutOpen(false);
+        setIsOrderSuccessOpen(true);
+    }, []);
+
+    const handleOrderSuccessPopupClose = useCallback(() => {
+        setIsOrderSuccessOpen(false);
+        navigate('/');
+    }, [navigate]);
+
     if (loading) return <div className="text-center text-gray-500">Loading cart...</div>;
     if (error) return <div className="text-center text-red-500">Error: {error}</div>;
+
+    const totalCost = items.reduce((total, item) => total + item.product.price * item.quantity, 0);
+
 
     return (
         <div className="h-screen p-6 bg-[#fefaf1] text-[#2a4637]">
@@ -127,25 +159,49 @@ const ShoppingCart = () => {
             <h2 className="text-3xl font-bold mb-4 text-center">Shopping Cart</h2>
 
             {items.length > 0 ? (
-                <div
+                <>
+                    <div
+                        className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 p-4">
+                        {items.map(({product, quantity}) => (
+                            <CartItem
+                                key={product.id}
+                                product={product}
+                                quantity={quantity}
+                                onAdd={() => handleAdd(product.id)}
+                                onRemove={() => handleRemove(product.id)}
+                                onRemoveAll={() => handleRemoveAll(product.id)}
+                            />
+                        ))}
+                    </div>
 
-                    className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 p-4">
-                    {items.map(({product, quantity}) => (
-                        <CartItem
-                            key={product.id}
-                            product={product}
-                            quantity={quantity}
-                            onAdd={() => handleAdd(product.id)}
-                            onRemove={() => handleRemove(product.id)}
-                            onRemoveAll={() => handleRemoveAll(product.id)}
-                        />
-                    ))}
-                </div>
+
+                    <div className="flex flex-col items-center mt-8">
+                        <div className="text-2xl font-bold mb-4">Total: ${totalCost.toFixed(2)}</div>
+                        <button
+                            onClick={handleCheckoutClick}
+                            className="bg-[#9acfaf] text-[#2a4637] font-semibold py-3 px-8 rounded hover:bg-[#7aaa8d] transition"
+                        >
+                            Proceed to Checkout
+                        </button>
+                    </div>
+                </>
             ) : (
                 <div className="text-center text-gray-500 mt-10">
                     Your cart is still empty
                 </div>
             )}
+
+            <CheckoutForm
+                isOpen={isCheckoutOpen}
+                onClose={() => setIsCheckoutOpen(false)}
+                items={items}
+                onSuccess={handleCheckoutSuccess}
+            />
+            <OrderSuccessPopup
+                isOpen={isOrderSuccessOpen}
+                onClose={handleOrderSuccessPopupClose}
+            />
+
         </div>
     );
 };

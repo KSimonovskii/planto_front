@@ -9,6 +9,7 @@ import type Product from "../../clasess/Product.ts";
 import PageNavigation from "../products/PageNavigation.tsx";
 import {useCurrentUser} from "../../../features/hooks/useCurrentUser.ts";
 import AuthPromptModal from "../../common/AuthPromptModal.tsx";
+import ImagePopup from "../products/ImagePopup.tsx";
 
 const Store = () => {
     const {products, setProductsData} = useContext(ProductsContext);
@@ -16,6 +17,9 @@ const Store = () => {
 
     const {addToCart, message} = useCartActions()
     const {isAuthenticated} = useCurrentUser();
+
+    const [isImagePopupOpen, setImagePopupOpen] = useState(false);
+    const [currentImageProduct, setCurrentImageProduct] = useState<Product | null>(null);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -50,14 +54,19 @@ const Store = () => {
         try {
             await addToCart(productId);
         } catch (err: any) {
-            setError(err);
+            setError(err.message);
         }
 
     }, [isAuthenticated, addToCart]);
 
+    const handleImageClick = useCallback((product: Product) => {
+        setCurrentImageProduct(product);
+        setImagePopupOpen(true);
+    }, []);
 
     return (
-        <div className="min-h-screen bg-[#fefaf1] text-[#2a4637] p-6">
+        <div
+            className={`min-h-screen bg-[#fefaf1] text-[#2a4637] p-6 transition-filter duration-300 ${isImagePopupOpen ? 'blur-sm pointer-events-none' : ''}`}>
             <h1 className="text-4xl font-bold mb-40 text-center">Store</h1>
 
             <div
@@ -94,9 +103,10 @@ const Store = () => {
                                 className="bg-white rounded-xl shadow-sm overflow-hidden text-center p-4 hover:shadow-md transition"
                             >
                                 <img
+                                    onClick={() => handleImageClick(product)}
                                     src={product.imageUrl}
                                     alt={product.name}
-                                    className="w-full h-48 object-contain mx-auto mb-4"
+                                    className="w-full h-48 object-contain mx-auto mb-4 cursor-zoom-in"
                                 />
                                 <h3 className="font-medium text-lg">{product.name}</h3>
                                 <p className="text-gray-700 mt-1 mb-3">
@@ -123,6 +133,15 @@ const Store = () => {
 
             <AuthPromptModal isOpen={isAuthModalVisible} onClose={closeAuthModal}/>
 
+            {currentImageProduct && (
+                <ImagePopup
+                    isOpen={isImagePopupOpen}
+                    setIsOpen={setImagePopupOpen}
+                    name={currentImageProduct.name}
+                    category={currentImageProduct.category}
+                    url={currentImageProduct.imageUrl}
+                />
+            )}
         </div>
     );
 };

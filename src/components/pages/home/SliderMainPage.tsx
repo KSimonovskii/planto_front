@@ -7,6 +7,8 @@ import {PageContext, ProductsContext} from "../../../utils/Context.ts";
 import {useCartActions} from "../../../features/hooks/useCartAction.ts";
 import {useCurrentUser} from "../../../features/hooks/useCurrentUser.ts";
 import AuthPromptModal from "../../common/AuthPromptModal.tsx";
+import type Product from "../../clasess/Product.ts";
+import ImagePopup from "../products/ImagePopup.tsx";
 
 
 const SliderMainPage = () => {
@@ -18,6 +20,10 @@ const SliderMainPage = () => {
     const {isAuthenticated} = useCurrentUser();
 
     const [isAuthModalVisible, setAuthModalVisible] = useState(false);
+
+    const [isImagePopupOpen, setImagePopupOpen] = useState(false);
+    const [currentImageProduct, setCurrentImageProduct] = useState<Product | null>(null);
+
 
     const openAuthModal = () => setAuthModalVisible(true);
     const closeAuthModal = () => setAuthModalVisible(false);
@@ -52,6 +58,12 @@ const SliderMainPage = () => {
         }
 
     }, [isAuthenticated, addToCart]);
+
+    const handleImageClick = useCallback((product: Product) => {
+        setCurrentImageProduct(product);
+        setImagePopupOpen(true);
+    }, []);
+
 
     return (
         <div>
@@ -92,9 +104,10 @@ const SliderMainPage = () => {
                                 className="bg-white rounded-xl shadow-sm overflow-hidden text-center p-4 hover:shadow-md transition"
                             >
                                 <img
+                                    onClick={() => handleImageClick(product)}
                                     src={product.imageUrl}
                                     alt={product.name}
-                                    className="w-24 h-24 object-contain mx-auto mb-4"
+                                    className="w-full h-48 object-contain mx-auto mb-4 cursor-zoom-in"
                                 />
                                 <h3 className="font-medium text-lg">{product.name}</h3>
                                 <p className="text-gray-700 mt-1 mb-3">
@@ -114,6 +127,16 @@ const SliderMainPage = () => {
             <div className="custom-pagination mt-6 flex justify-center"/>
 
             <AuthPromptModal isOpen={isAuthModalVisible} onClose={closeAuthModal}/>
+
+            {currentImageProduct && (
+                <ImagePopup
+                    isOpen={isImagePopupOpen}
+                    setIsOpen={setImagePopupOpen}
+                    name={currentImageProduct.name}
+                    category={currentImageProduct.category}
+                    url={currentImageProduct.imageUrl}
+                />
+            )}
         </div>
     )
 

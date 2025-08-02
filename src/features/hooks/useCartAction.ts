@@ -98,11 +98,27 @@ export const useCartActions = () => {
         setTimeout(() => setMessage(null), 3000);
     }, [user, getToken, setAccessToken]);
 
+    const clearCart = useCallback(async (): Promise<void> => {
+        if (!user) throw new Error("User is not authenticated");
+        const url = `${BASE_URL}/account/user/${user.login}/cart/clear`;
+        const response = await secureFetch(url, {method: "DELETE"}, getToken, setAccessToken);
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            setMessage("Error clearing the cart");
+            throw new Error(`Failed to clear cart: ${response.status} ${errorText}`);
+        } else {
+            setMessage("Cart has been cleared");
+        }
+        setTimeout(() => setMessage(null), 3000);
+    }, [user, getToken, setAccessToken]);
+
     return {
         getCart,
         addToCart,
         removeFromCart,
         removeAllFromCart,
-        message
+        message,
+        clearCart
     };
 }
