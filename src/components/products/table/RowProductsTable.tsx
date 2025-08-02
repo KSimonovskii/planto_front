@@ -5,6 +5,7 @@ import {getProductsTable, removeProductFromTable, updateProduct} from "../../../
 import {SquarePen, Trash2, SquareCheckBig, SquareX} from "lucide-react";
 import {EMPTY_PHOTO} from "../../../utils/constants.ts";
 import ImagePopup from "../ImagePopup.tsx";
+import CategoryBox from "../CategoryBox.tsx";
 
 interface PropsProduct {
     product: Product,
@@ -108,11 +109,12 @@ const RowProductsTable = (props: PropsProduct) => {
                                 className={"inputFieldTable"}
                                 value={nameProduct}
                                 onChange={(e) => setName(e.target.value)}/>
-    const fieldCategory = <input
-                                    id={`category_${product.id}`}
-                                    className={"inputFieldTable"}
-                                    value={category}
-                                    onChange={(e) => setCategory(e.target.value)}/>
+    // const fieldCategory = <input
+    //                                 id={`category_${product.id}`}
+    //                                 className={"inputFieldTable"}
+    //                                 value={category}
+    //                                 onChange={(e) => setCategory(e.target.value)}/>
+    const fieldCategory = <CategoryBox category={category} setCategory={setCategory} twClass={"inputFieldTable"}/>;
     const fieldQty = <input
                                 id={`qty_${product.id}`}
                                 className={"inputFieldTable w-34"}
@@ -142,12 +144,6 @@ const RowProductsTable = (props: PropsProduct) => {
                                                           onClick={handlerClickImage}
                                                           style={{width: "100%", height: "100%", objectFit: "cover"}}/>
                  <ImagePopup name={product.name} category={product.category} url={imageUrl} isOpen = {isOpen} setIsOpen = {setIsOpen}/>
-                 {/*TODO use this in the table for customers*/}
-                 {/*<Image urlEndpoint={`${import.meta.env.VITE_IMAGEKIT_ENDPOINT}`}*/}
-                 {/*       src={imageUrl ? imageUrl : import.meta.env.VITE_IMAGEKIT_EMPTY_PHOTO} alt={product.name}*/}
-                 {/*       className={"rounded-full"}*/}
-                 {/*       onClick={handlerClickImage}*/}
-                 {/*       style={{width: "100%", height: "100%", objectFit: "contain"}}/>                 */}
                  <input type={"file"} accept={"image/*"} hidden={true} ref={inputFileRef} onChange={(e) => handleChangeImage(e)}/>
              </th>
             <th className={"pl-2 font-normal w-70"}>{idEditProduct == product.id ? fieldName : product.name}</th>

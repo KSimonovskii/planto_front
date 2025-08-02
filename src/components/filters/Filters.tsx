@@ -71,7 +71,7 @@ export const Filters = () => {
 
     return (
         <>
-            <div className={"flex flex-row items-start py-2 space-x-3 border-base-form border-1 rounded-md mr-8 justify-start px-2"}>
+            <div className={"flex flex-row items-start py-2 px-2 mr-8 space-x-3 border-base-form border-1 rounded-md justify-start"}>
                 <FilterCategory filter={filterCategory} setFilter={setFilterCategory}/>
                 <div className={"flex flex-row items-start space-x-2"}>
                     <p className={"block text-base-text mt-2"}>Filter by price:</p>

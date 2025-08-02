@@ -5,22 +5,19 @@ interface answer {
     filePath: string,
     url: string,
     height: number,
-    width: number
+    width: number,
+    msg: string
 }
 
 export const uploadFile = async (imageFile: Blob, imageName: string) => {
 
-    const BASE_URL = "https://upload.imagekit.io/api/v1/files/upload";
-    const API_KEY = import.meta.env.VITE_IMAGEKIT_API_KEY;
-    const encodedKey = btoa(`${API_KEY}:`);
+    const BASE_URL = "http://localhost:8080/uploadImage";
 
     const headers = new Headers();
-    headers.append("Authorization", `Basic ${encodedKey}`);
 
     const form = new FormData();
     form.append("file", imageFile);
     form.append("fileName", imageName);
-    form.append("useUniqueFileName", "false");
 
     const options = {
         method: "POST",
@@ -33,5 +30,10 @@ export const uploadFile = async (imageFile: Blob, imageName: string) => {
     if (!response.ok){
         return "";
     }
-    return (await response.json() as answer).url;
+
+    const answer = await response.json() as answer;
+    if (answer.msg) {
+        console.error(answer.msg);
+    }
+    return answer.url;
 }

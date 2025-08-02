@@ -3,11 +3,13 @@ import Product from "../features/classes/Product.ts";
 import {PageContext, ProductsContext} from "../utils/context.ts";
 import {getProductsTable, addProductToTable} from "../features/api/productAction.ts";
 import {EMPTY_PHOTO} from "../utils/constants.ts"
+import CategoryBox from "./products/CategoryBox.tsx";
 
 const AddProduct = () => {
 
     const EMPTY_FILE = new File([], "", {type: "image/jpg"});
 
+    //TODO custom hook
     const [nameProduct, setName] = useState("");
     const [category, setCategory] = useState("");
     const [qty, setQty] = useState(0);
@@ -67,11 +69,7 @@ const AddProduct = () => {
                                onChange={(e) => setName(e.target.value)}
                                className={"inputField ml-8 mt-1 w-full"}/>
                     </label>
-                    <label className={"label flex"}>Category:
-                        <input type={"text"} id={"category"} required={true} value={category}
-                               onChange={(e) => setCategory(e.target.value)}
-                               className={"inputField ml-2.5 w-full"}/>
-                    </label>
+                    <CategoryBox category={category} setCategory={setCategory} twClass={"inputField"}/>
                     <label className={"label flex"}>Quantity:
                         <input type={"number"} id={"qty"} value={qty == 0 ? "" : qty} min={0}
                                onChange={(e) => setQty(Number(e.target.value))}

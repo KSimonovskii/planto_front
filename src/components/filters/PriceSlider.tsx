@@ -43,6 +43,8 @@ const PriceSlider = () => {
                 onChange={(value) => handleChange(value)}
             styles={{
                 rail: {
+                    paddingLeft: -6,
+                    paddingRight: -6,
                     background: '#405443'
                 },
                 track: {

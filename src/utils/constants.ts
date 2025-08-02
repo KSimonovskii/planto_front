@@ -27,7 +27,7 @@ export const EMPTY_PHOTO = emptyPhoto;
 export const FILTER_NAME = new Filter("name", filterTypes.like, "string", "");
 export const FILTER_CATEGORY = new Filter("category", filterTypes.in, "string", undefined, undefined, undefined, []);
 
-export const DATA_FOR_FILTERS = {maxPrice: 0, categories: []};
+export const DATA_FOR_FILTERS = {maxPrice: 0, categories: [""]};
 export interface FILTER_PROPS {
     filter: Filter
     setFilter: Dispatch<SetStateAction<Filter>>

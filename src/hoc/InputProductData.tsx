@@ -1,10 +1,10 @@
-import {type ComponentType, useContext, useState} from "react";
+import {type ComponentType} from "react";
 import ErrorPage from "../components/ErrorPage.tsx";
-import {PageContext, ProductsContext} from "../utils/context.ts";
+// import {PageContext, ProductsContext} from "../utils/context.ts";
 
 export const inputProductData = <T extends object>(Component: ComponentType<T>) => (props: T) => {
 
-    const EMPTY_FILE = new File([], "", {type: "image/jpg"});
+    // const EMPTY_FILE = new File([], "", {type: "image/jpg"});
 
     // const {setProductsData: setProductsData} = useContext(ProductsContext);
     // const {pageNumber, sort, filters} = useContext(PageContext);

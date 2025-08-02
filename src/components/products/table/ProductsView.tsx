@@ -17,7 +17,7 @@ const ProductsView = () => {
 
        <div className={"flex-col items-center"}>
            <h1 className={"flex justify-center text-[24px] mt-5 mb-3"}>List of products</h1>
-           <div className={"flex justify-between items-center mr-8 space-x-4"}>
+           <div className={"flex justify-between items-center mr-8 space-x-4 mb-2.5"}>
                <SearchBar/>
                <Sorting/>
                <ViewMode viewAsCards={viewAsCards} setView={setView}/>

@@ -9,6 +9,11 @@ const FilterCategory = ({filter, setFilter}: FILTER_PROPS) => {
         setFilter((prevState) => prevState.getCopy({valueList: value}));
     }
 
+    const deleteValue = (category: filterValueType) => {
+        const newValueList = filter.valueList.filter(value => value !== category);
+        setFilter((prevState) => prevState.getCopy({valueList: newValueList}));
+    }
+
     return (
         <div className={"flex space-x-1 w-4/6"}>
             <label className={"text-base-text py-2"} htmlFor={"categoryFilter"}>
@@ -18,12 +23,16 @@ const FilterCategory = ({filter, setFilter}: FILTER_PROPS) => {
                 value={filter.valueList}
                 onChange={(value) => handlerSelectCategory(value)}
                 multiple={true}>
-                <ListboxButton id={"categoryFilter"} className={"text-base-text flex flex-wrap py-2"}>{filter.valueList.length == 0?
+                <ListboxButton
+                    id={"categoryFilter"}
+                    className={"text-base-text flex flex-wrap py-2"}>{filter.valueList.length == 0?
                     <label className={"text-base-text px-2 mx-1 border-2 rounded-md"}>
                         All categories
                     </label> :
                     filter.valueList.map(category => (
-                        <label className={"text-base-text px-2 mx-1 border-2 rounded-md"}>
+                        <label
+                            className={"text-base-text px-2 mx-1 border-2 rounded-md cursor-pointer"}
+                            onClick={() => deleteValue(category)}>
                             {category}
                         </label>
                     ))}
