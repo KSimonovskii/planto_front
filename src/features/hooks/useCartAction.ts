@@ -42,7 +42,7 @@ export const useCartActions = () => {
             setTimeout(() => setMessage(null), 3000);
             return [];
         }
-    }, [user]);
+    }, [user, getToken, setAccessToken]);
 
 
     const addToCart = useCallback(async (productId: string): Promise<void> => {
@@ -60,7 +60,7 @@ export const useCartActions = () => {
         }
         setTimeout(() => setMessage(null), 3000);
 
-    }, [user]);
+    }, [user, getToken, setAccessToken]);
 
     const removeFromCart = useCallback(async (productId: string): Promise<void> => {
         if (!user) throw new Error("User is not authenticated");
@@ -79,12 +79,30 @@ export const useCartActions = () => {
         }
         setTimeout(() => setMessage(null), 3000);
 
-    }, [user]);
+    }, [user, getToken, setAccessToken]);
+
+    const removeAllFromCart = useCallback(async (productId: string): Promise<void> => {
+        if (!user) throw new Error("User is not authenticated");
+
+        const url = `${BASE_URL}/account/user/${user.login}/cart/${productId}/all`;
+
+        const response = await secureFetch(url, {method: "DELETE"}, getToken, setAccessToken);
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            setMessage("Error removing product from cart");
+            throw new Error(`Failed to remove all from cart: ${response.status} ${errorText}`);
+        } else {
+            setMessage("Product removed from cart completely");
+        }
+        setTimeout(() => setMessage(null), 3000);
+    }, [user, getToken, setAccessToken]);
 
     return {
         getCart,
         addToCart,
         removeFromCart,
+        removeAllFromCart,
         message
     };
 }

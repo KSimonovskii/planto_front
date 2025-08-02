@@ -19,11 +19,14 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
                 method: "POST",
                 credentials: "include",
             });
-            setAccessTokenState(null);
         } catch (e) {
             console.error("Logout failed: ", e);
-            setAccessTokenState(null);
         }
+
+        setAccessTokenState(null);
+        setAccessTokenLoaded(false);
+        setAccessTokenLoaded(true);
+
     }, [setAccessToken]);
 
     useEffect(() => {
@@ -33,7 +36,7 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
                 if (newAccessToken) {
                     setAccessToken(newAccessToken);
                     console.log("AuthContext: Access token restored on app load.");
-                }else {
+                } else {
                     console.warn("AuthContext: Could not refresh token on app load: No new token received. User is not authenticated.");
                     setAccessToken(null);
                 }
@@ -45,7 +48,7 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
         };
 
         restoreAccessToken();
-    },[setAccessToken]);
+    }, [setAccessToken]);
 
     const contextValue = useMemo(() => ({
         accessToken,

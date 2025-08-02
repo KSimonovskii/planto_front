@@ -5,8 +5,8 @@ import {PageContext, ProductsContext} from "../../../utils/Context.ts";
 import {getProductsTable} from "../../../features/api/productAction.ts";
 
 const ProductsManager = () => {
-    const {setProductsData} = useContext(ProductsContext)!;
-    const {pageNumber, sort, filters} = useContext(PageContext)!;
+    const {setProductsData} = useContext(ProductsContext);
+    const {pageNumber, sort, filters} = useContext(PageContext);
 
     const fetchProducts = useCallback(async () => {
         try {

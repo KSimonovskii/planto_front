@@ -1,10 +1,12 @@
 import {Navigation, Pagination} from "swiper/modules";
 import {Swiper, SwiperSlide} from "swiper/react";
-import {useContext, useEffect, useState} from "react";
+import {useCallback, useContext, useEffect, useState} from "react";
 
 import {getProductsTable} from "../../../features/api/productAction.ts";
 import {PageContext, ProductsContext} from "../../../utils/Context.ts";
 import {useCartActions} from "../../../features/hooks/useCartAction.ts";
+import {useCurrentUser} from "../../../features/hooks/useCurrentUser.ts";
+import AuthPromptModal from "../../common/AuthPromptModal.tsx";
 
 
 const SliderMainPage = () => {
@@ -13,22 +15,43 @@ const SliderMainPage = () => {
     const [error, setError] = useState<string | null>(null);
     const {pageNumber, sort, filters} = useContext(PageContext);
     const {addToCart, message} = useCartActions();
+    const {isAuthenticated} = useCurrentUser();
+
+    const [isAuthModalVisible, setAuthModalVisible] = useState(false);
+
+    const openAuthModal = () => setAuthModalVisible(true);
+    const closeAuthModal = () => setAuthModalVisible(false);
+
+    const fetchProducts = useCallback(async () => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            const result = await getProductsTable(pageNumber, sort, filters);
+            setProductsData(result);
+        } catch (err: any) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    }, [pageNumber, sort, filters, setProductsData])
 
     useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const result = await getProductsTable(pageNumber, sort, filters);
-                console.log(result.products);
-                setProductsData(result);
-            } catch (err: any) {
-                setError(err.message || "Failed to fetch products.");
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchProducts();
-    }, []);
+    }, [fetchProducts]);
+
+    const handleAddToCart = useCallback(async (productId: string) => {
+        if (!isAuthenticated) {
+            openAuthModal();
+            return;
+        }
+        try {
+            await addToCart(productId);
+        } catch (err: any) {
+            setError(err);
+        }
+
+    }, [isAuthenticated, addToCart]);
 
     return (
         <div>
@@ -46,7 +69,7 @@ const SliderMainPage = () => {
                     modules={[Pagination, Navigation]}
                     spaceBetween={30}
                     slidesPerView={1}
-                    // navigation
+
                     pagination={{
                         clickable: true,
                         el: ".custom-pagination",
@@ -78,7 +101,7 @@ const SliderMainPage = () => {
                                     ${product.price.toFixed(2)}
                                 </p>
                                 <button
-                                    onClick={() => addToCart(product.id)}
+                                    onClick={() => handleAddToCart(product.id)}
                                     className="bg-[#9acfaf] text-[#2a4637] font-semibold py-2 px-4 rounded hover:bg-[#7aaa8d] transition"
                                 >
                                     Add
@@ -89,6 +112,8 @@ const SliderMainPage = () => {
                 </Swiper>
             )}
             <div className="custom-pagination mt-6 flex justify-center"/>
+
+            <AuthPromptModal isOpen={isAuthModalVisible} onClose={closeAuthModal}/>
         </div>
     )
 

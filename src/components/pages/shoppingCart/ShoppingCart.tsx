@@ -4,13 +4,18 @@ import CartItem from "./CartItem.tsx";
 import {useCartActions} from "../../../features/hooks/useCartAction.ts";
 import type Product from "../../clasess/Product.ts";
 
+interface CartItemType {
+    product: Product;
+    quantity: number;
+}
+
 const ShoppingCart = () => {
-    const [items, setItems] = useState<{ product: Product; quantity: number }[]>([]);
+    const [items, setItems] = useState<CartItemType[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const {getCart, addToCart, removeFromCart} = useCartActions();
+    const {getCart, addToCart, removeFromCart, removeAllFromCart} = useCartActions();
 
-    const fetchCartItems = useCallback( async () => {
+    const fetchCartItems = useCallback(async () => {
         setLoading(true);
         setError(null);
 
@@ -26,14 +31,15 @@ const ShoppingCart = () => {
                 try {
                     const product = await getProductById(item.productId);
                     return {product, quantity: item.quantity};
-                }catch (productError){
+                } catch (productError) {
                     console.error(`Error fetching cart ${item.productId}: `, productError);
                     return null;
                 }
             });
 
             const fullItemsWithNull = await Promise.all(productPromises);
-            const loadedItems = fullItemsWithNull.filter(i => i !== null) as {product: Product; quantity: number}[];
+            const loadedItems = fullItemsWithNull.filter(i =>
+                i !== null) as CartItemType[];
 
             setItems(loadedItems);
 
@@ -46,30 +52,66 @@ const ShoppingCart = () => {
     }, [getCart]);
 
     const handleAdd = useCallback(async (productId: string) => {
-        setLoading(true);
         try {
             await addToCart(productId);
-            await fetchCartItems();
+
+            setItems(prevItems => {
+                const itemIndex = prevItems.findIndex(item => item.product.id === productId);
+                if (itemIndex > -1) {
+                    const newItems = [...prevItems];
+                    newItems[itemIndex] = {
+                        ...newItems[itemIndex],
+                        quantity: newItems[itemIndex].quantity + 1
+                    };
+                    return newItems;
+                }
+                return prevItems;
+            });
+
         } catch (err: any) {
             setError(err.message || "Failed to add product.");
-        } finally {
-            setLoading(false);
+            await fetchCartItems();
         }
     }, [addToCart, fetchCartItems]);
 
-       const handleRemove = useCallback(async (productId: string) => {
-        setLoading(true);
+    const handleRemove = useCallback(async (productId: string) => {
+
         try {
             await removeFromCart(productId);
-            await fetchCartItems();
+
+            setItems(prevItems => {
+                const itemIndex = prevItems.findIndex(item => item.product.id === productId);
+                if (itemIndex > -1) {
+                    const currentQuantity = prevItems[itemIndex].quantity;
+                    if (currentQuantity > 1) {
+                        const newItems = [...prevItems];
+                        newItems[itemIndex] = {
+                            ...newItems[itemIndex],
+                            quantity: newItems[itemIndex].quantity - 1
+                        };
+                        return newItems;
+                    } else {
+                        return prevItems.filter(item => item.product.id !== productId);
+                    }
+                }
+                return prevItems;
+            });
+
         } catch (err: any) {
             setError(err.message || "Failed to remove product.");
-        } finally {
-            setLoading(false);
+            await fetchCartItems()
         }
     }, [removeFromCart, fetchCartItems]);
 
-
+    const handleRemoveAll = useCallback(async (productId: string) => {
+        try {
+            await removeAllFromCart(productId);
+            setItems(prevItems => prevItems.filter(item => item.product.id !== productId));
+        } catch (err: any) {
+            setError(err.message || "Failed to remove product.");
+            await fetchCartItems();
+        }
+    }, [removeAllFromCart, fetchCartItems]);
 
     useEffect(() => {
         fetchCartItems();
@@ -80,17 +122,22 @@ const ShoppingCart = () => {
 
     return (
         <div className="h-screen p-6 bg-[#fefaf1] text-[#2a4637]">
+            <div className="mb-40"></div>
+
             <h2 className="text-3xl font-bold mb-4 text-center">Shopping Cart</h2>
 
             {items.length > 0 ? (
-                      <div className="w-full max-w-lg mx-auto space-y-4">
+                <div
+
+                    className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 p-4">
                     {items.map(({product, quantity}) => (
-                                             <CartItem
+                        <CartItem
                             key={product.id}
                             product={product}
                             quantity={quantity}
                             onAdd={() => handleAdd(product.id)}
                             onRemove={() => handleRemove(product.id)}
+                            onRemoveAll={() => handleRemoveAll(product.id)}
                         />
                     ))}
                 </div>

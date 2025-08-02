@@ -12,7 +12,8 @@ const PersonalAccount = () => {
     const location = useLocation();
     const {loginUser} = useAuthActions();
 
-    const from = (location.state as { from?: Location })?.from?.pathname || "/";
+    // const from = (location.state as { from?: Location })?.from?.pathname || "/";
+    const from = (location.state as { from?: string })?.from || "/";
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();

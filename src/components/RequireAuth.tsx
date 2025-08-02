@@ -9,20 +9,20 @@ interface Props {
 }
 
 const RequireAuth = ({children}: Props) => {
-    const {accessToken} = useAuth();
+    const {accessToken, accessTokenLoaded} = useAuth();
     const {loadingUser, isAuthenticated} = useCurrentUser();
     const location = useLocation();
 
-
-    if (!accessToken && !isAuthenticated) {
-        return <Navigate to="/auth/login" state={{from: location}} replace/>
-    }
-
-    if (!accessToken && loadingUser) {
+    if (!accessTokenLoaded || loadingUser) {
         return <div className="text-center mt-40">
             Loading .... Pam-Pam-Spinner
         </div>
     }
+
+    if (!isAuthenticated && !accessToken) {
+        return <Navigate to="/auth/login" state={{from: location}} replace/>
+    }
+
 
     return children;
 }

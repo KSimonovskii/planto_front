@@ -21,7 +21,7 @@ interface DataForFilters {
     categories: [];
 }
 
-export const getProductsTable = async (page: number, sort?: Sort, filters?: Filter[]) => {
+export const getProductsTable = async (page?: number, sort?: Sort, filters?: Filter[]) => {
 
     const withFilters = filters && filters.length > 0;
 
@@ -35,6 +35,8 @@ export const getProductsTable = async (page: number, sort?: Sort, filters?: Filt
         sort = new Sort("NameAsc", "name", 1, "Name (from A to Z)");
     }
 
+    const pageNumber = page ?? 1;
+
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
 
@@ -46,7 +48,7 @@ export const getProductsTable = async (page: number, sort?: Sort, filters?: Filt
     }
 
     const raw = JSON.stringify({
-        page: page - 1,
+        page: pageNumber - 1,
         size: SIZE_PAGE,
         field: sort.field,
         direction: sort.direction,

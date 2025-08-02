@@ -15,7 +15,11 @@ export function useCurrentUser() {
         setLoadingUser(true);
         setErrorUser(null);
 
-        if (!accessToken && !accessTokenLoaded) {
+        if (!accessTokenLoaded) {
+            return;
+        }
+
+        if (!accessToken) {
             setUser(null);
             setLoadingUser(false);
             setErrorUser("Access token missing and token loading not in progress");
@@ -23,11 +27,6 @@ export function useCurrentUser() {
         }
 
         try {
-            if (!accessToken) {
-                setUser(null);
-                setLoadingUser(false);
-                return;
-            }
             const decoded = parseJwt(accessToken);
             const login = decoded.sub;
             const userAccount = await getUserByLogin(login);
