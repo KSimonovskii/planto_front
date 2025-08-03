@@ -10,6 +10,8 @@ import ShoppingCart from "./pages/shoppingCart/ShoppingCart.tsx";
 import Store from "./pages/store/Store.tsx";
 import RequireAuth from "./RequireAuth.tsx";
 import AboutUs from "./pages/aboutUs/AboutUs.tsx";
+import RequireAuthAdministrator from "./RequireAuthAdministrator.tsx";
+import AdminDashboard from "./pages/forAdministrator/AdminDashboard.tsx";
 
 
 const Workspace = () => {
@@ -20,35 +22,46 @@ const Workspace = () => {
             {[`auth/login`].map(path =>
                 <Route key={path} path={path} element={<PersonalAccount/>}/>)}
 
-            {['account/register'].map(path =>
+            {[`account/register`].map(path =>
                 <Route key={path} path={path} element={<AccountRegister/>}/>)}
 
+            {[`products`].map(path =>
+                <Route key={path} path={path} element={
+                    <RequireAuthAdministrator>
+                        <ProductsManager/>
+                    </RequireAuthAdministrator>
+                }/>)}
 
-            {['/', navItems[0].path, `${navItems[0].path}/`].map(path =>
+            {[navItems[5].path].map(path =>
+                <Route key={path} path={path} element={
+                    <RequireAuthAdministrator>
+                        <AdminDashboard/>
+                    </RequireAuthAdministrator>
+                }/>)}
+
+            {['/', navItems[0].path].map(path =>
                 <Route key={path} path={path} element={<Home/>}/>)}
 
-            {['/', navItems[2].path, `${navItems[2].path}/`].map(path =>
-                <Route key={path} path={path} element={<ProductsManager/>}/>)}
-
-            {[navItems[3].path].map(path =>
+            {[navItems[2].path].map(path =>
                 <Route key={path} path={path} element={
                     <RequireAuth>
                         <ShoppingCart/>
                     </RequireAuth>
                 }/>)}
 
-            {[navItems[4].path].map(path =>
+            {[navItems[3].path].map(path =>
                 <Route key={path} path={path} element={
                     <RequireAuth>
                         <AccountDashboard/>
                     </RequireAuth>
                 }/>)}
 
-            {[navItems[5].path].map(path =>
+            {[navItems[4].path].map(path =>
                 <Route key={path} path={path} element={<Store/>}/>)}
 
-            {['about'].map(path =>
+            {[navItems[1].path].map(path =>
                 <Route key={path} path={path} element={<AboutUs/>}/>)}
+
 
             <Route path={'*'} element={<ErrorPage msg={"Page not found"}/>}/>
         </Routes>

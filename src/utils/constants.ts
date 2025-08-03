@@ -1,11 +1,4 @@
-import {
-    Home,
-    Package,
-    Store,
-    ShoppingCart,
-    Info,
-    LogIn,
-} from "lucide-react";
+import {Home, Info, LayoutDashboard, LogIn, /*Package*/ ShoppingCart, Store} from "lucide-react";
 import {directions} from "./enums/directions.ts";
 import emptyPhoto from "../assets/empty-foto.jpg";
 import {filterTypes} from "./enums/filterTypes.ts";
@@ -18,17 +11,18 @@ import Filter from "../components/clasess/Filter.ts";
 export const navItems: NavItem[] = [
     {title: 'Home', path: 'main', icon: Home, adminOnly: false},
     {title: 'About us', path: 'about', icon: Info, adminOnly: false},
-    {title: 'Products', path: 'products', icon: Package, adminOnly: true},
     {title: 'Shopping cart', path: 'cart', icon: ShoppingCart, adminOnly: false},
     {title: 'My account', path: 'accountDashboard', icon: LogIn, adminOnly: false},
-    {title: 'Store', path: 'store', icon: Store, adminOnly: false}
+    {title: 'Store', path: 'store', icon: Store, adminOnly: false},
+    // {title: 'Products', path: 'products', icon: Package, adminOnly: true},
+    {title: 'Admin Dashboard', path: 'admin/dashboard', icon: LayoutDashboard, adminOnly: true},
 ]
 
 // export const BASE_URL = "https://planto-gp2i.onrender.com"
 export const BASE_URL = "http://localhost:8080";
 
 export const SIZE_PAGE = 8;
-export const DEFAULT_SORT = new Sort("NameAsc","name", directions.Ascending, "Name (from A to Z)");
+export const DEFAULT_SORT = new Sort("NameAsc", "name", directions.Ascending, "Name (from A to Z)");
 export const paramsOfSorts = [
     DEFAULT_SORT,
     new Sort("NameDesc", "name", directions.Descending, "Name (from Z to A)"),
@@ -39,8 +33,9 @@ export const paramsOfSorts = [
 export const EMPTY_PHOTO = emptyPhoto;
 export const FILTER_NAME = new Filter("name", filterTypes.like, "string", "");
 export const FILTER_CATEGORY = new Filter("category", filterTypes.in, "string", undefined, undefined, undefined, []);
-export const FILTER_PRICE = new Filter("price", filterTypes.range, "double",undefined, 0, 0);
+export const FILTER_PRICE = new Filter("price", filterTypes.range, "double", undefined, 0, 0);
 export const DATA_FOR_FILTERS = {maxPrice: 0, categories: []};
+
 export interface FILTER_PROPS {
     filter: Filter
     setFilter: Dispatch<SetStateAction<Filter>>
