@@ -1,12 +1,10 @@
 import {paramsOfSorts} from "../../../utils/constants.ts";
-import {getProductsTable} from "../../../features/api/productAction.ts";
 import {useContext} from "react";
-import {PageContext, ProductsContext} from "../../../utils/context.ts";
+import {PageContext} from "../../../utils/context.ts";
 
 const Sorting = () => {
 
-    const {setProductsData} = useContext(ProductsContext);
-    const {pageNumber, filters, setPage} = useContext(PageContext);
+    const {setPage} = useContext(PageContext);
 
     const handleSelectSort = async (name: string) => {
         const currSort = paramsOfSorts.find((sort) => sort.name === name);
@@ -15,7 +13,6 @@ const Sorting = () => {
         }
 
         setPage((prevState) => ({...prevState, sort: currSort}));
-        setProductsData(await getProductsTable(pageNumber, currSort, filters));
     }
 
     return (

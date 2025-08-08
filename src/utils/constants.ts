@@ -1,6 +1,6 @@
 import type {Item} from './types'
 
-import {Home, Package,} from "lucide-react";
+import {Home, Package} from "lucide-react";
 import Sort from "../features/classes/Sort.ts";
 import {directions} from "./enums/directions.ts";
 import emptyPhoto from "../assets/empty-foto.jpg";
@@ -10,7 +10,7 @@ import type {Dispatch, SetStateAction} from "react";
 
 export const navItems: Item[] = [
     {title: 'Main', path: 'main', icon: Home},
-    {title: 'Products', path: 'products', icon: Package}
+    {title: 'Products', path: 'products', icon: Package},
 ]
 
 export const SIZE_PAGE = 8;

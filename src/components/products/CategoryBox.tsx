@@ -22,7 +22,7 @@ const CategoryBox = ({category, setCategory, twClass}: PropsCategoryBox) => {
 
     const categories = DATA_FOR_FILTERS.categories;
 
-    const filtered = query === "" ? categories : categories.filter(category => category.toLowerCase().includes(query.toLowerCase()));
+    const filtered = query === "" ? [] : categories.filter(category => category.toLowerCase().includes(query.toLowerCase()));
 
     return (
         <Field className={"flex items-center w-full"}>
@@ -46,6 +46,11 @@ const CategoryBox = ({category, setCategory, twClass}: PropsCategoryBox) => {
                     anchor={"bottom start"}
                     transition={true}
                     className={"border-1 rounded-xl border-base-form bg-base-bg p-2 [--anchor-gap:--spacing(1)] empty:invisible transition duration-100 ease-in data-leave:data-closed:opacity-0"}>
+                    {filtered.length === 0 && (
+                        <ComboboxOption value={query} className={"data-focus:bg-base-form/10"}>
+                            Create <span className={"font-bold"}>"{query}"</span>
+                        </ComboboxOption>
+                    )}
                     {filtered.map(category => (
                         <ComboboxOption
                             key={category}

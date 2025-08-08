@@ -18,7 +18,7 @@ const Workspace = () => {
                 <Route key={path} path={path} element={<Home/>}/>)}
             {['/', navItems[1].path, `${navItems[1].path}/:pageNumber`].map(path =>
                 <Route key={path} path={path} element={<ProductsManager/>}/>)}
-           <Route path={'*'} element={<ErrorPage msg={"Page not found"}/>}/>
+            <Route path={'*'} element={<ErrorPage msg={"Page not found"}/>}/>
         </Routes>
         </PageContext.Provider>
     )

@@ -1,11 +1,12 @@
-import {PageContext, ProductsContext} from "../../../utils/context.ts";
+import {ProductsContext} from "../../../utils/context.ts";
 import {useContext, useRef, useState} from "react";
 import Product from "../../../features/classes/Product.ts";
-import {getProductsTable, removeProductFromTable, updateProduct} from "../../../features/api/productAction.ts";
 import {SquarePen, Trash2, SquareCheckBig, SquareX} from "lucide-react";
 import {EMPTY_PHOTO} from "../../../utils/constants.ts";
 import ImagePopup from "../ImagePopup.tsx";
 import CategoryBox from "../CategoryBox.tsx";
+import {useRemoveProductMutation, useUpdateProductMutation} from "../../../features/api/productApi.ts";
+import {uploadFile} from "../../../features/api/imageAction.ts";
 
 interface PropsProduct {
     product: Product,
@@ -15,8 +16,9 @@ const RowProductsTable = (props: PropsProduct) => {
 
     const EMPTY_FILE = new File([], "", {type: "image/jpg"});
 
-    const {products, setProductsData} = useContext(ProductsContext);
-    const {pageNumber, sort, filters} = useContext(PageContext);
+    const {products} = useContext(ProductsContext);
+    const [removeProduct] = useRemoveProductMutation();
+    const [updateProduct] = useUpdateProductMutation();
 
     // TODO try wrapped with HOC
     const [idEditProduct, setIdEditProduct] = useState("");
@@ -39,21 +41,29 @@ const RowProductsTable = (props: PropsProduct) => {
         }
     }
 
-    const removeProduct = async (id: string) => {
-        const res = await removeProductFromTable(id);
-        if (res){
-            setProductsData(await getProductsTable(pageNumber, sort, filters));
-        }
+    const handleRemoveProduct = async (id: string) => {
+        removeProduct(id);
     }
 
     const saveChanges = async (id: string) => {
 
-        const updProduct = new Product(id, nameProduct, category, qty, price, imageUrl, description);
-        const res = await updateProduct(updProduct, imageFile);
-        setIdEditProduct("");
-        if (res) {
-            setProductsData(await getProductsTable(pageNumber, sort, filters));
+        let newImageUrl = imageUrl;
+        if (imageFile.size != 0) {
+            newImageUrl = await uploadFile(imageFile, nameProduct);
         }
+
+        const raw = {
+            id: id,
+            name: nameProduct,
+            category: category,
+            quantity: qty,
+            price: price,
+            imageUrl: newImageUrl,
+            description: description
+        };
+        updateProduct(raw);
+
+        setIdEditProduct("");
     }
 
     const cancelChanges = () => {
@@ -109,11 +119,6 @@ const RowProductsTable = (props: PropsProduct) => {
                                 className={"inputFieldTable"}
                                 value={nameProduct}
                                 onChange={(e) => setName(e.target.value)}/>
-    // const fieldCategory = <input
-    //                                 id={`category_${product.id}`}
-    //                                 className={"inputFieldTable"}
-    //                                 value={category}
-    //                                 onChange={(e) => setCategory(e.target.value)}/>
     const fieldCategory = <CategoryBox category={category} setCategory={setCategory} twClass={"inputFieldTable"}/>;
     const fieldQty = <input
                                 id={`qty_${product.id}`}
@@ -154,7 +159,7 @@ const RowProductsTable = (props: PropsProduct) => {
             <th className={"pl-2 text-color-base-text"}>
                 <div className={"flex flex-row justify-start space-x-1"}>
                     <SquarePen onClick={() => editProduct(product.id)} className={`${idEditProduct == product.id ? 'hidden' : ''} cursor-pointer`}/>
-                    <Trash2 onClick={() => removeProduct(product.id)} className={`${idEditProduct == product.id ? 'hidden' : ''} cursor-pointer`}/>
+                    <Trash2 onClick={() => handleRemoveProduct(product.id)} className={`${idEditProduct == product.id ? 'hidden' : ''} cursor-pointer`}/>
                     <SquareCheckBig onClick={() => saveChanges(product.id)} className={`${idEditProduct == product.id ? '' : 'hidden'} cursor-pointer`}/>
                     <SquareX onClick={() => cancelChanges()} className={`${idEditProduct == product.id ? '' : 'hidden'} cursor-pointer`}/>
                 </div>

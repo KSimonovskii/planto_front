@@ -1,12 +1,13 @@
 import {useContext, useState} from "react";
 import {PageContext} from "../../utils/context.ts";
-import {DATA_FOR_FILTERS, FILTER_CATEGORY} from "../../utils/constants.ts";
+import {FILTER_CATEGORY} from "../../utils/constants.ts";
 import FilterPrice from "./FilterPrice.tsx";
 import FilterCategory from "./FilterCategory.tsx";
 import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 import {getToInitialState} from "../../features/slices/priceRangeSlice.ts";
 import Filter from "../../features/classes/Filter.ts";
 import {filterTypes} from "../../utils/enums/filterTypes.ts";
+import {useGetDataForFiltersQuery} from "../../features/api/productApi.ts";
 
 export const Filters = () => {
 
@@ -18,9 +19,11 @@ export const Filters = () => {
     const filterPrice = new Filter("price", filterTypes.range, "double",undefined, priceValue.valueFrom, priceValue.valueTo)
     const dispatch = useAppDispatch();
 
+    const {data = {price: 0, categories: []}} = useGetDataForFiltersQuery();
+
     const handlerAcceptFilters = () => {
 
-        if (filterPrice.valueFrom != 0 && filterPrice.valueTo != DATA_FOR_FILTERS.maxPrice) {
+        if (filterPrice.valueFrom != 0 && filterPrice.valueTo != data.price) {
             filterPrice.isChanged = true;
         }
 

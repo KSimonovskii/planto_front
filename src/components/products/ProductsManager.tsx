@@ -1,39 +1,40 @@
-import {useContext, useEffect, useState} from "react";
-import {getProductsTable} from "../../features/api/productAction.ts";
+import {useContext, useMemo} from "react";
+import {getBodyForQueryGetProducts} from "../../features/api/productAction.ts";
 import {PageContext, ProductsContext} from "../../utils/context.ts";
 import AddProduct from "../AddProduct.tsx";
 import ProductsView from "./table/ProductsView.tsx";
-import type {DataTableProducts} from "../../utils/types";
-import {useNavigate} from "react-router";
+import {useGetProductsTableRTKQuery} from "../../features/api/productApi.ts";
+import Product from "../../features/classes/Product.ts";
 
 const ProductsManager = () => {
 
-    const [productsData, setProductsData] = useState<DataTableProducts>({products: [], pages: 0});
     const {pageNumber, sort, filters} = useContext(PageContext);
-    const navigate = useNavigate();
 
-    useEffect(() => {
+    const {data = {products: [], pages: 0}, isLoading, isError, error} = useGetProductsTableRTKQuery(getBodyForQueryGetProducts(pageNumber, sort, filters));
 
-        const getProducts = async () => {
-            try {
-                const result = await getProductsTable(pageNumber, sort, filters);
-                setProductsData(result);
-            } catch (error) {
-                console.error(error)
-                //navigate('/error', {state: {message: `Can't receive data from database by reason ${error}`}});
-            }
+    const products = useMemo(() => {
+            return data.products.map((p: Product) => new Product(p.id, p.name, p.category, p.quantity, p.price, p.imageUrl, p.description));
+        },
+        [data.products]
+    )
+
+    if (isLoading) return <h2>Loading....</h2>
+    if (isError) {
+        let errorMsg = "";
+        if ('status' in error) {
+            errorMsg = `Error: ${error.status} - ${error.data}`;
+        } else {
+            errorMsg = "Unknown error";
         }
-
-        getProducts().catch(console.error);
-
-    }, [pageNumber, sort, filters, navigate])
+        return <h2>{errorMsg}</h2>
+    }
 
     return (
         <div className={"col-span-6"}>
             <ProductsContext.Provider value={{
-                products: productsData.products,
-                pages: productsData.pages,
-                setProductsData: setProductsData
+                products: products,
+                pages: data.pages,
+                setProductsData: () => {},
             }}>
                     <AddProduct/>
                     <ProductsView/>

@@ -1,9 +1,8 @@
-import {useContext, useState} from "react";
-import Product from "../features/classes/Product.ts";
-import {PageContext, ProductsContext} from "../utils/context.ts";
-import {getProductsTable, addProductToTable} from "../features/api/productAction.ts";
+import {useState} from "react";
 import {EMPTY_PHOTO} from "../utils/constants.ts"
 import CategoryBox from "./products/CategoryBox.tsx";
+import {useAddProductMutation} from "../features/api/productApi.ts";
+import {uploadFile} from "../features/api/imageAction.ts";
 
 const AddProduct = () => {
 
@@ -17,17 +16,27 @@ const AddProduct = () => {
     const [imageFile, setImage] = useState(EMPTY_FILE);
     const [imageUrl, setImageUrl] = useState("");
     const [description, setDescription] = useState("");
-    const {setProductsData: setProductsData} = useContext(ProductsContext);
-    const {pageNumber, sort, filters} = useContext(PageContext);
+    const [addProduct] = useAddProductMutation();
 
-    const addProduct = async (e: React.FormEvent) => {
+    const handleAddProduct = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const id = Math.random().toString(32).substring(2);
-        const newProduct = new Product(id, nameProduct.trim(), category.trim(), qty, price, "", description);
+        const imageUrl = imageFile? await uploadFile(imageFile, nameProduct.trim()) : "";
 
-        const res = await addProductToTable(newProduct, imageFile);
-        if (res){
+        const raw = JSON.stringify({
+            name: nameProduct.trim(),
+            category: category.trim(),
+            quantity: qty,
+            price: price,
+            imageUrl: imageUrl,
+            description: description.trim()
+        });
+
+        const res = await addProduct(raw).unwrap();
+
+        if (res.error) {
+            console.log(res.error);
+        } else if (res){
             setName("");
             setCategory("");
             setPrice(0);
@@ -35,7 +44,6 @@ const AddProduct = () => {
             setImage(EMPTY_FILE);
             setImageUrl("");
             setDescription("");
-            setProductsData(await getProductsTable(pageNumber, sort, filters));
         }
     }
 
@@ -59,7 +67,7 @@ const AddProduct = () => {
     }
 
     return (
-        <form onSubmit={addProduct}>
+        <form onSubmit={handleAddProduct}>
             <h1 className={'text-base-form'}>Add new product:</h1>
             {/*TODO change to components    */}
             <div className={"flex flex-row justify-between align-top w-170"}>
