@@ -33,6 +33,7 @@ interface NavItem {
     path: string
     icon: LucideIcon
     adminOnly: boolean
+    userOnly?: boolean
 }
 
 interface OrderItemDto {

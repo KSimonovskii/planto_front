@@ -19,6 +19,7 @@ const ShoppingCart = () => {
     const [error, setError] = useState<string | null>(null);
     const {getCart, addToCart, removeFromCart, removeAllFromCart} = useCartActions();
 
+
     const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
     const {isAuthenticated} = useCurrentUser();
     const [isOrderSuccessOpen, setIsOrderSuccessOpen] = useState(false);

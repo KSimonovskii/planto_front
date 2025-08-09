@@ -10,10 +10,14 @@ const Navigation = () => {
     const {isAdmin} = useCurrentUser();
 
     const visibleItems = useMemo(() => {
-        console.log("Recalculating visibleItems based on isAdmin:", isAdmin); // Для отладки
         return navItems.filter(item => {
-
-            return !(item.adminOnly && !isAdmin);
+            if (item.adminOnly && !isAdmin) {
+                return false;
+            }
+            if (item.userOnly && isAdmin) {
+                return false;
+            }
+            return true;
         });
     }, [isAdmin]);
 

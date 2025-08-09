@@ -1,4 +1,4 @@
-import {Home, Info, LayoutDashboard, LogIn, /*Package*/ ShoppingCart, Store} from "lucide-react";
+import {Home, Info, LayoutDashboard, LogIn, /*Package,*/ ShoppingCart, Store} from "lucide-react";
 import {directions} from "./enums/directions.ts";
 import emptyPhoto from "../assets/empty-foto.jpg";
 import {filterTypes} from "./enums/filterTypes.ts";
@@ -11,7 +11,7 @@ import Filter from "../components/clasess/Filter.ts";
 export const navItems: NavItem[] = [
     {title: 'Home', path: 'main', icon: Home, adminOnly: false},
     {title: 'About us', path: 'about', icon: Info, adminOnly: false},
-    {title: 'Shopping cart', path: 'cart', icon: ShoppingCart, adminOnly: false},
+    {title: 'Shopping cart', path: 'cart', icon: ShoppingCart, adminOnly: false, userOnly: true},
     {title: 'My account', path: 'accountDashboard', icon: LogIn, adminOnly: false},
     {title: 'Store', path: 'store', icon: Store, adminOnly: false},
     // {title: 'Products', path: 'products', icon: Package, adminOnly: true},

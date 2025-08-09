@@ -22,25 +22,21 @@ const Workspace = () => {
             {[`auth/login`].map(path =>
                 <Route key={path} path={path} element={<PersonalAccount/>}/>)}
 
-            {[`account/register`].map(path =>
+            {['account/register'].map(path =>
                 <Route key={path} path={path} element={<AccountRegister/>}/>)}
 
-            {[`products`].map(path =>
+            {['products'].map(path =>
                 <Route key={path} path={path} element={
                     <RequireAuthAdministrator>
                         <ProductsManager/>
                     </RequireAuthAdministrator>
                 }/>)}
 
-            {[navItems[5].path].map(path =>
-                <Route key={path} path={path} element={
-                    <RequireAuthAdministrator>
-                        <AdminDashboard/>
-                    </RequireAuthAdministrator>
-                }/>)}
-
-            {['/', navItems[0].path].map(path =>
+            {['/', navItems[0].path, `${navItems[0].path}/`].map(path =>
                 <Route key={path} path={path} element={<Home/>}/>)}
+
+            {[navItems[1].path].map(path =>
+                <Route key={path} path={path} element={<AboutUs/>}/>)}
 
             {[navItems[2].path].map(path =>
                 <Route key={path} path={path} element={
@@ -59,8 +55,18 @@ const Workspace = () => {
             {[navItems[4].path].map(path =>
                 <Route key={path} path={path} element={<Store/>}/>)}
 
-            {[navItems[1].path].map(path =>
-                <Route key={path} path={path} element={<AboutUs/>}/>)}
+            {[navItems[5].path].map(path =>
+                <Route key={path} path={path} element={
+                    <RequireAuthAdministrator>
+                        <AdminDashboard/>
+                    </RequireAuthAdministrator>
+                }/>)}
+
+
+
+
+
+
 
 
             <Route path={'*'} element={<ErrorPage msg={"Page not found"}/>}/>
