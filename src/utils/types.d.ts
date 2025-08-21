@@ -18,3 +18,14 @@ export interface PageProductsData{
     filters: Filter[]
 }
 
+export interface ProductData {
+    id?: string,
+    name: string,
+    category: string,
+    qty: number,
+    price: number,
+    description: string,
+    imageUrl: string,
+    imageFile: File | null
+}
+

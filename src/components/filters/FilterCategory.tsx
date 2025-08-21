@@ -31,6 +31,7 @@ const FilterCategory = ({filter, setFilter}: FILTER_PROPS) => {
                     </label> :
                     filter.valueList.map(category => (
                         <label
+                            key={category}
                             className={"text-base-text px-2 mx-1 border-2 rounded-md cursor-pointer"}
                             onClick={() => deleteValue(category)}>
                             {category}

@@ -18,7 +18,6 @@ interface PropsCategoryBox {
 
 const CategoryBox = ({category, setCategory, twClass}: PropsCategoryBox) => {
     const [query, setQuery] = useState("");
-    // const [selected, setSelected] = useState("");
 
     const categories = DATA_FOR_FILTERS.categories;
 

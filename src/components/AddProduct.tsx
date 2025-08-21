@@ -1,69 +1,19 @@
-import {useState} from "react";
 import {EMPTY_PHOTO} from "../utils/constants.ts"
 import CategoryBox from "./products/CategoryBox.tsx";
-import {useAddProductMutation} from "../features/api/productApi.ts";
-import {uploadFile} from "../features/api/imageAction.ts";
+import {useInputProduct} from "./products/hooks/useInputProduct.tsx"
 
 const AddProduct = () => {
 
-    const EMPTY_FILE = new File([], "", {type: "image/jpg"});
+    const {productData,
+        handleInputProductData,
+        handleInputCategory,
+        handleSelectFile,
+        handleAddProduct} = useInputProduct(null);
 
-    //TODO custom hook
-    const [nameProduct, setName] = useState("");
-    const [category, setCategory] = useState("");
-    const [qty, setQty] = useState(0);
-    const [price, setPrice] = useState(0);
-    const [imageFile, setImage] = useState(EMPTY_FILE);
-    const [imageUrl, setImageUrl] = useState("");
-    const [description, setDescription] = useState("");
-    const [addProduct] = useAddProductMutation();
+    const {name, category, qty, price, description, imageUrl} = productData;
 
-    const handleAddProduct = async (e: React.FormEvent) => {
-        e.preventDefault();
-
-        const imageUrl = imageFile? await uploadFile(imageFile, nameProduct.trim()) : "";
-
-        const raw = JSON.stringify({
-            name: nameProduct.trim(),
-            category: category.trim(),
-            quantity: qty,
-            price: price,
-            imageUrl: imageUrl,
-            description: description.trim()
-        });
-
-        const res = await addProduct(raw).unwrap();
-
-        if (res.error) {
-            console.log(res.error);
-        } else if (res){
-            setName("");
-            setCategory("");
-            setPrice(0);
-            setQty(0);
-            setImage(EMPTY_FILE);
-            setImageUrl("");
-            setDescription("");
-        }
-    }
-
-    if (imageFile.size != 0) {
-        const fr = new FileReader();
-        fr.readAsDataURL(imageFile);
-        fr.onloadend = () => {
-            if (fr.result != null){
-                setImageUrl(fr.result as string);
-            }
-        }
-    }
-
-    const handleSelectFile = (event: React.ChangeEvent<HTMLInputElement>) => {
-        event.preventDefault();
-        if (!event.target.files
-                || event.target.files.length == 0) {
-            return;
-        }
-        setImage(event.target.files[0]);
+    const handleChangeDataProduct = (e: React.ChangeEvent<HTMLInputElement>) => {
+        handleInputProductData(e.target.id, e.target.value);
     }
 
     return (
@@ -73,24 +23,24 @@ const AddProduct = () => {
             <div className={"flex flex-row justify-between align-top w-170"}>
                 <div className={"flex flex-col place-items-stretch w-2/3"}>
                     <label className={"label flex"}>Name:
-                        <input type={"text"} id={"name"} required={true} value={nameProduct}
-                               onChange={(e) => setName(e.target.value)}
+                        <input type={"text"} id={"name"} required={true} value={name}
+                               onChange={handleChangeDataProduct}
                                className={"inputField ml-8 mt-1 w-full"}/>
                     </label>
-                    <CategoryBox category={category} setCategory={setCategory} twClass={"inputField"}/>
+                    <CategoryBox category={category} setCategory={handleInputCategory} twClass={"inputField"}/>
                     <label className={"label flex"}>Quantity:
                         <input type={"number"} id={"qty"} value={qty == 0 ? "" : qty} min={0}
-                               onChange={(e) => setQty(Number(e.target.value))}
+                               onChange={handleChangeDataProduct}
                                className={"inputField ml-3 w-full"}/>
                     </label>
                     <label className={"label flex"}>Price:
                         <input type={"number"} step={"0.01"} id={"price"} value={price == 0 ? "" : price} min={0}
-                               onChange={(e) => setPrice(Number(e.target.value))}
+                               onChange={handleChangeDataProduct}
                                className={"inputField ml-9.5 w-full"}/>
                     </label>
-                    <label className={"block text-base-form"}>Description:</label>
+                    <label className={"block text-base-form overscroll-y-auto"}>Description:</label>
                     <textarea rows={5} cols={40} id={"description"} value={description}
-                              onChange={(e) => setDescription(e.target.value)}
+                              onChange={handleChangeDataProduct}
                               className={"inputField"}/>
                 </div>
                 <div>
@@ -100,7 +50,7 @@ const AddProduct = () => {
                         <label
                             className={"flex button items-center justify-center w-50 h-10"}>Download image
                             <input type={"file"} id={"image"} accept={"image/*"}
-                                   onChange={(e) => handleSelectFile(e)}
+                                   onChange={handleSelectFile}
                                    className={"hidden w-50 h-5"}/>
                         </label>
                     </div>

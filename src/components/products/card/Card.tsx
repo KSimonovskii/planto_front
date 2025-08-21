@@ -83,7 +83,7 @@ export const Card = (props: PropsProduct) => {
     return (
         <>
             <div className={"border-base-form border-1 rounded-2xl flex flex-col items-center justify-between w-80 h-55 p-1"}>
-                <div className={"flex flex-row justify-around w-full"}>
+                <div className={"flex flex-row justify-around w-full h-2/3"}>
                     <div className={"w-30 h-30 my-2"}>
                         <Image urlEndpoint={`${import.meta.env.VITE_IMAGEKIT_ENDPOINT}`}
                                src={imageUrl}
@@ -96,7 +96,7 @@ export const Card = (props: PropsProduct) => {
                     <div className={"flex flex-col items-start justify-start w-2/4"}>
                         <h1 className={"text-base-form text-xl font-bold"}>{product.name}</h1>
                         <h2 className={"text-base-form text-xl"}>{product.category}</h2>
-                        <p className={"text-base-text"}>{product.description}</p>
+                        <p className={"text-base-text max-h-3/4 overflow-y-auto"}>{product.description}</p>
                     </div>
                 </div>
                 <div>

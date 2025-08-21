@@ -1,3 +1,5 @@
+import type {ProductData} from "../../utils/types";
+
 export default class Product {
 
     private readonly _id: string
@@ -70,5 +72,18 @@ export default class Product {
 
     set description(value: string) {
         this._description = value;
+    }
+
+    getProductData() : ProductData{
+        return {
+            id: this.id,
+            name: this.name,
+            category: this.category,
+            qty: this.quantity,
+            price: this.price,
+            imageUrl: this.imageUrl,
+            description: this.description,
+            imageFile: null
+        }
     }
 }
