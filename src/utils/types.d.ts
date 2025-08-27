@@ -29,3 +29,12 @@ export interface ProductData {
     imageFile: File | null
 }
 
+export interface ProductDataForTable {
+    imageUrl: string,
+    name: string,
+    category: string,
+    qty: number,
+    price: number,
+    description: string,
+}
+

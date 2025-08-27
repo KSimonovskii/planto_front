@@ -1,4 +1,4 @@
-import type {ProductData} from "../../utils/types";
+import type {ProductData, ProductDataForTable} from "../../utils/types";
 
 export default class Product {
 
@@ -84,6 +84,17 @@ export default class Product {
             imageUrl: this.imageUrl,
             description: this.description,
             imageFile: null
+        }
+    }
+
+    getProductDataForTable() : ProductDataForTable{
+        return {
+            imageUrl: this.imageUrl,
+            name: this.name,
+            category: this.category,
+            qty: this.quantity,
+            price: this.price,
+            description: this.description,
         }
     }
 }

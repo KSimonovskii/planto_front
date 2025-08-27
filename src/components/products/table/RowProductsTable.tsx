@@ -78,7 +78,7 @@ const RowProductsTable = ({product}: PropsProduct) => {
         }
     }
 
-    const handleChangeDataProduct = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChangeDataProduct = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
         const fieldId = e.target.id;
         const fieldName = fieldId.slice(0, fieldId.indexOf(`_${idEditProduct}`));
         handleInputProductData(fieldName, e.target.value);

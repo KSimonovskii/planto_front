@@ -1,5 +1,6 @@
-@import "rc-slider/assets/index.css";
 @import "tailwindcss";
+@import "rc-slider/assets/index.css";
+@config "../tailwind.config.ts";
 
 @theme {
     --color-base-bg: #f5eade;
@@ -9,6 +10,8 @@
     --color-light-orange: #eec3a9;
     --color-base-form: #405443
 }
+
+
 
 .rc-slider-handle:hover {
     @apply border-alt-text

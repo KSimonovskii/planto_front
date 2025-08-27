@@ -12,6 +12,8 @@
   "dependencies": {
     "@headlessui/react": "^2.2.4",
     "@imagekit/react": "^5.0.1",
+    "@material-tailwind/html": "^3.0.0-beta.7",
+    "@material-tailwind/react": "^2.1.10",
     "@reduxjs/toolkit": "^2.8.2",
     "@tailwindcss/language-server": "^0.14.23",
     "@tailwindcss/vite": "^4.1.10",
