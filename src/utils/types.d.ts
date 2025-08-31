@@ -38,3 +38,13 @@ export interface ProductDataForTable {
     description: string,
 }
 
+export interface AnswerTable {
+    content: [];
+    page: {
+        size: number,
+        number: number,
+        totalElements: number,
+        totalPages: number
+    }
+}
+

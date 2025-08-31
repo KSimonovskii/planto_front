@@ -1,16 +1,17 @@
 import {useContext, useMemo} from "react";
-import {getBodyForQueryGetProducts} from "../../features/api/productAction.ts";
+import {getBodyForQueryGetTable} from "../../features/api/apiUtils.ts";
 import {PageContext, ProductsContext} from "../../utils/context.ts";
-import AddProduct from "../AddProduct.tsx";
+import AddProduct from "./AddProduct.tsx";
 import ProductsView from "./table/ProductsView.tsx";
 import {useGetProductsTableRTKQuery} from "../../features/api/productApi.ts";
 import Product from "../../features/classes/Product.ts";
+import {dataTypes} from "../../utils/enums/dataTypes.ts";
 
 const ProductsManager = () => {
 
     const {pageNumber, sort, filters} = useContext(PageContext);
 
-    const {data = {products: [], pages: 0}, isLoading, isError, error} = useGetProductsTableRTKQuery(getBodyForQueryGetProducts(pageNumber, sort, filters));
+    const {data = {products: [], pages: 0}, isLoading, isError, error} = useGetProductsTableRTKQuery(getBodyForQueryGetTable(dataTypes.products, pageNumber, sort, filters));
 
     const products = useMemo(() => {
             return data.products.map((p: Product) => new Product(p.id, p.name, p.category, p.quantity, p.price, p.imageUrl, p.description));
@@ -32,9 +33,9 @@ const ProductsManager = () => {
     return (
         <div className={"col-span-6"}>
             <ProductsContext.Provider value={{
-                products: products,
+                table: products,
                 pages: data.pages,
-                setProductsData: () => {},
+                setTableData: () => {},
             }}>
                     <AddProduct/>
                     <ProductsView/>

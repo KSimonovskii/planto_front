@@ -1,7 +1,7 @@
 import type {PayloadAction} from "@reduxjs/toolkit";
 
 import {createSlice} from '@reduxjs/toolkit'
-import {DATA_FOR_FILTERS} from "../../utils/constants.ts";
+import {DATA_FOR_PRODUCT_FILTERS} from "../../utils/constants.ts";
 
 interface changePricePayload {
     fieldName: string,
@@ -12,7 +12,7 @@ const filterPriceSlice = createSlice({
     name: "filterPrice",
     initialState: {
         valueFrom: 0,
-        valueTo: DATA_FOR_FILTERS.maxPrice
+        valueTo: DATA_FOR_PRODUCT_FILTERS.maxPrice
     },
     reducers: {
         changePriceRange: (state, action: PayloadAction<changePricePayload>) => {
@@ -24,7 +24,7 @@ const filterPriceSlice = createSlice({
         },
         getToInitialState: (state) => {
            state.valueFrom = 0;
-           state.valueTo = DATA_FOR_FILTERS.maxPrice;
+           state.valueTo = DATA_FOR_PRODUCT_FILTERS.maxPrice;
         }
     }
 })

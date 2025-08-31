@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {DATA_FOR_FILTERS} from "../../utils/constants.ts";
+import {DATA_FOR_PRODUCT_FILTERS} from "../../utils/constants.ts";
 import {
     Combobox,
     ComboboxButton,
@@ -19,7 +19,7 @@ interface PropsCategoryBox {
 const CategoryBox = ({category, setCategory, twClass}: PropsCategoryBox) => {
     const [query, setQuery] = useState("");
 
-    const categories = DATA_FOR_FILTERS.categories;
+    const categories = DATA_FOR_PRODUCT_FILTERS.categories;
 
     const filtered = query === "" ? [] : categories.filter(category => category.toLowerCase().includes(query.toLowerCase()));
 

@@ -1,4 +1,4 @@
-import {DATA_FOR_FILTERS} from "../../utils/constants.ts";
+import {DATA_FOR_PRODUCT_FILTERS} from "../../utils/constants.ts";
 import PriceSlider from "./PriceSlider.tsx";
 import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 import {changePriceRange} from "../../features/slices/priceRangeSlice.ts";
@@ -29,7 +29,7 @@ const FilterPrice = () => {
                         id={"priceFrom"}
                         placeholder={" "}
                         min={0}
-                        max={DATA_FOR_FILTERS.maxPrice}
+                        max={DATA_FOR_PRODUCT_FILTERS.maxPrice}
                         step={"0.01"}
                         value={priceRange.valueFrom ? priceRange.valueFrom : 0}
                         onChange={(e) => handlerChangePrice(e.target, e.target.value)}/>
@@ -45,9 +45,9 @@ const FilterPrice = () => {
                         id={"priceTo"}
                         placeholder={" "}
                         min={0}
-                        max={DATA_FOR_FILTERS.maxPrice}
+                        max={DATA_FOR_PRODUCT_FILTERS.maxPrice}
                         step={"0.01"}
-                        value={!priceRange.valueTo || priceRange.valueTo == 0? DATA_FOR_FILTERS.maxPrice : priceRange.valueTo}
+                        value={!priceRange.valueTo || priceRange.valueTo == 0? DATA_FOR_PRODUCT_FILTERS.maxPrice : priceRange.valueTo}
                         onChange={(e) => handlerChangePrice(e.target, e.target.value)}/>
                 </div>
             </div>

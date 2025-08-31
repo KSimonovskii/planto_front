@@ -1,6 +1,6 @@
-import {EMPTY_PHOTO} from "../utils/constants.ts"
-import CategoryBox from "./products/CategoryBox.tsx";
-import {useInputProduct} from "./products/hooks/useInputProduct.tsx"
+import {EMPTY_PHOTO} from "../../utils/constants.ts"
+import CategoryBox from "./CategoryBox.tsx";
+import {useInputProduct} from "./hooks/useInputProduct.tsx"
 
 const AddProduct = () => {
 
@@ -12,7 +12,7 @@ const AddProduct = () => {
 
     const {name, category, qty, price, description, imageUrl} = productData;
 
-    const handleChangeDataProduct = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChangeDataProduct = (e: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement>) => {
         handleInputProductData(e.target.id, e.target.value);
     }
 

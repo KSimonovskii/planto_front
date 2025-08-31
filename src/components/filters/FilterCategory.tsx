@@ -1,4 +1,4 @@
-import {DATA_FOR_FILTERS, type FILTER_PROPS} from "../../utils/constants.ts";
+import {DATA_FOR_PRODUCT_FILTERS, type FILTER_PROPS} from "../../utils/constants.ts";
 import {Listbox, ListboxButton, ListboxOption, ListboxOptions} from "@headlessui/react";
 import type {filterValueType} from "../../features/classes/Filter.ts";
 import {CheckIcon} from "lucide-react";
@@ -39,7 +39,7 @@ const FilterCategory = ({filter, setFilter}: FILTER_PROPS) => {
                     ))}
                 </ListboxButton>
                 <ListboxOptions anchor = "bottom start" className={"border-1 rounded-xl border-base-form bg-base-bg p-2"}>
-                    {DATA_FOR_FILTERS.categories.map(category => (
+                    {DATA_FOR_PRODUCT_FILTERS.categories.map(category => (
                         <ListboxOption value={category} key={category} className={"group flex text-base-text cursor-pointer"}>
                             <CheckIcon className={"invisible size-5 group-data-selected:visible"}/>
                             {category}

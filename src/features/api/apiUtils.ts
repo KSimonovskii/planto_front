@@ -1,8 +1,9 @@
 import Sort from "../classes/Sort.ts";
-import {SIZE_PAGE} from "../../utils/constants.ts";
+import {DEFAULT_SORT, DEFAULT_SORTING_FOR_TABLES, SIZE_PAGE} from "../../utils/constants.ts";
 import type Filter from "../classes/Filter.ts";
+import type {dataTypes} from "../../utils/enums/dataTypes.ts";
 
-export const getBodyForQueryGetProducts = (page: number, sort?: Sort, filters?: Filter[]) => {
+export const getBodyForQueryGetTable = (typeData: dataTypes, page: number, sort?: Sort, filters?: Filter[]) => {
 
     const withFilters = filters && filters.length > 0;
 
@@ -13,7 +14,7 @@ export const getBodyForQueryGetProducts = (page: number, sort?: Sort, filters?: 
     }
 
     if (sort == undefined) {
-        sort = new Sort("NameAsc", "name", 1, "Name (from A to Z)");
+        sort = getSortByDefault(typeData);
     }
 
     const headers = new Headers();
@@ -33,4 +34,12 @@ export const getBodyForQueryGetProducts = (page: number, sort?: Sort, filters?: 
         direction: sort.direction,
         criteria: criteria
     })
+}
+
+export const getSortByDefault = (typeData : dataTypes) : Sort => {
+    const sorting = DEFAULT_SORTING_FOR_TABLES.get(typeData);
+    if (!sorting){
+        return DEFAULT_SORT;
+    }
+    return sorting;
 }

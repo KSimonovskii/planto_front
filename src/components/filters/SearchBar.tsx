@@ -39,7 +39,7 @@ export const SearchBar = () => {
         }
 
         setFilterName(filterSearch);
-        setPage(prevState=> ({...prevState, filters: newFilters}));
+        setPage((prevState) => ({...prevState, sort: currSort}));
 
     }
 

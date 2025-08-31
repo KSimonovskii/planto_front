@@ -52,7 +52,7 @@ export const Filters = () => {
                 newFilters.splice(index, 1);
             }
         })
-        setPage((prevState) => ({...prevState, filters: newFilters}))
+        setPage((prevState) => ({...prevState, sort: currSort}))
     }
 
     const handlerResetFilters = () => {
@@ -69,7 +69,7 @@ export const Filters = () => {
 
         setFilterCategory(FILTER_CATEGORY.getCopy({...FILTER_CATEGORY}));
         dispatch(getToInitialState());
-        setPage((prevState) => ({...prevState, filters: newFilter}))
+        setPage((prevState) => ({...prevState, sort: currSort}))
     }
 
     return (

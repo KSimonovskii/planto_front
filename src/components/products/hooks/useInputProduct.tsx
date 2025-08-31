@@ -3,8 +3,6 @@ import {useAddProductMutation} from "../../../features/api/productApi.ts";
 import {uploadFile} from "../../../features/api/imageAction.ts";
 import type {ProductData} from "../../../utils/types";
 
-
-
 const emptyData = {
     name: "",
     category: "",

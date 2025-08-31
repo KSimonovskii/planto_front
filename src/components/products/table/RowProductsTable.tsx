@@ -15,7 +15,7 @@ interface PropsProduct {
 
 const RowProductsTable = ({product}: PropsProduct) => {
 
-    const {products} = useContext(ProductsContext);
+    const {table} = useContext(ProductsContext);
     const [removeProduct] = useRemoveProductMutation();
     const [updateProduct] = useUpdateProductMutation();
 
@@ -34,7 +34,7 @@ const RowProductsTable = ({product}: PropsProduct) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const editProduct = (id: string) => {
-        const index = products.findIndex((product) => product.id === id);
+        const index = table.findIndex((product) => product.id === id);
         if (index >= 0){
             setIdEditProduct(id);
         }

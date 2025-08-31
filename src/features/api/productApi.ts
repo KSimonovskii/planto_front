@@ -1,15 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import {DATA_FOR_FILTERS} from "../../utils/constants.ts";
-
-interface answerTable {
-    content: [];
-    page: {
-        size: number,
-        number: number,
-        totalElements: number,
-        totalPages: number
-    }
-}
+import {DATA_FOR_PRODUCT_FILTERS} from "../../utils/constants.ts";
+import type {AnswerTable} from "../../utils/types.d.ts";
 
 interface DataForFilters {
     price: number,
@@ -30,7 +21,7 @@ export const productApi = createApi({
                     method: "POST",
                     body,
                 }),
-                transformResponse: (response: answerTable,) => {
+                transformResponse: (response: AnswerTable,) => {
                         return {products: response.content, pages: response.page.totalPages};
                     },
                 transformErrorResponse: (
@@ -51,8 +42,8 @@ export const productApi = createApi({
                 method: "GET"
             }),
             transformResponse: (result : DataForFilters) => {
-                DATA_FOR_FILTERS.maxPrice = result.price;
-                DATA_FOR_FILTERS.categories = result.categories;
+                DATA_FOR_PRODUCT_FILTERS.maxPrice = result.price;
+                DATA_FOR_PRODUCT_FILTERS.categories = result.categories;
                 return result;
             },
             providesTags: [{type: "FilterData"}]
@@ -81,8 +72,6 @@ export const productApi = createApi({
             invalidatesTags: [{type: 'Products', id: 'LIST'}, {type: 'FilterData'}]
 
         })
-
-
     })
 })
 

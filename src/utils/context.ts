@@ -1,22 +1,24 @@
-import React, {type Dispatch, type SetStateAction} from "react";
-import Product from "../features/classes/Product.ts";
-import type {DataTableProducts, PageProductsData} from "./types";
-import {DEFAULT_SORT} from "./constants.ts";
+import React from "react";
+import {DEFAULT_SORT_PRODUCT} from "./constants.ts";
 import type Sort from "../features/classes/Sort.ts";
 import type Filter from "../features/classes/Filter.ts";
+import type Product from "../features/classes/Product.ts";
+import type Order from "../features/classes/Order.ts";
 
-interface ContextData {
-    products: Product[];
+interface ContextData<T> {
+    table: T[];
     pages: number;
-    setProductsData: Dispatch<SetStateAction<DataTableProducts>>
+    setTableData: () => (void)
 }
 
 interface PageContext {
     pageNumber: number;
     sort: Sort;
     filters: Filter[];
-    setPage: Dispatch<SetStateAction<PageProductsData>>;
+    setPage: (p: (prevState) => any) => void;
 }
 
-export const ProductsContext = React.createContext<ContextData>({products: [], pages: 0, setProductsData: () => {}});
-export const PageContext = React.createContext<PageContext>({pageNumber: 1, sort: DEFAULT_SORT, filters: [], setPage: () => {}});
+export const ProductsContext = React.createContext<ContextData<Product>>({table: [], pages: 0, setTableData: () => {}});
+export const OrdersContext = React.createContext<ContextData<Order>>({table: [], pages: 0, setTableData: () => {}});
+
+export const PageContext = React.createContext<PageContext>({pageNumber: 1, sort: DEFAULT_SORT_PRODUCT, filters: [], setPage: () => {}});
