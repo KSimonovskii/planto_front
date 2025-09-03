@@ -2,7 +2,6 @@ import bgImage from "../../images/homePageImage.jpg";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import SliderMainPage from "./SliderMainPage.tsx";
 
 const HomePage = () => {
 
@@ -18,8 +17,7 @@ const HomePage = () => {
                 </div>
             </section>
             <section className="py-16 px-6 max-w-7xl mx-auto">
-                <h2 className="text-3xl font-bold mb-10 text-center">Our Products</h2>
-                <SliderMainPage/>
+
             </section>
 
         </div>

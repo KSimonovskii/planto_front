@@ -1,6 +1,7 @@
-import {Route, Routes} from "react-router";
+import {Route, Routes} from "react-router-dom";
 import {navItems} from "../utils/constants.ts";
-import Home from "./pages/home/Home.tsx";
+
+import Home2 from "./pages/home/Home2.tsx";
 import ProductsManager from "./pages/products/ProductsManager.tsx";
 import ErrorPage from "./ErrorPage.tsx";
 import PersonalAccount from "./pages/personalAccount/PersonalAccount.tsx";
@@ -12,66 +13,66 @@ import RequireAuth from "./RequireAuth.tsx";
 import AboutUs from "./pages/aboutUs/AboutUs.tsx";
 import RequireAuthAdministrator from "./RequireAuthAdministrator.tsx";
 import AdminDashboard from "./pages/forAdministrator/AdminDashboard.tsx";
-
+import MainLayout from "./pages/home/MainLayout.tsx";
 
 const Workspace = () => {
-
     return (
+
         <Routes>
 
-            {[`auth/login`].map(path =>
-                <Route key={path} path={path} element={<PersonalAccount/>}/>)}
+            <Route element={<MainLayout/>}>
 
-            {['account/register'].map(path =>
-                <Route key={path} path={path} element={<AccountRegister/>}/>)}
+                <Route path="/" element={<Home2/>}/>
+                <Route path={navItems[0].path} element={<Home2/>}/>
+                <Route path={`${navItems[0].path}/`} element={<Home2/>}/>
 
-            {['products'].map(path =>
-                <Route key={path} path={path} element={
+                <Route path={navItems[1].path} element={<AboutUs/>}/>
+
+                <Route
+                    path={navItems[2].path}
+                    element={
+                        <RequireAuth>
+                            <ShoppingCart/>
+                        </RequireAuth>
+                    }
+                />
+
+                <Route
+                    path={navItems[3].path}
+                    element={
+                        <RequireAuth>
+                            <AccountDashboard/>
+                        </RequireAuth>
+                    }
+                />
+
+                <Route path={navItems[4].path} element={<Store/>}/>
+                <Route path="auth/login" element={<PersonalAccount/>}/>
+                <Route path="account/register" element={<AccountRegister/>}/>
+
+            </Route>
+
+            <Route
+                path="products"
+                element={
                     <RequireAuthAdministrator>
                         <ProductsManager/>
                     </RequireAuthAdministrator>
-                }/>)}
+                }
+            />
 
-            {['/', navItems[0].path, `${navItems[0].path}/`].map(path =>
-                <Route key={path} path={path} element={<Home/>}/>)}
-
-            {[navItems[1].path].map(path =>
-                <Route key={path} path={path} element={<AboutUs/>}/>)}
-
-            {[navItems[2].path].map(path =>
-                <Route key={path} path={path} element={
-                    <RequireAuth>
-                        <ShoppingCart/>
-                    </RequireAuth>
-                }/>)}
-
-            {[navItems[3].path].map(path =>
-                <Route key={path} path={path} element={
-                    <RequireAuth>
-                        <AccountDashboard/>
-                    </RequireAuth>
-                }/>)}
-
-            {[navItems[4].path].map(path =>
-                <Route key={path} path={path} element={<Store/>}/>)}
-
-            {[navItems[5].path].map(path =>
-                <Route key={path} path={path} element={
+            <Route
+                path={navItems[5].path}
+                element={
                     <RequireAuthAdministrator>
                         <AdminDashboard/>
                     </RequireAuthAdministrator>
-                }/>)}
+                }
+            />
 
-
-
-
-
-
-
-
-            <Route path={'*'} element={<ErrorPage msg={"Page not found"}/>}/>
+            <Route path="*" element={<ErrorPage msg="Page not found"/>}/>
         </Routes>
-    )
-}
+    );
+};
 
-export default Workspace
+export default Workspace;

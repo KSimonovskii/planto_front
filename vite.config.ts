@@ -8,10 +8,11 @@ export default defineConfig({
     plugins: [
         react(),
         tailwindcss(),
+
         // basicSsl()
     ],
     // server: {
     //     https: {}
-        // port: 5173
+    // port: 5173
     // }
 })

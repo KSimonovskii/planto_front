@@ -11,7 +11,7 @@ interface UserInterfaceAccount {
     address: Address | null;
     roles: string[];
     orders: Order[] | null;
-    cart: CartItem[]| null;
+    cart: CartItem[] | null;
 }
 
 
@@ -31,10 +31,10 @@ interface AuthContextType {
 interface NavItem {
     title: string
     path: string
-    icon: LucideIcon
     adminOnly: boolean
     userOnly?: boolean
 }
+
 
 interface OrderItemDto {
     productId: string
@@ -58,12 +58,12 @@ interface CartItemDto {
 }
 
 
-export interface DataTableProducts{
+export interface DataTableProducts {
     products: Product[],
     pages: number
 }
 
-export interface PageProductsData{
+export interface PageProductsData {
     pageNumber: number;
     sort: Sort;
     filters: Filter[]

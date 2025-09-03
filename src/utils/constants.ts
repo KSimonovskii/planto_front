@@ -1,4 +1,3 @@
-import {Home, Info, LayoutDashboard, LogIn, /*Package,*/ ShoppingCart, Store} from "lucide-react";
 import {directions} from "./enums/directions.ts";
 import emptyPhoto from "../assets/empty-foto.jpg";
 import {filterTypes} from "./enums/filterTypes.ts";
@@ -9,13 +8,13 @@ import Filter from "../components/clasess/Filter.ts";
 
 
 export const navItems: NavItem[] = [
-    {title: 'Home', path: 'main', icon: Home, adminOnly: false},
-    {title: 'About us', path: 'about', icon: Info, adminOnly: false},
-    {title: 'Shopping cart', path: 'cart', icon: ShoppingCart, adminOnly: false, userOnly: true},
-    {title: 'My account', path: 'accountDashboard', icon: LogIn, adminOnly: false},
-    {title: 'Store', path: 'store', icon: Store, adminOnly: false},
-    // {title: 'Products', path: 'products', icon: Package, adminOnly: true},
-    {title: 'Admin Dashboard', path: 'admin/dashboard', icon: LayoutDashboard, adminOnly: true},
+    {title: 'Home', path: 'main', adminOnly: false},
+    {title: 'About us', path: 'about', adminOnly: false},
+    {title: 'Shopping cart', path: 'cart', adminOnly: false, userOnly: true},
+    {title: 'My account', path: 'accountDashboard', adminOnly: false},
+    {title: 'Store', path: 'store', adminOnly: false},
+    {title: 'Products', path: 'products', adminOnly: true},
+    {title: 'Admin Dashboard', path: 'admin/dashboard', adminOnly: true},
 ]
 
 // export const BASE_URL = "https://planto-gp2i.onrender.com"
