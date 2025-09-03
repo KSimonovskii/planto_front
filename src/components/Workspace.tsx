@@ -13,10 +13,17 @@ import AboutUs from "./pages/aboutUs/AboutUs.tsx";
 import RequireAuthAdministrator from "./RequireAuthAdministrator.tsx";
 import AdminDashboard from "./pages/forAdministrator/AdminDashboard.tsx";
 
+import {useState} from "react";
+import {PageContext} from "../utils/context.ts";
+import type {PageProductsData} from "../utils/types";
+import OrdersManager from "./orders/OrdersManager.tsx";
 
 const Workspace = () => {
 
+    const [pageData, setPage] = useState<PageProductsData>({pageNumber: 1, sort: DEFAULT_SORT_PRODUCT, filters: []});
+
     return (
+        <PageContext.Provider value={{pageNumber: pageData.pageNumber, sort: pageData.sort, filters: pageData.filters, setPage: setPage}}>
         <Routes>
 
             {[`auth/login`].map(path =>
@@ -65,6 +72,7 @@ const Workspace = () => {
 
             <Route path={'*'} element={<ErrorPage msg={"Page not found"}/>}/>
         </Routes>
+        </PageContext.Provider>
     )
 }
 

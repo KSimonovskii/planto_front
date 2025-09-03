@@ -1,4 +1,3 @@
-import './App.css'
 import Main from "./components/Main.tsx";
 import {AuthProvider} from "./utils/AuthProvider.tsx";
 import {BrowserRouter} from "react-router";

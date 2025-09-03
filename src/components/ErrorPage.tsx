@@ -9,7 +9,7 @@ const ErrorPage = (props: PropsError) => {
     const param = useLocation();
     let message = "";
     if (param) {
-        message = param.state as string? param.state.message : "";
+       message = param.state as string? param.state.message : "";
     }
 
     console.log(message);
