@@ -7,6 +7,8 @@ import {getUsersTable} from "../../../features/hooks/useUserAction.ts";
 const UsersManager = () => {
     const [users, setUsers] = useState<UserAccount[]>([]);
 
+    //TODO - implement users RTK query
+
     useEffect(() => {
 
         const getAllUsers = async () => {

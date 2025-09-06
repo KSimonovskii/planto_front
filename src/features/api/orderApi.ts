@@ -26,7 +26,7 @@ export const orderApi = createApi({
     reducerPath: "orderApi",
     tagTypes: ["Orders"],
     baseQuery: fetchBaseQuery({
-        baseUrl: import.meta.env.VITE_BASE_ORDER_URL,
+        baseUrl: `${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_BASE_ORDER_ENDPOINT}`,
         headers: new Headers({"content-type": "application/json"})
     }),
     endpoints: (build) => ({

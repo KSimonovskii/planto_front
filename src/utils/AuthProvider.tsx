@@ -1,5 +1,4 @@
 import {type ReactNode, useCallback, useEffect, useMemo, useState} from "react";
-import {BASE_URL} from "./constants";
 import {AuthContext} from "./AuthContext";
 import {refreshToken} from "../features/api/authApi.ts";
 
@@ -15,7 +14,7 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
 
     const logout = useCallback(async () => {
         try {
-            await fetch(`${BASE_URL}/auth/logout`, {
+            await fetch(`${import.meta.env.VITE_BASE_URL}/auth/logout`, {
                 method: "POST",
                 credentials: "include",
             });

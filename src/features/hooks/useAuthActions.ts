@@ -1,4 +1,3 @@
-import {BASE_URL} from "../../utils/constants.ts";
 import {useAuth} from "./useAuth.ts";
 
 export const useAuthActions = () => {
@@ -7,7 +6,7 @@ export const useAuthActions = () => {
     const loginUser = async (credentials:
                                  { login: string, password: string }) => {
 
-        const URL = `${BASE_URL}/auth/login`;
+        const URL = `${import.meta.env.VITE_BASE_URL}/auth/login`;
         const options = {
             method: "POST",
             headers: {

@@ -1,8 +1,5 @@
 import type {OrderCreateDto} from "../../dto/OrderCreateDto.ts";
-import {BASE_URL} from "../../utils/constants.ts";
 import {secureFetch} from "../../utils/secureFetch.ts";
-
-
 
 export const createOrderApi = async (
     login: string,
@@ -11,7 +8,7 @@ export const createOrderApi = async (
     setAccessToken: (token: string | null) => void,
     ) => {
 
-    const url = `${BASE_URL}/order/create/${login}`;
+    const url = `${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_BASE_ORDER_ENDPOINT}/create/${login}`;
     const options = {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},

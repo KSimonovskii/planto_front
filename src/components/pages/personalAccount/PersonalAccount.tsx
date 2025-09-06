@@ -26,9 +26,12 @@ const PersonalAccount = () => {
             setPassword("");
             navigate(from, {replace: true});
 
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error("Login failed: ", err);
-            setError(err.message);
+            if (err instanceof Error) {
+                setError(err.message);
+            }
+
         } finally {
             setLoading(false);
         }

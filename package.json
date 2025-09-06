@@ -12,6 +12,7 @@
   "dependencies": {
     "@headlessui/react": "^2.2.6",
     "@imagekit/react": "^5.0.1",
+    "@reduxjs/toolkit": "^2.9.0",
     "@tailwindcss/vite": "^4.1.8",
     "decimal.js": "^10.6.0",
     "dotenv": "^16.5.0",
@@ -19,6 +20,7 @@
     "rc-slider": "^11.1.8",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-redux": "^9.2.0",
     "react-router": "^7.6.2",
     "react-router-dom": "^7.6.3",
     "swiper": "^11.2.10",

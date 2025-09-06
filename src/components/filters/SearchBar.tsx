@@ -1,10 +1,10 @@
 import {useContext, useState} from "react";
 import {FILTER_NAME} from "../../utils/constants.ts";
-import {PageContext} from "../../utils/context.ts";
+import {PageProductContext} from "../../utils/context.ts";
 
 export const SearchBar = () => {
 
-    const {filters, setPage} = useContext(PageContext);
+    const {filters, setPage} = useContext(PageProductContext);
 
     const [strSearch, setSearch] = useState("");
     const [filterName, setFilterName] = useState(FILTER_NAME);
@@ -39,7 +39,7 @@ export const SearchBar = () => {
         }
 
         setFilterName(filterSearch);
-        setPage((prevState) => ({...prevState, sort: currSort}));
+        setPage((prevState) => ({...prevState, filters: newFilters}));
 
     }
 

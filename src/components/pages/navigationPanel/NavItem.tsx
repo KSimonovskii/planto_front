@@ -1,15 +1,15 @@
-import type {Item} from "../../utils/types";
+import type {NavItem} from "../../../utils/types";
 import {NavLink, useNavigate} from "react-router";
 import {useContext} from "react";
-import {PageContext} from "../../utils/context.ts";
+import {PageProductContext} from "../../../utils/context.ts";
 
 interface Props {
-    item: Item
+    item: NavItem
 }
 
 const NavItem = (props: Props) => {
 
-    const {pageNumber} = useContext(PageContext);
+    const {pageNumber} = useContext(PageProductContext);
     const navigate = useNavigate();
 
     const activeStyle = "bg-alt-text text-base-bg rounded-md";

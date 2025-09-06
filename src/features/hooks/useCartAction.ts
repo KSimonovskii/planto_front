@@ -1,5 +1,4 @@
 import {useCallback, useState} from "react";
-import {BASE_URL} from "../../utils/constants.ts";
 import {secureFetch} from "../../utils/secureFetch.ts";
 import {useCurrentUser} from "./useCurrentUser.ts";
 import {useAuth} from "./useAuth.ts";
@@ -13,6 +12,8 @@ export const useCartActions = () => {
    const {getToken, setAccessToken} = useAuth();
     const {user} = useCurrentUser();
     const [message, setMessage] = useState<string | null>(null);
+
+    const BASE_URL = import.meta.env.VITE_BASE_URL;
 
     const getCart = useCallback(async (): Promise<CartEntry[]> => {
         if (!getToken || !user) {
@@ -36,9 +37,11 @@ export const useCartActions = () => {
             setTimeout(() => setMessage(null), 3000);
             return cartData;
 
-        } catch (e: any) {
+        } catch (e: unknown) {
             console.error("Error fetching cart:", e);
-            setMessage(e.message || "Failed to fetch cart data.");
+            if (e instanceof Error) {
+                setMessage(e.message || "Failed to fetch cart data.");
+            }
             setTimeout(() => setMessage(null), 3000);
             return [];
         }

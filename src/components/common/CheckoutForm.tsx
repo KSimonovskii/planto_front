@@ -1,4 +1,4 @@
-import type Product from "../clasess/Product.ts";
+import type Product from "../../features/classes/Product.ts";
 import {useCurrentUser} from "../../features/hooks/useCurrentUser.ts";
 import {useCartActions} from "../../features/hooks/useCartAction.ts";
 import {useOrderActions} from "../../features/hooks/useOrderActions.ts";
@@ -57,8 +57,10 @@ const CheckoutForm = ({isOpen, onClose, items, onSuccess}: CheckoutFormProps) =>
             });
             await clearCart();
             onSuccess();
-        } catch (err: any) {
-            setError(err.message);
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                setError(err.message);
+            }
         } finally {
             setLoading(false);
         }

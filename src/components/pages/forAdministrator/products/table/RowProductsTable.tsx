@@ -1,12 +1,12 @@
-import {ProductsContext} from "../../../utils/context.ts";
+import {ProductsContext} from "../../../../../utils/context.ts";
 import {useContext, useRef, useState} from "react";
-import Product from "../../../features/classes/Product.ts";
+import Product from "../../../../../features/classes/Product.ts";
 import {SquarePen, Trash2, SquareCheckBig, SquareX} from "lucide-react";
-import {EMPTY_PHOTO} from "../../../utils/constants.ts";
-import ImagePopup from "../ImagePopup.tsx";
+import {EMPTY_PHOTO} from "../../../../../utils/constants.ts";
+import ImagePopup from "../../../../common/ImagePopup.tsx";
 import CategoryBox from "../CategoryBox.tsx";
-import {useRemoveProductMutation, useUpdateProductMutation} from "../../../features/api/productApi.ts";
-import {uploadFile} from "../../../features/api/imageAction.ts";
+import {useRemoveProductMutation, useUpdateProductMutation} from "../../../../../features/api/productApi.ts";
+import {uploadFile} from "../../../../../features/api/imageAction.ts";
 import {useInputProduct} from "../hooks/useInputProduct.tsx";
 
 interface PropsProduct {

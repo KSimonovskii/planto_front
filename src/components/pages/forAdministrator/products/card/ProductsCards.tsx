@@ -1,5 +1,5 @@
 import {useContext} from "react";
-import {ProductsContext} from "../../../utils/context.ts";
+import {ProductsContext} from "../../../../../utils/context.ts";
 import {Card} from "./Card.tsx";
 
 const ProductsCards = () => {

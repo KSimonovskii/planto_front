@@ -1,7 +1,7 @@
 import {Route, Routes} from "react-router";
-import {navItems} from "../utils/constants.ts";
+import {DEFAULT_SORT_PRODUCT, navItems} from "../utils/constants.ts";
 import Home from "./pages/home/Home.tsx";
-import ProductsManager from "./pages/products/ProductsManager.tsx";
+import ProductsManager from "./pages/forAdministrator/products/ProductsManager.tsx";
 import ErrorPage from "./ErrorPage.tsx";
 import PersonalAccount from "./pages/personalAccount/PersonalAccount.tsx";
 import AccountDashboard from "./pages/personalAccount/AccountDashboard.tsx";
@@ -14,16 +14,15 @@ import RequireAuthAdministrator from "./RequireAuthAdministrator.tsx";
 import AdminDashboard from "./pages/forAdministrator/AdminDashboard.tsx";
 
 import {useState} from "react";
-import {PageContext} from "../utils/context.ts";
-import type {PageProductsData} from "../utils/types";
-import OrdersManager from "./orders/OrdersManager.tsx";
+import {PageProductContext} from "../utils/context.ts";
+import type {PageTableData} from "../utils/types";
 
 const Workspace = () => {
 
-    const [pageData, setPage] = useState<PageProductsData>({pageNumber: 1, sort: DEFAULT_SORT_PRODUCT, filters: []});
+    const [pageData, setPage] = useState<PageTableData>({pageNumber: 1, sort: DEFAULT_SORT_PRODUCT, filters: []});
 
     return (
-        <PageContext.Provider value={{pageNumber: pageData.pageNumber, sort: pageData.sort, filters: pageData.filters, setPage: setPage}}>
+        <PageProductContext.Provider value={{pageNumber: pageData.pageNumber, sort: pageData.sort, filters: pageData.filters, setPage: setPage}}>
         <Routes>
 
             {[`auth/login`].map(path =>
@@ -72,7 +71,7 @@ const Workspace = () => {
 
             <Route path={'*'} element={<ErrorPage msg={"Page not found"}/>}/>
         </Routes>
-        </PageContext.Provider>
+        </PageProductContext.Provider>
     )
 }
 

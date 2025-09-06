@@ -1,4 +1,3 @@
-import {BASE_URL} from "../../utils/constants.ts";
 import {secureFetch} from "../../utils/secureFetch.ts";
 import {useAuth} from "./useAuth.ts";
 
@@ -13,7 +12,7 @@ export const useUserActions = () => {
 
     const getUserByLogin = async (login: string) => {
 
-        const URL = `${BASE_URL}/account/user/${login}`;
+        const URL = `${import.meta.env.VITE_BASE_USER_URL}/user/${login}`;
 
         const options = {
             method: "GET",
@@ -83,4 +82,8 @@ function createCartItem(cartItemData: CartItemDto) {
         cartItemData.productId,
         cartItemData.quantity
     );
+}
+
+export async function getUsersTable() {
+    return [];
 }

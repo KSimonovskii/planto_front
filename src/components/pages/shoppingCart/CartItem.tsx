@@ -1,4 +1,4 @@
-import Product from "../../clasess/Product.ts";
+import Product from "../../../features/classes/Product.ts";
 import { Trash2 } from "lucide-react";
 
 type Props = {

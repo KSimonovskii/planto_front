@@ -1,5 +1,5 @@
 import {useContext, useState} from "react";
-import {PageContext} from "../../utils/context.ts";
+import {PageProductContext} from "../../utils/context.ts";
 import {FILTER_CATEGORY} from "../../utils/constants.ts";
 import FilterPrice from "./FilterPrice.tsx";
 import FilterCategory from "./FilterCategory.tsx";
@@ -11,7 +11,7 @@ import {useGetDataForFiltersQuery} from "../../features/api/productApi.ts";
 
 export const Filters = () => {
 
-    const {filters, setPage} = useContext(PageContext);
+    const {filters, setPage} = useContext(PageProductContext);
 
     const [filterCategory, setFilterCategory] = useState(FILTER_CATEGORY);
 
@@ -19,7 +19,7 @@ export const Filters = () => {
     const filterPrice = new Filter("price", filterTypes.range, "double",undefined, priceValue.valueFrom, priceValue.valueTo)
     const dispatch = useAppDispatch();
 
-    const {data = {price: 0, categories: []}} = useGetDataForFiltersQuery();
+    const {data = {price: 0, categories: []}} = useGetDataForFiltersQuery("");
 
     const handlerAcceptFilters = () => {
 
@@ -52,7 +52,7 @@ export const Filters = () => {
                 newFilters.splice(index, 1);
             }
         })
-        setPage((prevState) => ({...prevState, sort: currSort}))
+        setPage((prevState) => ({...prevState, filters: newFilters}))
     }
 
     const handlerResetFilters = () => {
@@ -69,7 +69,7 @@ export const Filters = () => {
 
         setFilterCategory(FILTER_CATEGORY.getCopy({...FILTER_CATEGORY}));
         dispatch(getToInitialState());
-        setPage((prevState) => ({...prevState, sort: currSort}))
+        setPage((prevState) => ({...prevState, filters: newFilter}))
     }
 
     return (

@@ -1,8 +1,6 @@
-import {BASE_URL} from "../../utils/constants.ts";
-
 export const refreshToken = async (): Promise<string | null> => {
     try {
-        const response = await fetch(`${BASE_URL}/auth/refresh`, {
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/auth/refresh`, {
             method: "POST",
             credentials: "include",
         });

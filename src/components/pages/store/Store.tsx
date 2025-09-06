@@ -1,19 +1,20 @@
-import {useCallback, useContext, useEffect, useState} from "react";
-import {PageContext, ProductsContext} from "../../../utils/Context.ts";
+import {useCallback, useContext, useMemo, useState} from "react";
+import {PageProductContext} from "../../../utils/context.ts";
 import {useCartActions} from "../../../features/hooks/useCartAction.ts";
-import {getProductsTable} from "../../../features/api/productAction.ts";
 import {SearchBar} from "../../filters/SearchBar.tsx";
-import Sorting from "../products/Sorting.tsx";
+import Sorting from "../../common/table/Sorting.tsx";
 import {Filters} from "../../filters/Filters.tsx";
-import type Product from "../../clasess/Product.ts";
-import PageNavigation from "../products/PageNavigation.tsx";
+import Product from "../../../features/classes/Product.ts";
+import PageNavigation from "../../common/table/PageNavigation.tsx";
 import {useCurrentUser} from "../../../features/hooks/useCurrentUser.ts";
 import AuthPromptModal from "../../common/AuthPromptModal.tsx";
-import ImagePopup from "../products/ImagePopup.tsx";
+import ImagePopup from "../../common/ImagePopup.tsx";
+import {useGetProductsTableRTKQuery} from "../../../features/api/productApi.ts";
+import {getBodyForQueryGetTable} from "../../../features/api/apiUtils.ts";
+import {dataTypes} from "../../../utils/enums/dataTypes.ts";
 
 const Store = () => {
-    const {products, setProductsData} = useContext(ProductsContext);
-    const {pageNumber, sort, filters} = useContext(PageContext);
+    const {pageNumber, sort, filters} = useContext(PageProductContext);
 
     const {addToCart, message} = useCartActions()
     const {isAuthenticated} = useCurrentUser();
@@ -22,29 +23,30 @@ const Store = () => {
     const [currentImageProduct, setCurrentImageProduct] = useState<Product | null>(null);
 
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const [errorMsg, setError] = useState<string | null>(null);
     const [isAuthModalVisible, setAuthModalVisible] = useState(false);
 
     const openAuthModal = () => setAuthModalVisible(true);
     const closeAuthModal = () => setAuthModalVisible(false);
 
-    const fetchProducts = useCallback(async () => {
-        setLoading(true);
-        setError(null);
+    const {data = {products: [], pages: 0}, isLoading, isError, error} = useGetProductsTableRTKQuery(getBodyForQueryGetTable(dataTypes.products, pageNumber, sort, filters));
+    const products = useMemo(() => {
+            return data.products.map((p: Product) => new Product(p.id, p.name, p.category, p.quantity, p.price, p.imageUrl, p.description));
+        },
+        [data.products]
+    )
 
-        try {
-            const result = await getProductsTable(pageNumber, sort, filters);
-            setProductsData(result);
-        } catch (err: any) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
+    if (isLoading)
+        setLoading(true)
+    if (isError) {
+        let errorMsg = "";
+        if ('status' in error) {
+            errorMsg = `Error: ${error.status} - ${error.data}`;
+        } else {
+            errorMsg = "Unknown error";
         }
-    }, [pageNumber, sort, filters, setProductsData])
-
-    useEffect(() => {
-        fetchProducts();
-    }, [fetchProducts]);
+        setError(errorMsg);
+    }
 
     const handleAddToCart = useCallback(async (productId: string) => {
         if (!isAuthenticated) {
@@ -53,8 +55,11 @@ const Store = () => {
         }
         try {
             await addToCart(productId);
-        } catch (err: any) {
-            setError(err.message);
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                setError(err.message);
+            }
+
         }
 
     }, [isAuthenticated, addToCart]);
@@ -75,7 +80,7 @@ const Store = () => {
                     <SearchBar/>
                 </div>
                 <div className="w-full sm:w-1/3">
-                    <Sorting/>
+                    <Sorting dataType={dataTypes.products}/>
                 </div>
                 <div className="w-full sm:w-1/3">
                     <Filters/>
@@ -91,8 +96,8 @@ const Store = () => {
 
             {loading ? (
                 <p className="text-center text-gray-500 mt-20">Loading...</p>
-            ) : error ? (
-                <p className="text-center text-red-500 mt-20">{error}</p>
+            ) : errorMsg ? (
+                <p className="text-center text-red-500 mt-20">{errorMsg}</p>
             ) : products && products.length > 0 ? (
                 <>
                     <div

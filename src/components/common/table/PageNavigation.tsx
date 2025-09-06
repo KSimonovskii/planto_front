@@ -1,11 +1,11 @@
 import {NavLink} from "react-router";
 import {useContext} from "react";
-import {PageContext, ProductsContext} from "../../../utils/context.ts";
+import {PageProductContext, ProductsContext} from "../../../utils/context.ts";
 
 const PageNavigation = () => {
 
     const {pages} = useContext(ProductsContext);
-    const {pageNumber, setPage} = useContext(PageContext);
+    const {pageNumber, setPage} = useContext(PageProductContext);
 
     const getArrayOfPages = (countPages: number)  => {
         return Array.from({length: countPages}, (_, i) => i + 1);

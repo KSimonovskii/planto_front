@@ -1,21 +1,21 @@
 import {Navigation, Pagination} from "swiper/modules";
 import {Swiper, SwiperSlide} from "swiper/react";
-import {useCallback, useContext, useEffect, useState} from "react";
-
-import {getProductsTable} from "../../../features/api/productAction.ts";
-import {PageContext, ProductsContext} from "../../../utils/Context.ts";
+import {useCallback, useContext, useMemo, useState} from "react";
+import {PageProductContext} from "../../../utils/context.ts";
 import {useCartActions} from "../../../features/hooks/useCartAction.ts";
 import {useCurrentUser} from "../../../features/hooks/useCurrentUser.ts";
 import AuthPromptModal from "../../common/AuthPromptModal.tsx";
-import type Product from "../../clasess/Product.ts";
-import ImagePopup from "../products/ImagePopup.tsx";
+import Product from "../../../features/classes/Product.ts";
+import ImagePopup from "../../common/ImagePopup.tsx";
+import {useGetProductsTableRTKQuery} from "../../../features/api/productApi.ts";
+import {getBodyForQueryGetTable} from "../../../features/api/apiUtils.ts";
+import {dataTypes} from "../../../utils/enums/dataTypes.ts";
 
 
 const SliderMainPage = () => {
-    const {products, setProductsData} = useContext(ProductsContext);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const {pageNumber, sort, filters} = useContext(PageContext);
+
+    const [loading, setLoading] = useState(false);
+    const [errorMsg, setErrorMsg] = useState<string | null>(null);
     const {addToCart, message} = useCartActions();
     const {isAuthenticated} = useCurrentUser();
 
@@ -24,27 +24,31 @@ const SliderMainPage = () => {
     const [isImagePopupOpen, setImagePopupOpen] = useState(false);
     const [currentImageProduct, setCurrentImageProduct] = useState<Product | null>(null);
 
-
     const openAuthModal = () => setAuthModalVisible(true);
     const closeAuthModal = () => setAuthModalVisible(false);
 
-    const fetchProducts = useCallback(async () => {
-        setLoading(true);
-        setError(null);
+    const {pageNumber, sort, filters} = useContext(PageProductContext);
+    const {data = {products: [], pages: 0}, isLoading, isError, error} = useGetProductsTableRTKQuery(getBodyForQueryGetTable(dataTypes.products, pageNumber, sort, filters));
 
-        try {
-            const result = await getProductsTable(pageNumber, sort, filters);
-            setProductsData(result);
-        } catch (err: any) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
+    const products = useMemo(() => {
+            return data.products.map((p: Product) => new Product(p.id, p.name, p.category, p.quantity, p.price, p.imageUrl, p.description));
+        },
+        [data.products]
+    )
+
+    if (isLoading) {
+        setLoading(true)
+    }
+    if (isError) {
+
+        let errorMsg = "";
+        if ('status' in error) {
+            errorMsg = `Error: ${error.status} - ${error.data}`;
+        } else {
+            errorMsg = "Unknown error";
         }
-    }, [pageNumber, sort, filters, setProductsData])
-
-    useEffect(() => {
-        fetchProducts();
-    }, [fetchProducts]);
+        setErrorMsg(errorMsg);
+    }
 
     const handleAddToCart = useCallback(async (productId: string) => {
         if (!isAuthenticated) {
@@ -53,8 +57,10 @@ const SliderMainPage = () => {
         }
         try {
             await addToCart(productId);
-        } catch (err: any) {
-            setError(err);
+        } catch (err: unknown) {
+            if (err instanceof Error){
+                setErrorMsg(err.message);
+            }
         }
 
     }, [isAuthenticated, addToCart]);
@@ -63,7 +69,6 @@ const SliderMainPage = () => {
         setCurrentImageProduct(product);
         setImagePopupOpen(true);
     }, []);
-
 
     return (
         <div>
@@ -75,8 +80,8 @@ const SliderMainPage = () => {
 
             {loading ? (
                 <p className="text-center text-gray-500">Loading...</p>
-            ) : error ? (
-                <p className="text-center text-red-500">{error}</p>
+            ) : errorMsg ? (
+                <p className="text-center text-red-500">{errorMsg}</p>
             ) : (<Swiper
                     modules={[Pagination, Navigation]}
                     spaceBetween={30}

@@ -4,8 +4,8 @@ import emptyPhoto from "../assets/empty-foto.jpg";
 import {filterTypes} from "./enums/filterTypes.ts";
 import type {Dispatch, SetStateAction} from "react";
 import type {NavItem} from "./types";
-import Sort from "../components/clasess/Sort.ts";
-import Filter from "../components/clasess/Filter.ts";
+import Sort from "../features/classes/Sort.ts";
+import Filter from "../features/classes/Filter.ts";
 
 
 export const navItems: NavItem[] = [
@@ -16,21 +16,6 @@ export const navItems: NavItem[] = [
     {title: 'Store', path: 'store', icon: Store, adminOnly: false},
     // {title: 'Products', path: 'products', icon: Package, adminOnly: true},
     {title: 'Admin Dashboard', path: 'admin/dashboard', icon: LayoutDashboard, adminOnly: true},
-]
-
-import {
-    Home,
-    Package,
-    ShoppingCart,
-    Users,
-    BarChart3,
-    Settings,
-} from "lucide-react";
-
-export const navItems: Item[] = [
-    {title: 'Main', path: 'main', icon: Home},
-    {title: 'Products', path: 'products', icon: Package},
-    {title: 'Orders', path: 'orders', icon: ScrollText}
 ]
 
 export const SIZE_PAGE = 8;
@@ -57,7 +42,6 @@ export const DEFAULT_SORTING_FOR_TABLES = new Map([["product", DEFAULT_SORT_PROD
                                             ["order", DEFAULT_SORT_ORDER]]);
 export const KINDS_OF_SORTING = new Map([["product", SORTING_PRODUCTS],
                                             ["order", SORTING_ORDERS]])
-
 
 export const EMPTY_PHOTO = emptyPhoto;
 

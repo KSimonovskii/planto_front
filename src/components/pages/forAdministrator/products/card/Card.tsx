@@ -1,8 +1,8 @@
-import Product from "../../../features/classes/Product.ts";
+import Product from "../../../../../features/classes/Product.ts";
 import {useState} from "react";
 import {ShoppingCart} from "lucide-react"
 import {Image} from "@imagekit/react";
-import ImagePopup from "../ImagePopup.tsx";
+import ImagePopup from "../../../../common/ImagePopup.tsx";
 
 interface PropsProduct {
     product: Product,

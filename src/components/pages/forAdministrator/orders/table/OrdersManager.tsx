@@ -1,14 +1,14 @@
 import {useContext, useMemo} from "react";
-import {OrdersContext, PageContext} from "../../utils/context.ts";
-import {useGetOrdersTableQuery} from "../../features/api/orderApi.ts";
-import {getBodyForQueryGetTable} from "../../features/api/apiUtils.ts";
-import {dataTypes} from "../../utils/enums/dataTypes.ts";
-import Order from "../../features/classes/Order.ts";
+import {OrdersContext, PageProductContext} from "../../../../../utils/context.ts";
+import {useGetOrdersTableQuery} from "../../../../../features/api/orderApi.ts";
+import {getBodyForQueryGetTable} from "../../../../../features/api/apiUtils.ts";
+import {dataTypes} from "../../../../../utils/enums/dataTypes.ts";
+import Order from "../../../../../features/classes/Order.ts";
 import OrdersView from "./OrdersView.tsx";
 
 const OrdersManager = () => {
 
-    const {pageNumber, sort, filters} = useContext(PageContext);
+    const {pageNumber, sort, filters} = useContext(PageProductContext);
     const {data = {orders: [], pages: 0}, isLoading, isError, error} = useGetOrdersTableQuery(getBodyForQueryGetTable(dataTypes.orders, pageNumber, sort, filters));
 
     const orders = useMemo(() => (

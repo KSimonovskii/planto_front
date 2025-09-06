@@ -1,13 +1,13 @@
 import {useContext, useState} from "react";
-import {ProductsContext} from "../../../utils/context.ts";
-import {SearchBar} from "../../filters/SearchBar.tsx";
-import {Filters} from "../../filters/Filters.tsx";
+import {ProductsContext} from "../../../../../utils/context.ts";
+import {SearchBar} from "../../../../filters/SearchBar.tsx";
+import {Filters} from "../../../../filters/Filters.tsx";
 import ProductsTable from "./ProductsTable.tsx";
 import ProductsCards from "../card/ProductsCards.tsx";
-import PageNavigation from "./PageNavigation.tsx";
+import PageNavigation from "../../../../common/table/PageNavigation.tsx";
 import ViewMode from "./ViewMode.tsx";
-import Sorting from "./Sorting.tsx";
-import {dataTypes} from "../../../utils/enums/dataTypes.ts";
+import Sorting from "../../../../common/table/Sorting.tsx";
+import {dataTypes} from "../../../../../utils/enums/dataTypes.ts";
 
 const ProductsView = () => {
 

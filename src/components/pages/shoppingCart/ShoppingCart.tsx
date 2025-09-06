@@ -2,7 +2,7 @@ import {useCallback, useEffect, useState} from "react";
 import {getProductById} from "../../../features/api/productAction.ts";
 import CartItem from "./CartItem.tsx";
 import {useCartActions} from "../../../features/hooks/useCartAction.ts";
-import type Product from "../../clasess/Product.ts";
+import type Product from "../../../features/classes/Product.ts";
 import CheckoutForm from "../../common/CheckoutForm.tsx";
 import {useCurrentUser} from "../../../features/hooks/useCurrentUser.ts";
 import OrderSuccessPopup from "../../common/OrderSuccessPopup.tsx";
@@ -54,9 +54,12 @@ const ShoppingCart = () => {
 
             setItems(loadedItems);
 
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error("Error fetching cart", err);
-            setError(err.message);
+            if (err instanceof Error) {
+                setError(err.message);
+            }
+
         } finally {
             setLoading(false);
         }
@@ -79,8 +82,10 @@ const ShoppingCart = () => {
                 return prevItems;
             });
 
-        } catch (err: any) {
-            setError(err.message || "Failed to add product.");
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                setError(err.message || "Failed to add product.");
+            }
             await fetchCartItems();
         }
     }, [addToCart, fetchCartItems]);
@@ -118,8 +123,10 @@ const ShoppingCart = () => {
         try {
             await removeAllFromCart(productId);
             setItems(prevItems => prevItems.filter(item => item.product.id !== productId));
-        } catch (err: any) {
-            setError(err.message || "Failed to remove product.");
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                setError(err.message || "Failed to remove product.");
+            }
             await fetchCartItems();
         }
     }, [removeAllFromCart, fetchCartItems]);

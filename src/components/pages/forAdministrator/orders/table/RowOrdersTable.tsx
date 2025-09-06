@@ -1,6 +1,6 @@
 import {useContext} from "react";
-import {OrdersContext} from "../../../utils/context.ts";
-import type Order from "../../../features/classes/Order.ts";
+import {OrdersContext} from "../../../../../utils/context.ts";
+import type Order from "../../../../../features/classes/Order.ts";
 import {SquarePen, Trash2} from "lucide-react";
 import {format} from "date-fns";
 

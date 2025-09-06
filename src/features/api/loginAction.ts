@@ -1,10 +1,9 @@
-import {BASE_URL} from "../../utils/constants.ts";
 import type {AuthResponseData} from "../../utils/types";
 
 export const loginUser = async (credentials:
                                     { login: string, password: string }):
     Promise<AuthResponseData> => {
-    const URL = `${BASE_URL}/auth/login`;
+    const URL = `${import.meta.env.VITE_BASE_URL}/auth/login`;
     const options: RequestInit = {
         method: "POST",
         headers: {

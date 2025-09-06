@@ -7,7 +7,7 @@ export const getBodyForQueryGetTable = (typeData: dataTypes, page: number, sort?
 
     const withFilters = filters && filters.length > 0;
 
-    const URL = import.meta.env.VITE_BASE_PRODUCT_URL;
+    const URL = `${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_BASE_PRODUCT_ENDPOINT}`;
 
     if (!URL){
         throw new Error("URL not found in the settings!");

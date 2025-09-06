@@ -1,4 +1,3 @@
-import { BASE_URL } from "../../utils/constants.ts";
 import type { AuthResponseData } from "../../utils/types"; // Теперь снова нужен этот импорт
 
 export const registerUser = async (dataUser: {
@@ -8,7 +7,7 @@ export const registerUser = async (dataUser: {
     email: string,
     password: string
 }): Promise<AuthResponseData> => {
-    const URL = `${BASE_URL}/account/register`;
+    const URL = `${import.meta.env.VITE_BASE_URL}/account/register`;
     const response = await fetch(URL, {
         method: 'POST',
         headers: {

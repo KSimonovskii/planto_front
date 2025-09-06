@@ -1,6 +1,6 @@
 import {DEFAULT_SORT, KINDS_OF_SORTING} from "../../../utils/constants.ts";
 import {useContext} from "react";
-import {PageContext} from "../../../utils/context.ts";
+import {PageProductContext} from "../../../utils/context.ts";
 import type {dataTypes} from "../../../utils/enums/dataTypes.ts";
 
 interface SortingProps {
@@ -9,7 +9,7 @@ interface SortingProps {
 
 const Sorting = ({dataType} : SortingProps) => {
 
-    const {setPage} = useContext(PageContext);
+    const {setPage} = useContext(PageProductContext);
 
     let sorting = KINDS_OF_SORTING.get(dataType);
     if (!sorting) {

@@ -1,8 +1,29 @@
 import {LucideIcon} from "lucide-react";
 import {Decimal} from "decimal.js";
+import type Sort from "../features/classes/Sort.ts";
 import type {OrderStatus} from "../components/pages/orders/OrderStatus.ts";
 import type {CartItem} from "../components/pages/orders/CartItem.ts";
 
+//Common
+interface NavItem {
+    title: string
+    path: string
+    icon: LucideIcon
+    adminOnly: boolean
+}
+
+export interface DataTable <T> {
+    table: T[],
+    pages: number
+}
+
+export interface PageTableData {
+    pageNumber: number;
+    sort: Sort;
+    filters: Filter[]
+}
+
+//Auth
 interface UserInterfaceAccount {
     login: string;
     firstName: string | null;
@@ -13,7 +34,6 @@ interface UserInterfaceAccount {
     orders: Order[] | null;
     cart: CartItem[]| null;
 }
-
 
 interface AuthResponseData {
     accessToken: string
@@ -28,34 +48,7 @@ interface AuthContextType {
     accessTokenLoaded: boolean
 }
 
-interface NavItem {
-import {directions} from "./enums/directions.ts";
-import type Sort from "../features/classes/Sort.ts";
-
-export interface Item {
-    title: string
-    path: string
-    icon: LucideIcon
-    adminOnly: boolean
-}
-
-interface OrderItemDto {
-    productId: string
-    name: string
-    quantity: number
-    priceUnit: Decimal
-}
-export interface DataTableProducts{
-    products: Product[],
-    pages: number
-}
-
-export interface PageProductsData{
-    pageNumber: number;
-    sort: Sort;
-    filters: Filter[]
-}
-
+//Products
 export interface ProductData {
     id?: string,
     name: string,
@@ -86,7 +79,7 @@ export interface AnswerTable {
     }
 }
 
-
+//Orders
 interface OrderDto {
     id: string
     items: OrderItemDto[]
@@ -96,19 +89,14 @@ interface OrderDto {
     paid: boolean
 }
 
+interface OrderItemDto {
+    productId: string
+    name: string
+    quantity: number
+    priceUnit: Decimal
+}
+
 interface CartItemDto {
     productId: string
     quantity: number
-}
-
-
-export interface DataTableProducts{
-    products: Product[],
-    pages: number
-}
-
-export interface PageProductsData{
-    pageNumber: number;
-    sort: Sort;
-    filters: Filter[]
 }

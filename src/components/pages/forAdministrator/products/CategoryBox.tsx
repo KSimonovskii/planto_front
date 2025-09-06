@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {DATA_FOR_PRODUCT_FILTERS} from "../../utils/constants.ts";
+import {DATA_FOR_PRODUCT_FILTERS} from "../../../../utils/constants.ts";
 import {
     Combobox,
     ComboboxButton,

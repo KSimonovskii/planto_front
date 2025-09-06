@@ -1,4 +1,4 @@
-import {EMPTY_PHOTO} from "../../utils/constants.ts"
+import {EMPTY_PHOTO} from "../../../../utils/constants.ts"
 import CategoryBox from "./CategoryBox.tsx";
 import {useInputProduct} from "./hooks/useInputProduct.tsx"
 

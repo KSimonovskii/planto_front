@@ -1,15 +1,16 @@
 import {useContext, useMemo} from "react";
-import {getBodyForQueryGetTable} from "../../features/api/apiUtils.ts";
-import {PageContext, ProductsContext} from "../../utils/context.ts";
+import {getBodyForQueryGetTable} from "../../../../features/api/apiUtils.ts";
+import {PageProductContext, ProductsContext} from "../../../../utils/context.ts";
 import AddProduct from "./AddProduct.tsx";
 import ProductsView from "./table/ProductsView.tsx";
-import {useGetProductsTableRTKQuery} from "../../features/api/productApi.ts";
-import Product from "../../features/classes/Product.ts";
-import {dataTypes} from "../../utils/enums/dataTypes.ts";
+import {useGetProductsTableRTKQuery} from "../../../../features/api/productApi.ts";
+import Product from "../../../../features/classes/Product.ts";
+import {dataTypes} from "../../../../utils/enums/dataTypes.ts";
 
 const ProductsManager = () => {
 
-    const {pageNumber, sort, filters} = useContext(PageContext);
+    //TODO clear copypaste with SliderMainPage
+    const {pageNumber, sort, filters} = useContext(PageProductContext);
 
     const {data = {products: [], pages: 0}, isLoading, isError, error} = useGetProductsTableRTKQuery(getBodyForQueryGetTable(dataTypes.products, pageNumber, sort, filters));
 

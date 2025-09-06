@@ -1,18 +1,21 @@
-import {OrdersContext} from "../../../utils/context.ts";
 import {useContext} from "react";
-import EmptyRowTable from "../../common/EmptyRowTable.tsx";
-import RowOrdersTable from "./RowOrdersTable.tsx";
+import {ProductsContext} from "../../../../../utils/context.ts";
+import RowProductsTable from "./RowProductsTable.tsx";
+import EmptyRowTable from "../../../../common/table/EmptyRowTable.tsx";
 
 const TABLE_HEAD = [
-    "Number",
-    "Date",
-    "Status",
-    "Amount",
+    "Image",
+    "Name",
+    "Category",
+    "Quantity",
+    "Price",
+    "Description",
     "Action"
 ]
 
-const OrdersTable = () => {
-    const {table} = useContext(OrdersContext);
+const ProductsTable = () => {
+
+    const {table} = useContext(ProductsContext);
 
     return (
         <table className={"text-base-form gap-4"}>
@@ -28,11 +31,11 @@ const OrdersTable = () => {
             <tbody>
             {table.length == 0 ?
                 <EmptyRowTable msg={"Can't receive data from database"}/> :
-                table.map(order => <RowOrdersTable key={order.id} order={order}/>)}
+                table.map(product => <RowProductsTable key={product.id} product={product}/>)}
             </tbody>
         </table>
     )
 
-};
+}
 
-export default OrdersTable;
+export default ProductsTable

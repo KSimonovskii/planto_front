@@ -1,20 +1,20 @@
 import {type ReactNode, type SetStateAction, useCallback, useMemo, useState} from "react";
-import type {PageProductsData} from "../../utils/types";
+import type {PageTableData} from "../../utils/types";
 import {DEFAULT_SORT} from "../../utils/constants.ts";
-import {PageContext} from "../../utils/Context.ts";
+import {PageProductContext} from "../../utils/context.ts";
 
 interface PageProviderProps {
     children: ReactNode;
 }
 
 export const PageProvider = ({children}: PageProviderProps) => {
-    const [pageState, setPageState] = useState<PageProductsData>({
+    const [pageState, setPageState] = useState<PageTableData>({
         pageNumber: 1,
         sort: DEFAULT_SORT,
         filters: [],
     });
 
-    const setPage = useCallback((newPageData: SetStateAction<PageProductsData>) => {
+    const setPage = useCallback((newPageData: SetStateAction<PageTableData>) => {
         setPageState(prev => {
             if (typeof newPageData === 'function') {
                 return newPageData(prev);
@@ -31,8 +31,8 @@ export const PageProvider = ({children}: PageProviderProps) => {
     }), [pageState.pageNumber, pageState.sort, pageState.filters, setPage]);
 
     return (
-        <PageContext.Provider value={contextValue}>
+        <PageProductContext.Provider value={contextValue}>
             {children}
-        </PageContext.Provider>
+        </PageProductContext.Provider>
     );
 };
