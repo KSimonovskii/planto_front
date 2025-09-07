@@ -41,7 +41,6 @@ export default class Product {
         return this._price;
     }
 
-
     set name(value: string) {
         this._name = value;
     }

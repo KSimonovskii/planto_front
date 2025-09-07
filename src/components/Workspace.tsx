@@ -22,55 +22,55 @@ const Workspace = () => {
     const [pageData, setPage] = useState<PageTableData>({pageNumber: 1, sort: DEFAULT_SORT_PRODUCT, filters: []});
 
     return (
-        <PageProductContext.Provider value={{pageNumber: pageData.pageNumber, sort: pageData.sort, filters: pageData.filters, setPage: setPage}}>
-        <Routes>
+        <PageProductContext.Provider value={{...pageData, setPage}}>
+            <Routes>
 
-            {[`auth/login`].map(path =>
-                <Route key={path} path={path} element={<PersonalAccount/>}/>)}
+                {[`auth/login`].map(path =>
+                    <Route key={path} path={path} element={<PersonalAccount/>}/>)}
 
-            {[`account/register`].map(path =>
-                <Route key={path} path={path} element={<AccountRegister/>}/>)}
+                {[`account/register`].map(path =>
+                    <Route key={path} path={path} element={<AccountRegister/>}/>)}
 
-            {[`products`].map(path =>
-                <Route key={path} path={path} element={
-                    <RequireAuthAdministrator>
-                        <ProductsManager/>
-                    </RequireAuthAdministrator>
-                }/>)}
+                {['/', 'products', `products/:pageNumber`].map(path =>
+                    <Route key={path} path={path} element={
+                        <RequireAuthAdministrator>
+                            <ProductsManager/>
+                        </RequireAuthAdministrator>
+                    }/>)}
 
-            {[navItems[5].path].map(path =>
-                <Route key={path} path={path} element={
-                    <RequireAuthAdministrator>
-                        <AdminDashboard/>
-                    </RequireAuthAdministrator>
-                }/>)}
+                {[navItems[5].path].map(path =>
+                    <Route key={path} path={path} element={
+                        <RequireAuthAdministrator>
+                            <AdminDashboard/>
+                        </RequireAuthAdministrator>
+                    }/>)}
 
-            {['/', navItems[0].path].map(path =>
-                <Route key={path} path={path} element={<Home/>}/>)}
+                {['/', navItems[0].path].map(path =>
+                    <Route key={path} path={path} element={<Home/>}/>)}
 
-            {[navItems[2].path].map(path =>
-                <Route key={path} path={path} element={
-                    <RequireAuth>
-                        <ShoppingCart/>
-                    </RequireAuth>
-                }/>)}
+                {[navItems[2].path].map(path =>
+                    <Route key={path} path={path} element={
+                        <RequireAuth>
+                            <ShoppingCart/>
+                        </RequireAuth>
+                    }/>)}
 
-            {[navItems[3].path].map(path =>
-                <Route key={path} path={path} element={
-                    <RequireAuth>
-                        <AccountDashboard/>
-                    </RequireAuth>
-                }/>)}
+                {[navItems[3].path].map(path =>
+                    <Route key={path} path={path} element={
+                        <RequireAuth>
+                            <AccountDashboard/>
+                        </RequireAuth>
+                    }/>)}
 
-            {[navItems[4].path].map(path =>
-                <Route key={path} path={path} element={<Store/>}/>)}
+                {['/', navItems[4].path, `${navItems[4].path}/:pageNumber`].map(path =>
+                    <Route key={path} path={path} element={<Store/>}/>)}
 
-            {[navItems[1].path].map(path =>
-                <Route key={path} path={path} element={<AboutUs/>}/>)}
+                {[navItems[1].path].map(path =>
+                    <Route key={path} path={path} element={<AboutUs/>}/>)}
 
 
-            <Route path={'*'} element={<ErrorPage msg={"Page not found"}/>}/>
-        </Routes>
+                <Route path={'*'} element={<ErrorPage msg={"Page not found"}/>}/>
+            </Routes>
         </PageProductContext.Provider>
     )
 }

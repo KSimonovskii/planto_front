@@ -11,11 +11,9 @@ import {useGetProductsTableRTKQuery} from "../../../features/api/productApi.ts";
 import {getBodyForQueryGetTable} from "../../../features/api/apiUtils.ts";
 import {dataTypes} from "../../../utils/enums/dataTypes.ts";
 
-
 const SliderMainPage = () => {
 
-    const [loading, setLoading] = useState(false);
-    const [errorMsg, setErrorMsg] = useState<string | null>(null);
+    const [errorMsg, setErrorMsg] = useState("");
     const {addToCart, message} = useCartActions();
     const {isAuthenticated} = useCurrentUser();
 
@@ -28,7 +26,12 @@ const SliderMainPage = () => {
     const closeAuthModal = () => setAuthModalVisible(false);
 
     const {pageNumber, sort, filters} = useContext(PageProductContext);
-    const {data = {products: [], pages: 0}, isLoading, isError, error} = useGetProductsTableRTKQuery(getBodyForQueryGetTable(dataTypes.products, pageNumber, sort, filters));
+
+    const body = useMemo(() => (
+        getBodyForQueryGetTable(dataTypes.products, pageNumber, sort, filters)
+    ), [pageNumber, sort, filters]);
+
+    const {data = {products: [], pages: 0}, isLoading, isError, error} = useGetProductsTableRTKQuery(body);
 
     const products = useMemo(() => {
             return data.products.map((p: Product) => new Product(p.id, p.name, p.category, p.quantity, p.price, p.imageUrl, p.description));
@@ -36,21 +39,13 @@ const SliderMainPage = () => {
         [data.products]
     )
 
-    if (isLoading) {
-        setLoading(true)
-    }
+    let msg = "";
     if (isError) {
-
-        let errorMsg = "";
-        if ('status' in error) {
-            errorMsg = `Error: ${error.status} - ${error.data}`;
-        } else {
-            errorMsg = "Unknown error";
-        }
-        setErrorMsg(errorMsg);
+        msg = 'status' in error ? `Error: ${error.status} - ${error.data}` : "Unknown error";
+        setErrorMsg(msg);
     }
 
-    const handleAddToCart = useCallback(async (productId: string) => {
+    const handleAddToCart = useCallback(async (productId: string, errorMsg: string) => {
         if (!isAuthenticated) {
             openAuthModal();
             return;
@@ -59,7 +54,7 @@ const SliderMainPage = () => {
             await addToCart(productId);
         } catch (err: unknown) {
             if (err instanceof Error){
-                setErrorMsg(err.message);
+                setErrorMsg(prevState => (prevState + "/n" + errorMsg));
             }
         }
 
@@ -78,9 +73,9 @@ const SliderMainPage = () => {
                     className="text-center text-green-600 text-lg font-bold py-2 px-6 rounded shadow-lg z-50">{message}</div>
             )}
 
-            {loading ? (
+            {isLoading ? (
                 <p className="text-center text-gray-500">Loading...</p>
-            ) : errorMsg ? (
+            ) : isError ? (
                 <p className="text-center text-red-500">{errorMsg}</p>
             ) : (<Swiper
                     modules={[Pagination, Navigation]}

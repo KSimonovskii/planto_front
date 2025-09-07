@@ -1,6 +1,7 @@
 import {NavLink} from "react-router";
 import {useContext} from "react";
 import {PageProductContext, ProductsContext} from "../../../utils/context.ts";
+import {navItems} from "../../../utils/constants.ts";
 
 const PageNavigation = () => {
 
@@ -22,22 +23,24 @@ const PageNavigation = () => {
         return newPage;
     }
 
+    const path = navItems[4]; //'products';
+
     return (
         <nav className={"flex justify-center space-x-3"}>
             <NavLink className={"text-base-form"} onClick={() => handleChangePage(1)} key={"first"}
-                     to={`/products/1`}>{"<<"}</NavLink>
+                     to={`/${path}/1`}>{"<<"}</NavLink>
             <NavLink className={"text-base-form"} onClick={() => handleChangePage(getNewPage(-1))} key={"previous"}
-                     to={`/products/${getNewPage(-1)}`}>{"<"}</NavLink>
+                     to={`/${path}/${getNewPage(-1)}`}>{"<"}</NavLink>
             {getArrayOfPages(pages).map(page => <NavLink
                 className={`text-base-form ${page === pageNumber ? "font-bold underline" : ""}`}
                 onClick={() => handleChangePage(page)} key={page}
-                to={`/products/${page}`}>
+                to={`/${path}/${page}`}>
                 {page}
             </NavLink>)}
             <NavLink className={"text-base-form"} onClick={() => handleChangePage(getNewPage(1))} key={"next"}
-                     to={`/products/${getNewPage(1)}`}>{">"}</NavLink>
+                     to={`/${path}/${getNewPage(1)}`}>{">"}</NavLink>
             <NavLink className={"text-base-form"} onClick={() => handleChangePage(pages)} key={"last"}
-                     to={`/products/${pages}`}>{">>"}</NavLink>
+                     to={`/${path}/${pages}`}>{">>"}</NavLink>
         </nav>
     )
 }
