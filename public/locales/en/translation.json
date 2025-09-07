@@ -1,0 +1,73 @@
+{
+  "nav": {
+    "about": "About Us",
+    "business": "Succulents for business",
+    "home": "Succulents for home",
+    "care": "Care instructions"
+  },
+  "search": "Search your plant...",
+  "hero": {
+    "smallPlant": "Small plant with big impact",
+    "everySucculent": "Every succulent you buy helps rebuild a kibbutz affected by October 7.",
+    "exploreCollection": "Explore Collection",
+    "aboutProject": "About the Project"
+  },
+  "corpFavorites": "Corporate Favorites",
+  "cart": {
+    "addToCart": "Add to cart",
+    "addedToCart": "Product added to cart"
+  },
+  "viewAll": "View All",
+  "whoWe": {
+    "whoWeAre": "Who We Are?",
+    "story": "Planto was born where only the succulents survived. After the tragic events of October 7, in our kibbutz near the border, only these small but resilient plants remained alive. We saw it as a sign and began to rebuild life from them. Today, every succulent we grow and sell helps us rebuild our home, our community, and our hope.<br/>We invite you to become part of this story.",
+    "donate": "Donate for Rebuild",
+    "learnMore": "Learn More"
+  },
+  "clientsFriends": "Our Clients & Friends",
+  "reviews": {
+    "whatSay": "What Our Customers Say?",
+    "review1":"We were looking for something thoughtful for our team — and Planto delivered beyond expectations. Every succulent came with a story, and knowing that our gesture supported the rebuilding of a kibbutz made it truly meaningful.",
+    "authorReview1": "Sharon L.",
+    "positionReview1": "HR Manager, Google Israel",
+    "review2":"We ordered Planto sets for our remote team to celebrate a project launch. They were beautiful, easy to care for, and came with a message that touched everyone. It’s rare to find a gift that combines aesthetics and impact.",
+    "authorReview2": "David N.",
+    "positionReview2": "People & Culture Lead, Cisco Tel Aviv",
+    "review3":"Our company loved the idea of gifts that grow — and the story behind Planto made it even more powerful. We believe in resilience and creativity, and Planto reflects that perfectly.",
+    "authorReview3": "Maya R.",
+    "positionReview3": "Operations Manager, Unity",
+    "review4":"We gave Planto succulents to our partners and clients this year, and the feedback was fantastic. The packaging, the quality — and especially the cause — made it stand out from anything we’ve sent before. — Tomer B., Partnerships Manager, Yad2",
+    "authorReview4": "Tomer B.",
+    "positionReview4": "Partnerships Manager, Yad2",
+    "review5":"The team loved receiving something alive, symbolic, and rooted in something real. The fact that our order helped support a recovering community added real value to what could’ve been just another corporate gift.",
+    "authorReview5": "Ilana G.",
+    "positionReview5": "HR Director, Red Hat",
+    "review6":"Instead of sending branded mugs or pens, we sent Planto boxes. The response was overwhelming — everyone loved the plants and appreciated the social impact. We’ll definitely come back for our next cohort.",
+    "authorReview6": "Jonathan Z.",
+    "positionReview6": "Program Director"
+  },
+  "footer": {
+    "talk": "Talk to us",
+    "address": "Kibbuts Ein Hashlosha, HaDarom, Israel",
+    "join": "Join us",
+    "explore": "Explore",
+    "homePage": "Home page",
+    "aboutUs": "About us",
+    "sucForBusiness": "Succulents for business",
+    "sucForHome": "Succulents for home",
+    "careInstruction": "Care instructions",
+    "accessibilityStatement": "Accessibility Statement",
+    "websiteRules": "Website Rules",
+    "getUpdate": " Get updates on new collections, impact stories, and more",
+    "agree": "I agree to receive professional and marketing information based on the details I provided",
+    "sent": "Sent",
+    "sending": "Sending",
+    "email": "e-mail"
+  },
+  "authModal": {
+    "title": "Please login",
+    "message": "You need to be logged in to add products to the cart.",
+    "login": "Login",
+    "home": "Not now"
+  }
+}

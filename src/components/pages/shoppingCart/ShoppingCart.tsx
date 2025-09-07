@@ -7,6 +7,7 @@ import CheckoutForm from "../../common/CheckoutForm.tsx";
 import {useCurrentUser} from "../../../features/hooks/useCurrentUser.ts";
 import OrderSuccessPopup from "../../common/OrderSuccessPopup.tsx";
 import {useNavigate} from "react-router";
+import {useCartContext} from "../../../features/context/CartContext.tsx";
 
 interface CartItemType {
     product: Product;
@@ -18,11 +19,10 @@ const ShoppingCart = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const {getCart, addToCart, removeFromCart, removeAllFromCart} = useCartActions();
-
     const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
     const {isAuthenticated} = useCurrentUser();
     const [isOrderSuccessOpen, setIsOrderSuccessOpen] = useState(false);
-
+    const {refreshCart} = useCartContext();
     const navigate = useNavigate();
 
 
@@ -68,6 +68,7 @@ const ShoppingCart = () => {
     const handleAdd = useCallback(async (productId: string) => {
         try {
             await addToCart(productId);
+            await refreshCart();
 
             setItems(prevItems => {
                 const itemIndex = prevItems.findIndex(item => item.product.id === productId);
@@ -88,12 +89,13 @@ const ShoppingCart = () => {
             }
             await fetchCartItems();
         }
-    }, [addToCart, fetchCartItems]);
+    }, [addToCart, fetchCartItems, refreshCart]);
 
     const handleRemove = useCallback(async (productId: string) => {
 
         try {
             await removeFromCart(productId);
+            await refreshCart();
 
             setItems(prevItems => {
                 const itemIndex = prevItems.findIndex(item => item.product.id === productId);
@@ -117,11 +119,12 @@ const ShoppingCart = () => {
             setError(err.message || "Failed to remove product.");
             await fetchCartItems()
         }
-    }, [removeFromCart, fetchCartItems]);
+    }, [removeFromCart, fetchCartItems, refreshCart]);
 
     const handleRemoveAll = useCallback(async (productId: string) => {
         try {
             await removeAllFromCart(productId);
+            await refreshCart();
             setItems(prevItems => prevItems.filter(item => item.product.id !== productId));
         } catch (err: unknown) {
             if (err instanceof Error) {
@@ -129,7 +132,7 @@ const ShoppingCart = () => {
             }
             await fetchCartItems();
         }
-    }, [removeAllFromCart, fetchCartItems]);
+    }, [removeAllFromCart, fetchCartItems, refreshCart]);
 
     const handleCheckoutClick = () => {
         if (!isAuthenticated) {

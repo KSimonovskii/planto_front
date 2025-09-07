@@ -1,8 +1,7 @@
-import {useState} from "react";
-import {registerUser} from "../../../features/api/registAction.ts";
-import {useNavigate} from "react-router";
-import {useLocation} from "react-router-dom";
-import {useAuth} from "../../../features/hooks/useAuth.ts";
+import { useState } from "react";
+import { registerUser } from "../../../features/api/registAction.ts";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../../../features/hooks/useAuth.ts";
 
 const INITIAL_ACCOUNT_STATE = {
     login: "",
@@ -10,7 +9,7 @@ const INITIAL_ACCOUNT_STATE = {
     lastname: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
 };
 
 type InputBlockProps = {
@@ -21,9 +20,15 @@ type InputBlockProps = {
     type?: string;
 };
 
-const InputBlock = ({id, label, value, handleChange, type = "text"}: InputBlockProps) => (
-    <div>
-        <label htmlFor={id} className="block text-sm font-medium text-gray-700">
+const InputBlock = ({
+                        id,
+                        label,
+                        value,
+                        handleChange,
+                        type = "text",
+                    }: InputBlockProps) => (
+    <div className="flex flex-col">
+        <label htmlFor={id} className="text-sm font-medium text-gray-700 mb-1">
             {label}
         </label>
         <input
@@ -33,25 +38,24 @@ const InputBlock = ({id, label, value, handleChange, type = "text"}: InputBlockP
             value={value}
             onChange={handleChange}
             required
-            className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-600 font-inter"
         />
     </div>
 );
 
 const AccountRegister = () => {
-
     const [dataAccount, setDataAccount] = useState(INITIAL_ACCOUNT_STATE);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
-    const from = (location.state as { from?: Location })?.from?.pathname || "/";
-    const {setAccessToken} = useAuth();
+    const from = (location.state as { from?: string })?.from || "/";
+    const { setAccessToken } = useAuth();
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setDataAccount({...dataAccount, [event.target.name]: event.target.value});
+        setDataAccount({ ...dataAccount, [event.target.name]: event.target.value });
         setError(null);
-    }
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -61,7 +65,6 @@ const AccountRegister = () => {
         }
 
         setLoading(true);
-
         try {
             const authData = await registerUser({
                 login: dataAccount.login,
@@ -73,52 +76,82 @@ const AccountRegister = () => {
 
             setAccessToken(authData.accessToken);
             setDataAccount(INITIAL_ACCOUNT_STATE);
-            navigate(from, {replace: true});
-
+            navigate(from, { replace: true });
         } catch (err: any) {
             console.error("Registration failed: ", err);
             setError(err.message || "Unknown error during registration.");
         } finally {
             setLoading(false);
         }
-    }
+    };
 
     return (
-        <div className="max-w-lg mx-auto mt-20 p-8 bg-white shadow-lg rounded-xl">
-            <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
-                Register New Account
-            </h2>
+        <section className="flex justify-center items-center min-h-screen bg-gray-50">
+            <div className="w-full max-w-lg bg-white shadow-lg rounded-xl p-8 flex flex-col gap-6">
+                <h2 className="text-3xl font-bold font-rubik text-gray-800 text-center">
+                    Register New Account
+                </h2>
 
-            {error && (
-                <p className="text-red-600 text-center mb-4 font-medium">{error}</p>
-            )}
+                {error && (
+                    <p className="text-red-600 text-center font-semibold">{error}</p>
+                )}
 
-            <form onSubmit={handleSubmit} className="space-y-5">
-                <InputBlock id="login" label="Login" value={dataAccount.login} handleChange={handleChange}/>
-                <InputBlock id="firstname" label="First Name" value={dataAccount.firstname}
-                            handleChange={handleChange}/>
-                <InputBlock id="lastname" label="Last Name" value={dataAccount.lastname}
-                            handleChange={handleChange}/>
-                <InputBlock id="email" label="Email" value={dataAccount.email} handleChange={handleChange}
-                            type="email"/>
-                <InputBlock id="password" label="Password" value={dataAccount.password} handleChange={handleChange}
-                            type="password"/>
-                <InputBlock id="confirmPassword" label="Confirm Password" value={dataAccount.confirmPassword}
-                            handleChange={handleChange} type="password"/>
+                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                    <InputBlock
+                        id="login"
+                        label="Login"
+                        value={dataAccount.login}
+                        handleChange={handleChange}
+                    />
+                    <InputBlock
+                        id="firstname"
+                        label="First Name"
+                        value={dataAccount.firstname}
+                        handleChange={handleChange}
+                    />
+                    <InputBlock
+                        id="lastname"
+                        label="Last Name"
+                        value={dataAccount.lastname}
+                        handleChange={handleChange}
+                    />
+                    <InputBlock
+                        id="email"
+                        label="Email"
+                        value={dataAccount.email}
+                        handleChange={handleChange}
+                        type="email"
+                    />
+                    <InputBlock
+                        id="password"
+                        label="Password"
+                        value={dataAccount.password}
+                        handleChange={handleChange}
+                        type="password"
+                    />
+                    <InputBlock
+                        id="confirmPassword"
+                        label="Confirm Password"
+                        value={dataAccount.confirmPassword}
+                        handleChange={handleChange}
+                        type="password"
+                    />
 
-                <button
-                    type="submit"
-                    disabled={loading}
-                    className={`w-full py-2 rounded-lg text-white font-semibold transition duration-300 ${
-                        loading ? "bg-blue-300 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
-                    }`}
-                >
-                    {loading ? "Registration process..." : "Register"}
-                </button>
-            </form>
-        </div>
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        className={`w-full py-3 rounded-lg font-rubik text-white transition-transform duration-200 ${
+                            loading
+                                ? "bg-lime-300 cursor-not-allowed"
+                                : "bg-lime-600 hover:bg-lime-700 hover:scale-105 active:scale-95"
+                        }`}
+                    >
+                        {loading ? "Registering..." : "Register"}
+                    </button>
+                </form>
+            </div>
+        </section>
     );
-}
-
+};
 
 export default AccountRegister;

@@ -4,6 +4,14 @@ import {useCallback, useContext, useMemo, useState} from "react";
 import {PageProductContext} from "../../../utils/context.ts";
 import {useCartActions} from "../../../features/hooks/useCartAction.ts";
 import {useCurrentUser} from "../../../features/hooks/useCurrentUser.ts";
+
+import "swiper/css";
+import "swiper/css/navigation";
+import spinner from "../../../assets/spinner2.png";
+import FramePaginationCorporateFavorites from "./FramePaginationCorporateFavorites.tsx";
+import {useCartContext} from "../../../features/context/CartContext.tsx";
+import {useTranslation} from "react-i18next";
+import AuthModal from "./AuthModal.tsx";
 import AuthPromptModal from "../../common/AuthPromptModal.tsx";
 import Product from "../../../features/classes/Product.ts";
 import ImagePopup from "../../common/ImagePopup.tsx";
@@ -15,15 +23,16 @@ const SliderMainPage = () => {
 
     const [errorMsg, setErrorMsg] = useState("");
     const {addToCart, message} = useCartActions();
+    const {products, setProductsData} = useContext(ProductsContext);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const {pageNumber, sort, filters} = useContext(PageContext);
+    const {addToCart, getCart, isInCart} = useCartActions();
     const {isAuthenticated} = useCurrentUser();
-
-    const [isAuthModalVisible, setAuthModalVisible] = useState(false);
-
-    const [isImagePopupOpen, setImagePopupOpen] = useState(false);
-    const [currentImageProduct, setCurrentImageProduct] = useState<Product | null>(null);
-
-    const openAuthModal = () => setAuthModalVisible(true);
-    const closeAuthModal = () => setAuthModalVisible(false);
+    const swiperRef = useRef<any>(null);
+    const {refreshCart} = useCartContext();
+    const {t} = useTranslation();
+    const [showAuthModal, setShowAuthModal] = useState(false);
 
     const {pageNumber, sort, filters} = useContext(PageProductContext);
 
@@ -45,101 +54,105 @@ const SliderMainPage = () => {
         setErrorMsg(msg);
     }
 
-    const handleAddToCart = useCallback(async (productId: string, errorMsg: string) => {
-        if (!isAuthenticated) {
-            openAuthModal();
-            return;
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            getCart();
         }
-        try {
-            await addToCart(productId);
-        } catch (err: unknown) {
-            if (err instanceof Error){
-                setErrorMsg(prevState => (prevState + "/n" + errorMsg));
+    }, [isAuthenticated, getCart]);
+
+    const handleAddToCart = useCallback(
+        async (productId: string) => {
+            if (!isAuthenticated) {
+                setShowAuthModal(true);
+                return;
             }
-        }
-
-    }, [isAuthenticated, addToCart]);
-
-    const handleImageClick = useCallback((product: Product) => {
-        setCurrentImageProduct(product);
-        setImagePopupOpen(true);
-    }, []);
+            try {
+                await addToCart(productId);
+                await refreshCart();
+            } catch (err: any) {
+                setError(err.message);
+            }
+        },
+        [isAuthenticated, addToCart, refreshCart]
+    );
 
     return (
-        <div>
-
-            {message && (
-                <div
-                    className="text-center text-green-600 text-lg font-bold py-2 px-6 rounded shadow-lg z-50">{message}</div>
-            )}
-
-            {isLoading ? (
-                <p className="text-center text-gray-500">Loading...</p>
-            ) : isError ? (
-                <p className="text-center text-red-500">{errorMsg}</p>
-            ) : (<Swiper
-                    modules={[Pagination, Navigation]}
-                    spaceBetween={30}
-                    slidesPerView={1}
-
-                    pagination={{
-                        clickable: true,
-                        el: ".custom-pagination",
-                    }}
-                    breakpoints={{
-                        640: {
-                            slidesPerView: 2,
-                        },
-                        768: {
-                            slidesPerView: 3,
-                        },
-                        1024: {
-                            slidesPerView: 4,
-                        },
-                    }}
-                >
-                    {products.map((product) => (
-                        <SwiperSlide key={product.id}>
-                            <div
-                                className="bg-white rounded-xl shadow-sm overflow-hidden text-center p-4 hover:shadow-md transition"
-                            >
-                                <img
-                                    onClick={() => handleImageClick(product)}
-                                    src={product.imageUrl}
-                                    alt={product.name}
-                                    className="w-full h-48 object-contain mx-auto mb-4 cursor-zoom-in"
-                                />
-                                <h3 className="font-medium text-lg">{product.name}</h3>
-                                <p className="text-gray-700 mt-1 mb-3">
-                                    ${product.price.toFixed(2)}
-                                </p>
-                                <button
-                                    onClick={() => handleAddToCart(product.id)}
-                                    className="bg-[#9acfaf] text-[#2a4637] font-semibold py-2 px-4 rounded hover:bg-[#7aaa8d] transition"
+        <div className="self-stretch inline-flex flex-col justify-start items-start relative">
+            <div className="w-[1280px] flex flex-col justify-start items-start gap-4 overflow-hidden">
+                {loading ? (
+                    <div className="flex justify-center items-center w-full h-64">
+                        <img src={spinner} alt="loading..." className="spinner-icon"/>
+                    </div>
+                ) : error ? (
+                    <p className="text-center text-red-500">{error}</p>
+                ) : (
+                    <>
+                        <Swiper
+                            modules={[Navigation]}
+                            spaceBetween={30}
+                            slidesPerView={"auto"}
+                            onSwiper={(swiper) => (swiperRef.current = swiper)}
+                            className="w-full"
+                        >
+                            {products.map((product) => (
+                                <SwiperSlide
+                                    key={product.id}
+                                    className="!w-72 h-[430px] inline-flex justify-start items-center px-6"
                                 >
-                                    Add
-                                </button>
-                            </div>
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
-            )}
-            <div className="custom-pagination mt-6 flex justify-center"/>
+                                    <div
+                                        className="w-72 h-[430px] inline-flex flex-col justify-start items-start gap-2">
+                                        <div className="self-stretch flex flex-col justify-start items-start gap-3">
+                                            <div className="w-72 h-72 relative rounded-lg overflow-hidden">
+                                                <img
+                                                    src={product.imageUrl}
+                                                    alt={product.name}
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            </div>
+                                            <div className="self-stretch flex flex-col gap-1">
+                                                <div className="w-72 flex items-center overflow-hidden py-4">
+                                                    <div
+                                                        className="flex-1 min-w-0 text-lime-800 text-xl font-bold font-['Rubik'] truncate">
+                                                        {product.name}
+                                                    </div>
 
-            <AuthPromptModal isOpen={isAuthModalVisible} onClose={closeAuthModal}/>
+                                                    <div
+                                                        className="ml-2 shrink-0 text-right text-lime-800 text-xl font-bold font-['Rubik']">
+                                                        ₪ {product.price.toFixed(2)}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button
+                                            onClick={() => handleAddToCart(product.id)}
+                                            className={`self-stretch px-6 py-3 rounded-lg outline outline-1 outline-offset-[-1px] outline-lime-800 inline-flex justify-center items-center gap-2 overflow-hidden text-base font-medium font-['Rubik'] leading-normal transition 
+                                            ${isInCart(product.id)
+                                                ? "bg-lime-600 text-white cursor-default"
+                                                : "bg-white text-lime-800 hover:bg-lime-800 hover:text-white"
+                                            }`}
+                                            disabled={isInCart(product.id)}
+                                        >
+                                            {isInCart(product.id) ? t("cart.addedToCart") : t("cart.addToCart")}
 
-            {currentImageProduct && (
-                <ImagePopup
-                    isOpen={isImagePopupOpen}
-                    setIsOpen={setImagePopupOpen}
-                    name={currentImageProduct.name}
-                    category={currentImageProduct.category}
-                    url={currentImageProduct.imageUrl}
-                />
-            )}
+                                        </button>
+                                    </div>
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
+
+                        <FramePaginationCorporateFavorites
+                            onPrev={() => swiperRef.current?.slidePrev()}
+                            onNext={() => swiperRef.current?.slideNext()}
+                        />
+
+                        <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
+
+                    </>
+                )}
+            </div>
         </div>
-    )
+    );
+};
 
-}
-
-export default SliderMainPage
+export default SliderMainPage;

@@ -32,7 +32,7 @@ interface UserInterfaceAccount {
     address: Address | null;
     roles: string[];
     orders: Order[] | null;
-    cart: CartItem[]| null;
+    cart: CartItem[] | null;
 }
 
 interface AuthResponseData {
@@ -58,7 +58,13 @@ export interface ProductData {
     description: string,
     imageUrl: string,
     imageFile: File | null
+interface NavItem {
+    title: string
+    path: string
+    adminOnly: boolean
+    userOnly?: boolean
 }
+
 
 export interface ProductDataForTable {
     imageUrl: string,

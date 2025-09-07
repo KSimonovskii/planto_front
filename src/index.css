@@ -21,7 +21,7 @@
     }
 
     body {
-        background-color: #F8F3EF;
+        background-color: rgba(255, 255, 255, 1);
     }
 
     #root {
@@ -129,3 +129,10 @@
 .custom-pagination .swiper-pagination-bullet-active {
     background-color: #4b7846;
 }
+
+.spinner-icon {
+    width: 650px;
+    height: 430px;
+    animation: spin 1.5s linear infinite;
+}
+

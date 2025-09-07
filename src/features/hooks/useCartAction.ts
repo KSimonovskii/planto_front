@@ -9,9 +9,10 @@ export type CartEntry = {
 };
 
 export const useCartActions = () => {
-   const {getToken, setAccessToken} = useAuth();
+    const {getToken, setAccessToken} = useAuth();
     const {user} = useCurrentUser();
     const [message, setMessage] = useState<string | null>(null);
+    const [cart, setCart] = useState<CartEntry[]>([]);
 
     const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -33,8 +34,7 @@ export const useCartActions = () => {
             }
 
             const cartData: CartEntry[] = await response.json();
-            setMessage("Cart loaded successfully");
-            setTimeout(() => setMessage(null), 3000);
+            setCart(cartData);
             return cartData;
 
         } catch (e: unknown) {
@@ -59,11 +59,25 @@ export const useCartActions = () => {
             const errorText = await response.text();
             throw new Error(`Failed to add to cart: ${response.status} ${errorText}`);
         } else {
-            setMessage("Product added to cart");
-        }
-        setTimeout(() => setMessage(null), 3000);
 
+            setMessage("Product added to cart");
+            setCart((prev) => {
+                const exists = prev.find((entry) => entry.productId === productId);
+                if (exists) {
+                    return prev.map((entry) =>
+                        entry.productId === productId
+                            ? {...entry, quantity: entry.quantity + 1}
+                            : entry
+                    );
+                }
+                return [...prev, {productId, quantity: 1}];
+            });
+        }
     }, [user, getToken, setAccessToken]);
+
+    const isInCart = useCallback((productId: string): boolean => {
+        return cart.some((entry) => entry.productId === productId);
+    }, [cart]);
 
     const removeFromCart = useCallback(async (productId: string): Promise<void> => {
         if (!user) throw new Error("User is not authenticated");
@@ -122,6 +136,7 @@ export const useCartActions = () => {
         removeFromCart,
         removeAllFromCart,
         message,
+        isInCart,
         clearCart
     };
 }

@@ -2,6 +2,11 @@ import {Route, Routes} from "react-router";
 import {DEFAULT_SORT_PRODUCT, navItems} from "../utils/constants.ts";
 import Home from "./pages/home/Home.tsx";
 import ProductsManager from "./pages/forAdministrator/products/ProductsManager.tsx";
+import {Route, Routes, Navigate} from "react-router-dom";
+import {navItems} from "../utils/constants.ts";
+
+import Home2 from "./pages/home/Home2.tsx";
+import ProductsManager from "./pages/products/ProductsManager.tsx";
 import ErrorPage from "./ErrorPage.tsx";
 import PersonalAccount from "./pages/personalAccount/PersonalAccount.tsx";
 import AccountDashboard from "./pages/personalAccount/AccountDashboard.tsx";
@@ -16,63 +21,68 @@ import AdminDashboard from "./pages/forAdministrator/AdminDashboard.tsx";
 import {useState} from "react";
 import {PageProductContext} from "../utils/context.ts";
 import type {PageTableData} from "../utils/types";
+import MainLayout from "./pages/home/MainLayout.tsx";
 
 const Workspace = () => {
 
     const [pageData, setPage] = useState<PageTableData>({pageNumber: 1, sort: DEFAULT_SORT_PRODUCT, filters: []});
 
     return (
-        <PageProductContext.Provider value={{...pageData, setPage}}>
-            <Routes>
+        <Routes>
+            <Route element={<MainLayout/>}>
 
-                {[`auth/login`].map(path =>
-                    <Route key={path} path={path} element={<PersonalAccount/>}/>)}
+                <Route path="/" element={<Home2/>}/>
+                <Route path="/main" element={<Home2/>}/>
+                <Route path="/main/*" element={<Home2/>}/>
 
-                {[`account/register`].map(path =>
-                    <Route key={path} path={path} element={<AccountRegister/>}/>)}
+                <Route path={navItems[1].path} element={<AboutUs/>}/>
 
-                {['/', 'products', `products/:pageNumber`].map(path =>
-                    <Route key={path} path={path} element={
-                        <RequireAuthAdministrator>
-                            <ProductsManager/>
-                        </RequireAuthAdministrator>
-                    }/>)}
-
-                {[navItems[5].path].map(path =>
-                    <Route key={path} path={path} element={
-                        <RequireAuthAdministrator>
-                            <AdminDashboard/>
-                        </RequireAuthAdministrator>
-                    }/>)}
-
-                {['/', navItems[0].path].map(path =>
-                    <Route key={path} path={path} element={<Home/>}/>)}
-
-                {[navItems[2].path].map(path =>
-                    <Route key={path} path={path} element={
+                <Route
+                    path={navItems[2].path}
+                    element={
                         <RequireAuth>
                             <ShoppingCart/>
                         </RequireAuth>
-                    }/>)}
+                    }
+                />
 
-                {[navItems[3].path].map(path =>
-                    <Route key={path} path={path} element={
+                <Route
+                    path={navItems[3].path}
+                    element={
                         <RequireAuth>
                             <AccountDashboard/>
                         </RequireAuth>
-                    }/>)}
+                    }
+                />
 
-                {['/', navItems[4].path, `${navItems[4].path}/:pageNumber`].map(path =>
-                    <Route key={path} path={path} element={<Store/>}/>)}
+                <Route path={navItems[4].path} element={<Store/>}/>
+                <Route path="auth/login" element={<PersonalAccount/>}/>
+                <Route path="account/register" element={<AccountRegister/>}/>
+            </Route>
 
-                {[navItems[1].path].map(path =>
-                    <Route key={path} path={path} element={<AboutUs/>}/>)}
+            <Route
+                path="products"
+                element={
+                    <RequireAuthAdministrator>
+                        <ProductsManager/>
+                    </RequireAuthAdministrator>
+                }
+            />
 
+            <Route
+                path={navItems[5].path}
+                element={
+                    <RequireAuthAdministrator>
+                        <AdminDashboard/>
+                    </RequireAuthAdministrator>
+                }
+            />
 
-                <Route path={'*'} element={<ErrorPage msg={"Page not found"}/>}/>
-            </Routes>
-        </PageProductContext.Provider>
-    )
-}
+            <Route path="/main" element={<Navigate to="/" replace/>}/>
 
-export default Workspace
+            <Route path="*" element={<ErrorPage msg="Page not found"/>}/>
+        </Routes>
+    );
+};
+
+export default Workspace;
