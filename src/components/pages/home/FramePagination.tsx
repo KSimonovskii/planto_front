@@ -1,7 +1,5 @@
 import arrowLeft from "../../../assets/arrow-left.svg"
 import arrowRight from "../../../assets/arrow-right.svg"
-import {useNavigate} from "react-router";
-import {useTranslation} from "react-i18next";
 
 
 type Props = {
@@ -9,13 +7,7 @@ type Props = {
     onNext: () => void;
 }
 
-const FramePaginationCorporateFavorites = ({onPrev, onNext}: Props) => {
-    const navigate = useNavigate();
-    const {t} = useTranslation();
-
-    const handleClickViewAll = () => {
-        navigate("store");
-    }
+const FramePagination = ({onPrev, onNext}: Props) => {
 
     return (
         <div className="w-full flex justify-center items-center gap-10 pt-6">
@@ -33,11 +25,6 @@ const FramePaginationCorporateFavorites = ({onPrev, onNext}: Props) => {
                 </button>
             </div>
 
-            <button
-                onClick={handleClickViewAll}
-                className="w-110 px-6 py-3 bg-lime-600 rounded-lg text-white font-medium hover:bg-lime-700 transition">
-                {t("viewAll")}
-            </button>
 
             <div className="relative w-full">
                 <button
@@ -53,4 +40,4 @@ const FramePaginationCorporateFavorites = ({onPrev, onNext}: Props) => {
     );
 };
 
-export default FramePaginationCorporateFavorites;
+export default FramePagination;

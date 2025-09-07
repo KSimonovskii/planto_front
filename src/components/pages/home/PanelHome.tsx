@@ -1,7 +1,7 @@
 import PanelColumn from "./PanelColumn.tsx";
-import imageHome1 from "../../../assets/imageForHomePlace1.jpg";
-import imageHome2 from "../../../assets/imageForHomePlace2.jpg";
-import imageHome3 from "../../../assets/imageForHomePlace3.jpg";
+import imageHome1 from "../../../assets/imagesHeader/imageForHomePlace1.jpg";
+import imageHome2 from "../../../assets/imagesHeader/imageForHomePlace2.jpg";
+import imageHome3 from "../../../assets/imagesHeader/imageForHomePlace3.jpg";
 
 
 const PanelHome = () => (

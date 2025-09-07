@@ -17,8 +17,8 @@ export const navItems: NavItem[] = [
     {title: 'Admin Dashboard', path: 'admin/dashboard', adminOnly: true},
 ]
 
-// export const BASE_URL = "https://planto-gp2i.onrender.com"
-export const BASE_URL = "http://localhost:8080";
+export const BASE_URL = "https://planto-gp2i.onrender.com"
+// export const BASE_URL = "http://localhost:8080";
 
 export const SIZE_PAGE = 8;
 export const DEFAULT_SORT = new Sort("NameAsc", "name", directions.Ascending, "Name (from A to Z)");

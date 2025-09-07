@@ -1,5 +1,6 @@
 import hero from "../../../assets/hero.jpg";
 import {useNavigate} from "react-router";
+import {useTranslation} from "react-i18next";
 
 const Hero = () => {
 
@@ -8,6 +9,7 @@ const Hero = () => {
     const handelClickExploreColection = () => {
         navigate("store");
     }
+    const {t} = useTranslation();
 
     return (
         <section
@@ -24,26 +26,24 @@ const Hero = () => {
 
             <div className="relative w-[588px] ml-[110px] flex flex-col justify-center items-start gap-8">
                 <h1 className="text-white text-7xl font-bold font-rubik">
-                    Small plant with big impact
+                    {t("hero.smallPlant")}
                 </h1>
 
                 <p className="text-white text-2xl font-bold font-inter leading-9">
-                    Every succulent you buy helps rebuild a kibbutz affected by October 7.
+                    {t("hero.everySucculent")}
                 </p>
 
                 <div className="flex gap-6">
                     <button onClick={handelClickExploreColection}
-                            className="w-44 px-6 py-3 bg-lime-600 rounded-lg flex justify-center items-center gap-2 hover:bg-lime-800
+                            className="w-183px px-6 py-3 bg-lime-600 rounded-lg flex justify-center items-center gap-2 hover:bg-lime-800
                             text-white text-base font-medium font-rubik leading-normal">
-                        Explore Collection
+                        {t("hero.exploreCollection")}
                     </button>
 
                     <button
-                        className="w-44 px-6 py-3 bg-white hover:bg-lime-800 rounded-lg outline outline-1 outline-lime-800 flex justify-center items-center gap-2
+                        className="w-183px px-6 py-3 bg-white hover:bg-lime-800 rounded-lg outline outline-1 outline-lime-800 flex justify-center items-center gap-2
                         text-lime-800 hover:text-white text-base font-medium font-rubik leading-normal">
-
-                        About the Project
-
+                        {t("hero.aboutProject")}
                     </button>
                 </div>
             </div>

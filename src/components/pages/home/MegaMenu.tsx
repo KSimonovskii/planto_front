@@ -25,7 +25,7 @@ const MegaMenu = () => {
 
                      {activePanel && (
                 <div
-                    className={`absolute top-full left-0 right-0 bg-white shadow-lg z-10 px-28 py-20 overflow-hidden transition-all duration-300 ${
+                    className={`absolute top-full left-0 right-0 bg-white shadow-lg z-10 px-28 py-10 overflow-hidden transition-all duration-300 ${
                         isVisible ? "opacity-100 max-h-[2000px]" : "opacity-0 max-h-0"
                     }`}
                     onMouseEnter={() => {

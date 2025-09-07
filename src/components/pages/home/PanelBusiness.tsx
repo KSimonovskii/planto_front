@@ -1,7 +1,7 @@
 import PanelColumn from "./PanelColumn.tsx";
-import imageBusiness1 from "../../../assets/imageForBusinessPlace1.jpg";
-import imageBusiness2 from "../../../assets/imageForBusinessPlace2.jpg";
-import imageBusiness3 from "../../../assets/imageForBusinessPlace3.png";
+import imageBusiness1 from "../../../assets/imagesHeader/imageForBusinessPlace1.jpg";
+import imageBusiness2 from "../../../assets/imagesHeader/imageForBusinessPlace2.jpg";
+import imageBusiness3 from "../../../assets/imagesHeader/imageForBusinessPlace3.png";
 
 const PanelBusiness = () => (
     <div className="self-stretch flex justify-start items-start gap-24">

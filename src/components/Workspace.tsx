@@ -1,4 +1,4 @@
-import {Route, Routes} from "react-router-dom";
+import {Route, Routes, Navigate} from "react-router-dom";
 import {navItems} from "../utils/constants.ts";
 
 import Home2 from "./pages/home/Home2.tsx";
@@ -17,14 +17,12 @@ import MainLayout from "./pages/home/MainLayout.tsx";
 
 const Workspace = () => {
     return (
-
         <Routes>
-
             <Route element={<MainLayout/>}>
 
                 <Route path="/" element={<Home2/>}/>
-                <Route path={navItems[0].path} element={<Home2/>}/>
-                <Route path={`${navItems[0].path}/`} element={<Home2/>}/>
+                <Route path="/main" element={<Home2/>}/>
+                <Route path="/main/*" element={<Home2/>}/>
 
                 <Route path={navItems[1].path} element={<AboutUs/>}/>
 
@@ -49,7 +47,6 @@ const Workspace = () => {
                 <Route path={navItems[4].path} element={<Store/>}/>
                 <Route path="auth/login" element={<PersonalAccount/>}/>
                 <Route path="account/register" element={<AccountRegister/>}/>
-
             </Route>
 
             <Route
@@ -69,6 +66,8 @@ const Workspace = () => {
                     </RequireAuthAdministrator>
                 }
             />
+
+            <Route path="/main" element={<Navigate to="/" replace/>}/>
 
             <Route path="*" element={<ErrorPage msg="Page not found"/>}/>
         </Routes>

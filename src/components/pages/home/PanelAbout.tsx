@@ -1,9 +1,10 @@
 import PanelColumn from "./PanelColumn.tsx";
-import imageAbout1 from "../../../assets/imageAboutPlace1.jpg"
-import imageAbout2 from "../../../assets/imageAboutPlace2.jpg"
-import imageAbout3 from "../../../assets/imageAboutPlace3.jpg"
+import imageAbout1 from "../../../assets/imagesHeader/imageAboutPlace1.jpg"
+import imageAbout2 from "../../../assets/imagesHeader/imageAboutPlace2.jpg"
+import imageAbout3 from "../../../assets/imagesHeader/imageAboutPlace3.jpg"
 
 const PanelAbout = () => (
+
     <div className="self-stretch flex justify-start items-start gap-24">
         <PanelColumn
             title="Our Story"
