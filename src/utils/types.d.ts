@@ -1,4 +1,3 @@
-import {LucideIcon} from "lucide-react";
 import {Decimal} from "decimal.js";
 import type Sort from "../features/classes/Sort.ts";
 import type {OrderStatus} from "../components/pages/orders/OrderStatus.ts";
@@ -8,8 +7,8 @@ import type {CartItem} from "../components/pages/orders/CartItem.ts";
 interface NavItem {
     title: string
     path: string
-    icon: LucideIcon
     adminOnly: boolean
+    userOnly?: boolean
 }
 
 export interface DataTable <T> {
@@ -58,13 +57,7 @@ export interface ProductData {
     description: string,
     imageUrl: string,
     imageFile: File | null
-interface NavItem {
-    title: string
-    path: string
-    adminOnly: boolean
-    userOnly?: boolean
 }
-
 
 export interface ProductDataForTable {
     imageUrl: string,
