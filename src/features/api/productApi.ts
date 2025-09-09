@@ -11,7 +11,7 @@ export const productApi = createApi({
     reducerPath: "productApi",
     tagTypes: ["Products","FilterData"],
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://localhost:8080/product", //`${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_BASE_PRODUCT_ENDPOINT}`,
+        baseUrl: import.meta.env.VITE_BASE_PRODUCT_URL,
         headers: new Headers({"Content-type": "application/json"})
     }),
     endpoints: (build) => ({
@@ -22,8 +22,8 @@ export const productApi = createApi({
                     body,
                 }),
                 transformResponse: (response: AnswerTable,) => {
-                        return {products: response.content, pages: response.page.totalPages};
-                    },
+                    return {products: response.content, pages: response.page.totalPages};
+                },
                 transformErrorResponse: (
                     response: { status: string | number },
                 ) => response.status,
@@ -47,13 +47,6 @@ export const productApi = createApi({
                 return result;
             },
             providesTags: [{type: "FilterData"}]
-        }),
-        getProductById: build.query({
-            query: (id)=>({
-                url: `/${id}`,
-                method: "GET"
-            }),
-            providesTags: (id) => [{type: 'Products', id}]
         }),
         addProduct: build.mutation({
             query: (body) => ({
@@ -83,8 +76,7 @@ export const productApi = createApi({
 })
 
 export const {useGetProductsTableRTKQuery,
-                useGetDataForFiltersQuery,
-                useGetProductByIdQuery,
-                useAddProductMutation,
-                useRemoveProductMutation,
-                useUpdateProductMutation} = productApi;
+    useGetDataForFiltersQuery,
+    useAddProductMutation,
+    useRemoveProductMutation,
+    useUpdateProductMutation} = productApi;
