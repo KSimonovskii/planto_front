@@ -15,7 +15,6 @@ export const uploadFile = async (imageFile: Blob, imageName: string) => {
     const encodedKey = btoa(`${API_KEY}:`);
 
     const headers = new Headers();
-    headers.append("Authorization", `Basic ${encodedKey}`);
 
     const form = new FormData();
     form.append("file", imageFile);
