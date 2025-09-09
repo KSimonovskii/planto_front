@@ -1,12 +1,8 @@
-import {Route, Routes} from "react-router";
 import {DEFAULT_SORT_PRODUCT, navItems} from "../utils/constants.ts";
-import Home from "./pages/home/Home.tsx";
 import ProductsManager from "./pages/forAdministrator/products/ProductsManager.tsx";
 import {Route, Routes, Navigate} from "react-router-dom";
-import {navItems} from "../utils/constants.ts";
 
 import Home2 from "./pages/home/Home2.tsx";
-import ProductsManager from "./pages/products/ProductsManager.tsx";
 import ErrorPage from "./ErrorPage.tsx";
 import PersonalAccount from "./pages/personalAccount/PersonalAccount.tsx";
 import AccountDashboard from "./pages/personalAccount/AccountDashboard.tsx";
@@ -60,14 +56,16 @@ const Workspace = () => {
                 <Route path="account/register" element={<AccountRegister/>}/>
             </Route>
 
-            <Route
-                path="products"
-                element={
-                    <RequireAuthAdministrator>
-                        <ProductsManager/>
-                    </RequireAuthAdministrator>
-                }
-            />
+            <PageProductContext.Provider value={{...pageData , setPage}}>
+                <Route
+                    path="products"
+                    element={
+                        <RequireAuthAdministrator>
+                            <ProductsManager/>
+                        </RequireAuthAdministrator>
+                    }
+                />
+            </PageProductContext.Provider>
 
             <Route
                 path={navItems[5].path}

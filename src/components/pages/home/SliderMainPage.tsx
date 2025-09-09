@@ -1,6 +1,6 @@
-import {Navigation, Pagination} from "swiper/modules";
+import {Navigation} from "swiper/modules";
 import {Swiper, SwiperSlide} from "swiper/react";
-import {useCallback, useContext, useMemo, useState} from "react";
+import {useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
 import {PageProductContext} from "../../../utils/context.ts";
 import {useCartActions} from "../../../features/hooks/useCartAction.ts";
 import {useCurrentUser} from "../../../features/hooks/useCurrentUser.ts";
@@ -12,9 +12,7 @@ import FramePaginationCorporateFavorites from "./FramePaginationCorporateFavorit
 import {useCartContext} from "../../../features/context/CartContext.tsx";
 import {useTranslation} from "react-i18next";
 import AuthModal from "./AuthModal.tsx";
-import AuthPromptModal from "../../common/AuthPromptModal.tsx";
 import Product from "../../../features/classes/Product.ts";
-import ImagePopup from "../../common/ImagePopup.tsx";
 import {useGetProductsTableRTKQuery} from "../../../features/api/productApi.ts";
 import {getBodyForQueryGetTable} from "../../../features/api/apiUtils.ts";
 import {dataTypes} from "../../../utils/enums/dataTypes.ts";
@@ -22,11 +20,6 @@ import {dataTypes} from "../../../utils/enums/dataTypes.ts";
 const SliderMainPage = () => {
 
     const [errorMsg, setErrorMsg] = useState("");
-    const {addToCart, message} = useCartActions();
-    const {products, setProductsData} = useContext(ProductsContext);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const {pageNumber, sort, filters} = useContext(PageContext);
     const {addToCart, getCart, isInCart} = useCartActions();
     const {isAuthenticated} = useCurrentUser();
     const swiperRef = useRef<any>(null);
@@ -54,7 +47,6 @@ const SliderMainPage = () => {
         setErrorMsg(msg);
     }
 
-
     useEffect(() => {
         if (isAuthenticated) {
             getCart();
@@ -70,8 +62,9 @@ const SliderMainPage = () => {
             try {
                 await addToCart(productId);
                 await refreshCart();
-            } catch (err: any) {
-                setError(err.message);
+            } catch (err: unknown) {
+                if (err instanceof Error)
+                setErrorMsg((prevState => prevState + "/n" + err.message));
             }
         },
         [isAuthenticated, addToCart, refreshCart]
@@ -80,12 +73,12 @@ const SliderMainPage = () => {
     return (
         <div className="self-stretch inline-flex flex-col justify-start items-start relative">
             <div className="w-[1280px] flex flex-col justify-start items-start gap-4 overflow-hidden">
-                {loading ? (
+                {isLoading ? (
                     <div className="flex justify-center items-center w-full h-64">
                         <img src={spinner} alt="loading..." className="spinner-icon"/>
                     </div>
-                ) : error ? (
-                    <p className="text-center text-red-500">{error}</p>
+                ) : isError ? (
+                    <p className="text-center text-red-500">{errorMsg}</p>
                 ) : (
                     <>
                         <Swiper
