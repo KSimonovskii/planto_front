@@ -12,7 +12,7 @@ export const useUserActions = () => {
 
     const getUserByLogin = async (login: string) => {
 
-        const URL = `${import.meta.env.VITE_BASE_USER_URL}/user/${login}`;
+        const URL = `${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_BASE_USER_ENDPOINT}/user/${login}`;
 
         const options = {
             method: "GET",

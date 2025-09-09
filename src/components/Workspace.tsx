@@ -24,39 +24,39 @@ const Workspace = () => {
     const [pageData, setPage] = useState<PageTableData>({pageNumber: 1, sort: DEFAULT_SORT_PRODUCT, filters: []});
 
     return (
-        <Routes>
-            <Route element={<MainLayout/>}>
+        <PageProductContext.Provider value={{...pageData, setPage}}>
 
-                <Route path="/" element={<Home2/>}/>
-                <Route path="/main" element={<Home2/>}/>
-                <Route path="/main/*" element={<Home2/>}/>
+            <Routes>
+                <Route element={<MainLayout/>}>
 
-                <Route path={navItems[1].path} element={<AboutUs/>}/>
+                    <Route path="/" element={<Home2/>}/>
+                    <Route path="/main" element={<Home2/>}/>
+                    <Route path="/main/*" element={<Home2/>}/>
 
-                <Route
-                    path={navItems[2].path}
-                    element={
-                        <RequireAuth>
-                            <ShoppingCart/>
-                        </RequireAuth>
-                    }
-                />
+                    <Route path={navItems[1].path} element={<AboutUs/>}/>
 
-                <Route
-                    path={navItems[3].path}
-                    element={
-                        <RequireAuth>
-                            <AccountDashboard/>
-                        </RequireAuth>
-                    }
-                />
+                    <Route
+                        path={navItems[2].path}
+                        element={
+                            <RequireAuth>
+                                <ShoppingCart/>
+                            </RequireAuth>
+                        }
+                    />
 
-                <Route path={navItems[4].path} element={<Store/>}/>
-                <Route path="auth/login" element={<PersonalAccount/>}/>
-                <Route path="account/register" element={<AccountRegister/>}/>
-            </Route>
+                    <Route
+                        path={navItems[3].path}
+                        element={
+                            <RequireAuth>
+                                <AccountDashboard/>
+                            </RequireAuth>
+                        }
+                    />
 
-            <PageProductContext.Provider value={{...pageData , setPage}}>
+                    <Route path={navItems[4].path} element={<Store/>}/>
+                    <Route path="auth/login" element={<PersonalAccount/>}/>
+                    <Route path="account/register" element={<AccountRegister/>}/>
+                </Route>
                 <Route
                     path="products"
                     element={
@@ -65,21 +65,21 @@ const Workspace = () => {
                         </RequireAuthAdministrator>
                     }
                 />
-            </PageProductContext.Provider>
+                <Route
+                    path={navItems[5].path}
+                    element={
+                        <RequireAuthAdministrator>
+                            <AdminDashboard/>
+                        </RequireAuthAdministrator>
+                    }
+                />
 
-            <Route
-                path={navItems[5].path}
-                element={
-                    <RequireAuthAdministrator>
-                        <AdminDashboard/>
-                    </RequireAuthAdministrator>
-                }
-            />
+                <Route path="/main" element={<Navigate to="/" replace/>}/>
 
-            <Route path="/main" element={<Navigate to="/" replace/>}/>
+                <Route path="*" element={<ErrorPage msg="Page not found"/>}/>
+            </Routes>
+        </PageProductContext.Provider>
 
-            <Route path="*" element={<ErrorPage msg="Page not found"/>}/>
-        </Routes>
     );
 };
 
