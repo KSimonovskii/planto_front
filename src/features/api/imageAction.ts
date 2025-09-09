@@ -14,7 +14,6 @@ export const uploadFile = async (imageFile: Blob, imageName: string) => {
     const BASE_URL = "http://localhost:8080/uploadImage";
 
     const headers = new Headers();
-    headers.append("Authorization", `Basic ${encodedKey}`);
 
     const form = new FormData();
     form.append("file", imageFile);
