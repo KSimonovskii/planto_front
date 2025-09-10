@@ -64,7 +64,7 @@ const SliderMainPage = () => {
                 await refreshCart();
             } catch (err: unknown) {
                 if (err instanceof Error)
-                setErrorMsg((prevState => prevState + "/n" + err.message));
+                    setErrorMsg((prevState => prevState + "/n" + err.message));
             }
         },
         [isAuthenticated, addToCart, refreshCart]

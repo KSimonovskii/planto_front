@@ -6,7 +6,8 @@ export const useAuthActions = () => {
     const loginUser = async (credentials:
                                  { login: string, password: string }) => {
 
-        const URL = `${import.meta.env.VITE_BASE_URL}/auth/login`;
+        const URL = "https://planto-gp2i.onrender.com/auth/login";
+        // const URL = `${import.meta.env.VITE_BASE_URL}/auth/login`;
         const options = {
             method: "POST",
             headers: {

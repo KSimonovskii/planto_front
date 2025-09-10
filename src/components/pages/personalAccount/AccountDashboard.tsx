@@ -1,19 +1,26 @@
 import {useNavigate} from "react-router";
 import {useAuth} from "../../../features/hooks/useAuth.ts";
 import {useCurrentUser} from "../../../features/hooks/useCurrentUser.ts";
+import spinner from "../../../assets/spinner2.png";
 
 const AccountDashboard = () => {
     const navigate = useNavigate();
     const {logout} = useAuth();
-    const {user, loadingUser, isAuthenticated} = useCurrentUser();
+    const {user, loadingUser, isAuthenticated, isAdmin} = useCurrentUser();
 
     const handleLogout = () => {
         logout();
         navigate("/");
     };
 
-    if (loadingUser) return <p className="text-center mt-40"> Please wait. Loading user data... </p>;
+    if (loadingUser) return (
+        <div className="flex justify-center items-center w-full h-64">
+            <img src={spinner} alt="loading..." className="spinner-icon"/>
+        </div>
+    )
     if (!isAuthenticated || !user) return <p className="text-center mt-40"> No user data found </p>;
+
+    if (isAdmin) navigate("/admin/dashboard");
 
     return (
         <div className="max-w-4xl mx-auto mt-10 p-6 bg-white shadow-md rounded-lg">

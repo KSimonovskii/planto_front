@@ -1,19 +1,5 @@
 @import "tailwindcss";
-@import "rc-slider/assets/index.css";
-
-@theme {
-    --color-base-bg: #f5eade;
-    --color-base-text: #57805b;
-    --color-alt-text: #cd663d;
-    --color-light-green: #9dbfab;
-    --color-light-orange: #eec3a9;
-    --color-base-form: #405443
-}
-
-.rc-slider-handle:hover {
-    @apply border-alt-text
-}
-
+@tailwind base;
 
 @layer base {
     html, body {
@@ -52,74 +38,8 @@
     }
 }
 
-@layer components {
-    .inputField {
-        border-color: var(--color-base-form);
-        border-width: 2px;
-        color: var(--color-base-text);
-        margin-top: 5px;
-        margin-bottom: 5px;
-    }
-    .inputField:focus {
-        border-color: var(--color-alt-text);
-        outline: none;
-    }
-    .inputFieldTable {
-        border-color: var(--color-base-text);
-        border-width: 1px;
-        border-radius: 3px;
-        color: var(--color-base-text);
-        height: 30px;
-    }
-    .inputFieldTable:focus {
-        border-color: var(--color-alt-text);
-        outline: none;
-    }
-    .inputFieldTable:hover{
-        background-color: var(--color-base-bg);
-    }
-
-    .button {
-        background-color: var(--color-base-form);
-        color: var(--color-light-green);
-        border-width: 2px;
-    }
-    .button:hover {
-        background-color: #57805bff;
-    }
-
-    .label {
-        align-items: center;
-        color: var(--color-base-form)
-    }
-}
-
-@layer base{
-    html, body{
-        height: 100%;
-    }
-    body{
-        background-color: #f5eade;
-    }
-    #root{
-        height: 100%;
-    }
-    table{
-        margin-bottom: 1em;
-        margin-top: 1em;
-        width: 100em;
-        text-align: left;
-    }
-    #productQuantity input::-webkit-outer-spin-button,
-    #productQuantity input::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-    #productQuantity input {
-        -moz-appearance: textfield
-    }
-
-}
+@tailwind components;
+@tailwind utilities;
 
 .custom-pagination .swiper-pagination-bullet {
     background-color: #9acfaf;
@@ -135,4 +55,3 @@
     height: 430px;
     animation: spin 1.5s linear infinite;
 }
-
