@@ -6,13 +6,19 @@ import ProductsView from "./table/ProductsView.tsx";
 import {useGetProductsTableRTKQuery} from "../../../../features/api/productApi.ts";
 import Product from "../../../../features/classes/Product.ts";
 import {dataTypes} from "../../../../utils/enums/dataTypes.ts";
+import spinner from "../../../../assets/spinner2.png";
 
 const ProductsManager = () => {
 
     //TODO clear copypaste with SliderMainPage
     const {pageNumber, sort, filters} = useContext(PageProductContext);
 
-    const {data = {products: [], pages: 0}, isLoading, isError, error} = useGetProductsTableRTKQuery(getBodyForQueryGetTable(dataTypes.products, pageNumber, sort, filters));
+    const {
+        data = {products: [], pages: 0},
+        isLoading,
+        isError,
+        error
+    } = useGetProductsTableRTKQuery(getBodyForQueryGetTable(dataTypes.products, pageNumber, sort, filters));
 
     const products = useMemo(() => {
             return data.products.map((p: Product) => new Product(p.id, p.name, p.category, p.quantity, p.price, p.imageUrl, p.description));
@@ -20,7 +26,9 @@ const ProductsManager = () => {
         [data.products]
     )
 
-    if (isLoading) return <h2>Loading....</h2>
+    if (isLoading) return (<div className="flex justify-center items-center w-full h-64">
+        <img src={spinner} alt="loading..." className="spinner-icon"/>
+    </div>)
     if (isError) {
         let errorMsg = "";
         if ('status' in error) {
@@ -36,10 +44,11 @@ const ProductsManager = () => {
             <ProductsContext.Provider value={{
                 table: products,
                 pages: data.pages,
-                setTableData: () => {},
+                setTableData: () => {
+                },
             }}>
-                    <AddProduct/>
-                    <ProductsView/>
+                <AddProduct/>
+                <ProductsView/>
             </ProductsContext.Provider>
         </div>
 

@@ -1,4 +1,4 @@
-import photo from "../../../assets/photoKibbutzAfter7Oct.jpg"
+import photo from "../../../assets/photoKibbutzAfter7Oct.png"
 import {useTranslation} from "react-i18next";
 
 const WhoWeAre = () => {

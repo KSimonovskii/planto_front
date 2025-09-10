@@ -1,43 +1,6 @@
 @import "tailwindcss";
 @tailwind base;
 
-@layer base {
-    html, body {
-        height: 100%;
-    }
-
-    body {
-        background-color: rgba(255, 255, 255, 1);
-    }
-
-    #root {
-        height: 100%;
-    }
-
-    form {
-        color: #405443;
-    }
-
-    form input {
-        border-color: #405443;
-        border-width: thick;
-        margin: 0.5em;
-    }
-
-    form input:focus {
-        border-color: #cd663d;
-        outline: none;
-    }
-
-    table {
-        margin-bottom: 1em;
-        margin-top: 1em;
-        color: #405443;
-        width: 100em;
-        text-align: left;
-    }
-}
-
 @tailwind components;
 @tailwind utilities;
 

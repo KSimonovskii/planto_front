@@ -56,27 +56,30 @@ const Workspace = () => {
                     <Route path={navItems[4].path} element={<Store/>}/>
                     <Route path="auth/login" element={<PersonalAccount/>}/>
                     <Route path="account/register" element={<AccountRegister/>}/>
+
+                    <Route
+                        path="products"
+                        element={
+                            <RequireAuthAdministrator>
+                                <ProductsManager/>
+                            </RequireAuthAdministrator>
+                        }
+                    />
+
+                    <Route
+                        path={navItems[6].path}
+                        element={
+                            <RequireAuthAdministrator>
+                                <AdminDashboard/>
+                            </RequireAuthAdministrator>
+                        }
+                    />
+
                 </Route>
-                <Route
-                    path="products"
-                    element={
-                        <RequireAuthAdministrator>
-                            <ProductsManager/>
-                        </RequireAuthAdministrator>
-                    }
-                />
-                <Route
-                    path={navItems[5].path}
-                    element={
-                        <RequireAuthAdministrator>
-                            <AdminDashboard/>
-                        </RequireAuthAdministrator>
-                    }
-                />
 
                 <Route path="/main" element={<Navigate to="/" replace/>}/>
-
                 <Route path="*" element={<ErrorPage msg="Page not found"/>}/>
+
             </Routes>
         </PageProductContext.Provider>
 

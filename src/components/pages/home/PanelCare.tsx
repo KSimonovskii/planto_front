@@ -1,12 +1,11 @@
 import PanelColumn from "./PanelColumn.tsx";
-import image from "../../../assets/1.jpg";
 
 const PanelCare = () => (
-    <div className="self-stretch flex justify-start items-start gap-24">
+    <div className="flex flex-col md:flex-row justify-start items-start gap-6 md:gap-24 w-full">
         <PanelColumn
             title="Watering"
             items={["How Often", "Signs of Overwatering"]}
-            img={image}
+
         />
 
     </div>

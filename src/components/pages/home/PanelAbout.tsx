@@ -1,26 +1,23 @@
 import PanelColumn from "./PanelColumn.tsx";
-import imageAbout1 from "../../../assets/imagesHeader/imageAboutPlace1.jpg"
-import imageAbout2 from "../../../assets/imagesHeader/imageAboutPlace2.jpg"
-import imageAbout3 from "../../../assets/imagesHeader/imageAboutPlace3.jpg"
+import imageAbout1 from "../../../assets/imagesHeader/imageAbout3_1.png"
+import imageAbout2 from "../../../assets/imagesHeader/imageAbout3_2.png"
+import imageAbout3 from "../../../assets/imagesHeader/imageAbout3_3.png"
 
 const PanelAbout = () => (
 
-    <div className="self-stretch flex justify-start items-start gap-24">
-        <PanelColumn
-            title="Our Story"
-            items={["Kibbutz Origins", "October 7, 2023"]}
-            img={imageAbout1}
-        />
-        <PanelColumn
-            title="Where We Are Now"
-            items={["Why We Came Back", "The Return Process", "Community Today"]}
-            img={imageAbout2}
-        />
-        <PanelColumn
-            title="Looking Ahead"
-            items={["Our Vision", "What We Need", "How You Can Help"]}
-            img={imageAbout3}
-        />
+    <div className="flex flex-col md:flex-row justify-start items-start gap-6 md:gap-24 w-full">
+            <PanelColumn
+                title="Our Roots"
+                img={imageAbout1}
+            />
+            <PanelColumn
+                title="October 7"
+                img={imageAbout2}
+            />
+            <PanelColumn
+                title="Rebuilding Now"
+                img={imageAbout3}
+            />
     </div>
 );
 

@@ -4,23 +4,25 @@ import FooterExplore from "./FooterExplore.tsx";
 import FooterTalkToUs from "./FooterTalkToUs.tsx";
 
 const Footer = () => {
-
     return (
-        <div className="w-[1440px] pl-28 pr-40 py-10 bg-lime-800 inline-flex flex-col justify-start items-start gap-10">
+        <footer className="w-full bg-lime-800 px-6 md:px-16 lg:px-28 py-6 flex flex-col gap-10 text-white">
 
-            <div className="w-[1215px] inline-flex justify-between items-end">
+            <div className="flex justify-center md:justify-start">
                 <LogoWhite/>
             </div>
 
-            <div className="inline-flex justify-start items-start gap-56">
-                <div className="flex justify-start items-start gap-44">
-                    <FooterTalkToUs/>
-                    <FooterJoinUs/>
-                    <FooterExplore/>
-                </div>
+
+            <div className="flex flex-col md:flex-row justify-between items-start gap-10 md:gap-20 lg:gap-44">
+                <FooterTalkToUs/>
+                <FooterJoinUs/>
+                <FooterExplore/>
             </div>
-        </div>
-    )
-}
+
+            <div className="border-t border-white/20 pt-4 text-center text-sm opacity-80">
+                © {new Date().getFullYear()} Planto. All rights reserved.
+            </div>
+        </footer>
+    );
+};
 
 export default Footer;

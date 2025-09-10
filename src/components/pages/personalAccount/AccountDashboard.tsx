@@ -2,6 +2,7 @@ import {useNavigate} from "react-router";
 import {useAuth} from "../../../features/hooks/useAuth.ts";
 import {useCurrentUser} from "../../../features/hooks/useCurrentUser.ts";
 import spinner from "../../../assets/spinner2.png";
+import {useEffect} from "react";
 
 const AccountDashboard = () => {
     const navigate = useNavigate();
@@ -13,6 +14,12 @@ const AccountDashboard = () => {
         navigate("/");
     };
 
+    useEffect(() => {
+        if (isAdmin) {
+            navigate("/admin/dashboard", { replace: true });
+        }
+    }, [isAdmin, navigate]);
+
     if (loadingUser) return (
         <div className="flex justify-center items-center w-full h-64">
             <img src={spinner} alt="loading..." className="spinner-icon"/>
@@ -20,7 +27,6 @@ const AccountDashboard = () => {
     )
     if (!isAuthenticated || !user) return <p className="text-center mt-40"> No user data found </p>;
 
-    if (isAdmin) navigate("/admin/dashboard");
 
     return (
         <div className="max-w-4xl mx-auto mt-10 p-6 bg-white shadow-md rounded-lg">

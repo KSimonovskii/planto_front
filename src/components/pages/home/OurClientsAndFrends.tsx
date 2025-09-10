@@ -1,9 +1,9 @@
-import cf1 from "../../../assets/clientsAndFriends/cf1.png"
-import cf2 from "../../../assets/clientsAndFriends/cf2.png"
-import cf3 from "../../../assets/clientsAndFriends/cf3.png"
-import cf4 from "../../../assets/clientsAndFriends/cf4.png"
-import cf5 from "../../../assets/clientsAndFriends/cf5.png"
-import cf6 from "../../../assets/clientsAndFriends/cf6.png"
+import cf1 from "../../../assets/clientsAndFriends/Client.png"
+import cf2 from "../../../assets/clientsAndFriends/Client (1).png"
+import cf3 from "../../../assets/clientsAndFriends/Client (2).png"
+import cf4 from "../../../assets/clientsAndFriends/Client (3).png"
+import cf5 from "../../../assets/clientsAndFriends/Client (4).png"
+import cf6 from "../../../assets/clientsAndFriends/Client (5).png"
 import {useTranslation} from "react-i18next";
 
 
