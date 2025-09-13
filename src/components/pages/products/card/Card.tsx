@@ -97,10 +97,10 @@ export const Card = ({product}: PropsProduct) => {
 
     return (
         <>
-            <div className="w-72 h-[462px] inline-flex justify-start items-center gap-2.5">
-                <div className="w-72 h-[462px] inline-flex flex-col justify-start items-start gap-2">
+            <div className="w-[287px] h-[462px] inline-flex justify-start items-center gap-2.5">
+                <div className="w-[287px] h-[462px] inline-flex flex-col justify-start items-start gap-2">
                     <div className="self-stretch flex flex-col justify-start items-start gap-3">
-                        <div className="w-72 h-72 relative rounded-lg overflow-hidden">
+                        <div className="w-[287px] h-72 relative rounded-lg overflow-hidden">
                             <Image urlEndpoint={`${import.meta.env.VITE_IMAGEKIT_ENDPOINT}`}
                                    src={imageUrl}
                                    alt={product.name}
@@ -112,7 +112,7 @@ export const Card = ({product}: PropsProduct) => {
                             </div>
                         </div>
                         <div className="self-stretch flex flex-col justify-start items-start gap-1">
-                            <div className="w-72 inline-flex justify-between items-start overflow-hidden">
+                            <div className="w-[287px] inline-flex justify-between items-start overflow-hidden">
                                 <div className="w-48 h-12 justify-start text-lime-800 text-xl font-bold font-['Rubik']">{product.name}</div>
                                 <div className="text-right justify-start text-lime-800 text-xl font-bold font-['Rubik']">₪ {product.price}</div>
                             </div>

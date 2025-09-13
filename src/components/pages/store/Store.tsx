@@ -92,12 +92,12 @@ const Store = () => {
                 ) : isError ? (
                     <p className="text-center text-red-500 mt-20">{errorMsg}</p>
                 ) : products && products.length > 0 ? (
-                    <>
+                    <div className={"relative"}>
                         <ProductsCards/>
                         <div className="mt-6">
                             <PageNavigation/>
                         </div>
-                    </>
+                    </div>
                 ) : (
                     <div className="text-center text-gray-500 mt-20">
                         No products found.

@@ -3,7 +3,7 @@ import {PageProductContext, ProductsContext} from "../../../utils/context.ts";
 import {useCartActions} from "../../../features/hooks/useCartAction.ts";
 import {SearchBar} from "../../filters/SearchBar.tsx";
 import Sorting from "../../common/table/Sorting.tsx";
-import {Filters} from "../../filters/Filters.tsx";
+import {FiltersAdmin} from "../../filters/Filters.admin.tsx";
 import Product from "../../../features/classes/Product.ts";
 import PageNavigation from "../../common/table/PageNavigation.tsx";
 import {useCurrentUser} from "../../../features/hooks/useCurrentUser.ts";
@@ -81,7 +81,7 @@ const Store = () => {
                         <Sorting dataType={dataTypes.products}/>
                     </div>
                     <div className="w-full sm:w-1/3">
-                        <Filters/>
+                        <FiltersAdmin/>
                     </div>
                 </div>
 

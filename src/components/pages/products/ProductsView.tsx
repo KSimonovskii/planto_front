@@ -1,6 +1,6 @@
 import {useContext, useState} from "react";
 import {SearchBar} from "../../filters/SearchBar.tsx";
-import {Filters} from "../../filters/Filters.tsx";
+import {FiltersAdmin} from "../../filters/Filters.admin.tsx";
 import ProductsTable from "./ProductsTable.tsx";
 import PageNavigation from "./PageNavigation.tsx";
 import ViewMode from "./ViewMode.tsx";
@@ -22,7 +22,7 @@ const ProductsView = () => {
                <Sorting/>
                <ViewMode viewAsCards={viewAsCards} setView={setView}/>
            </div>
-           <Filters/>
+           <FiltersAdmin/>
            {viewAsCards? <ProductsCards/> : <ProductsTable/>}
            {products.length? <PageNavigation/> : <></>}
        </div>

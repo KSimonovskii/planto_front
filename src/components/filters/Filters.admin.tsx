@@ -9,7 +9,7 @@ import Filter from "../../features/classes/Filter.ts";
 import {filterTypes} from "../../utils/enums/filterTypes.ts";
 import {useGetDataForFiltersQuery} from "../../features/api/productApi.ts";
 
-export const Filters = () => {
+export const FiltersAdmin = () => {
 
     const {filters, setPage} = useContext(PageProductContext);
 

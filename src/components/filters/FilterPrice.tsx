@@ -17,31 +17,34 @@ const FilterPrice = () => {
     }
 
     return (
-        <div className={"flex flex-col space-y-2"}>
-            <div className={"flex flex-row items-center"}>
-                <div className={"relative h-10"}>
-                    <label className={"text-base-text text-xs absolute bg-base-bg z-10 ml-2 px-1"}>
-                        from:
-                    </label>
-                    <input
-                        type={"number"}
-                        className={"inputFieldTable w-28 px-2.5 pb-2.5 mt-2 pt-4 h-8"}
-                        id={"priceFrom"}
-                        placeholder={" "}
-                        min={0}
-                        max={DATA_FOR_PRODUCT_FILTERS.maxPrice}
-                        step={"0.01"}
-                        value={priceRange.valueFrom ? priceRange.valueFrom : 0}
-                        onChange={(e) => handlerChangePrice(e.target, e.target.value)}/>
+        <div className="w-60 px-4 flex flex-col justify-start items-start gap-4">
+            <div
+                className="self-stretch h-5 justify-start text-gray-800 text-sm font-semibold font-['Poppins'] uppercase leading-tight tracking-wide">Price
+            </div>
+            <div className="self-stretch flex flex-col justify-start items-start gap-3.5">
+                <div className="self-stretch inline-flex justify-start items-center gap-2.5">
+                    <div className="w-20 h-10 relative">
+                        <div className="w-20 h-10 left-0 top-0 absolute bg-white rounded-[5px] border border-zinc-300"/>
+                        <input
+                            type={"number"}
+                            className={"left-[15px] top-[10px] absolute justify-center text-zinc-600 text-sm font-normal font-['Poppins'] leading-tight"}
+                            id={"priceFrom"}
+                            placeholder={" "}
+                            min={0}
+                            max={DATA_FOR_PRODUCT_FILTERS.maxPrice}
+                            step={"0.01"}
+                            value={priceRange.valueFrom ? priceRange.valueFrom : 0}
+                            onChange={(e) => handlerChangePrice(e.target, e.target.value)}/>
+
+                    </div>
+                <div className="w-5 h-5 relative">
+                    <div className="w-3.5 h-0.5 left-[3px] top-[9px] absolute bg-stone-300 rounded-[1px]"/>
                 </div>
-                <p>-</p>
-                <div>
-                    <label className={"text-base-text text-xs absolute bg-base-bg z-10 ml-2 px-1"}>
-                        to:
-                    </label>
+                <div className="w-20 h-10 relative">
+                    <div className="w-20 h-10 left-0 top-0 absolute bg-white rounded-[5px] border border-zinc-300"/>
                     <input
                         type={"number"}
-                        className={"inputFieldTable w-28 px-2.5 pb-2.5 mt-2 pt-4 h-8"}
+                        className={"left-[15px] top-[10px] absolute justify-center text-zinc-600 text-sm font-normal font-['Poppins'] leading-tight"}
                         id={"priceTo"}
                         placeholder={" "}
                         min={0}
@@ -50,9 +53,15 @@ const FilterPrice = () => {
                         value={!priceRange.valueTo || priceRange.valueTo == 0? DATA_FOR_PRODUCT_FILTERS.maxPrice : priceRange.valueTo}
                         onChange={(e) => handlerChangePrice(e.target, e.target.value)}/>
                 </div>
+                </div>
             </div>
             <div>
                 <PriceSlider/>
+            </div>
+            <div className="self-stretch h-px relative">
+                <div className="w-60 h-px left-0 top-0 absolute">
+                    <div className="w-60 h-px left-0 top-0 absolute bg-zinc-300"/>
+                </div>
             </div>
         </div>
     )

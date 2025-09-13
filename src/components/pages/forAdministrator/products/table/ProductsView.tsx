@@ -1,7 +1,7 @@
 import {useContext, useState} from "react";
 import {ProductsContext} from "../../../../../utils/context.ts";
 import {SearchBar} from "../../../../filters/SearchBar.tsx";
-import {Filters} from "../../../../filters/Filters.tsx";
+import {FiltersAdmin} from "../../../../filters/Filters.admin.tsx";
 import ProductsTable from "./ProductsTable.tsx";
 import ProductsCards from "../card/ProductsCards.tsx";
 import PageNavigation from "../../../../common/table/PageNavigation.tsx";
@@ -23,7 +23,7 @@ const ProductsView = () => {
                <Sorting dataType={dataTypes.products}/>
                <ViewMode viewAsCards={viewAsCards} setView={setView}/>
            </div>
-           <Filters/>
+           <FiltersAdmin/>
            {viewAsCards? <ProductsCards/> : <ProductsTable/>}
            {table.length? <PageNavigation/> : <></>}
        </div>

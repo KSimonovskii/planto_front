@@ -45,14 +45,14 @@ const PriceSlider = () => {
                 rail: {
                     paddingLeft: -6,
                     paddingRight: -6,
-                    background: '#405443'
+                    background: '#d4d4d8'
                 },
                 track: {
-                    background: '#cd663d'
+                    background: '#171717'
                 },
                 handle: {
-                    background: '#57805b',
-                    borderColor: '#cd663d',
+                    background: '#171717',
+                    borderColor: '#171717',
                 }
             }}/>
         </>
