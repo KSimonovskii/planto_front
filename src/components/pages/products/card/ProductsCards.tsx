@@ -5,11 +5,13 @@ import {ProductsContext} from "../../../../utils/Context.ts";
 
 const ProductsCards = () => {
 
-    const {products} = useContext(ProductsContext);
+    const {table} = useContext(ProductsContext);
 
     return (
-        <div className={"flex flex-row flex-wrap justify-stretch space-x-3 space-y-3 mt-4"}>
-            {products.map((product) => <Card product={product} key={product.id}/>)}
+        <div className="w-[1220px] inline-flex flex-col justify-center items-start gap-10 overflow-hidden">
+            <div className="self-stretch inline-flex justify-start items-start gap-6 flex-wrap content-start">
+                {table.map((product) => <Card product={product} key={product.id}/>)}
+            </div>
         </div>
     )
 }

@@ -1,13 +1,12 @@
 import {NavLink} from "react-router";
-import {getProductsTable} from "../../../features/api/productAction.ts";
 import {useContext} from "react";
-import {PageContext, ProductsContext} from "../../../utils/Context.ts";
+import {PageProductContext, ProductsContext} from "../../../utils/context.ts";
 
 
 const PageNavigation = () => {
 
-    const {pages, setProductsData} = useContext(ProductsContext);
-    const {pageNumber, sort, filters, setPage} = useContext(PageContext);
+    const {pages} = useContext(ProductsContext);
+    const {pageNumber, setPage} = useContext(PageProductContext);
 
     const getArrayOfPages = (countPages: number)  => {
         return Array.from({length: countPages}, (_, i) => i + 1);
@@ -15,7 +14,6 @@ const PageNavigation = () => {
 
     const handleChangePage = async (page: number) => {
         setPage((prevState) => ({...prevState, pageNumber: page}));
-        setProductsData(await getProductsTable(page, sort, filters));
     }
 
     const getNewPage = (direction: number) => {
