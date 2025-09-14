@@ -1,50 +1,70 @@
+import {useContext} from "react";
+import {OrderContext} from "../orders/OrderContext.ts";
 import type {OrderDto, OrderItemDto} from "../../../utils/types";
 
-interface OrderTableProps {
-    orders: OrderDto[];
-}
+const OrdersTable = () => {
+    const {orders} = useContext(OrderContext);
 
-const OrderTable: React.FC<OrderTableProps> = ({ orders }) => {
     return (
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+        <div className="overflow-x-auto bg-white shadow-md rounded-lg">
+            <table className="min-w-full border border-gray-200 text-sm text-left text-gray-700">
+                <caption className="text-lg font-semibold p-4 bg-gray-50 border-b border-gray-200">
+                    List of orders
+                </caption>
+                <thead className="bg-lime-200 text-gray-800">
                 <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Products</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Paid</th>
+                    <th className="px-4 py-2 border">Order ID</th>
+                    <th className="px-4 py-2 border">Products</th>
+                    <th className="px-4 py-2 border">Status</th>
+                    <th className="px-4 py-2 border">Date</th>
+                    <th className="px-4 py-2 border">Paid</th>
                 </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody>
                 {orders.length === 0 ? (
                     <tr>
-                        <td colSpan={5} className="px-6 py-4 text-center text-sm text-gray-500">
-                            No orders found.
+                        <td colSpan={5} className="text-center text-gray-400 py-4 italic">
+                            No orders found
                         </td>
                     </tr>
                 ) : (
-                    orders.map((order) => (
-                        <tr key={order.id}>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{order.id}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {order.items.map((item: OrderItemDto, idx: number) => (
-                                    <div key={idx}>{item.name} x{item.quantity} @ ${item.priceUnit.toFixed(2)}</div>
-                                ))}
+                    orders.map((o: OrderDto) => (
+                        <tr key={o.id} className="hover:bg-gray-50">
+                            <td className="px-4 py-2 border font-medium">{o.id}</td>
+                            <td className="px-4 py-2 border">
+                                {o.items && o.items.length > 0 ? (
+                                    o.items.map((item: OrderItemDto, idx: number) => (
+                                        <div key={idx}>
+                                            {item.name} x{item.quantity} @ $
+                                            {item.priceUnit.toFixed(2)}
+                                        </div>
+                                    ))
+                                ) : (
+                                    <span className="text-gray-400 italic">No items</span>
+                                )}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                                        order.status === 'COMPLETED' ? 'bg-green-100 text-green-800' :
-                                            order.status === 'PENDING' ? 'bg-yellow-100 text-yellow-800' :
-                                                'bg-blue-100 text-blue-800'
-                                    }`}>
-                                        {order.status}
+                            <td className="px-4 py-2 border">
+                                    <span
+                                        className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                                            o.status === "COMPLETED"
+                                                ? "bg-green-100 text-green-800"
+                                                : o.status === "PENDING"
+                                                    ? "bg-yellow-100 text-yellow-800"
+                                                    : "bg-blue-100 text-blue-800"
+                                        }`}
+                                    >
+                                        {o.status}
                                     </span>
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.orderDate}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {order.paid ? 'Yes' : 'No'}
+                            <td className="px-4 py-2 border">
+                                {new Date(o.orderDate).toLocaleString()}
+                            </td>
+                            <td className="px-4 py-2 border">
+                                {o.paid ? (
+                                    <span className="text-green-600 font-semibold">Yes</span>
+                                ) : (
+                                    <span className="text-red-600 font-semibold">No</span>
+                                )}
                             </td>
                         </tr>
                     ))
@@ -55,4 +75,4 @@ const OrderTable: React.FC<OrderTableProps> = ({ orders }) => {
     );
 };
 
-export default OrderTable;
+export default OrdersTable;

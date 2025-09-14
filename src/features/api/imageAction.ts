@@ -11,8 +11,8 @@ interface answer {
 export const uploadFile = async (imageFile: Blob, imageName: string) => {
 
     const BASE_URL = "https://upload.imagekit.io/api/v1/files/upload";
-    const API_KEY = import.meta.env.VITE_IMAGEKIT_API_KEY
-    const encodedKey = btoa(`${API_KEY}:`);
+    // const API_KEY = import.meta.env.VITE_IMAGEKIT_API_KEY
+    // const encodedKey = btoa(`${API_KEY}:`);
 
     const headers = new Headers();
 

@@ -15,6 +15,7 @@ export const navItems: NavItem[] = [
     {title: 'Store', path: 'store', adminOnly: false},
     {title: 'Products', path: 'products', adminOnly: true},
     {title: 'Admin Dashboard', path: 'admin/dashboard', adminOnly: true},
+    {title: 'Clients', path: 'clients', adminOnly: true},
 ]
 
 // export const BASE_URL = "https://planto-gp2i.onrender.com"

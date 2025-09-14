@@ -70,11 +70,6 @@ export const getProductsTable = async (page?: number, sort?: Sort, filters?: Fil
     const data = await response.json() as answerTable;
     data.content.map((p: Product) => products.push(new Product(p.id, p.name, p.category, p.quantity, p.price, p.imageUrl, p.description)));
 
-
-    // console.log("products ----> ", products);
-    // console.log("data.content ----> ", data.content);
-    //await setDataForFilters();
-
     return {products: products, pages: data.page.totalPages};
 
 }

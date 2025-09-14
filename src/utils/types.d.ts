@@ -88,11 +88,11 @@ interface OrderDto {
     paid: boolean
 }
 
-interface OrderItemDto {
-    productId: string
-    name: string
-    quantity: number
-    priceUnit: Decimal
+export interface OrderItemDto {
+    productId: string;
+    name: string;
+    quantity: number;
+    priceUnit: Decimal;
 }
 
 interface CartItemDto {

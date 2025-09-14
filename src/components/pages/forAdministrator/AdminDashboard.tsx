@@ -1,19 +1,21 @@
-import { useCurrentUser } from "../../../features/hooks/useCurrentUser.ts";
-import { useNavigate } from "react-router";
-import { useCallback, useEffect, useState } from "react";
-import { useAuth } from "../../../features/hooks/useAuth.ts";
+import {useCurrentUser} from "../../../features/hooks/useCurrentUser.ts";
+import {useNavigate} from "react-router";
+import {useCallback, useEffect, useState} from "react";
+import {useAuth} from "../../../features/hooks/useAuth.ts";
 
 import OrderTable from "./OrderTable.tsx";
-import type { OrderDto } from "../../../utils/types";
-import StatsWidgets, { type Stats } from "./StatsWidgets.tsx";
+import StatsWidgets, {type Stats} from "./StatsWidgets.tsx";
 import spinner from "../../../assets/spinner2.png";
 import ProductsManager from "./products/ProductsManager.tsx";
-
+import {getAllUsers} from "../../../features/api/userAction.ts";
+import UsersManager from "../users/UsersManager.tsx";
+import {getAllOrders} from "../../../features/api/orderAction.ts";
 
 const AdminDashboard = () => {
-    const { user, loadingUser, errorUser } = useCurrentUser();
+    const {user, loadingUser, errorUser} = useCurrentUser();
+    const {accessToken} = useAuth();
     const navigate = useNavigate();
-    const { logout } = useAuth();
+    const {logout} = useAuth();
 
     const [activeSection, setActiveSection] = useState("dashboard");
     const [stats, setStats] = useState<Stats>({
@@ -22,20 +24,35 @@ const AdminDashboard = () => {
         totalOrders: 0,
         totalClients: 0
     });
-    const [orders, setOrders] = useState<OrderDto[]>([]);
 
-    const fetchStats = useCallback(async () => {
-        setStats({
-            totalSales: 0,
-            totalProductsSold: 0,
-            totalOrders: 0,
-            totalClients: 0
-        });
-    }, []);
 
-    const fetchOrders = useCallback(async () => {
-        setOrders([]);
-    }, []);
+
+    const fetchStatsClients = useCallback(async () => {
+        try {
+            if (!accessToken) return;
+            const clients = await getAllUsers(accessToken);
+            setStats((prev) => ({
+                ...prev,
+                totalClients: clients.length
+            }));
+        } catch (e) {
+            console.error("Failed to load stats", e);
+        }
+    }, [accessToken]);
+
+
+    const fetchStatsOrders = useCallback(async () => {
+        try {
+            if (!accessToken) return;
+            const orders = await getAllOrders(accessToken);
+            setStats((prev) => ({
+                ...prev,
+                totalOrders: orders.length
+            }));
+        } catch (e) {
+            console.error("Failed to load stats", e);
+        }
+    }, [accessToken]);
 
     const handleLogout = () => {
         logout();
@@ -43,9 +60,9 @@ const AdminDashboard = () => {
     };
 
     useEffect(() => {
-        fetchStats();
-        fetchOrders();
-    }, [fetchStats, fetchOrders]);
+        fetchStatsClients();
+        fetchStatsOrders();
+    }, [fetchStatsClients, fetchStatsOrders]);
 
     if (loadingUser) return (
         <div className="flex justify-center items-center w-full h-64">
@@ -58,7 +75,6 @@ const AdminDashboard = () => {
 
     return (
         <div className="flex min-h-screen">
-
 
             <aside className="w-64 bg-[#2a4637] text-white p-6 flex flex-col gap-6 flex-shrink-0">
                 <div className="text-2xl font-bold text-center md:text-left">Admin Panel</div>
@@ -95,6 +111,15 @@ const AdminDashboard = () => {
                     </button>
 
                     <button
+                        onClick={() => setActiveSection("clients")}
+                        className={`w-full px-4 py-2 bg-lime-600 hover:bg-lime-800 rounded-lg text-white font-medium text-base text-center transition ${
+                            activeSection === "clients" ? "ring-2 ring-lime-400" : ""
+                        }`}
+                    >
+                        Clients
+                    </button>
+
+                    <button
                         onClick={handleLogout}
                         className="w-full px-4 py-2 bg-lime-600 hover:bg-lime-800 rounded-lg text-white font-medium text-base text-center transition"
                     >
@@ -108,17 +133,14 @@ const AdminDashboard = () => {
                 {activeSection === "dashboard" && (
                     <>
                         <h1 className="text-3xl font-bold mb-6 text-gray-800">Dashboard Overview</h1>
-                        <StatsWidgets stats={stats} />
-
-                        <h2 className="text-2xl font-bold mb-4 mt-8 text-gray-800">Recent Orders</h2>
-                        <OrderTable orders={orders} />
+                        <StatsWidgets stats={stats} onWidgetClick={setActiveSection} />
                     </>
                 )}
 
                 {activeSection === "orders" && (
                     <>
                         <h1 className="text-3xl font-bold mb-6 text-gray-800">All Orders</h1>
-                        <OrderTable orders={orders} />
+                        <OrderTable/>
                     </>
                 )}
 
@@ -126,6 +148,12 @@ const AdminDashboard = () => {
                     <>
                         <h1 className="text-3xl font-bold mb-6 text-gray-800">Products Management</h1>
                         <ProductsManager/>
+                    </>
+                )}
+                {activeSection === "clients" && (
+                    <>
+                        <h1 className="text-3xl font-bold mb-6 text-gray-800">Clients Management</h1>
+                        <UsersManager/>
                     </>
                 )}
             </main>

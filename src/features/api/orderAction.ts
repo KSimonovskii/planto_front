@@ -22,3 +22,22 @@ export const createOrderApi = async (
     }
     return await response.json();
 };
+
+
+export const getAllOrders = async (token: string) => {
+    const BASE_URL = `${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_BASE_ORDER_ENDPOINT}/orders`;
+
+    const response = await fetch(BASE_URL, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+        credentials: "include"
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to fetch users");
+    }
+    return await response.json();
+};

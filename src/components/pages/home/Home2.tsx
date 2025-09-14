@@ -7,13 +7,13 @@ import WhatOurCustomersSay from "./WhatOurCustomersSay.tsx";
 const Home2 = () => {
 
     return (
-        <div className="w-[1440px]">
+        <div className="w-full">
             <Hero/>
             <CorporateFavorites/>
             <WhoWeAre/>
             <OurClientsAndFrends/>
             <WhatOurCustomersSay/>
-                    </div>
+        </div>
     )
 
 }

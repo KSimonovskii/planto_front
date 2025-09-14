@@ -18,6 +18,7 @@ import {useState} from "react";
 import {PageProductContext} from "../utils/context.ts";
 import type {PageTableData} from "../utils/types";
 import MainLayout from "./pages/home/MainLayout.tsx";
+import UsersManager from "./pages/users/UsersManager.tsx";
 
 const Workspace = () => {
 
@@ -71,6 +72,14 @@ const Workspace = () => {
                         element={
                             <RequireAuthAdministrator>
                                 <AdminDashboard/>
+                            </RequireAuthAdministrator>
+                        }
+                    />
+                    <Route
+                        path={navItems[7].path}
+                        element={
+                            <RequireAuthAdministrator>
+                                <UsersManager/>
                             </RequireAuthAdministrator>
                         }
                     />

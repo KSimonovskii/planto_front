@@ -35,26 +35,26 @@ const PriceSlider = () => {
     return (
         <>
             <Slider range
-                id={"price-slider"}
-                min={0}
-                max={DATA_FOR_PRODUCT_FILTERS.maxPrice}
-                value={[priceRange.valueFrom, priceRange.valueTo == 0? DATA_FOR_PRODUCT_FILTERS.maxPrice : priceRange.valueTo]}
-                step={0.01}
-                onChange={(value) => handleChange(value)}
-            styles={{
-                rail: {
-                    paddingLeft: -6,
-                    paddingRight: -6,
-                    background: '#405443'
-                },
-                track: {
-                    background: '#cd663d'
-                },
-                handle: {
-                    background: '#57805b',
-                    borderColor: '#cd663d',
-                }
-            }}/>
+                    id={"price-slider"}
+                    min={0}
+                    max={DATA_FOR_PRODUCT_FILTERS.maxPrice}
+                    value={[priceRange.valueFrom, priceRange.valueTo == 0? DATA_FOR_PRODUCT_FILTERS.maxPrice : priceRange.valueTo]}
+                    step={0.01}
+                    onChange={(value) => handleChange(value)}
+                    styles={{
+                        rail: {
+                            paddingLeft: -6,
+                            paddingRight: -6,
+                            background: '#d4d4d8'
+                        },
+                        track: {
+                            background: '#171717'
+                        },
+                        handle: {
+                            background: '#171717',
+                            borderColor: '#171717',
+                        }
+                    }}/>
         </>
     )
 }
