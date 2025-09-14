@@ -13,7 +13,7 @@ const FilterPrice = () => {
         dispatch(changePriceRange({
             fieldName: field.id,
             value: Number.parseFloat(value)
-        }));
+            }));
     }
 
     return (
@@ -37,22 +37,22 @@ const FilterPrice = () => {
                             onChange={(e) => handlerChangePrice(e.target, e.target.value)}/>
 
                     </div>
-                    <div className="w-5 h-5 relative">
-                        <div className="w-3.5 h-0.5 left-[3px] top-[9px] absolute bg-stone-300 rounded-[1px]"/>
-                    </div>
-                    <div className="w-20 h-10 relative">
-                        <div className="w-20 h-10 left-0 top-0 absolute bg-white rounded-[5px] border border-zinc-300"/>
-                        <input
-                            type={"number"}
-                            className={"left-[15px] top-[10px] absolute justify-center text-zinc-600 text-sm font-normal font-['Poppins'] leading-tight"}
-                            id={"priceTo"}
-                            placeholder={" "}
-                            min={0}
-                            max={DATA_FOR_PRODUCT_FILTERS.maxPrice}
-                            step={"0.01"}
-                            value={!priceRange.valueTo || priceRange.valueTo == 0? DATA_FOR_PRODUCT_FILTERS.maxPrice : priceRange.valueTo}
-                            onChange={(e) => handlerChangePrice(e.target, e.target.value)}/>
-                    </div>
+                <div className="w-5 h-5 relative">
+                    <div className="w-3.5 h-0.5 left-[3px] top-[9px] absolute bg-stone-300 rounded-[1px]"/>
+                </div>
+                <div className="w-20 h-10 relative">
+                    <div className="w-20 h-10 left-0 top-0 absolute bg-white rounded-[5px] border border-zinc-300"/>
+                    <input
+                        type={"number"}
+                        className={"left-[15px] top-[10px] absolute justify-center text-zinc-600 text-sm font-normal font-['Poppins'] leading-tight"}
+                        id={"priceTo"}
+                        placeholder={" "}
+                        min={0}
+                        max={DATA_FOR_PRODUCT_FILTERS.maxPrice}
+                        step={"0.01"}
+                        value={!priceRange.valueTo || priceRange.valueTo == 0? DATA_FOR_PRODUCT_FILTERS.maxPrice : priceRange.valueTo}
+                        onChange={(e) => handlerChangePrice(e.target, e.target.value)}/>
+                </div>
                 </div>
             </div>
             <div>

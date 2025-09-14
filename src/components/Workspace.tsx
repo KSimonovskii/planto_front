@@ -15,7 +15,7 @@ import RequireAuthAdministrator from "./RequireAuthAdministrator.tsx";
 import AdminDashboard from "./pages/forAdministrator/AdminDashboard.tsx";
 
 import {useState} from "react";
-import {PageProductContext} from "../utils/context.ts";
+import {PageProductContext, ProductsContext} from "../utils/context.ts";
 import type {PageTableData} from "../utils/types";
 import MainLayout from "./pages/home/MainLayout.tsx";
 import UsersManager from "./pages/users/UsersManager.tsx";
@@ -54,7 +54,7 @@ const Workspace = () => {
                         }
                     />
 
-                    <Route path={navItems[4].path} element={<Store/>}/>
+                    <Route path={`${navItems[4].path}/*`} element={<Store/>}/>
                     <Route path="auth/login" element={<PersonalAccount/>}/>
                     <Route path="account/register" element={<AccountRegister/>}/>
 
