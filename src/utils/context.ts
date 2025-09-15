@@ -23,3 +23,4 @@ export const ProductsContext = React.createContext<ContextData<Product>>({table:
 export const OrdersContext = React.createContext<ContextData<Order>>({table: [], pages: 0, setTableData: () => {}});
 
 export const PageProductContext = React.createContext<PageContext>({pageNumber: 1, sort: DEFAULT_SORT_PRODUCT, filters: [], setPage: () => {}});
+

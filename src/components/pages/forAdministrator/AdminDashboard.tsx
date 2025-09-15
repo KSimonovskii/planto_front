@@ -73,6 +73,7 @@ const AdminDashboard = () => {
     if (!user) return <div className="text-center mt-40 text-red-500">Access denied: user not found</div>;
 
     return (
+
         <div className="flex min-h-screen">
 
             <aside className="w-64 bg-[#2a4637] text-white p-6 flex flex-col gap-6 flex-shrink-0">
@@ -132,7 +133,7 @@ const AdminDashboard = () => {
                 {activeSection === "dashboard" && (
                     <>
                         <h1 className="text-3xl font-bold mb-6 text-gray-800">Dashboard Overview</h1>
-                        <StatsWidgets stats={stats} onWidgetClick={setActiveSection} />
+                        <StatsWidgets stats={stats} onWidgetClick={setActiveSection}/>
                     </>
                 )}
 
@@ -157,6 +158,7 @@ const AdminDashboard = () => {
                 )}
             </main>
         </div>
+
     );
 };
 

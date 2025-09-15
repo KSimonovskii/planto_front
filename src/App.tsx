@@ -6,23 +6,20 @@ import {ProductsProvider} from "./features/context/ProductsProvider.tsx";
 import Main from "./components/Main.tsx";
 import {CartProvider} from "./features/context/CartContext.tsx";
 import "./i18n"
-import {OrdersProvider} from "./components/pages/orders/OrderProvider.tsx";
 
 function App() {
 
     return (
         <AuthProvider>
-            <BrowserRouter>
-                <PageProvider>
-                    <ProductsProvider>
-                        <CartProvider>
-                            <OrdersProvider>
-                                <Main/>
-                            </OrdersProvider>
-                        </CartProvider>
-                    </ProductsProvider>
-                </PageProvider>
-            </BrowserRouter>
+            <PageProvider>
+                <ProductsProvider>
+                    <CartProvider>
+                        <BrowserRouter>
+                            <Main/>
+                        </BrowserRouter>
+                    </CartProvider>
+                </ProductsProvider>
+            </PageProvider>
         </AuthProvider>
     )
 }

@@ -1,111 +1,190 @@
-import {useCallback, useContext, useMemo, useState} from "react";
+import {useCallback, useContext, useEffect, useRef, useState} from "react";
 import {PageProductContext, ProductsContext} from "../../../utils/context.ts";
 import {useCartActions} from "../../../features/hooks/useCartAction.ts";
 import Product from "../../../features/classes/Product.ts";
-import PageNavigation from "../../common/table/PageNavigation.tsx";
 import {useCurrentUser} from "../../../features/hooks/useCurrentUser.ts";
 import AuthPromptModal from "../../common/AuthPromptModal.tsx";
-import ImagePopup from "../../common/ImagePopup.tsx";
-import ProductHierarchy from "./ProductHierarchy.tsx";
-import FiltersAndSorting from "./FiltersAndSorting.tsx";
 import {useGetProductsTableRTKQuery} from "../../../features/api/productApi.ts";
 import {getBodyForQueryGetTable} from "../../../features/api/apiUtils.ts";
 import {dataTypes} from "../../../utils/enums/dataTypes.ts";
+import ProductHierarchy from "./ProductHierarchy.tsx";
+import FiltersAndSorting from "./FiltersAndSorting.tsx";
 import {useMatch} from "react-router";
-import ProductsCards from "../products/card/ProductsCards.tsx";
+import spinner from "../../../assets/spinner2.png";
+import {useCartContext} from "../../../features/context/CartContext.tsx";
+import {useTranslation} from "react-i18next";
+import ImagePopup from "../../common/ImagePopup.tsx";
 
 const Store = () => {
-    const {pageNumber, sort, filters} = useContext(PageProductContext);
+    const {sort, filters} = useContext(PageProductContext);
 
-    const {addToCart, message} = useCartActions()
-    // const {isAuthenticated} = useCurrentUser();
-
-    const [isImagePopupOpen, setImagePopupOpen] = useState(false);
-    const [currentImageProduct, setCurrentImageProduct] = useState<Product | null>(null);
-
+    const {addToCart, isInCart} = useCartActions();
+    const {refreshCart} = useCartContext();
+    const {isAuthenticated} = useCurrentUser();
+    const {t} = useTranslation();
+    const [currentPage, setCurrentPage] = useState(1);
     const [errorMsg, setError] = useState<string | null>(null);
     const [isAuthModalVisible, setAuthModalVisible] = useState(false);
-
+    const [allProducts, setAllProducts] = useState<Product[]>([]);
+    const observerRef = useRef<HTMLDivElement | null>(null);
     const openAuthModal = () => setAuthModalVisible(true);
     const closeAuthModal = () => setAuthModalVisible(false);
 
+    const [currentImageProduct] = useState<Product | null>(null);
+    const [isImagePopupOpen, setImagePopupOpen] = useState(false);
+
     const match = useMatch("/store/*");
     let params = "";
-    if (match) {
-        params = match.params["*"];
-    }
+    if (match) params = match.params["*"];
     const arrHierarchy = params ? params.split("/") : [];
 
-    const {data = {products: [], pages: 0}, isLoading, isError, error} = useGetProductsTableRTKQuery(getBodyForQueryGetTable(dataTypes.products, pageNumber, sort, filters));
-    const products = useMemo(() => {
-            return data.products.map((p: Product) => new Product(p.id, p.name, p.category, p.quantity, p.price, p.imageUrl, p.description));
+    const { data = { products: [], pages: 0 }, isLoading, isError, error } =
+        useGetProductsTableRTKQuery(
+            getBodyForQueryGetTable(dataTypes.products, currentPage, sort, filters)
+        );
+
+    useEffect(() => {
+        if (data.products.length > 0) {
+            const newProducts = data.products.map(
+                (p: Product) =>
+                    new Product(
+                        p.id,
+                        p.name,
+                        p.category,
+                        p.quantity,
+                        p.price,
+                        p.imageUrl,
+                        p.description
+                    )
+            );
+            setAllProducts((prev) => [...prev, ...newProducts]);
+        }
+    }, [data.products]);
+
+    useEffect(() => {
+        if (!observerRef.current || currentPage >= data.pages) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting) {
+                    setCurrentPage((prev) => Math.min(prev + 1, data.pages));
+                }
+            },
+            { rootMargin: "200px" }
+        );
+
+        observer.observe(observerRef.current);
+
+        return () => observer.disconnect();
+    }, [data.pages, currentPage]);
+
+    const handleAddToCart = useCallback(
+        async (productId: string) => {
+            if (!isAuthenticated) {
+                openAuthModal();
+                return;
+            }
+            try {
+                await addToCart(productId);
+                await refreshCart();
+            } catch (err: unknown) {
+                if (err instanceof Error) setError(err.message);
+            }
         },
-        [data.products]
-    )
+        [isAuthenticated, addToCart, refreshCart]
+    );
 
-    let msg = "";
-    if (isError) {
-        msg = 'status' in error ? `Error: ${error.status} - ${error.data}` : "Unknown error";
-        setError(msg);
-    }
 
-    // const handleAddToCart = useCallback(async (productId: string) => {
-    //     if (!isAuthenticated) {
-    //         openAuthModal();
-    //         return;
-    //     }
-    //     try {
-    //         await addToCart(productId);
-    //     } catch (err: unknown) {
-    //         if (err instanceof Error) {
-    //             setError(err.message);
-    //         }
-    //
-    //     }
-    //
-    // }, [isAuthenticated, addToCart]);
-
-    const handleImageClick = useCallback((product: Product) => {
-        setCurrentImageProduct(product);
-        setImagePopupOpen(true);
-    }, []);
 
     return (
-        <div className={`min-h-screen bg-[#fefaf1] text-[#2a4637] p-6 transition-filter duration-300 ${isImagePopupOpen ? 'blur-sm pointer-events-none' : ''}`}>
-            <ProductsContext.Provider value={{
-                table: products,
-                pages: data.pages,
-                setTableData: () => {},
-            }}>
-
+        <div className="min-h-screen bg-white text-[#2a4637] p-6">
+            <ProductsContext.Provider
+                value={{
+                    table: allProducts, pages: data.pages, setTableData: () => {
+                    }
+                }}
+            >
                 <ProductHierarchy hierarchy={arrHierarchy}/>
                 <FiltersAndSorting/>
-                {message && (
-                    <div
-                        className="fixed bottom-10 left-1/2 -translate-x-1/2 transform text-center bg-green-500 text-white text-lg font-bold py-2 px-6 rounded shadow-lg z-50 transition-transform duration-300 ease-in-out">
-                        {message}
-                    </div>
-                )}
+
 
                 {isLoading ? (
-                    <p className="text-center text-gray-500 mt-20">Loading...</p>
+                    <div className="flex justify-center items-center w-full h-64">
+                        <img src={spinner} alt="loading..." className="spinner-icon"/>
+                    </div>
                 ) : isError ? (
                     <p className="text-center text-red-500 mt-20">{errorMsg}</p>
-                ) : products && products.length > 0 ? (
-                    <div className={"relative"}>
-                        <ProductsCards/>
-                        <div className="mt-6">
-                            <PageNavigation/>
+                ) :
+
+                    allProducts && allProducts.length > 0 ? (
+                    <>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
+                            {allProducts.map((product) => (
+                                <div
+                                    key={product.id}
+                                    className="w-72 h-[430px] inline-flex flex-col justify-start items-start gap-2"
+                                >
+                                    <div className="self-stretch flex flex-col justify-start items-start gap-3">
+                                        <div className="w-72 h-72 relative rounded-lg overflow-hidden">
+                                            <img
+                                                src={product.imageUrl}
+                                                alt={product.name}
+                                                className="w-full h-full object-cover"
+                                            />
+                                        </div>
+                                        <div className="self-stretch flex flex-col gap-1">
+                                            <div className="w-72 flex items-center overflow-hidden py-4">
+                                                <div
+                                                    className="flex-1 min-w-0 text-lime-800 text-xl font-bold font-['Rubik'] truncate">
+                                                    {product.name}
+                                                </div>
+                                                <div
+                                                    className="ml-2 shrink-0 text-right text-lime-800 text-xl font-bold font-['Rubik']">
+                                                    ₪ {product.price.toFixed(2)}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button
+                                        onClick={() => handleAddToCart(product.id)}
+                                        className={`self-stretch px-6 py-3 rounded-lg outline outline-1 outline-offset-[-1px] outline-lime-800 inline-flex justify-center items-center gap-2 overflow-hidden text-base font-medium font-['Rubik'] leading-normal transition 
+                                            ${isInCart(product.id)
+                                            ? "bg-lime-600 text-white cursor-default"
+                                            : "bg-white text-lime-800 hover:bg-lime-800 hover:text-white"
+                                        }`}
+                                        disabled={isInCart(product.id)}
+                                    >
+                                        {isInCart(product.id) ? t("cart.addedToCart") : t("cart.addToCart")}
+                                    </button>
+                                </div>
+                            ))}
                         </div>
-                    </div>
+
+                    </>
                 ) : (
                     <div className="text-center text-gray-500 mt-20">
                         No products found.
                     </div>
                 )}
 
-                <AuthPromptModal isOpen={isAuthModalVisible} onClose={closeAuthModal}/>
 
+
+
+                <div ref={observerRef} className="w-full h-6" />
+
+                {isLoading && (
+                    <div className="flex justify-center items-center mt-4">
+                        <img src={spinner} alt="loading..." className="spinner-icon" />
+                    </div>
+                )}
+
+                {isError && (
+                    <p className="text-center text-red-500 mt-4">
+                        {error ? ("status" in error ? `Error: ${error.status} - ${error.data}` : "Unknown error") : "Unknown error"}
+                    </p>
+                )}
+
+                <AuthPromptModal isOpen={isAuthModalVisible} onClose={closeAuthModal} />
                 {currentImageProduct && (
                     <ImagePopup
                         isOpen={isImagePopupOpen}
@@ -115,10 +194,12 @@ const Store = () => {
                         url={currentImageProduct.imageUrl}
                     />
                 )}
-            </ProductsContext.Provider>
 
+
+
+            </ProductsContext.Provider>
         </div>
     );
-
 };
-export default Store
+
+export default Store;

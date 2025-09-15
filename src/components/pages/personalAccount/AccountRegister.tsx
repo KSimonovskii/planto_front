@@ -103,18 +103,18 @@ const AccountRegister = () => {
                         value={dataAccount.login}
                         handleChange={handleChange}
                     />
-                    <InputBlock
-                        id="firstname"
-                        label="First Name"
-                        value={dataAccount.firstname}
-                        handleChange={handleChange}
-                    />
-                    <InputBlock
-                        id="lastname"
-                        label="Last Name"
-                        value={dataAccount.lastname}
-                        handleChange={handleChange}
-                    />
+                    {/*<InputBlock*/}
+                    {/*    id="firstname"*/}
+                    {/*    label="First Name"*/}
+                    {/*    value={dataAccount.firstname}*/}
+                    {/*    handleChange={handleChange}*/}
+                    {/*/>*/}
+                    {/*<InputBlock*/}
+                    {/*    id="lastname"*/}
+                    {/*    label="Last Name"*/}
+                    {/*    value={dataAccount.lastname}*/}
+                    {/*    handleChange={handleChange}*/}
+                    {/*/>*/}
                     <InputBlock
                         id="email"
                         label="Email"

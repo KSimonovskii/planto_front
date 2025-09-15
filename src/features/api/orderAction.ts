@@ -41,3 +41,26 @@ export const getAllOrders = async (token: string) => {
     }
     return await response.json();
 };
+
+export const getUserOrders = async (
+    login: string,
+    getToken: () => string | null,
+    setAccessToken: (token: string | null) => void
+) => {
+    const url = `${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_BASE_ORDER_ENDPOINT}/user/${login}/orders`;
+
+    const options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+
+    const response = await secureFetch(url, options, getToken, setAccessToken);
+
+    if (!response.ok) {
+        throw new Error(`Failed to fetch orders for user ${login}: ${response.statusText}`);
+    }
+
+    return await response.json();
+};

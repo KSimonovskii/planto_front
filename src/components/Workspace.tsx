@@ -1,6 +1,6 @@
 import {DEFAULT_SORT_PRODUCT, navItems} from "../utils/constants.ts";
 import ProductsManager from "./pages/forAdministrator/products/ProductsManager.tsx";
-import {Route, Routes, Navigate} from "react-router-dom";
+import {Navigate, Route, Routes} from "react-router-dom";
 
 import Home2 from "./pages/home/Home2.tsx";
 import ErrorPage from "./ErrorPage.tsx";
@@ -8,17 +8,18 @@ import PersonalAccount from "./pages/personalAccount/PersonalAccount.tsx";
 import AccountDashboard from "./pages/personalAccount/AccountDashboard.tsx";
 import AccountRegister from "./pages/personalAccount/AccountRegister.tsx";
 import ShoppingCart from "./pages/shoppingCart/ShoppingCart.tsx";
-import Store from "./pages/store/Store.tsx";
 import RequireAuth from "./RequireAuth.tsx";
 import AboutUs from "./pages/aboutUs/AboutUs.tsx";
 import RequireAuthAdministrator from "./RequireAuthAdministrator.tsx";
 import AdminDashboard from "./pages/forAdministrator/AdminDashboard.tsx";
 
 import {useState} from "react";
-import {PageProductContext, ProductsContext} from "../utils/context.ts";
+import {PageProductContext} from "../utils/context.ts";
 import type {PageTableData} from "../utils/types";
 import MainLayout from "./pages/home/MainLayout.tsx";
 import UsersManager from "./pages/users/UsersManager.tsx";
+import {OrdersProvider} from "./pages/orders/OrderProvider.tsx";
+import Store from "./pages/store/Store.tsx";
 
 const Workspace = () => {
 
@@ -79,7 +80,9 @@ const Workspace = () => {
                         path={navItems[7].path}
                         element={
                             <RequireAuthAdministrator>
-                                <UsersManager/>
+                                <OrdersProvider>
+                                    <UsersManager/>
+                                </OrdersProvider>
                             </RequireAuthAdministrator>
                         }
                     />

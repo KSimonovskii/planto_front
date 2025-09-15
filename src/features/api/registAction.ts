@@ -1,9 +1,8 @@
-import type { AuthResponseData } from "../../utils/types"; // Теперь снова нужен этот импорт
-
+import type { AuthResponseData } from "../../utils/types";
 export const registerUser = async (dataUser: {
     login: string,
-    firstname: string,
-    lastname: string,
+    firstname?: string,
+    lastname?: string,
     email: string,
     password: string
 }): Promise<AuthResponseData> => {
