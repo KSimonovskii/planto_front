@@ -8,6 +8,7 @@ import CategoryBox from "../CategoryBox.tsx";
 import {useRemoveProductMutation, useUpdateProductMutation} from "../../../../../features/api/productApi.ts";
 import {uploadFile} from "../../../../../features/api/imageAction.ts";
 import {useInputProduct} from "../hooks/useInputProduct.tsx";
+import {useAuth} from "../../../../../features/hooks/useAuth.ts";
 
 interface PropsProduct {
     product: Product,
@@ -18,6 +19,7 @@ const RowProductsTable = ({product}: PropsProduct) => {
     const {table} = useContext(ProductsContext);
     const [removeProduct] = useRemoveProductMutation();
     const [updateProduct] = useUpdateProductMutation();
+    const {accessToken} = useAuth();
 
     const {
         productData,
@@ -48,7 +50,7 @@ const RowProductsTable = ({product}: PropsProduct) => {
 
         let newImageUrl = imageUrl;
         if (imageFile && imageFile.size != 0) {
-            newImageUrl = await uploadFile(imageFile, name);
+            newImageUrl = await uploadFile(imageFile, name, accessToken);
         }
 
         const raw = {
@@ -114,7 +116,7 @@ const RowProductsTable = ({product}: PropsProduct) => {
     return (
         <tr className={"hover:bg-light-orange hover:text-alt-text"}>
              <th className={`w-20 h-20 align-top overflow-hidden ${idEditProduct == product.id ? 'cursor-pointer' : 'cursor-zoom-in' }`}><img
-                                                          src={imageUrl ? imageUrl : EMPTY_PHOTO} alt={product.name}
+                                                          src={product.imageUrl ? product.imageUrl : EMPTY_PHOTO} alt={product.name}
                                                           className={"rounded-full border-base-form border-1 my-0.5"}
                                                           onClick={handlerClickImage}
                                                           style={{width: "100%", height: "100%", objectFit: "cover"}}/>

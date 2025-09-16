@@ -3,6 +3,7 @@ import {ChevronDownIcon} from "lucide-react";
 import FilterElement from "./FilterElement.tsx";
 import FilterPrice from "../../filters/FilterPrice.tsx";
 import {useGetDataForFiltersQuery} from "../../../features/api/productApi.ts";
+import FilterButtons from "./FilterButtons.tsx";
 
 const Filters = () => {
 
@@ -15,7 +16,7 @@ const Filters = () => {
 
     const filterDataCategory = data.categories.map(category => ({
         title: category,
-        count: Math.round(Math.random(0, 1) * 100)
+        count: Math.round(Math.random() * 100)
     }));
 
     return (
@@ -34,6 +35,7 @@ const Filters = () => {
                     <FilterElement filterData={filterDataStock}/>
                     <FilterElement filterData={filterDataCategory}/>
                     <FilterPrice/>
+                    <FilterButtons/>
                 </div>
             </PopoverPanel>
         </Popover>
