@@ -27,7 +27,7 @@ const CheckoutForm = ({isOpen, onClose, items, onSuccess}: CheckoutFormProps) =>
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const deliveryPrice = 10;
+    const deliveryPrice = 70;
 
     const subtotal = useMemo(() => {
         return items.reduce((total, item) => total + item.product.price * item.quantity, 0);
@@ -141,23 +141,23 @@ const CheckoutForm = ({isOpen, onClose, items, onSuccess}: CheckoutFormProps) =>
                                                     <div key={item.product.id}
                                                          className="flex justify-between items-center text-sm py-1 border-b last:border-b-0">
                                                         <span>{item.product.name} (x{item.quantity})</span>
-                                                        <span>${(item.product.price * item.quantity).toFixed(2)}</span>
+                                                        <span>₪{(item.product.price * item.quantity).toFixed(2)}</span>
                                                     </div>
                                                 ))}
                                             </div>
                                             <div className="text-right font-medium">
                                                 <div className="flex justify-between mt-2">
                                                     <span>Subtotal:</span>
-                                                    <span>${subtotal.toFixed(2)}</span>
+                                                    <span>₪{subtotal.toFixed(2)}</span>
                                                 </div>
                                                 <div className="flex justify-between mt-1">
                                                     <span>Delivery:</span>
-                                                    <span>{deliveryMethod === 'delivery' ? `$${deliveryPrice.toFixed(2)}` : 'Free'}</span>
+                                                    <span>{deliveryMethod === 'delivery' ? `₪${deliveryPrice.toFixed(2)}` : 'Free'}</span>
                                                 </div>
                                                 <div
                                                     className="flex justify-between mt-2 text-xl font-bold border-t pt-2">
                                                     <span>Total:</span>
-                                                    <span>${total.toFixed(2)}</span>
+                                                    <span>₪{total.toFixed(2)}</span>
                                                 </div>
                                             </div>
                                         </div>

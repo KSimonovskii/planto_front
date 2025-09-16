@@ -12,9 +12,7 @@ export const productApi = createApi({
     tagTypes: ["Products","FilterData"],
     baseQuery: fetchBaseQuery({
         baseUrl: `${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_BASE_PRODUCT_ENDPOINT}`,
-        //TODO implement authorization token
-        prepareHeaders: ((headers, {getState}) => (headers.set("Content-type", "application/json")))
-                                //"Authorization": `Bearer ${token}`})
+        headers: new Headers({"Content-type": "application/json"})
     }),
     endpoints: (build) => ({
         getProductsTableRTK: build.query({

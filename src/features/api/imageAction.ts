@@ -10,7 +10,7 @@ interface answer {
 
 export const uploadFile = async (imageFile: Blob, imageName: string, accessToken : any) => {
 
-    const BASE_URL = "http://localhost:8080/uploadImage";
+    const BASE_URL = `${import.meta.env.VITE_BASE_URL}/uploadImage`;
 
     const headers = new Headers();
     headers.append("Authorization", `Bearer ${accessToken}`);
