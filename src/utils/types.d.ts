@@ -80,12 +80,13 @@ export interface AnswerTable {
 
 //Orders
 interface OrderDto {
-    id: string
-    items: OrderItemDto[]
-    status: OrderStatus
-    orderDate: string
-    paymentMethod: string
-    paid: boolean
+    id: string;
+    items: OrderItemDto[];
+    status: OrderStatus;
+    orderDate: string;
+    paymentMethod: string;
+    paid: boolean;
+    user?: UserDto;
 }
 
 export interface OrderItemDto {
