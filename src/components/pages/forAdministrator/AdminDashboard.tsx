@@ -11,6 +11,7 @@ import {getAllUsers} from "../../../features/api/userAction.ts";
 import UsersManager from "../users/UsersManager.tsx";
 import {getAllOrders} from "../../../features/api/orderAction.ts";
 import {useAppSelector} from "../../../app/hooks.ts";
+import {OrdersProvider} from "../orders/OrderProvider.tsx";
 
 const AdminDashboard = () => {
     const {user, loadingUser, errorUser} = useCurrentUser();
@@ -142,7 +143,9 @@ const AdminDashboard = () => {
                 {activeSection === "orders" && (
                     <>
                         <h1 className="text-3xl font-bold mb-6 text-gray-800">All Orders</h1>
-                        <OrderTable/>
+                        <OrdersProvider>
+                            <OrderTable/>
+                        </OrdersProvider>
                     </>
                 )}
 

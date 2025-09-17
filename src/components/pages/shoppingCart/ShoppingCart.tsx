@@ -163,7 +163,7 @@ const ShoppingCart = () => {
 
 
     return (
-        <div className="h-screen p-6 bg-[#fefaf1] text-[#2a4637]">
+        <div className="h-screen p-6 bg-white text-[#2a4637]">
             <div className="mb-40"></div>
 
             <h2 className="text-3xl font-bold mb-4 text-center">Shopping Cart</h2>
@@ -186,12 +186,12 @@ const ShoppingCart = () => {
 
 
                     <div className="flex flex-col items-center mt-8">
-                        <div className="text-2xl font-bold mb-4">Total: ${totalCost.toFixed(2)}</div>
+                        <div className="text-2xl font-bold mb-4">Total: ₪ {totalCost.toFixed(2)}</div>
                         <button
                             onClick={handleCheckoutClick}
-                            className="bg-[#9acfaf] text-[#2a4637] font-semibold py-3 px-8 rounded hover:bg-[#7aaa8d] transition"
+                            className="w-40 px-3 py-2 rounded-lg outline outline-1 outline-lime-800 font-medium font-['Rubik'] text-lime-800 bg-white hover:bg-lime-800 hover:text-white transition"
                         >
-                            Proceed to Checkout
+                            Shop Now
                         </button>
                     </div>
                 </>
