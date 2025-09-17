@@ -30,21 +30,11 @@ const Workspace = () => {
 
             <Routes>
                 <Route element={<MainLayout/>}>
-
                     <Route path="/" element={<Home2/>}/>
                     <Route path="/main" element={<Home2/>}/>
                     <Route path="/main/*" element={<Home2/>}/>
-
                     <Route path={navItems[1].path} element={<AboutUs/>}/>
-
-                    <Route
-                        path={navItems[2].path}
-                        element={
-                            <RequireAuth>
-                                <ShoppingCart/>
-                            </RequireAuth>
-                        }
-                    />
+                    <Route path={navItems[2].path} element={<ShoppingCart/>}/>
 
                     <Route
                         path={navItems[3].path}

@@ -2,6 +2,7 @@ import {Decimal} from "decimal.js";
 import type Sort from "../features/classes/Sort.ts";
 import type {OrderStatus} from "../components/pages/orders/OrderStatus.ts";
 import type {CartItem} from "../components/pages/orders/CartItem.ts";
+import type Product from "../features/classes/Product.ts";
 
 //Common
 interface NavItem {
@@ -49,14 +50,14 @@ interface AuthContextType {
 
 //Products
 export interface ProductData {
-    id?: string,
-    name: string,
-    category: string,
-    qty: number,
-    price: number,
-    description: string,
-    imageUrl: string,
-    imageFile: File | null
+    id?: string;
+    name: string;
+    category?: string;
+    quantity: number;
+    price: number;
+    description?: string;
+    imageUrl: string;
+    imageFile?: File | null;
 }
 
 export interface ProductDataForTable {
@@ -99,4 +100,9 @@ export interface OrderItemDto {
 interface CartItemDto {
     productId: string
     quantity: number
+}
+
+interface CartItemType {
+    product: Product ;
+    quantity: number;
 }

@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import {Outlet} from "react-router-dom";
 import MegaMenu from "./MegaMenu";
 import Footer from "./Footer";
 
@@ -7,16 +7,14 @@ const MainLayout = () => {
         <div className="flex flex-col min-h-screen">
 
             <div className="sticky top-0 z-50 bg-white shadow-md">
-                <MegaMenu />
+                <MegaMenu/>
             </div>
 
+            <main className="flex-1 overflow-auto">
+                <Outlet/>
+            </main>
 
-            <div className="flex-1">
-                <Outlet />
-            </div>
-
-
-            <Footer />
+            <Footer/>
         </div>
     );
 };

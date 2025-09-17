@@ -11,26 +11,27 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | null>(null);
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
-    const { getCart } = useCartActions();
+    const { getCart, getLocalCart } = useCartActions();
     const [productsInCart, setProductsInCart] = useState(0);
     const {isAuthenticated} = useCurrentUser();
 
     const refreshCart = useCallback(async () => {
         try {
-            const cartData = await getCart();
-            setProductsInCart(cartData.length);
+            if (isAuthenticated) {
+                const cartData = await getCart();
+                setProductsInCart(cartData.length);
+            } else {
+                const localCart = getLocalCart();
+                setProductsInCart(localCart.length);
+            }
         } catch (err) {
             console.error("Failed to refresh cart:", err);
             setProductsInCart(0);
         }
-    }, [getCart]);
+    }, [getCart, getLocalCart, isAuthenticated]);
 
     useEffect(() => {
-        if (isAuthenticated) {
-            refreshCart();
-        } else {
-            setProductsInCart(0);
-        }
+        refreshCart();
     }, [isAuthenticated, refreshCart]);
 
     return (
