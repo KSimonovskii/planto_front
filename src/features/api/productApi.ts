@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {DATA_FOR_PRODUCT_FILTERS} from "../../utils/constants.ts";
-import type {AnswerTable} from "../../utils/types.d.ts";
+import type {AnswerTable, RootState} from "../../utils/types.d.ts";
+
 
 interface DataForFilters {
     price: number,
@@ -12,7 +13,14 @@ export const productApi = createApi({
     tagTypes: ["Products","FilterData"],
     baseQuery: fetchBaseQuery({
         baseUrl: `${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_BASE_PRODUCT_ENDPOINT}`,
-        headers: new Headers({"Content-type": "application/json"})
+        prepareHeaders: ((headers, {getState}) => {
+            const token = (getState() as RootState).userAuthSlice.accessToken;
+            headers.set("Content-type", "application/json");
+            if (token) {
+                headers.set("Authorization", `Bearer ${token}`);
+            }
+            return headers;
+        })
     }),
     endpoints: (build) => ({
         getProductsTableRTK: build.query({

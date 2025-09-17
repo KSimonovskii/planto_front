@@ -1,7 +1,7 @@
-import {useAuth} from "./useAuth.ts";
+import {store} from "../../app/store.ts"
+import {changeAccessToken} from "../slices/userAuthSlice.ts";
 
 export const useAuthActions = () => {
-    const {setAccessToken} = useAuth();
 
     const loginUser = async (credentials:
                                  { login: string, password: string }) => {
@@ -37,13 +37,13 @@ export const useAuthActions = () => {
             if (!accessToken) {
                 throw new Error("Access token missing in response from login.");
             }
-            setAccessToken(accessToken);
+            store.dispatch(changeAccessToken({token: accessToken}));
             console.log("Login successful. Access token set.");
             return {accessToken};
 
         } catch (error) {
             console.error("Error during login:", error);
-            setAccessToken(null);
+            store.dispatch(changeAccessToken({token: ""}));
             throw error;
         }
     };

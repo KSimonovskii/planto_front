@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { registerUser } from "../../../features/api/registAction.ts";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useAuth } from "../../../features/hooks/useAuth.ts";
+import {useAppDispatch} from "../../../app/hooks.ts";
+import {changeAccessToken} from "../../../features/slices/userAuthSlice.ts";
 
 const INITIAL_ACCOUNT_STATE = {
     login: "",
@@ -50,7 +51,8 @@ const AccountRegister = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const from = (location.state as { from?: string })?.from || "/";
-    const { setAccessToken } = useAuth();
+
+    const dispatch = useAppDispatch();
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setDataAccount({ ...dataAccount, [event.target.name]: event.target.value });
@@ -74,12 +76,14 @@ const AccountRegister = () => {
                 password: dataAccount.password,
             });
 
-            setAccessToken(authData.accessToken);
+            dispatch(changeAccessToken({token: authData.accessToken}));
             setDataAccount(INITIAL_ACCOUNT_STATE);
             navigate(from, { replace: true });
-        } catch (err: any) {
-            console.error("Registration failed: ", err);
-            setError(err.message || "Unknown error during registration.");
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                console.error("Registration failed: ", err);
+                setError(err.message || "Unknown error during registration.");
+            }
         } finally {
             setLoading(false);
         }

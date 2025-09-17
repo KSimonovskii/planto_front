@@ -1,4 +1,6 @@
 import {refreshToken} from "../features/api/authApi.ts";
+import {store} from "../app/store.ts";
+import {changeAccessToken} from "../features/slices/userAuthSlice.ts";
 
 let isRefreshing = false;
 let refreshPromise: Promise<string | null> | null = null;
@@ -6,10 +8,9 @@ let refreshPromise: Promise<string | null> | null = null;
 export const secureFetch = async (
     input: RequestInfo,
     options: RequestInit = {},
-    getToken: () => string | null,
-    setToken: (token: string | null) => void
 ) => {
-    const accessToken = getToken();
+
+    const accessToken = store.getState().userAuthSlice.accessToken;
 
     const headers = new Headers(options.headers);
     if (accessToken) {
@@ -38,7 +39,7 @@ export const secureFetch = async (
 
         if (newAccessToken) {
             console.log("secureFetch: Token refreshed successfully, retrying original request.");
-            setToken(newAccessToken);
+            store.dispatch(changeAccessToken({token: newAccessToken}));
 
             const retryHeaders = new Headers(options.headers);
             retryHeaders.set("Authorization", `Bearer ${newAccessToken}`);
@@ -50,7 +51,7 @@ export const secureFetch = async (
             });
         } else {
             console.warn("secureFetch: Failed to refresh token, user might need to re-login.");
-            setToken(null);
+            store.dispatch(changeAccessToken({token: ""}));
             throw new Error("Authentication failed: Could not refresh token.");
         }
     }

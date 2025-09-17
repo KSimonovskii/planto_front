@@ -3,9 +3,7 @@ import {secureFetch} from "../../utils/secureFetch.ts";
 
 export const createOrderApi = async (
     login: string,
-    orderData: OrderCreateDto,
-    getToken: () => string | null,
-    setAccessToken: (token: string | null) => void,
+    orderData: OrderCreateDto
     ) => {
 
     const url = `${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_BASE_ORDER_ENDPOINT}/create/${login}`;
@@ -15,7 +13,7 @@ export const createOrderApi = async (
         body: JSON.stringify(orderData)
     };
 
-    const response = await secureFetch(url, options, getToken, setAccessToken);
+    const response = await secureFetch(url, options);
 
     if (!response.ok) {
         throw new Error(`Failed to create order: ${response.statusText}`);
@@ -42,11 +40,7 @@ export const getAllOrders = async (token: string) => {
     return await response.json();
 };
 
-export const getUserOrders = async (
-    login: string,
-    getToken: () => string | null,
-    setAccessToken: (token: string | null) => void
-) => {
+export const getUserOrders = async (login: string) => {
     const url = `${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_BASE_ORDER_ENDPOINT}/user/${login}/orders`;
 
     const options = {
@@ -56,7 +50,7 @@ export const getUserOrders = async (
         }
     };
 
-    const response = await secureFetch(url, options, getToken, setAccessToken);
+    const response = await secureFetch(url, options);
 
     if (!response.ok) {
         throw new Error(`Failed to fetch orders for user ${login}: ${response.statusText}`);

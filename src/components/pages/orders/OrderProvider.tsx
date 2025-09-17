@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import { Decimal } from "decimal.js";
 import { OrderContext } from "./OrderContext.ts";
 import type { OrderDto } from "../../../utils/types";
-import { useAuth } from "../../../features/hooks/useAuth.ts";
 import { secureFetch } from "../../../utils/secureFetch.ts";
 import spinner from "../../../assets/spinner2.png";
+import {useAppSelector} from "../../../app/hooks.ts";
+
 
 type OrdersProviderProps = {
     children: ReactNode;
@@ -14,12 +15,12 @@ type OrdersProviderProps = {
 export const OrdersProvider = ({ children }: OrdersProviderProps) => {
     const [orders, setOrders] = useState<OrderDto[]>([]);
     const [loading, setLoading] = useState(true);
-    const { getToken, setAccessToken } = useAuth();
+
+    const {accessToken} = useAppSelector(state => state.userAuthSlice);
 
     const fetchOrders = async () => {
 
-        const token = getToken();
-        if (!token) {
+        if (!accessToken) {
             console.error("User not authenticated");
             setOrders([]);
             setLoading(false);
@@ -32,8 +33,6 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
             const response = await secureFetch(
                 BASE_URL,
                 { method: "GET", headers: { "Content-Type": "application/json" } },
-                getToken,
-                setAccessToken
             );
 
             if (!response.ok) {
@@ -67,7 +66,7 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
 
     useEffect(() => {
         fetchOrders();
-    }, [getToken, setAccessToken]);
+    }, [accessToken, fetchOrders]);
 
     if (loading) {
         return (
