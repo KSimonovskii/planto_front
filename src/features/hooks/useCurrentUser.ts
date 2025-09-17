@@ -1,11 +1,11 @@
 import {useUserActions} from "./useUserAction.ts";
 import {useCallback, useEffect, useState} from "react";
 import {parseJwt} from "../../utils/parseJwt.ts";
-import {useAuth} from "./useAuth.ts";
 import type {UserInterfaceAccount} from "../../utils/types";
+import {useAppSelector} from "../../app/hooks.ts";
 
 export function useCurrentUser() {
-    const {accessToken, accessTokenLoaded} = useAuth();
+    const {accessToken, accessTokenLoaded} = useAppSelector(state => state.userAuthSlice);
     const {getUserByLogin} = useUserActions();
     const [user, setUser] = useState<UserInterfaceAccount | null>(null);
     const [loadingUser, setLoadingUser] = useState<boolean>(true);
@@ -39,7 +39,7 @@ export function useCurrentUser() {
         } finally {
             setLoadingUser(false);
         }
-    }, [accessToken, accessTokenLoaded]);
+    }, [accessToken, accessTokenLoaded, getUserByLogin]);
 
 
     useEffect(() => {

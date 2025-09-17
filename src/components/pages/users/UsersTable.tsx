@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {getAllUsers} from "../../../features/api/userAction.ts";
-import {useAuth} from "../../../features/hooks/useAuth.ts";
 import spinner from "../../../assets/spinner2.png";
+import {useAppSelector} from "../../../app/hooks.ts";
 
 
 interface AddressDto {
@@ -27,7 +27,7 @@ interface UserDto {
 }
 
 const UsersTable = () => {
-    const {accessToken} = useAuth();
+    const {accessToken} = useAppSelector(state => state.userAuthSlice);
     const [users, setUsers] = useState<UserDto[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);

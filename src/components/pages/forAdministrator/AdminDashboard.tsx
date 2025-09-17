@@ -10,10 +10,12 @@ import ProductsManager from "./products/ProductsManager.tsx";
 import {getAllUsers} from "../../../features/api/userAction.ts";
 import UsersManager from "../users/UsersManager.tsx";
 import {getAllOrders} from "../../../features/api/orderAction.ts";
+import {useAppSelector} from "../../../app/hooks.ts";
 
 const AdminDashboard = () => {
     const {user, loadingUser, errorUser} = useCurrentUser();
-    const {accessToken} = useAuth();
+    const {accessToken} = useAppSelector(state => state.userAuthSlice);
+
     const navigate = useNavigate();
     const {logout} = useAuth();
 

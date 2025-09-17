@@ -1,7 +1,6 @@
 import {useCallback, useState} from "react";
 import {secureFetch} from "../../utils/secureFetch.ts";
 import {useCurrentUser} from "./useCurrentUser.ts";
-import {useAuth} from "./useAuth.ts";
 
 export type CartEntry = {
     productId: string;
@@ -9,13 +8,11 @@ export type CartEntry = {
 };
 
 export const useCartActions = () => {
-    const {getToken, setAccessToken} = useAuth();
     const {user} = useCurrentUser();
     const [message, setMessage] = useState<string | null>(null);
     const [cart, setCart] = useState<CartEntry[]>([]);
 
     const BASE_URL = import.meta.env.VITE_BASE_URL;
-
 
     const getCart = useCallback(async (): Promise<CartEntry[]> => {
 
@@ -30,7 +27,7 @@ export const useCartActions = () => {
             const options = {
                 method: "GET",
             }
-            const response = await secureFetch(URL, options, getToken, setAccessToken);
+            const response = await secureFetch(URL, options);
 
             if (!response.ok) {
                 const errorText = await response.text();
@@ -50,14 +47,14 @@ export const useCartActions = () => {
             setTimeout(() => setMessage(null), 3000);
             return [];
         }
-    }, [user, getToken, setAccessToken]);
+    }, [user, BASE_URL]);
 
 
     const addToCart = useCallback(async (productId: string): Promise<void> => {
         if (!user) throw new Error("User is not authenticated");
 
         const url = `${BASE_URL}/account/user/${user.login}/cart/${productId}`;
-        const response = await secureFetch(url, {method: "PUT"}, getToken, setAccessToken);
+        const response = await secureFetch(url, {method: "PUT"});
 
         if (!response.ok) {
             setMessage("Error adding product to cart");
@@ -79,7 +76,7 @@ export const useCartActions = () => {
         });
 
         setTimeout(() => setMessage(null), 3000);
-    }, [user, getToken, setAccessToken]);
+    }, [user, BASE_URL]);
 
 
     const isInCart = useCallback(
@@ -92,7 +89,7 @@ export const useCartActions = () => {
         if (!user) throw new Error("User is not authenticated");
 
         const url = `${BASE_URL}/account/user/${user.login}/cart/${productId}`;
-        const response = await secureFetch(url, {method: "DELETE"}, getToken, setAccessToken);
+        const response = await secureFetch(url, {method: "DELETE"});
 
         if (!response.ok) {
             const errorText = await response.text();
@@ -112,14 +109,14 @@ export const useCartActions = () => {
         );
 
         setTimeout(() => setMessage(null), 3000);
-    }, [user, getToken, setAccessToken]);
+    }, [user, BASE_URL]);
 
 
     const removeAllFromCart = useCallback(async (productId: string): Promise<void> => {
         if (!user) throw new Error("User is not authenticated");
 
         const url = `${BASE_URL}/account/user/${user.login}/cart/${productId}/all`;
-        const response = await secureFetch(url, {method: "DELETE"}, getToken, setAccessToken);
+        const response = await secureFetch(url, {method: "DELETE"});
 
         if (!response.ok) {
             const errorText = await response.text();
@@ -130,14 +127,14 @@ export const useCartActions = () => {
         setMessage("Product removed completely");
         setCart((prev) => prev.filter((entry) => entry.productId !== productId));
         setTimeout(() => setMessage(null), 3000);
-    }, [user, getToken, setAccessToken]);
+    }, [user, BASE_URL]);
 
 
     const clearCart = useCallback(async (): Promise<void> => {
         if (!user) throw new Error("User is not authenticated");
 
         const url = `${BASE_URL}/account/user/${user.login}/cart/clear`;
-        const response = await secureFetch(url, {method: "DELETE"}, getToken, setAccessToken);
+        const response = await secureFetch(url, {method: "DELETE"});
 
         if (!response.ok) {
             const errorText = await response.text();
@@ -148,7 +145,7 @@ export const useCartActions = () => {
         setMessage("Cart cleared");
         setCart([]);
         setTimeout(() => setMessage(null), 3000);
-    }, [user, getToken, setAccessToken]);
+    }, [user, BASE_URL]);
 
     return {
         getCart,

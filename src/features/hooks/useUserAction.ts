@@ -1,23 +1,22 @@
 import {secureFetch} from "../../utils/secureFetch.ts";
-import {useAuth} from "./useAuth.ts";
 
 import {Address} from "../../components/pages/users/Address.ts";
 import {OrderItem} from "../../components/pages/orders/OrderItem.ts";
 import {Order} from "../../components/pages/orders/Order.ts";
 import {CartItem} from "../../components/pages/orders/CartItem.ts";
 import type {CartItemDto, OrderDto, OrderItemDto} from "../../utils/types";
+import {useCallback} from "react";
 
 export const useUserActions = () => {
-    const {getToken, setAccessToken} = useAuth();
 
-    const getUserByLogin = async (login: string) => {
+    const getUserByLogin = useCallback(async (login: string) => {
 
         const URL = `${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_BASE_USER_ENDPOINT}/user/${login}`;
 
         const options = {
             method: "GET",
         }
-        const response = await secureFetch(URL, options, getToken, setAccessToken);
+        const response = await secureFetch(URL, options);
 
         if (!response.ok) {
            const errorText = await response.text();
@@ -50,7 +49,7 @@ export const useUserActions = () => {
             orders: orders,
             cart: cart
         }
-    };
+    }, []);
     return {getUserByLogin};
 
 }

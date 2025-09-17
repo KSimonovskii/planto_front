@@ -7,19 +7,19 @@ interface changeFilterPayload {
 }
 
 const filterCategorySlice = createSlice({
-    name: "filterCategory",
+    name: "filterCategorySlice",
     initialState: {
-        categories: []
+        categories: new Array<string>
     },
     reducers: {
         changeCategoriesFilter: (state, action: PayloadAction<changeFilterPayload>) => {
-            const i = state.indexOf(action.payload.category);
+            const i = state.categories.indexOf(action.payload.category);
             if (action.payload.isRemove) {
                 if (i >= 0) {
-                    state.splice(i, 1);
+                    state.categories.splice(i, 1);
                 }
             } else if (i === 0) {
-                state.push(action.payload.category);
+                state.categories.push(action.payload.category);
             }
         }
     }

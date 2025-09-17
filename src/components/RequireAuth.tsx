@@ -1,8 +1,8 @@
 import {type JSX} from "react";
 import {Navigate, useLocation} from "react-router-dom";
 import {useCurrentUser} from "../features/hooks/useCurrentUser.ts";
-import {useAuth} from "../features/hooks/useAuth.ts";
 import spinner from "../assets/spinner2.png";
+import {useAppSelector} from "../app/hooks.ts";
 
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const RequireAuth = ({children}: Props) => {
-    const {accessToken, accessTokenLoaded} = useAuth();
+    const {accessToken, accessTokenLoaded} = useAppSelector(state => state.userAuthSlice);
     const {loadingUser, isAuthenticated} = useCurrentUser();
     const location = useLocation();
 

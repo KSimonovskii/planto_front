@@ -40,11 +40,11 @@ interface AuthResponseData {
 }
 
 interface AuthContextType {
-    accessToken: string | null
-    setAccessToken: (token: string | null) => void
+    // accessToken: string | null
+    //setAccessToken: (token: string | null) => void
     logout: () => void
-    getToken: () => string | null
-    accessTokenLoaded: boolean
+    // getToken: () => string | null
+    // accessTokenLoaded: boolean
 }
 
 //Products
@@ -99,3 +99,6 @@ interface CartItemDto {
     productId: string
     quantity: number
 }
+
+// Infer the `RootState` and `AppDispatch` types from the store itself
+export type RootState = ReturnType<typeof store.getState>
