@@ -7,7 +7,7 @@ import {useCurrentUser} from "../../../features/hooks/useCurrentUser.ts";
 import OrderSuccessPopup from "../../common/OrderSuccessPopup.tsx";
 import {useNavigate} from "react-router";
 import {useCartContext} from "../../../features/context/CartContext.tsx";
-import type {CartItemType} from "../../../utils/types";
+import type {CartItemDto, CartItemType} from "../../../utils/types";
 import spinner from "../../../assets/spinner2.png";
 
 const ShoppingCart = () => {
@@ -24,7 +24,8 @@ const ShoppingCart = () => {
         getLocalCart,
         addToLocalCart,
         removeFromLocalCart,
-        removeAllFromLocalCart
+        removeAllFromLocalCart,
+        syncLocalCartToServer
     } = useCartActions();
 
     const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
@@ -32,19 +33,11 @@ const ShoppingCart = () => {
     const [isOrderSuccessOpen, setIsOrderSuccessOpen] = useState(false);
     const {refreshCart} = useCartContext();
 
-
-    const fetchCartItems = useCallback(async () => {
+    const fetchCartItems = useCallback(async (cartData: CartItemDto[]) => {
         setLoading(true);
         setError(null);
         try {
-            const cartData = isAuthenticated ? await getCart() : getLocalCart();
-
-            if (cartData.length === 0) {
-                setItems([]);
-                return;
-            }
-
-            const productPromises = cartData.map(async (item) => {
+            const productPromises = cartData.map(async (item: CartItemDto) => {
                 try {
                     const product = await getProductById(item.productId);
                     return {product, quantity: item.quantity};
@@ -61,7 +54,36 @@ const ShoppingCart = () => {
         } finally {
             setLoading(false);
         }
-    }, [getCart, getLocalCart, isAuthenticated]);
+    }, []);
+
+    useEffect(() => {
+        const loadAndSyncCart = async () => {
+            setLoading(true);
+            try {
+                const localCart = getLocalCart();
+                const hasLocalCart = localCart.length > 0;
+
+                if (isAuthenticated && hasLocalCart) {
+
+                    await syncLocalCartToServer();
+                    const serverCartData = await getCart();
+                    await fetchCartItems(serverCartData);
+                    await refreshCart();
+                } else {
+
+                    const cartData = isAuthenticated ? await getCart() : localCart;
+                    await fetchCartItems(cartData);
+                    await refreshCart();
+                }
+            } catch (err: unknown) {
+                if (err instanceof Error) setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadAndSyncCart();
+    }, [isAuthenticated, getLocalCart, getCart, syncLocalCartToServer, refreshCart, fetchCartItems]);
 
     const handleAdd = useCallback(async (productId: string) => {
         setItems(prevItems => {
@@ -85,16 +107,14 @@ const ShoppingCart = () => {
                 addToLocalCart(productId);
             }
         } catch (err: unknown) {
-
             if (err instanceof Error) {
                 setError(err.message || "Failed to add product.");
             }
-            await fetchCartItems();
+            await fetchCartItems(isAuthenticated ? await getCart() : getLocalCart());
         }
-    }, [isAuthenticated, addToCart, addToLocalCart, fetchCartItems, refreshCart]);
+    }, [isAuthenticated, addToCart, addToLocalCart, getCart, getLocalCart, refreshCart]);
 
     const handleRemove = useCallback(async (productId: string) => {
-
         setItems(prevItems => {
             const itemIndex = prevItems.findIndex(item => item.product.id === productId);
             if (itemIndex > -1) {
@@ -124,12 +144,11 @@ const ShoppingCart = () => {
             if (err instanceof Error) {
                 setError(err.message || "Failed to remove product.");
             }
-            await fetchCartItems();
+            await fetchCartItems(isAuthenticated ? await getCart() : getLocalCart());
         }
-    }, [isAuthenticated, removeFromCart, removeFromLocalCart, fetchCartItems, refreshCart]);
+    }, [isAuthenticated, removeFromCart, removeFromLocalCart, getCart, getLocalCart, refreshCart]);
 
     const handleRemoveAll = useCallback(async (productId: string) => {
-
         setItems(prevItems => prevItems.filter(item => item.product.id !== productId));
 
         try {
@@ -143,13 +162,9 @@ const ShoppingCart = () => {
             if (err instanceof Error) {
                 setError(err.message || "Failed to remove product.");
             }
-            await fetchCartItems();
+            await fetchCartItems(isAuthenticated ? await getCart() : getLocalCart());
         }
-    }, [isAuthenticated, removeAllFromCart, removeAllFromLocalCart, fetchCartItems, refreshCart]);
-
-    useEffect(() => {
-        fetchCartItems();
-    }, [fetchCartItems]);
+    }, [isAuthenticated, removeAllFromCart, removeAllFromLocalCart, getCart, getLocalCart, refreshCart]);
 
     const handleCheckoutClick = () => {
         if (!isAuthenticated) {

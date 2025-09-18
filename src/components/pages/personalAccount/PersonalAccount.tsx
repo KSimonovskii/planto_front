@@ -1,6 +1,8 @@
-import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { useAuthActions } from "../../../features/hooks/useAuthActions.ts";
+import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {useAuthActions} from "../../../features/hooks/useAuthActions.ts";
+import {useCurrentUser} from "../../../features/hooks/useCurrentUser.ts";
+
 
 const PersonalAccount = () => {
     const [login, setLogin] = useState("");
@@ -8,10 +10,9 @@ const PersonalAccount = () => {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-    const location = useLocation();
-    const { loginUser } = useAuthActions();
+    const {loginUser} = useAuthActions();
+    const {user, isAdmin} = useCurrentUser();
 
-    const from = (location.state as { from?: string })?.from || "/";
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -19,10 +20,10 @@ const PersonalAccount = () => {
         setLoading(true);
 
         try {
-            await loginUser({ login, password });
+            await loginUser({login, password});
             setLogin("");
             setPassword("");
-            navigate(from, {replace: true});
+
 
         } catch (err: unknown) {
             console.error("Login failed: ", err);
@@ -35,8 +36,18 @@ const PersonalAccount = () => {
         }
     };
 
+    useEffect(() => {
+        if (user) {
+            if (isAdmin) {
+                navigate("/admin/dashboard", { replace: true });
+            } else {
+                navigate("/cart", { replace: true });
+            }
+        }
+    }, [user, isAdmin, navigate]);
+
     const handleRegisterRedirect = () => {
-        navigate("/account/register", { state: { from } });
+        navigate("/account/register");
     };
 
     return (

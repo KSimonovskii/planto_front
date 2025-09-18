@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { registerUser } from "../../../features/api/registAction.ts";
-import { useNavigate, useLocation } from "react-router-dom";
+import {useState} from "react";
+import {registerUser} from "../../../features/api/registAction.ts";
+import {useNavigate} from "react-router-dom";
 import {useAppDispatch} from "../../../app/hooks.ts";
 import {changeAccessToken} from "../../../features/slices/userAuthSlice.ts";
 
@@ -49,13 +49,13 @@ const AccountRegister = () => {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-    const location = useLocation();
-    const from = (location.state as { from?: string })?.from || "/";
+    // const location = useLocation();
+    // const from = (location.state as { from?: string })?.from || "/";
 
     const dispatch = useAppDispatch();
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setDataAccount({ ...dataAccount, [event.target.name]: event.target.value });
+        setDataAccount({...dataAccount, [event.target.name]: event.target.value});
         setError(null);
     };
 
@@ -78,7 +78,8 @@ const AccountRegister = () => {
 
             dispatch(changeAccessToken({token: authData.accessToken}));
             setDataAccount(INITIAL_ACCOUNT_STATE);
-            navigate(from, { replace: true });
+
+            navigate("/cart");
         } catch (err: unknown) {
             if (err instanceof Error) {
                 console.error("Registration failed: ", err);
@@ -107,18 +108,7 @@ const AccountRegister = () => {
                         value={dataAccount.login}
                         handleChange={handleChange}
                     />
-                    {/*<InputBlock*/}
-                    {/*    id="firstname"*/}
-                    {/*    label="First Name"*/}
-                    {/*    value={dataAccount.firstname}*/}
-                    {/*    handleChange={handleChange}*/}
-                    {/*/>*/}
-                    {/*<InputBlock*/}
-                    {/*    id="lastname"*/}
-                    {/*    label="Last Name"*/}
-                    {/*    value={dataAccount.lastname}*/}
-                    {/*    handleChange={handleChange}*/}
-                    {/*/>*/}
+
                     <InputBlock
                         id="email"
                         label="Email"

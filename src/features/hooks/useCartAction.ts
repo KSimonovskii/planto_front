@@ -179,16 +179,6 @@ export const useCartActions = () => {
         localStorage.removeItem(LOCAL_CART_KEY);
     }, []);
 
-    const syncLocalCartToServer = useCallback(async () => {
-        const localCart = getLocalCart();
-        for (const item of localCart) {
-            for (let i = 0; i < item.quantity; i++) {
-                await addToCart(item.productId);
-            }
-        }
-        clearLocalCart();
-    }, [getLocalCart, addToCart, clearLocalCart]);
-
     const removeFromLocalCart = useCallback((productId: string) => {
         const cart = getLocalCart();
         const index = cart.findIndex((p) => p.productId === productId);
@@ -206,6 +196,46 @@ export const useCartActions = () => {
         const cart = getLocalCart().filter((p) => p.productId !== productId);
         saveLocalCart(cart);
     }, [getLocalCart, saveLocalCart]);
+
+    const syncLocalCartToServer = useCallback(async () => {
+        const localCart = getLocalCart();
+        if (!user || localCart.length === 0) return;
+
+        try {
+            const serverCart = await getCart();
+
+            const localMap = new Map(localCart.map(item => [item.productId, item.quantity]));
+            const serverMap = new Map(serverCart.map(item => [item.productId, item.quantity]));
+
+            const merged: CartEntry[] = [];
+            const allProductIds = new Set([...localMap.keys(), ...serverMap.keys()]);
+
+            allProductIds.forEach(productId => {
+                const localQty = localMap.get(productId) ?? 0;
+                const serverQty = serverMap.get(productId) ?? 0;
+                const finalQty = localQty + serverQty;
+
+                if (finalQty > 0) {
+                    merged.push({ productId, quantity: finalQty });
+                }
+            });
+
+
+            await clearCart();
+
+
+            for (const entry of merged) {
+                           for (let i = 0; i < entry.quantity; i++) {
+                    await addToCart(entry.productId);
+                }
+            }
+
+            clearLocalCart();
+
+        } catch (err) {
+            console.error("Cart sync error:", err);
+        }
+    }, [user, getLocalCart, getCart, addToCart, clearCart, clearLocalCart]);
 
 
     return {
