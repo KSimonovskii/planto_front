@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import {type ReactNode, useCallback} from "react";
 import { useEffect, useState } from "react";
 import { Decimal } from "decimal.js";
 import { OrderContext } from "./OrderContext.ts";
@@ -18,7 +18,7 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
 
     const {accessToken} = useAppSelector(state => state.userAuthSlice);
 
-    const fetchOrders = async () => {
+    const fetchOrders = useCallback( async () => {
 
         if (!accessToken) {
             console.error("User not authenticated");
@@ -62,7 +62,7 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [accessToken, setOrders, setLoading]);
 
     useEffect(() => {
         fetchOrders();
