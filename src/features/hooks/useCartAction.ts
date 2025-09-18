@@ -1,7 +1,6 @@
-import { useCurrentUser } from "./useCurrentUser.ts";
-import { useAuth } from "./useAuth.ts";
-import { useCallback, useState } from "react";
-import { secureFetch } from "../../utils/secureFetch.ts";
+import {useCurrentUser} from "./useCurrentUser.ts";
+import {useCallback, useState} from "react";
+import {secureFetch} from "../../utils/secureFetch.ts";
 
 const LOCAL_CART_KEY = "localCart";
 
@@ -11,7 +10,7 @@ export type CartEntry = {
 };
 
 export const useCartActions = () => {
-    const { getToken, setAccessToken } = useAuth();
+    // const { getToken, setAccessToken } = useAppSelector(state => state.userAuth.Slice)
     const { user } = useCurrentUser();
     const [message, setMessage] = useState<string | null>(null);
     const [cart, setCart] = useState<CartEntry[]>([]);
@@ -30,7 +29,7 @@ export const useCartActions = () => {
         const URL = `${BASE_URL}/account/user/${user.login}/cart`;
 
         try {
-            const response = await secureFetch(URL, { method: "GET" }, getToken, setAccessToken);
+            const response = await secureFetch(URL, { method: "GET" });
 
             if (!response.ok) {
                 const errorText = await response.text();
@@ -49,13 +48,13 @@ export const useCartActions = () => {
             setTimeout(() => setMessage(null), 3000);
             return [];
         }
-    }, [user, getToken, setAccessToken]);
+    }, [user]);
 
     const addToCart = useCallback(async (productId: string): Promise<void> => {
         if (!user) throw new Error("User is not authenticated");
 
         const url = `${BASE_URL}/account/user/${user.login}/cart/${productId}`;
-        const response = await secureFetch(url, { method: "PUT" }, getToken, setAccessToken);
+        const response = await secureFetch(url, { method: "PUT" });
 
         if (!response.ok) {
             setMessage("Error adding product to cart");
@@ -77,7 +76,7 @@ export const useCartActions = () => {
         });
 
         setTimeout(() => setMessage(null), 3000);
-    }, [user, getToken, setAccessToken]);
+    }, [user]);
 
     const isInCart = useCallback(
         (productId: string): boolean =>
@@ -89,7 +88,7 @@ export const useCartActions = () => {
         if (!user) throw new Error("User is not authenticated");
 
         const url = `${BASE_URL}/account/user/${user.login}/cart/${productId}`;
-        const response = await secureFetch(url, { method: "DELETE" }, getToken, setAccessToken);
+        const response = await secureFetch(url, { method: "DELETE" });
 
         if (!response.ok) {
             const errorText = await response.text();
@@ -109,13 +108,13 @@ export const useCartActions = () => {
         );
 
         setTimeout(() => setMessage(null), 3000);
-    }, [user, getToken, setAccessToken]);
+    }, [user]);
 
     const removeAllFromCart = useCallback(async (productId: string): Promise<void> => {
         if (!user) throw new Error("User is not authenticated");
 
         const url = `${BASE_URL}/account/user/${user.login}/cart/${productId}/all`;
-        const response = await secureFetch(url, { method: "DELETE" }, getToken, setAccessToken);
+        const response = await secureFetch(url, { method: "DELETE" });
 
         if (!response.ok) {
             const errorText = await response.text();
@@ -126,13 +125,13 @@ export const useCartActions = () => {
         setMessage("Product removed completely");
         setCart((prev) => prev.filter((entry) => entry.productId !== productId));
         setTimeout(() => setMessage(null), 3000);
-    }, [user, getToken, setAccessToken]);
+    }, [user]);
 
     const clearCart = useCallback(async (): Promise<void> => {
         if (!user) throw new Error("User is not authenticated");
 
         const url = `${BASE_URL}/account/user/${user.login}/cart/clear`;
-        const response = await secureFetch(url, { method: "DELETE" }, getToken, setAccessToken);
+        const response = await secureFetch(url, { method: "DELETE" });
 
         if (!response.ok) {
             const errorText = await response.text();
@@ -143,7 +142,7 @@ export const useCartActions = () => {
         setMessage("Cart cleared");
         setCart([]);
         setTimeout(() => setMessage(null), 3000);
-    }, [user, getToken, setAccessToken]);
+    }, [user]);
 
 
     // Local cart
