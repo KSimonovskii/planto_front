@@ -1,4 +1,5 @@
-import OrdersTable from "./OrdersTable.tsx";
+import OrdersTable from "../../OrderTable.tsx";
+
 
 const OrdersView = () => {
 

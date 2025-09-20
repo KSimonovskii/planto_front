@@ -4,7 +4,9 @@ import type {OrderDto} from "../../../utils/types";
 export const OrderContext = createContext<{
     orders: OrderDto[];
     setOrders: (orders: OrderDto[]) => void;
+    refreshOrders: () => Promise<void>;
 }>({
     orders: [],
-    setOrders: () => {}
+    setOrders: () => {},
+    refreshOrders: async () => {}
 });

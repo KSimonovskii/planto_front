@@ -41,6 +41,9 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
 
             const result = await response.json();
 
+            console.log("Raw API response:", result);
+
+
             if (!Array.isArray(result)) {
                 throw new Error("Invalid response format");
             }
@@ -64,6 +67,11 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
         }
     }, [accessToken, setOrders, setLoading]);
 
+    const refreshOrders = useCallback(async () => {
+        await fetchOrders();
+    }, [fetchOrders]);
+
+
     useEffect(() => {
         fetchOrders();
     }, [accessToken, fetchOrders]);
@@ -77,7 +85,7 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
     }
 
     return (
-        <OrderContext.Provider value={{ orders, setOrders }}>
+        <OrderContext.Provider value={{ orders, setOrders, refreshOrders }}>
             {children}
         </OrderContext.Provider>
     );

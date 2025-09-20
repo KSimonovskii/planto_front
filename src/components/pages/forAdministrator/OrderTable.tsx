@@ -1,13 +1,27 @@
-import { useContext, useState } from "react";
-import { OrderContext } from "../orders/OrderContext.ts";
-import type { OrderDto, OrderItemDto } from "../../../utils/types";
+import {useContext, useState} from "react";
+import {OrderContext} from "../orders/OrderContext.ts";
+import type {OrderDto, OrderItemDto} from "../../../utils/types";
+import {useOrderActions} from "../../../features/hooks/useOrderActions.ts";
+import {Trash2} from "lucide-react";
 
 const OrdersTable = () => {
-    const { orders } = useContext(OrderContext);
+    const {orders, refreshOrders} = useContext(OrderContext);
     const [expandedUserId, setExpandedUserId] = useState<string | null>(null);
+    const {deleteOrder} = useOrderActions()
 
     const toggleUserDetails = (orderId: string) => {
         setExpandedUserId(expandedUserId === orderId ? null : orderId);
+    };
+
+    const handleDeleteOrder = async (orderId: string) => {
+        try {
+            await deleteOrder(orderId);
+            if (refreshOrders) {
+                refreshOrders();
+            }
+        } catch (error) {
+            console.error("Failed to delete order:", error);
+        }
     };
 
     return (
@@ -25,6 +39,7 @@ const OrdersTable = () => {
                     <th className="px-4 py-2 border">Date</th>
                     <th className="px-4 py-2 border">Payment</th>
                     <th className="px-4 py-2 border">Paid</th>
+                    <th className="px-4 py-2 border">Delete order</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -99,6 +114,17 @@ const OrdersTable = () => {
                                 ) : (
                                     <span className="text-red-600 font-semibold">No</span>
                                 )}
+                            </td>
+
+                            {/* Actions */}
+                            <td className="px-4 py-2 border text-center">
+                                <button
+                                    onClick={() => handleDeleteOrder(o.id)}
+                                    className="text-red-600 hover:text-red-800 transition-colors"
+                                    title="Delete Order"
+                                >
+                                    <Trash2 size={18} className="inline-block"/>
+                                </button>
                             </td>
                         </tr>
                     ))
