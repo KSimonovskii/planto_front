@@ -3,7 +3,7 @@ import { DollarSign, Package, ListOrdered, Users } from 'lucide-react';
 
 export interface Stats {
     totalSales: number;
-    totalProductsSold: number;
+    totalProducts: number;
     totalOrders: number;
     totalClients: number;
 }
@@ -26,7 +26,7 @@ const StatsWidgets: React.FC<StatsWidgetsProps> = ({ stats, onWidgetClick }) => 
         },
         {
             title: 'Products',
-            value: stats.totalProductsSold.toLocaleString(),
+            value: stats.totalProducts.toLocaleString(),
             change: ' ',
             icon: <Package size={24} className="text-blue-500" />,
             bgColor: 'bg-blue-50',

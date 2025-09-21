@@ -12,21 +12,27 @@ import {getAllOrders} from "../../../features/api/orderAction.ts";
 import {useAppSelector} from "../../../app/hooks.ts";
 import {OrdersProvider} from "../orders/OrderProvider.tsx";
 import {getUsersTable} from "../../../features/hooks/useUserAction.ts";
+import {useGetProductsTableRTKQuery} from "../../../features/api/productApi.ts";
+import {getBodyForQueryGetTable} from "../../../features/api/apiUtils.ts";
+import {dataTypes} from "../../../utils/enums/dataTypes.ts";
+
 
 const AdminDashboard = () => {
     const {user, loadingUser, errorUser} = useCurrentUser();
     const {accessToken} = useAppSelector(state => state.userAuthSlice);
-
     const navigate = useNavigate();
     const {logout} = useAuth();
 
     const [activeSection, setActiveSection] = useState("dashboard");
     const [stats, setStats] = useState<Stats>({
         totalSales: 0,
-        totalProductsSold: 0,
+        totalProducts: 0,
         totalOrders: 0,
         totalClients: 0
     });
+
+    const { data: productsData } =
+        useGetProductsTableRTKQuery(getBodyForQueryGetTable(dataTypes.products, 1));
 
 
     const fetchStatsClients = useCallback(async () => {
@@ -56,6 +62,20 @@ const AdminDashboard = () => {
         }
     }, [accessToken]);
 
+    const fetchStatsProducts = useCallback(async () => {
+        try {
+            if (!accessToken) return;
+            if (!productsData) return;
+
+            setStats((prev) => ({
+                ...prev,
+                totalProducts: productsData.products.length,
+            }));
+        } catch (e) {
+            console.error("Failed to load product stats", e);
+        }
+    }, [accessToken, productsData]);
+
     const handleLogout = () => {
         logout();
         navigate("/");
@@ -64,7 +84,8 @@ const AdminDashboard = () => {
     useEffect(() => {
         fetchStatsClients();
         fetchStatsOrders();
-    }, [fetchStatsClients, fetchStatsOrders]);
+        fetchStatsProducts();
+    }, [fetchStatsClients, fetchStatsOrders, fetchStatsProducts]);
 
     if (loadingUser) return (
         <div className="flex justify-center items-center w-full h-64">
