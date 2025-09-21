@@ -7,11 +7,11 @@ import OrderTable from "./OrderTable.tsx";
 import StatsWidgets, {type Stats} from "./StatsWidgets.tsx";
 import spinner from "../../../assets/spinner2.png";
 import ProductsManager from "./products/ProductsManager.tsx";
-import {getAllUsers} from "../../../features/api/userAction.ts";
 import UsersManager from "../users/UsersManager.tsx";
 import {getAllOrders} from "../../../features/api/orderAction.ts";
 import {useAppSelector} from "../../../app/hooks.ts";
 import {OrdersProvider} from "../orders/OrderProvider.tsx";
+import {getUsersTable} from "../../../features/hooks/useUserAction.ts";
 
 const AdminDashboard = () => {
     const {user, loadingUser, errorUser} = useCurrentUser();
@@ -32,7 +32,7 @@ const AdminDashboard = () => {
     const fetchStatsClients = useCallback(async () => {
         try {
             if (!accessToken) return;
-            const clients = await getAllUsers(accessToken);
+            const clients = await getUsersTable();
             setStats((prev) => ({
                 ...prev,
                 totalClients: clients.length

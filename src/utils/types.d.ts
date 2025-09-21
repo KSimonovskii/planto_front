@@ -87,7 +87,7 @@ interface OrderDto {
     orderDate: string;
     paymentMethod: string;
     paid: boolean;
-    user?: UserDto;
+    user?: UserInterfaceAccount;
 }
 
 export interface OrderItemDto {

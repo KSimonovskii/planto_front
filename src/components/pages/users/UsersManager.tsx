@@ -1,27 +1,26 @@
 import UsersTable from "./UsersTable.tsx";
 import {UserContext} from "../../../utils/userContext.ts";
 import {useEffect, useState} from "react";
-import type UserAccount from "./UserAccount.ts";
 import {getUsersTable} from "../../../features/hooks/useUserAction.ts";
+import type {UserInterfaceAccount} from "../../../utils/types";
 
 const UsersManager = () => {
-    const [users, setUsers] = useState<UserAccount[]>([]);
+    const [users, setUsers] = useState<UserInterfaceAccount[]>([]);
 
     //TODO - implement users RTK query
 
     useEffect(() => {
-
-        const getAllUsers = async () => {
+        const fetchAndSetUsers = async () => {
             try {
-                const result = await getUsersTable();
-                setUsers(result);
+                const fetchedUsers = await getUsersTable();
+                setUsers(fetchedUsers);
             } catch (err) {
-                console.error(err)
+                console.error("Failed to fetch users:", err);
             }
-        }
+        };
 
-        getAllUsers();
-    }, [])
+        fetchAndSetUsers();
+    }, []);
 
     return (
         <div className={"col-span-6"}>

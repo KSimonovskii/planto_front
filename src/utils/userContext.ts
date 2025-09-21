@@ -1,10 +1,12 @@
-import React, {type Dispatch, type SetStateAction} from "react";
-import type UserAccount from "../components/pages/users/UserAccount.ts";
+import { createContext, type Dispatch, type SetStateAction } from "react";
+import type {UserInterfaceAccount} from "./types"
 
-
-interface UserContext {
-    users: UserAccount[];
-    setUsers: Dispatch<SetStateAction<UserAccount[]>>
+interface UserContextType {
+    users: UserInterfaceAccount[]; // <-- Тип изменен на UserInterfaceAccount[]
+    setUsers: Dispatch<SetStateAction<UserInterfaceAccount[]>>; // <-- И здесь
 }
 
-export const UserContext = React.createContext<UserContext>({users: [], setUsers: () => {}});
+export const UserContext = createContext<UserContextType>({
+    users: [],
+    setUsers: () => {},
+});
