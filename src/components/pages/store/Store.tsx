@@ -1,4 +1,4 @@
-import {useCallback, useContext, useEffect, useRef, useState} from "react";
+import {useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
 import {PageProductContext, ProductsContext} from "../../../utils/context.ts";
 import {useCartActions} from "../../../features/hooks/useCartAction.ts";
 import Product from "../../../features/classes/Product.ts";
@@ -23,9 +23,10 @@ const Store = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [errorMsg, setError] = useState<string | null>(null);
     const [isAuthModalVisible, setAuthModalVisible] = useState(false);
-    const [allProducts, setAllProducts] = useState<Product[]>([]);
+    // const [allProducts, setAllProducts] = useState<Product[]>([]);
     const observerRef = useRef<HTMLDivElement | null>(null);
     const closeAuthModal = () => setAuthModalVisible(false);
+
     const [currentImageProduct] = useState<Product | null>(null);
     const [isImagePopupOpen, setImagePopupOpen] = useState(false);
 
@@ -34,29 +35,30 @@ const Store = () => {
     const params: string = match?.params["*"] ?? "";
     const arrHierarchy = params ? params.split("/") : [];
 
+    const {data = {products: [], pages: 0}, isLoading, isError, error} = useGetProductsTableRTKQuery(getBodyForQueryGetTable(dataTypes.products, 1, sort, filters));
+    const products = useMemo(() => {
+            return data.products.map((p: Product) => new Product(p.id, p.name, p.category, p.quantity, p.price, p.imageUrl, p.description));
+        },
+        [data.products]
+    )
 
-    const {data = {products: [], pages: 0}, isLoading, isError, error} =
-        useGetProductsTableRTKQuery(
-            getBodyForQueryGetTable(dataTypes.products, currentPage, sort, filters)
-        );
-
-    useEffect(() => {
-        if (data.products.length > 0) {
-            const newProducts = data.products.map(
-                (p: Product) =>
-                    new Product(
-                        p.id,
-                        p.name,
-                        p.category,
-                        p.quantity,
-                        p.price,
-                        p.imageUrl,
-                        p.description
-                    )
-            );
-            setAllProducts((prev) => [...prev, ...newProducts]);
-        }
-    }, [data.products]);
+    // useEffect(() => {
+    //     if (data.products.length > 0) {
+    //         const newProducts = data.products.map(
+    //             (p: Product) =>
+    //                 new Product(
+    //                     p.id,
+    //                     p.name,
+    //                     p.category,
+    //                     p.quantity,
+    //                     p.price,
+    //                     p.imageUrl,
+    //                     p.description
+    //                 )
+    //         );
+    //         setAllProducts((prev) => [...prev, ...newProducts]);
+    //     }
+    // }, [data.products]);
 
     useEffect(() => {
         if (!observerRef.current || currentPage >= data.pages) return;
@@ -89,26 +91,32 @@ const Store = () => {
         [isAuthenticated, addToCart, refreshCart]
     );
 
+
+
     return (
         <div className="min-h-screen bg-white text-[#2a4637] p-6">
             <ProductsContext.Provider
                 value={{
-                    table: allProducts, pages: data.pages, setTableData: () => {
+                    table: products, pages: data.pages, setTableData: () => {
                     }
                 }}
             >
                 <ProductHierarchy hierarchy={arrHierarchy}/>
                 <FiltersAndSorting/>
+
+
                 {isLoading ? (
                     <div className="flex justify-center items-center w-full h-64">
                         <img src={spinner} alt="loading..." className="spinner-icon"/>
                     </div>
                 ) : isError ? (
                     <p className="text-center text-red-500 mt-20">{errorMsg}</p>
-                ) : allProducts && allProducts.length > 0 ? (
+                ) :
+
+                    products.length > 0 ? (
                     <>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
-                            {allProducts.map((product) => (
+                            {products.map((product: Product) => (
                                 <ProductCard
                                     key={product.id}
                                     product={product}
@@ -117,6 +125,7 @@ const Store = () => {
                                 />
                             ))}
                         </div>
+
                     </>
                 ) : (
                     <div className="text-center text-gray-500 mt-20">
@@ -129,9 +138,10 @@ const Store = () => {
                         <img src={spinner} alt="loading..." className="spinner-icon"/>
                     </div>
                 )}
+
                 {isError && (
                     <p className="text-center text-red-500 mt-4">
-                        {error ? ("status" in error ? `Error: ${error.status} - ${error.data}` : "Unknown error") : "Unknown error"}
+                        {(typeof error === `object`) && 'status' in error ? `Error: ${error.status} - ${error.data}` : "Unknown error"}
                     </p>
                 )}
                 <AuthPromptModal isOpen={isAuthModalVisible} onClose={closeAuthModal}/>
@@ -148,4 +158,5 @@ const Store = () => {
         </div>
     );
 };
+
 export default Store;

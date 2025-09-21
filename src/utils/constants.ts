@@ -41,17 +41,19 @@ export const SORTING_ORDERS = [
     new Sort("AmountDesc", "amount", directions.Descending, "Amount (from high to low)"),
 ]
 
-export const DEFAULT_SORTING_FOR_TABLES = new Map([["product", DEFAULT_SORT_PRODUCT],
-                                            ["order", DEFAULT_SORT_ORDER]]);
-export const KINDS_OF_SORTING = new Map([["product", SORTING_PRODUCTS],
-                                            ["order", SORTING_ORDERS]])
+export const DEFAULT_SORTING_FOR_TABLES = new Map([["products", DEFAULT_SORT_PRODUCT],
+                                            ["orders", DEFAULT_SORT_ORDER]]);
+export const KINDS_OF_SORTING = new Map([["products", SORTING_PRODUCTS],
+                                            ["orders", SORTING_ORDERS]])
 
 export const EMPTY_PHOTO = emptyPhoto;
 
 export const FILTER_NAME = new Filter("name", filterTypes.like, "string", "");
 export const FILTER_CATEGORY = new Filter("category", filterTypes.in, "string", undefined, undefined, undefined, []);
+export const FILTER_IN_STOCK = new Filter("quantity", filterTypes.range, "number",undefined,1, Number.MAX_SAFE_INTEGER)
+export const FILTER_OUT_STOCK = new Filter("quantity", filterTypes.equals, "number",0);
 
-export const DATA_FOR_PRODUCT_FILTERS = {maxPrice: 0, categories: [""]};
+export const DATA_FOR_PRODUCT_FILTERS = {maxPrice: 0, categories: [{category: "", count: 0}], inStock: 0, outStock: 0};
 export const DATA_FOR_ORDER_FILTERS = {statuses: [""]};
 
 export interface FILTER_PROPS {

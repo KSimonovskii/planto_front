@@ -27,7 +27,8 @@ export const orderApi = createApi({
     tagTypes: ["Orders"],
     baseQuery: fetchBaseQuery({
         baseUrl: `${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_BASE_ORDER_ENDPOINT}`,
-        headers: new Headers({"content-type": "application/json"})
+        headers: new Headers({"content-type": "application/json"}),
+        credentials: "include"
     }),
     endpoints: (build) => ({
         getOrdersTable: build.query({
