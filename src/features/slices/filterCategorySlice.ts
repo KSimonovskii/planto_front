@@ -18,12 +18,15 @@ const filterCategorySlice = createSlice({
                 if (i >= 0) {
                     state.categories.splice(i, 1);
                 }
-            } else if (i === 0) {
+            } else if (i < 0) {
                 state.categories.push(action.payload.category);
             }
+        },
+        clearCategoriesFilter: (state) => {
+            state.categories = [];
         }
     }
 })
 
-export const {changeCategoriesFilter} = filterCategorySlice.actions;
+export const {changeCategoriesFilter, clearCategoriesFilter} = filterCategorySlice.actions;
 export default filterCategorySlice.reducer

@@ -1,19 +1,51 @@
-import {useContext, useState} from "react";
+import {useContext} from "react";
 import {PageProductContext} from "../../../utils/context.ts";
-import {DATA_FOR_PRODUCT_FILTERS, FILTER_CATEGORY} from "../../../utils/constants.ts";
+import {
+    DATA_FOR_PRODUCT_FILTERS,
+    FILTER_CATEGORY,
+    FILTER_IN_STOCK,
+    FILTER_OUT_STOCK
+} from "../../../utils/constants.ts";
 import {useAppDispatch, useAppSelector} from "../../../app/hooks.ts";
 import Filter from "../../../features/classes/Filter.ts";
 import {filterTypes} from "../../../utils/enums/filterTypes.ts";
 import {getToInitialState} from "../../../features/slices/priceRangeSlice.ts";
+import {clearCategoriesFilter} from "../../../features/slices/filterCategorySlice.ts";
 
 const FilterButtons = () => {
 
+    const dispatch = useAppDispatch();
     const {filters, setPage} = useContext(PageProductContext);
+    const {categories} = useAppSelector(state => state.filterCategorySlice);
 
-    const [filterCategory, setFilterCategory] = useState(FILTER_CATEGORY);
     const priceValue = useAppSelector(state => state.filterPrice);
     const filterPrice = new Filter("price", filterTypes.range, "double", undefined, priceValue.valueFrom, priceValue.valueTo)
-    const dispatch = useAppDispatch();
+    filterPrice.isChanged = (priceValue.valueFrom > 0 || priceValue.valueTo < DATA_FOR_PRODUCT_FILTERS.maxPrice);
+
+    function getFilterCategory(): Filter {
+
+        if (categories.length === 0) {
+            return FILTER_CATEGORY;
+        }
+
+        const filterFind = filters.filter((filter) => filter.field ==="category");
+
+        if (filterFind.length === 0) {
+            return FILTER_CATEGORY.getCopy({valueList: categories});
+        } else {
+            const filterTmp = filterFind[0];
+
+            if (filterTmp.valueList.length != categories.length) {
+                return filterTmp.getCopy({valueList: categories});
+            }
+            const changeFilter = categories.some((category) => (filterTmp.valueList.indexOf(category) < 0));
+            if (changeFilter) {
+                return filterTmp.getCopy({valueList: categories});
+            }
+        }
+        return filterFind[0];
+
+    }
 
     const handlerAcceptFilters = () => {
 
@@ -21,7 +53,7 @@ const FilterButtons = () => {
             filterPrice.isChanged = true;
         }
 
-        const currFilters = [filterCategory, filterPrice];
+        const currFilters = [getFilterCategory(), filterPrice, FILTER_IN_STOCK, FILTER_OUT_STOCK];
         const newFilters = filters.slice();
 
         currFilters.forEach((filter) => {
@@ -61,8 +93,10 @@ const FilterButtons = () => {
             }
         }
 
-        setFilterCategory(FILTER_CATEGORY.getCopy({...FILTER_CATEGORY}));
         dispatch(getToInitialState());
+        dispatch(clearCategoriesFilter());
+        FILTER_OUT_STOCK.isChanged = false;
+        FILTER_IN_STOCK.isChanged = false;
         setPage((prevState) => ({...prevState, filters: newFilter}))
     }
 

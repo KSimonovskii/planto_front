@@ -4,19 +4,39 @@ import FilterElement from "./FilterElement.tsx";
 import FilterPrice from "../../filters/FilterPrice.tsx";
 import {useGetDataForFiltersQuery} from "../../../features/api/productApi.ts";
 import FilterButtons from "./FilterButtons.tsx";
+import {FILTER_IN_STOCK, FILTER_OUT_STOCK} from "../../../utils/constants.ts";
+import {useAppDispatch} from "../../../app/hooks.ts";
+import {changeCategoriesFilter} from "../../../features/slices/filterCategorySlice.ts";
 
 const Filters = () => {
 
+    const dispatch = useAppDispatch();
+
+    const {data = {price: 0, categories: [], inStock: 0, outStock: 0}} = useGetDataForFiltersQuery("");
+
     const filterDataStock = [
-        {title: "In stock", count: 23},
-        {title: "Out of stock", count: 11}
+        {
+            title: "In stock",
+            count: data.inStock,
+            handleClick: (title: string, isChecked: boolean) => {
+                FILTER_IN_STOCK.isChanged = isChecked;
+            }
+        },
+        {
+            title: "Out of stock",
+            count: data.outStock,
+            handleClick: (title: string, isChecked: boolean) => {
+                FILTER_OUT_STOCK.isChanged = isChecked;
+            }
+        }
     ]
 
-    const {data = {price: 0, categories: []}} = useGetDataForFiltersQuery("");
-
     const filterDataCategory = data.categories.map(category => ({
-        title: category,
-        count: Math.round(Math.random() * 100)
+        title: category.category,
+        count: category.count,
+        handleClick: (category: string, isChecked: boolean) => {
+            dispatch(changeCategoriesFilter({category, isRemove: !isChecked}))
+        }
     }));
 
     return (

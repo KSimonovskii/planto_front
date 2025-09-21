@@ -5,7 +5,14 @@ import type {AnswerTable, RootState} from "../../utils/types.d.ts";
 
 interface DataForFilters {
     price: number,
-    categories: [];
+    categories: CategoryData[],
+    inStock: number,
+    outStock: number
+}
+
+interface CategoryData {
+    category: string,
+    count: number
 }
 
 export const productApi = createApi({
@@ -20,7 +27,8 @@ export const productApi = createApi({
                 headers.set("Authorization", `Bearer ${token}`);
             }
             return headers;
-        })
+        }),
+        credentials: "include"
     }),
     endpoints: (build) => ({
         getProductsTableRTK: build.query({
@@ -51,7 +59,9 @@ export const productApi = createApi({
             }),
             transformResponse: (result : DataForFilters) => {
                 DATA_FOR_PRODUCT_FILTERS.maxPrice = result.price;
-                DATA_FOR_PRODUCT_FILTERS.categories = result.categories;
+                DATA_FOR_PRODUCT_FILTERS.categories = result.categories
+                DATA_FOR_PRODUCT_FILTERS.inStock = result.inStock;
+                DATA_FOR_PRODUCT_FILTERS.outStock = result.outStock;
                 return result;
             },
             providesTags: [{type: "FilterData"}]

@@ -26,8 +26,8 @@ const Sorting = ({dataType} : SortingProps) => {
     }
 
     return (
-        <div className={"flex justify-end w-2/5"}>
-            <label className={"text-base-form flex items-center"} htmlFor={"sorting"}>
+        <div className={"inline-flex justify-start items-center gap-2"}>
+            <label className={"flex items-center text-lime-800 text-base font-bold font-['Rubik']"} htmlFor={"sorting"}>
                 Sort by:
                 <select
                     id={"sorting"}
