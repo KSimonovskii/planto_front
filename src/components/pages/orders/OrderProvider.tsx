@@ -41,6 +41,7 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
 
             const result = await response.json();
 
+            // todo delete console.log
             console.log("Raw API response:", result);
 
 

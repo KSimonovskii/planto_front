@@ -4,6 +4,8 @@ import {useCartActions} from "../../features/hooks/useCartAction.ts";
 import {useOrderActions} from "../../features/hooks/useOrderActions.ts";
 import {Fragment, useCallback, useMemo, useState} from "react";
 import {Dialog, Transition} from "@headlessui/react";
+import {useCartContext} from "../../features/context/CartContext.tsx";
+
 
 interface CheckoutItem {
     product: Product;
@@ -21,6 +23,7 @@ const CheckoutForm = ({isOpen, onClose, items, onSuccess}: CheckoutFormProps) =>
     const {user} = useCurrentUser();
     const {createOrder} = useOrderActions();
     const {clearCart} = useCartActions();
+    const { refreshCart } = useCartContext();
     const [deliveryAddress, setDeliveryAddress] = useState(user?.address || '');
     const [deliveryMethod, setDeliveryMethod] = useState<'pickup' | 'delivery'>('pickup');
     const [paymentMethod, setPaymentMethod] = useState('card');
@@ -57,6 +60,7 @@ const CheckoutForm = ({isOpen, onClose, items, onSuccess}: CheckoutFormProps) =>
             });
             await clearCart();
             onSuccess();
+            refreshCart();
         } catch (err: unknown) {
             if (err instanceof Error) {
                 setError(err.message);
@@ -64,7 +68,7 @@ const CheckoutForm = ({isOpen, onClose, items, onSuccess}: CheckoutFormProps) =>
         } finally {
             setLoading(false);
         }
-    }, [items, createOrder, clearCart, onSuccess, deliveryAddress, deliveryMethod, paymentMethod]);
+    }, [items, createOrder, clearCart, onSuccess, deliveryAddress, deliveryMethod, paymentMethod, refreshCart]);
 
     return (
         <Transition show={isOpen} as={Fragment}>

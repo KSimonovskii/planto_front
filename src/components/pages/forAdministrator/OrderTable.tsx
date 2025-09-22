@@ -1,4 +1,4 @@
-import {useContext, useState} from "react";
+import {useContext} from "react";
 import {OrderContext} from "../orders/OrderContext.ts";
 import type {OrderDto, OrderItemDto} from "../../../utils/types";
 import {useOrderActions} from "../../../features/hooks/useOrderActions.ts";
@@ -6,12 +6,8 @@ import {Trash2} from "lucide-react";
 
 const OrdersTable = () => {
     const {orders, refreshOrders} = useContext(OrderContext);
-    const [expandedUserId, setExpandedUserId] = useState<string | null>(null);
     const {deleteOrder} = useOrderActions()
 
-    const toggleUserDetails = (orderId: string) => {
-        setExpandedUserId(expandedUserId === orderId ? null : orderId);
-    };
 
     const handleDeleteOrder = async (orderId: string) => {
         try {
@@ -54,19 +50,21 @@ const OrdersTable = () => {
                         <tr key={o.id} className="hover:bg-gray-50">
                             <td className="px-4 py-2 border font-medium">{o.id}</td>
 
-                            {/* User column with expandable details */}
+                            {/* User */}
                             <td className="px-4 py-2 border">
                                 <div
                                     className="cursor-pointer text-lime-800 font-semibold hover:underline"
-                                    onClick={() => toggleUserDetails(o.id)}
                                 >
-                                    {o.user?.name || "Unknown"}
+                                    {o.user?.login || "Unknown"}
                                 </div>
-                                {expandedUserId === o.id && o.user && (
+                                {o.id && o.user && (
                                     <div className="mt-1 text-gray-600 text-xs flex flex-col gap-1">
-                                        <span>Email: {o.user.email}</span>
-                                        {o.user.phone && <span>Phone: {o.user.phone}</span>}
-                                        {o.user.address && <span>Address: {o.user.address}</span>}
+                                        {o.user.firstName && <span>First Name: {o.user.firstName}</span>}
+                                        {o.user.lastName && <span>Last Name: {o.user.lastName}</span>}
+                                        {o.user.email && <span>Email: {o.user.email}</span>}
+                                        {o.user.address?.city && <span>City: {o.user.address.city}</span>}
+                                        {o.user.address?.street && <span>Street: {o.user.address.street}</span>}
+                                        {o.user.address?.house && <span>House: {o.user.address.house}</span>}
                                     </div>
                                 )}
                             </td>
@@ -76,7 +74,7 @@ const OrdersTable = () => {
                                 {o.items && o.items.length > 0 ? (
                                     o.items.map((item: OrderItemDto, idx: number) => (
                                         <div key={idx} className="truncate">
-                                            {item.name} x{item.quantity} @ ₪{item.priceUnit.toFixed(2)}
+                                            {item.name} x {item.quantity} - ₪{item.priceUnit.toFixed(2)}
                                         </div>
                                     ))
                                 ) : (
@@ -116,11 +114,11 @@ const OrdersTable = () => {
                                 )}
                             </td>
 
-                            {/* Actions */}
+                            {/* Delete */}
                             <td className="px-4 py-2 border text-center">
                                 <button
                                     onClick={() => handleDeleteOrder(o.id)}
-                                    className="text-red-600 hover:text-red-800 transition-colors"
+                                    className="text-lime-800 hover:text-red-800 transition-colors"
                                     title="Delete Order"
                                 >
                                     <Trash2 size={18} className="inline-block"/>

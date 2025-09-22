@@ -5,7 +5,7 @@ import {useCurrentUser} from "../hooks/useCurrentUser.ts";
 
 interface CartContextType {
     productsInCart: number;
-    refreshCart: () => Promise<void>;
+    refreshCart: () => void;
 }
 
 const CartContext = createContext<CartContextType | null>(null);
@@ -14,6 +14,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     const { getCart, getLocalCart } = useCartActions();
     const [productsInCart, setProductsInCart] = useState(0);
     const {isAuthenticated} = useCurrentUser();
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
 
     const refreshCart = useCallback(async () => {
         try {
@@ -30,12 +31,17 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         }
     }, [getCart, getLocalCart, isAuthenticated]);
 
+
+    const triggerRefresh = useCallback(() => {
+        setRefreshTrigger(prev => prev + 1);
+    }, []);
+
     useEffect(() => {
         refreshCart();
-    }, [isAuthenticated, refreshCart]);
+    }, [isAuthenticated, refreshCart, refreshTrigger]);
 
     return (
-        <CartContext.Provider value={{ productsInCart, refreshCart }}>
+        <CartContext.Provider value={{ productsInCart, refreshCart: triggerRefresh }}>
             {children}
         </CartContext.Provider>
     );
