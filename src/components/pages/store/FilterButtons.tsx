@@ -11,8 +11,11 @@ import Filter from "../../../features/classes/Filter.ts";
 import {filterTypes} from "../../../utils/enums/filterTypes.ts";
 import {getToInitialState} from "../../../features/slices/priceRangeSlice.ts";
 import {clearCategoriesFilter} from "../../../features/slices/filterCategorySlice.ts";
+import {useClose} from "@headlessui/react";
 
 const FilterButtons = () => {
+
+    const close = useClose();
 
     const dispatch = useAppDispatch();
     const {filters, setPage} = useContext(PageProductContext);
@@ -78,7 +81,8 @@ const FilterButtons = () => {
                 newFilters.splice(index, 1);
             }
         })
-        setPage((prevState) => ({...prevState, filters: newFilters}))
+        setPage((prevState) => ({...prevState, filters: newFilters}));
+        close();
     }
 
     const handlerResetFilters = () => {
@@ -97,7 +101,8 @@ const FilterButtons = () => {
         dispatch(clearCategoriesFilter());
         FILTER_OUT_STOCK.isChanged = false;
         FILTER_IN_STOCK.isChanged = false;
-        setPage((prevState) => ({...prevState, filters: newFilter}))
+        setPage((prevState) => ({...prevState, filters: newFilter}));
+        close();
     }
 
     return (

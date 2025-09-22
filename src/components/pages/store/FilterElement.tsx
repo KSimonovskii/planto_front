@@ -3,7 +3,7 @@ import FilterCheckbox from "./FilterCheckbox.tsx";
 type FilterData  = {
     title: string;
     count: number;
-    handleClick: (title: string, isChecked: boolean) => (void);
+    handleClick: (isChecked: boolean, title?: string) => (void);
 }
 
 interface Props {

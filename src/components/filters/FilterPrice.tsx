@@ -27,7 +27,7 @@ const FilterPrice = () => {
                         <div className="w-20 h-10 left-0 top-0 absolute bg-white rounded-[5px] border border-zinc-300"/>
                         <input
                             type={"number"}
-                            className={"left-[15px] top-[10px] absolute justify-center text-zinc-600 text-sm font-normal font-['Poppins'] leading-tight"}
+                            className={"top-[10px] ml-2 w-16 absolute justify-center text-zinc-600 text-sm font-normal font-['Poppins'] leading-tight"}
                             id={"priceFrom"}
                             placeholder={" "}
                             min={0}
@@ -44,7 +44,7 @@ const FilterPrice = () => {
                     <div className="w-20 h-10 left-0 top-0 absolute bg-white rounded-[5px] border border-zinc-300"/>
                     <input
                         type={"number"}
-                        className={"left-[15px] top-[10px] absolute justify-center text-zinc-600 text-sm font-normal font-['Poppins'] leading-tight"}
+                        className={"top-[10px] absolute justify-center ml-2 w-16 text-zinc-600 text-sm font-normal font-['Poppins'] leading-tight"}
                         id={"priceTo"}
                         placeholder={" "}
                         min={0}
@@ -55,9 +55,7 @@ const FilterPrice = () => {
                 </div>
                 </div>
             </div>
-            <div>
-                <PriceSlider/>
-            </div>
+            <PriceSlider/>
             <div className="self-stretch h-px relative">
                 <div className="w-60 h-px left-0 top-0 absolute">
                     <div className="w-60 h-px left-0 top-0 absolute bg-zinc-300"/>

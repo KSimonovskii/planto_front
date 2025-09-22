@@ -18,14 +18,14 @@ const Filters = () => {
         {
             title: "In stock",
             count: data.inStock,
-            handleClick: (title: string, isChecked: boolean) => {
+            handleClick: (isChecked: boolean) => {
                 FILTER_IN_STOCK.isChanged = isChecked;
             }
         },
         {
             title: "Out of stock",
             count: data.outStock,
-            handleClick: (title: string, isChecked: boolean) => {
+            handleClick: (isChecked: boolean) => {
                 FILTER_OUT_STOCK.isChanged = isChecked;
             }
         }
@@ -34,14 +34,17 @@ const Filters = () => {
     const filterDataCategory = data.categories.map(category => ({
         title: category.category,
         count: category.count,
-        handleClick: (category: string, isChecked: boolean) => {
-            dispatch(changeCategoriesFilter({category, isRemove: !isChecked}))
+        handleClick: (isChecked: boolean, category: string|undefined) => {
+            if (category) {
+                dispatch(changeCategoriesFilter({category, isRemove: !isChecked}))
+            }
         }
     }));
 
     return (
         <Popover className="group">
-            <PopoverButton className={"inline-flex justify-start items-center gap-2"}>
+            <PopoverButton
+                className={"inline-flex justify-start items-center gap-2"}>
                 <div className="justify-start text-lime-800 text-base font-bold font-['Rubik']">
                     Filters
                 </div>

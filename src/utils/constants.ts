@@ -51,7 +51,7 @@ export const EMPTY_PHOTO = emptyPhoto;
 export const FILTER_NAME = new Filter("name", filterTypes.like, "string", "");
 export const FILTER_CATEGORY = new Filter("category", filterTypes.in, "string", undefined, undefined, undefined, []);
 export const FILTER_IN_STOCK = new Filter("quantity", filterTypes.range, "number",undefined,1, Number.MAX_SAFE_INTEGER)
-export const FILTER_OUT_STOCK = new Filter("quantity", filterTypes.equals, "number",0);
+export const FILTER_OUT_STOCK = new Filter("quantity", filterTypes.equals, "number",undefined, Number.MIN_SAFE_INTEGER, 0);
 
 export const DATA_FOR_PRODUCT_FILTERS = {maxPrice: 0, categories: [{category: "", count: 0}], inStock: 0, outStock: 0};
 export const DATA_FOR_ORDER_FILTERS = {statuses: [""]};
