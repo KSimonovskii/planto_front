@@ -2,7 +2,6 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {DATA_FOR_PRODUCT_FILTERS} from "../../utils/constants.ts";
 import type {AnswerTable, RootState} from "../../utils/types.d.ts";
 
-
 interface DataForFilters {
     price: number,
     categories: CategoryData[],

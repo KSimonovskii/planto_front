@@ -4,9 +4,9 @@ import FilterElement from "./FilterElement.tsx";
 import FilterPrice from "../../filters/FilterPrice.tsx";
 import {useGetDataForFiltersQuery} from "../../../features/api/productApi.ts";
 import FilterButtons from "./FilterButtons.tsx";
-import {FILTER_IN_STOCK, FILTER_OUT_STOCK} from "../../../utils/constants.ts";
 import {useAppDispatch} from "../../../app/hooks.ts";
 import {changeCategoriesFilter} from "../../../features/slices/filterCategorySlice.ts";
+import {setFilterInStock, setFilterOutStock} from "../../../features/slices/filterStockSlice.ts";
 
 const Filters = () => {
 
@@ -18,16 +18,12 @@ const Filters = () => {
         {
             title: "In stock",
             count: data.inStock,
-            handleClick: (isChecked: boolean) => {
-                FILTER_IN_STOCK.isChanged = isChecked;
-            }
+            handleClick: () => (dispatch(setFilterInStock()))
         },
         {
             title: "Out of stock",
             count: data.outStock,
-            handleClick: (isChecked: boolean) => {
-                FILTER_OUT_STOCK.isChanged = isChecked;
-            }
+            handleClick: () => (dispatch(setFilterOutStock()))
         }
     ]
 

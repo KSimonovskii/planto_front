@@ -1,7 +1,6 @@
 import {Checkbox, Description, Field, Label} from "@headlessui/react";
 import {useState} from "react";
 import {useAppSelector} from "../../../app/hooks.ts";
-import {FILTER_IN_STOCK, FILTER_OUT_STOCK} from "../../../utils/constants.ts";
 
 interface Props {
     title: string
@@ -11,12 +10,13 @@ interface Props {
 const FilterCheckbox = ({title, count, handleClick}: Props) => {
 
     const {categories} = useAppSelector(state => state.filterCategorySlice);
+    const {type} = useAppSelector(state=> state.filterStock);
 
     let initialState = false;
     if (title === "In stock") {
-        initialState = FILTER_IN_STOCK.isChanged;
+        initialState = (type === 2);
     } else if (title === "Out of stock") {
-        initialState = FILTER_OUT_STOCK.isChanged
+        initialState = (type === 0)
     } else {
         initialState = categories.indexOf(title) >= 0;
     }

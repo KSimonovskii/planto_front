@@ -3,8 +3,6 @@ import {PageProductContext} from "../../../utils/context.ts";
 import {
     DATA_FOR_PRODUCT_FILTERS,
     FILTER_CATEGORY,
-    FILTER_IN_STOCK,
-    FILTER_OUT_STOCK
 } from "../../../utils/constants.ts";
 import {useAppDispatch, useAppSelector} from "../../../app/hooks.ts";
 import Filter from "../../../features/classes/Filter.ts";
@@ -12,6 +10,7 @@ import {filterTypes} from "../../../utils/enums/filterTypes.ts";
 import {getToInitialState} from "../../../features/slices/priceRangeSlice.ts";
 import {clearCategoriesFilter} from "../../../features/slices/filterCategorySlice.ts";
 import {useClose} from "@headlessui/react";
+import {resetFilterStock} from "../../../features/slices/filterStockSlice.ts";
 
 const FilterButtons = () => {
 
@@ -20,10 +19,12 @@ const FilterButtons = () => {
     const dispatch = useAppDispatch();
     const {filters, setPage} = useContext(PageProductContext);
     const {categories} = useAppSelector(state => state.filterCategorySlice);
+    const {type, value, valueFrom, valueTo} = useAppSelector(state => state.filterStock);
 
     const priceValue = useAppSelector(state => state.filterPrice);
     const filterPrice = new Filter("price", filterTypes.range, "double", undefined, priceValue.valueFrom, priceValue.valueTo)
-    filterPrice.isChanged = (priceValue.valueFrom > 0 || priceValue.valueTo < DATA_FOR_PRODUCT_FILTERS.maxPrice);
+    const filterStock = new Filter("quantity", type, "integer", value, valueFrom, valueTo);
+    filterStock.isChanged = (filterStock.type >= 0);
 
     function getFilterCategory(): Filter {
 
@@ -56,7 +57,7 @@ const FilterButtons = () => {
             filterPrice.isChanged = true;
         }
 
-        const currFilters = [getFilterCategory(), filterPrice, FILTER_IN_STOCK, FILTER_OUT_STOCK];
+        const currFilters = [getFilterCategory(), filterPrice, filterStock];
         const newFilters = filters.slice();
 
         currFilters.forEach((filter) => {
@@ -81,13 +82,14 @@ const FilterButtons = () => {
                 newFilters.splice(index, 1);
             }
         })
+
         setPage((prevState) => ({...prevState, filters: newFilters}));
         close();
     }
 
     const handlerResetFilters = () => {
 
-        const fields = ["category", "price"];
+        const fields = ["category", "price", "quantity"];
         const newFilter = filters.slice();
 
         for (let i = 0; i < fields.length; i++) {
@@ -99,8 +101,7 @@ const FilterButtons = () => {
 
         dispatch(getToInitialState());
         dispatch(clearCategoriesFilter());
-        FILTER_OUT_STOCK.isChanged = false;
-        FILTER_IN_STOCK.isChanged = false;
+        dispatch(resetFilterStock());
         setPage((prevState) => ({...prevState, filters: newFilter}));
         close();
     }
@@ -109,13 +110,13 @@ const FilterButtons = () => {
         <div className={"flex flex-row space-x-1"}>
             <div data-property-1="Green"
                  className="px-6 py-3 bg-neutral-900 rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
-                <button className={"text-white text-base font-medium font-['Rubik'] leading-normal"}
+                <button className={"text-white text-base font-medium font-['Rubik'] leading-normal cursor-pointer"}
                         onClick={handlerAcceptFilters}>Filter
                 </button>
             </div>
             <div data-property-1="Green"
                  className="px-6 py-3 bg-neutral-900 rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
-                <button className={"text-white text-base font-medium font-['Rubik'] leading-normal"}
+                <button className={"text-white text-base font-medium font-['Rubik'] leading-normal cursor-pointer"}
                         onClick={handlerResetFilters}>Reset
                 </button>
             </div>
