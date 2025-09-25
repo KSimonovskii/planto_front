@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {useAddProductMutation} from "../../../../../features/api/productApi.ts";
 import {uploadFile} from "../../../../../features/api/imageAction.ts";
 import type {ProductData} from "../../../../../utils/types";
+import {useAppSelector} from "../../../../../app/hooks.ts";
 
 const emptyData = {
     name: "",
@@ -19,6 +20,7 @@ export const useInputProduct = (initialData: ProductData | null) => {
         initialData = emptyData;
     }
 
+    const { accessToken } = useAppSelector(state => state.userAuthSlice);
     const [initialProductData] = useState(initialData);
     const [productData, setProductData] = useState(initialData);
     const [addProduct] = useAddProductMutation();
@@ -42,7 +44,7 @@ export const useInputProduct = (initialData: ProductData | null) => {
 
         let valueField : string | number = value;
         if (NUM_FIELDS.indexOf(id) >= 0) {
-           valueField = Number(value);
+            valueField = Number(value);
         }
         setProductData(prevData => ({...prevData, [id] : valueField}));
     }
@@ -67,7 +69,7 @@ export const useInputProduct = (initialData: ProductData | null) => {
 
         const {name, category, qty, price, imageFile, description} = productData;
 
-        const imageUrl = imageFile? await uploadFile(imageFile, name.trim()) : "";
+        const imageUrl = imageFile? await uploadFile(imageFile, name.trim(), accessToken) : "";
 
         const raw = JSON.stringify({
             name: name.trim(),
@@ -83,7 +85,7 @@ export const useInputProduct = (initialData: ProductData | null) => {
         if (res.error) {
             console.log(res.error);
         } else if (res){
-           setProductData(emptyData);
+            setProductData(emptyData);
         }
     }
 

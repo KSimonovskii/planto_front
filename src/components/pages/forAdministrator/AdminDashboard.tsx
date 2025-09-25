@@ -6,7 +6,7 @@ import {useAuth} from "../../../features/hooks/useAuth.ts";
 import OrderTable from "./OrderTable.tsx";
 import StatsWidgets, {type Stats} from "./StatsWidgets.tsx";
 import spinner from "../../../assets/spinner2.png";
-import ProductsManager from "./products/ProductsManager.tsx";
+import ProductsManager2 from "./products/ProductsManager2.tsx";
 import UsersManager from "../users/UsersManager.tsx";
 import {getAllOrders} from "../../../features/api/orderAction.ts";
 import {useAppSelector} from "../../../app/hooks.ts";
@@ -15,6 +15,7 @@ import {getUsersTable} from "../../../features/hooks/useUserAction.ts";
 import {useGetProductsTableRTKQuery} from "../../../features/api/productApi.ts";
 import {getBodyForQueryGetTable} from "../../../features/api/apiUtils.ts";
 import {dataTypes} from "../../../utils/enums/dataTypes.ts";
+import {useProductsQuantity} from "../../../features/hooks/useProductsSimple.ts";
 
 
 const AdminDashboard = () => {
@@ -22,6 +23,7 @@ const AdminDashboard = () => {
     const {accessToken} = useAppSelector(state => state.userAuthSlice);
     const navigate = useNavigate();
     const {logout} = useAuth();
+    const{quantity} = useProductsQuantity();
 
     const [activeSection, setActiveSection] = useState("dashboard");
     const [stats, setStats] = useState<Stats>({
@@ -34,6 +36,19 @@ const AdminDashboard = () => {
     const { data: productsData } =
         useGetProductsTableRTKQuery(getBodyForQueryGetTable(dataTypes.products, 1));
 
+    const fetchStatsProducts = useCallback(async () => {
+        try {
+            if (!accessToken) return;
+            if (!productsData) return;
+
+            setStats((prev) => ({
+                ...prev,
+                totalProducts: quantity,
+            }));
+        } catch (e) {
+            console.error("Failed to load product stats", e);
+        }
+    }, [accessToken, productsData, quantity]);
 
     const fetchStatsClients = useCallback(async () => {
         try {
@@ -48,7 +63,6 @@ const AdminDashboard = () => {
         }
     }, [accessToken]);
 
-
     const fetchStatsOrders = useCallback(async () => {
         try {
             if (!accessToken) return;
@@ -62,19 +76,7 @@ const AdminDashboard = () => {
         }
     }, [accessToken]);
 
-    const fetchStatsProducts = useCallback(async () => {
-        try {
-            if (!accessToken) return;
-            if (!productsData) return;
 
-            setStats((prev) => ({
-                ...prev,
-                totalProducts: productsData.products.length,
-            }));
-        } catch (e) {
-            console.error("Failed to load product stats", e);
-        }
-    }, [accessToken, productsData]);
 
     const handleLogout = () => {
         logout();
@@ -173,7 +175,7 @@ const AdminDashboard = () => {
                 {activeSection === "products" && (
                     <>
                         <h1 className="text-3xl font-bold mb-6 text-gray-800">Products Management</h1>
-                        <ProductsManager/>
+                        <ProductsManager2/>
                     </>
                 )}
                 {activeSection === "clients" && (
