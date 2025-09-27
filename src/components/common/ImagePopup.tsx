@@ -1,35 +1,42 @@
-import {Dialog, DialogPanel, DialogTitle} from "@headlessui/react";
+import {Dialog, DialogPanel} from "@headlessui/react";
+import {X} from "lucide-react";
 
 interface PropsProduct {
     name: string,
-    category: string,
     url: string,
     isOpen: boolean,
     setIsOpen: (a: boolean) => void
 }
 
-const ImagePopup = ({name, category, url, isOpen, setIsOpen}: PropsProduct) => {
+const ImagePopup = ({name, url, isOpen, setIsOpen}: PropsProduct) => {
 
     return (
         <Dialog
             open={isOpen}
             onClose={() => setIsOpen(false)}
-            className={"relative z-50"}>
-            <div className={"fixed w-screen inset-0 flex items-center justify-center p-4"}>
-                <DialogPanel className={"max-w-lg space-y-2 border-3 rounded-xl border-light-green bg-base-form p-3"}>
-                    <DialogTitle
-                        className={"bg-base-form text-light-green text-xl font-bold rounded-tl-lg rounded-tr-lg flex justify-between"}>
-                        <section className={"text-center"}>
-                            {name} {category}
-                        </section>
+            className="relative z-50">
+
+            {/* Blurry backdrop overlay */}
+            <div className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity" aria-hidden="true" />
+
+            <div className="fixed inset-0 flex items-center justify-center p-4">
+                <DialogPanel className="max-w-lg w-full space-y-4 rounded-xl bg-white p-6 shadow-2xl transform transition-all">
+
+                    <div className="flex justify-end">
                         <button
-                            className={"button h-7 w-5 text-light-green border-0 cursor-pointer"}
-                            onClick={() => setIsOpen(false)}>X
+                            type="button"
+                            onClick={() => setIsOpen(false)}
+                            className="text-gray-400 hover:text-gray-600 transition"
+                        >
+                            <X size={24} />
                         </button>
-                    </DialogTitle>
-                    <img className={"rounded-lg"}
-                         src={url}
-                         alt={`${name} ${category}`}/>
+                    </div>
+
+                    <img
+                        className="rounded-lg w-full h-auto object-contain"
+                        src={url}
+                        alt={`${name}`}
+                    />
                 </DialogPanel>
             </div>
         </Dialog>

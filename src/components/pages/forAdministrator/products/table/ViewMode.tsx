@@ -1,5 +1,5 @@
 import {Grip, TableOfContents} from "lucide-react";
-import {Field, Label, Switch} from "@headlessui/react";
+import {Switch} from "@headlessui/react";
 
 interface ViewProps {
     viewAsCards: boolean
@@ -9,17 +9,23 @@ interface ViewProps {
 const ViewMode = ({setView, viewAsCards}: ViewProps) => {
 
     return (
-        <Field className={"flex space-x-1"}>
-            <Label className={"text-base-text"}>View:</Label>
-            <label className={`${viewAsCards?'text-base-text' : 'text-alt-text' }`}><TableOfContents/></label>
+        <div className="flex items-center gap-2">
+            <span className={`transition-colors ${!viewAsCards ? 'text-lime-600' : 'text-gray-400'}`}>
+                <TableOfContents size={20}/>
+            </span>
             <Switch
                 checked={viewAsCards}
                 onChange={setView}
-                className={"group relative flex items-center h-7 w-14 cursor-pointer border-2 border-base-form rounded-full bg-base-bg p-1 ease-in-out focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white"}>
-                <span className={"pointer-events-none inline-block size-5 translate-x-0 rounded-full bg-base-text shadow-lg ring-0 transition duration-200 ease-in-out group-data-checked:translate-x-6"}/>
+                className="group relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-200 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-lime-500 focus:ring-offset-2 data-[checked]:bg-lime-600">
+                <span
+                    aria-hidden="true"
+                    className="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out group-data-[checked]:translate-x-5"
+                />
             </Switch>
-            <label className={`${viewAsCards? 'text-alt-text' : 'text-base-text'}`}><Grip/></label>
-        </Field>
+            <span className={`transition-colors ${viewAsCards ? 'text-lime-600' : 'text-gray-400'}`}>
+                <Grip size={20}/>
+            </span>
+        </div>
     )
 }
 

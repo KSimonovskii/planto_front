@@ -1,10 +1,9 @@
 import {ProductsContext} from "../../../../../utils/context.ts";
 import {useContext, useRef, useState} from "react";
 import Product from "../../../../../features/classes/Product.ts";
-import {SquarePen, Trash2, SquareCheckBig, SquareX} from "lucide-react";
+import {SquareCheckBig, SquarePen, SquareX, Trash2} from "lucide-react";
 import {EMPTY_PHOTO} from "../../../../../utils/constants.ts";
 import ImagePopup from "../../../../common/ImagePopup.tsx";
-import CategoryBox from "../CategoryBox.tsx";
 import {useRemoveProductMutation, useUpdateProductMutation} from "../../../../../features/api/productApi.ts";
 import {uploadFile} from "../../../../../features/api/imageAction.ts";
 import {useInputProduct} from "../hooks/useInputProduct.tsx";
@@ -12,9 +11,10 @@ import {useAppSelector} from "../../../../../app/hooks.ts";
 
 interface PropsProduct {
     product: Product,
+    isOdd: boolean,
 }
 
-const RowProductsTable = ({product}: PropsProduct) => {
+const RowProductsTable = ({product, isOdd}: PropsProduct) => {
 
     const {table} = useContext(ProductsContext);
     const [removeProduct] = useRemoveProductMutation();
@@ -24,7 +24,6 @@ const RowProductsTable = ({product}: PropsProduct) => {
     const {
         productData,
         handleInputProductData,
-        handleInputCategory,
         handleSelectFile,
         handleCancelDataChanges
     } = useInputProduct(product.getProductData())
@@ -37,7 +36,7 @@ const RowProductsTable = ({product}: PropsProduct) => {
 
     const editProduct = (id: string) => {
         const index = table.findIndex((product) => product.id === id);
-        if (index >= 0){
+        if (index >= 0) {
             setIdEditProduct(id);
         }
     }
@@ -87,58 +86,101 @@ const RowProductsTable = ({product}: PropsProduct) => {
     }
 
     const fieldName = <input
-                                id={`name_${product.id}`}
-                                className={"inputFieldTable"}
-                                value={name}
-                                onChange={handleChangeDataProduct}/>
-    const fieldCategory = <CategoryBox category={category} setCategory={handleInputCategory} twClass={"inputFieldTable"}/>;
+        id={`name_${product.id}`}
+        className={"inputFieldTable"}
+        value={name}
+        onChange={handleChangeDataProduct}/>
     const fieldQty = <input
-                                id={`qty_${product.id}`}
-                                className={"inputFieldTable w-34"}
-                                type={"number"}
-                                min={0}
-                                value={qty}
-                                onChange={handleChangeDataProduct}/>
+        id={`qty_${product.id}`}
+        className={"inputFieldTable w-34"}
+        type={"number"}
+        min={0}
+        value={qty}
+        onChange={handleChangeDataProduct}/>
     const fieldPrice = <input
-                                    id={`price_${product.id}`}
-                                    className={"inputFieldTable w-14"}
-                                    type={"number"}
-                                    step={"0.01"}
-                                    min={0}
-                                    value={price}
-                                    onChange={handleChangeDataProduct}/>
+        id={`price_${product.id}`}
+        className={"inputFieldTable w-14"}
+        type={"number"}
+        step={"0.01"}
+        min={0}
+        value={price}
+        onChange={handleChangeDataProduct}/>
     const fieldDescription = <textarea
-                                        id={`description_${product.id}`}
-                                        className={"inputFieldTable h-16 w-full mt-3 overscroll-y-auto"}
-                                        rows={3}
-                                        value={description}
-                                        onChange={handleChangeDataProduct}/>
-    return (
-        <tr className={"hover:bg-light-orange hover:text-alt-text"}>
-             <th className={`w-20 h-20 align-top overflow-hidden ${idEditProduct == product.id ? 'cursor-pointer' : 'cursor-zoom-in' }`}><img
-                                                          src={imageUrl ? imageUrl : EMPTY_PHOTO} alt={product.name}
-                                                          className={"rounded-full border-base-form border-1 my-0.5"}
-                                                          onClick={handlerClickImage}
-                                                          style={{width: "100%", height: "100%", objectFit: "cover"}}/>
-                 <ImagePopup name={product.name} category={product.category} url={imageUrl} isOpen = {isOpen} setIsOpen = {setIsOpen}/>
-                 <input type={"file"} accept={"image/*"} hidden={true} ref={inputFileRef} onChange={handleSelectFile}/>
-             </th>
-            <th className={"pl-2 font-normal w-70"}>{idEditProduct == product.id ? fieldName : name}</th>
-            <th className={"font-normal w-70"}>{idEditProduct == product.id ? fieldCategory : category}</th>
-            <th className={"pl-2 w-40"}>{idEditProduct == product.id ? fieldQty : qty}</th>
-            <th className={"pl-2 w-20"}>{idEditProduct == product.id ? fieldPrice : price}</th>
-            <th className={"pl-2 font-normal w-70"}>{idEditProduct == product.id ? fieldDescription : description}</th>
-            <th className={"pl-2 text-color-base-text"}>
-                <div className={"flex flex-row justify-start space-x-1"}>
-                    <SquarePen onClick={() => editProduct(product.id)} className={`${idEditProduct == product.id ? 'hidden' : ''} cursor-pointer`}/>
-                    <Trash2 onClick={() => handleRemoveProduct(product.id)} className={`${idEditProduct == product.id ? 'hidden' : ''} cursor-pointer`}/>
-                    <SquareCheckBig onClick={() => saveChanges(product.id)} className={`${idEditProduct == product.id ? '' : 'hidden'} cursor-pointer`}/>
-                    <SquareX onClick={() => cancelChanges()} className={`${idEditProduct == product.id ? '' : 'hidden'} cursor-pointer`}/>
-                </div>
-            </th>
+        id={`description_${product.id}`}
+        className={"inputFieldTable h-16 w-full mt-3 overscroll-y-auto"}
+        rows={3}
+        value={description}
+        onChange={handleChangeDataProduct}/>
 
+    const isEditing = idEditProduct === product.id;
+    const rowClass = `
+        group
+        ${isOdd ? 'bg-gray-50' : 'bg-white'}
+        ${isEditing ? 'bg-lime-100' : 'hover:bg-gray-100'}
+        transition-colors duration-200 ease-in-out
+    `;
+
+    const cellClass = "px-6 py-4 whitespace-nowrap text-sm text-gray-500";
+    const actionCellClass = "px-6 py-4 whitespace-nowrap text-right text-sm font-medium";
+
+    return (
+        <tr className={rowClass}>
+            <td className={`${cellClass} w-20`}>
+                <div
+                    className={`w-16 h-16 rounded-full overflow-hidden mx-auto ${isEditing ? 'cursor-pointer' : 'cursor-zoom-in'}`}>
+                    <img
+                        src={imageUrl || EMPTY_PHOTO}
+                        alt={product.name}
+                        className="w-full h-full object-cover border border-gray-200"
+                        onClick={handlerClickImage}
+                    />
+                </div>
+                <ImagePopup name={product.name} url={imageUrl} isOpen={isOpen}
+                            setIsOpen={setIsOpen}/>
+                <input type="file" accept="image/*" hidden ref={inputFileRef} onChange={handleSelectFile}/>
+            </td>
+            <td className={`${cellClass} font-medium text-gray-900`}>
+                {isEditing ? fieldName : name}
+            </td>
+
+            <td className={cellClass}>
+                {isEditing ? fieldQty : qty}
+            </td>
+            <td className={cellClass}>
+                {isEditing ? fieldPrice : price}
+            </td>
+            <td className={cellClass}>
+                {isEditing ? fieldDescription : description}
+            </td>
+            <td className={actionCellClass}>
+                <div className="flex justify-end items-center space-x-2">
+                    {isEditing ? (
+                        <>
+                            <SquareCheckBig
+                                onClick={() => saveChanges(product.id)}
+                                className="w-5 h-5 text-green-500 hover:text-green-600 transition cursor-pointer"
+                            />
+                            <SquareX
+                                onClick={cancelChanges}
+                                className="w-5 h-5 text-red-500 hover:text-red-600 transition cursor-pointer"
+                            />
+                        </>
+                    ) : (
+                        <>
+                            <SquarePen
+                                onClick={() => editProduct(product.id)}
+                                className="w-5 h-5 text-gray-500 hover:text-lime-600 transition cursor-pointer"
+                            />
+                            <Trash2
+                                onClick={() => handleRemoveProduct(product.id)}
+                                className="w-5 h-5 text-gray-500 hover:text-red-600 transition cursor-pointer"
+                            />
+                        </>
+                    )}
+                </div>
+            </td>
         </tr>
-    )
+    );
 }
 
 export default RowProductsTable

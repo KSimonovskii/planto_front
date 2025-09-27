@@ -13,7 +13,7 @@ const Sorting = ({dataType} : SortingProps) => {
 
     let sorting = KINDS_OF_SORTING.get(dataType);
     if (!sorting) {
-       sorting = [DEFAULT_SORT];
+        sorting = [DEFAULT_SORT];
     }
 
     const handleSelectSort = async (name: string) => {
@@ -26,21 +26,18 @@ const Sorting = ({dataType} : SortingProps) => {
     }
 
     return (
-        <div className={"inline-flex justify-start items-center gap-2"}>
-            <label className={"flex items-center text-lime-800 text-base font-bold font-['Rubik']"} htmlFor={"sorting"}>
+        <div className="flex items-center gap-2">
+            <label className="text-gray-700 font-medium whitespace-nowrap" htmlFor="sorting">
                 Sort by:
-                <select
-                    id={"sorting"}
-                    className={"inputField focus: border-base-form ml-2"}
-                    onChange={(e) => handleSelectSort(e.target.value)}>
-                    {sorting.map((sort) => <option value={sort.name}
-                                                                   key={sort.name}>{sort.alias}</option>)}
-                </select>
             </label>
+            <select
+                id="sorting"
+                className="px-3 py-2 rounded-lg border border-gray-300 bg-white shadow-sm focus:border-lime-500 focus:ring focus:ring-lime-200 focus:ring-opacity-50 transition"
+                onChange={(e) => handleSelectSort(e.target.value)}>
+                {sorting.map((sort) => <option value={sort.name} key={sort.name}>{sort.alias}</option>)}
+            </select>
         </div>
-
     )
-
 }
 
 export default Sorting

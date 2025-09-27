@@ -44,17 +44,22 @@ export const SearchBar = () => {
     }
 
     return (
-        <>
-            <form className={"flex flex-row justify-around space-x-1 w-full"}>
-                <input
-                    type={"search"}
-                    name={"searchField"}
-                    className={"inputField my-0 w-full"}
-                    placeholder={"Find product by name.."}
-                    value={strSearch}
-                    onChange={(e) => handleChangeSearch(e.target.value)}/>
-                <button className={"button w-20"} onClick={(e) => handlerClickSearch(e, strSearch)}>Search</button>
-            </form>
-        </>
+        <form className="flex w-full gap-2">
+            <input
+                type="search"
+                name="searchField"
+                className="flex-1 w-full px-4 py-2 rounded-lg border border-gray-300 shadow-sm focus:border-lime-500 focus:ring focus:ring-lime-200 focus:ring-opacity-50 transition"
+                placeholder="Find product by name..."
+                value={strSearch}
+                onChange={(e) => handleChangeSearch(e.target.value)}
+            />
+            <button
+                type="submit"
+                className="px-6 py-2 rounded-lg bg-lime-600 hover:bg-lime-800 text-white font-medium transition"
+                onClick={(e) => handlerClickSearch(e, strSearch)}
+            >
+                Search
+            </button>
+        </form>
     )
 }
