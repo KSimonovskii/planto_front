@@ -17,13 +17,13 @@ import ProductCard from "../products/ProductCard.tsx";
 
 const Store = () => {
     const {sort, filters} = useContext(PageProductContext);
+    const [currentPage, setCurrentPage] = useState(1);
     const {addToCart, addToLocalCart, isInCart, isInLocalCart} = useCartActions(); // Добавляем isInLocalCart
     const {refreshCart} = useCartContext();
     const {isAuthenticated} = useCurrentUser();
-    const [currentPage, setCurrentPage] = useState(1);
     const [errorMsg, setError] = useState<string | null>(null);
     const [isAuthModalVisible, setAuthModalVisible] = useState(false);
-    // const [allProducts, setAllProducts] = useState<Product[]>([]);
+    const [allProducts, setAllProducts] = useState<Product[]>([]);
     const observerRef = useRef<HTMLDivElement | null>(null);
     const closeAuthModal = () => setAuthModalVisible(false);
 
@@ -35,44 +35,48 @@ const Store = () => {
     const params: string = match?.params["*"] ?? "";
     const arrHierarchy = params ? params.split("/") : [];
 
-    const {data = {products: [], pages: 0}, isLoading, isError, error} = useGetProductsTableRTKQuery(getBodyForQueryGetTable(dataTypes.products, 1, sort, filters));
+    const {data = {products: [], pages: 0}, isLoading, isError, error} = useGetProductsTableRTKQuery(getBodyForQueryGetTable(dataTypes.products, currentPage, sort, filters));
     const products = useMemo(() => {
             return data.products.map((p: Product) => new Product(p.id, p.name, p.category, p.quantity, p.price, p.imageUrl, p.description));
         },
         [data.products]
     )
 
-    // useEffect(() => {
-    //     if (data.products.length > 0) {
-    //         const newProducts = data.products.map(
-    //             (p: Product) =>
-    //                 new Product(
-    //                     p.id,
-    //                     p.name,
-    //                     p.category,
-    //                     p.quantity,
-    //                     p.price,
-    //                     p.imageUrl,
-    //                     p.description
-    //                 )
-    //         );
-    //         setAllProducts((prev) => [...prev, ...newProducts]);
-    //     }
-    // }, [data.products]);
+    useEffect(() => {
+        if (data.products.length > 0) {
+            const newProducts = data.products.map(
+                (p: Product) =>
+                    new Product(
+                        p.id,
+                        p.name,
+                        p.category,
+                        p.quantity,
+                        p.price,
+                        p.imageUrl,
+                        p.description
+                    )
+            );
+            setAllProducts((prev) => [...prev, ...newProducts]);
+        }
+    }, [data.products]);
 
     useEffect(() => {
-        if (!observerRef.current || currentPage >= data.pages) return;
+        if (!observerRef.current || !currentPage || currentPage >= data.pages) return;
         const observer = new IntersectionObserver(
             (entries) => {
                 if (entries[0].isIntersecting) {
                     setCurrentPage((prev) => Math.min(prev + 1, data.pages));
                 }
             },
-            {rootMargin: "200px"}
+            {
+                root: null,
+                rootMargin: "200px",
+                threshold: 1.0
+            }
         );
         observer.observe(observerRef.current);
         return () => observer.disconnect();
-    }, [data.pages, currentPage]);
+    }, [data.pages, currentPage, setCurrentPage]);
 
     const handleAddToCart = useCallback(
         async (productId: string) => {
@@ -88,13 +92,13 @@ const Store = () => {
                 if (err instanceof Error) setError(err.message);
             }
         },
-        [isAuthenticated, addToCart, refreshCart]
+        [isAuthenticated, addToCart, refreshCart, addToLocalCart]
     );
 
 
 
     return (
-        <div className="min-h-screen bg-white text-[#2a4637] p-6">
+        <div ref={observerRef} className="min-h-screen bg-white text-[#2a4637] p-6">
             <ProductsContext.Provider
                 value={{
                     table: products, pages: data.pages, setTableData: () => {
@@ -104,19 +108,15 @@ const Store = () => {
                 <ProductHierarchy hierarchy={arrHierarchy}/>
                 <FiltersAndSorting/>
 
-
                 {isLoading ? (
                     <div className="flex justify-center items-center w-full h-64">
                         <img src={spinner} alt="loading..." className="spinner-icon"/>
-                    </div>
-                ) : isError ? (
-                    <p className="text-center text-red-500 mt-20">{errorMsg}</p>
-                ) :
-
-                    products.length > 0 ? (
-                    <>
+                    </div>) :
+                    isError ? (
+                        <p className="text-center text-red-500 mt-20">{errorMsg}</p>) :
+                    allProducts.length > 0 ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
-                            {products.map((product: Product) => (
+                            {allProducts.map((product: Product) => (
                                 <ProductCard
                                     key={product.id}
                                     product={product}
@@ -124,21 +124,16 @@ const Store = () => {
                                     isInCart={isInCart(product.id) || isInLocalCart(product.id)}
                                 />
                             ))}
-                        </div>
-
-                    </>
-                ) : (
-                    <div className="text-center text-gray-500 mt-20">
-                        No products found.
-                    </div>
-                )}
-                <div ref={observerRef} className="w-full h-6"/>
+                        </div>) :
+                        (<div className="text-center text-gray-500 mt-20">
+                            No products found.
+                        </div>)}
+                <div className="w-full h-6"/>
                 {isLoading && (
                     <div className="flex justify-center items-center mt-4">
                         <img src={spinner} alt="loading..." className="spinner-icon"/>
                     </div>
                 )}
-
                 {isError && (
                     <p className="text-center text-red-500 mt-4">
                         {(typeof error === `object`) && 'status' in error ? `Error: ${error.status} - ${error.data}` : "Unknown error"}
