@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {DATA_FOR_PRODUCT_FILTERS} from "../../utils/constants.ts";
 import type {AnswerTable, RootState} from "../../utils/types.d.ts";
 
@@ -16,7 +16,7 @@ interface CategoryData {
 
 export const productApi = createApi({
     reducerPath: "productApi",
-    tagTypes: ["Products","FilterData"],
+    tagTypes: ["Products", "FilterData"],
     baseQuery: fetchBaseQuery({
         baseUrl: `${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_BASE_PRODUCT_ENDPOINT}`,
         prepareHeaders: ((headers, {getState}) => {
@@ -37,18 +37,18 @@ export const productApi = createApi({
                     body,
                 }),
                 transformResponse: (response: AnswerTable,) => {
-                        return {products: response.content, pages: response.page.totalPages};
-                    },
+                    return {products: response.content, pages: response.page.totalPages};
+                },
                 transformErrorResponse: (
                     response: { status: string | number },
                 ) => response.status,
                 providesTags: (result) =>
                     result && result.products
                         ? [
-                            ...result.products.map(({ id }) => ({ type: 'Products' as const, id })),
-                            { type: 'Products', id: 'LIST' },
+                            ...result.products.map(({id}) => ({type: 'Products' as const, id})),
+                            {type: 'Products', id: 'LIST'},
                         ]
-                        : [{ type: 'Products', id: 'LIST' }],
+                        : [{type: 'Products', id: 'LIST'}],
             }
         ),
         getDataForFilters: build.query({
@@ -56,7 +56,7 @@ export const productApi = createApi({
                 url: "/filterdata",
                 method: "GET"
             }),
-            transformResponse: (result : DataForFilters) => {
+            transformResponse: (result: DataForFilters) => {
                 DATA_FOR_PRODUCT_FILTERS.maxPrice = result.price;
                 DATA_FOR_PRODUCT_FILTERS.categories = result.categories
                 DATA_FOR_PRODUCT_FILTERS.inStock = result.inStock;
@@ -66,7 +66,7 @@ export const productApi = createApi({
             providesTags: [{type: "FilterData"}]
         }),
         getProductById: build.query({
-            query: (id)=>({
+            query: (id) => ({
                 url: `/${id}`,
                 method: "GET"
             }),
@@ -78,11 +78,11 @@ export const productApi = createApi({
                 method: "POST",
                 body
             }),
-            invalidatesTags: [{ type: 'Products', id: 'LIST' }, {type: 'FilterData'}]
+            invalidatesTags: [{type: 'Products', id: 'LIST'}, {type: 'FilterData'}]
         }),
         removeProduct: build.mutation({
             query: (id) => ({
-                url:`/${id}`,
+                url: `/${id}`,
                 method: "DELETE"
             }),
             invalidatesTags: [{type: 'Products', id: 'LIST'}, {type: 'FilterData'}]
@@ -99,9 +99,11 @@ export const productApi = createApi({
     })
 })
 
-export const {useGetProductsTableRTKQuery,
-                useGetDataForFiltersQuery,
-                useGetProductByIdQuery,
-                useAddProductMutation,
-                useRemoveProductMutation,
-                useUpdateProductMutation} = productApi;
+export const {
+    useGetProductsTableRTKQuery,
+    useGetDataForFiltersQuery,
+    useGetProductByIdQuery,
+    useAddProductMutation,
+    useRemoveProductMutation,
+    useUpdateProductMutation
+} = productApi;

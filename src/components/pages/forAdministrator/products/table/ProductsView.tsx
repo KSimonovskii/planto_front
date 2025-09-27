@@ -1,33 +1,36 @@
-import {useContext, useState} from "react";
-import {ProductsContext} from "../../../../../utils/context.ts";
 import {SearchBar} from "../../../../filters/SearchBar.tsx";
 import {FiltersAdmin} from "../../../../filters/Filters.admin.tsx";
 import ProductsTable from "./ProductsTable.tsx";
-import ProductsCards from "../card/ProductsCards.tsx";
-import PageNavigation from "../../../../common/table/PageNavigation.tsx";
-import ViewMode from "./ViewMode.tsx";
+
 import Sorting from "../../../../common/table/Sorting.tsx";
 import {dataTypes} from "../../../../../utils/enums/dataTypes.ts";
 
 const ProductsView = () => {
 
-    const {table} = useContext(ProductsContext);
-    const [viewAsCards, setView] = useState(false);
 
-   return (
 
-       <div className={"flex-col items-center"}>
-           <h1 className={"flex justify-center text-[24px] mt-5 mb-3"}>List of products</h1>
-           <div className={"flex justify-between items-center mr-8 space-x-4 mb-2.5"}>
-               <SearchBar/>
-               <Sorting dataType={dataTypes.products}/>
-               <ViewMode viewAsCards={viewAsCards} setView={setView}/>
-           </div>
-           <FiltersAdmin/>
-           {viewAsCards? <ProductsCards/> : <ProductsTable/>}
-           {table.length? <PageNavigation/> : <></>}
-       </div>
-   )
+    return (
+        <div className="flex flex-col gap-6">
+            <div className="bg-white p-6 rounded-lg shadow-sm flex flex-col md:flex-row items-center gap-4">
+                <div className="flex-1 w-full">
+                    <SearchBar/>
+                </div>
+
+                <div className="hidden md:flex items-center gap-4">
+                    <Sorting dataType={dataTypes.products}/>
+                    <FiltersAdmin/>
+                </div>
+
+                <div className="md:hidden flex flex-col gap-4 w-full">
+                    <Sorting dataType={dataTypes.products}/>
+                    <FiltersAdmin/>
+                </div>
+            </div>
+
+            <ProductsTable/>
+
+        </div>
+    )
 }
 
 export default ProductsView

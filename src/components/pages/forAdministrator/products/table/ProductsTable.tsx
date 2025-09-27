@@ -6,7 +6,6 @@ import EmptyRowTable from "../../../../common/table/EmptyRowTable.tsx";
 const TABLE_HEAD = [
     "Image",
     "Name",
-    "Category",
     "Quantity",
     "Price",
     "Description",
@@ -18,22 +17,24 @@ const ProductsTable = () => {
     const {table} = useContext(ProductsContext);
 
     return (
-        <table className={"text-base-form gap-4"}>
-            <thead className={"border-y-2 border-base-text"}>
-            <tr>
-                {TABLE_HEAD.map((head) => (
-                    <th key={head} className={"pl-2"}>
-                        {head}
-                    </th>
-                ))}
-            </tr>
-            </thead>
-            <tbody>
-            {table.length == 0 ?
-                <EmptyRowTable msg={"Can't receive data from database"}/> :
-                table.map(product => <RowProductsTable key={product.id} product={product}/>)}
-            </tbody>
-        </table>
+        <div className="overflow-x-auto bg-white rounded-lg shadow-md">
+            <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                <tr>
+                    {TABLE_HEAD.map((head) => (
+                        <th key={head} className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                            {head}
+                        </th>
+                    ))}
+                </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                {table.length === 0 ?
+                    <EmptyRowTable msg={"Can't receive data from database"} /> :
+                    table.map((product, index) => <RowProductsTable key={product.id} product={product} isOdd={index % 2 !== 0}/>)}
+                </tbody>
+            </table>
+        </div>
     )
 
 }

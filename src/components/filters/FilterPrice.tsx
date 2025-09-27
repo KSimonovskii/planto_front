@@ -19,7 +19,7 @@ const FilterPrice = () => {
     return (
         <div className="w-60 px-4 flex flex-col justify-start items-start gap-4">
             <div
-                className="self-stretch h-5 justify-start text-gray-800 text-sm font-semibold font-['Poppins'] uppercase leading-tight tracking-wide">Price
+                className="self-stretch h-5 justify-start text-gray-800 text-sm font-semibold font-['Poppins'] uppercase leading-tight tracking-wide">Filter Price
             </div>
             <div className="self-stretch flex flex-col justify-start items-start gap-3.5">
                 <div className="self-stretch inline-flex justify-start items-center gap-2.5">

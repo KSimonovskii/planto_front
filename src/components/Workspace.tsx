@@ -1,5 +1,5 @@
 import {DEFAULT_SORT_PRODUCT, navItems} from "../utils/constants.ts";
-import ProductsManager from "./pages/forAdministrator/products/ProductsManager.tsx";
+import ProductsManager2 from "./pages/forAdministrator/products/ProductsManager2.tsx";
 import {Navigate, Route, Routes} from "react-router-dom";
 
 import Home2 from "./pages/home/Home2.tsx";
@@ -53,7 +53,7 @@ const Workspace = () => {
                         path="products"
                         element={
                             <RequireAuthAdministrator>
-                                <ProductsManager/>
+                                <ProductsManager2/>
                             </RequireAuthAdministrator>
                         }
                     />

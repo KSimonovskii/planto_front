@@ -23,7 +23,7 @@ const PageNavigation = () => {
         return newPage;
     }
 
-    const path = navItems[4]; //'products';
+    const path = navItems[5].path; //'products';
 
     return (
         <nav className={"flex justify-center space-x-3"}>

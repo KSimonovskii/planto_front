@@ -71,21 +71,24 @@ export const useInputProduct = (initialData: ProductData | null) => {
 
         const imageUrl = imageFile? await uploadFile(imageFile, name.trim(), accessToken) : "";
 
-        const raw = JSON.stringify({
+        const raw = {
             name: name.trim(),
             category: category.trim(),
             quantity: qty,
             price: price,
             imageUrl: imageUrl,
             description: description.trim()
-        });
+        };
 
-        const res = await addProduct(raw).unwrap();
+        try {
 
-        if (res.error) {
-            console.log(res.error);
-        } else if (res){
-            setProductData(emptyData);
+            const res = await addProduct(raw).unwrap();
+
+            if (res){
+                setProductData(emptyData);
+            }
+        } catch (error) {
+            console.error('Failed to add product:', error);
         }
     }
 
