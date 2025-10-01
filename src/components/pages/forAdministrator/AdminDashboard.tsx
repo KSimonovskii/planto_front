@@ -100,7 +100,7 @@ const AdminDashboard = () => {
 
     return (
 
-        <div className="flex min-h-screen">
+        <div className="flex">
 
             <aside className="w-64 bg-[#2a4637] text-white p-6 flex flex-col gap-6 flex-shrink-0">
                 <div className="text-2xl font-bold text-center md:text-left">Admin Panel</div>

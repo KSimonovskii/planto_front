@@ -98,7 +98,7 @@ const Store = () => {
 
 
     return (
-        <div ref={observerRef} className="min-h-screen bg-white text-[#2a4637] p-6">
+        <div ref={observerRef} className="min-h-screen bg-white text-[#2a4637] p-2">
             <ProductsContext.Provider
                 value={{
                     table: products, pages: data.pages, setTableData: () => {

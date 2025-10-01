@@ -6,15 +6,15 @@ const {t} = useTranslation();
 
     return (
         <div
-            className="w-[1440px] px-28 pt-16 pb-10 bg-white border-t-2 border-lime-800/20 inline-flex flex-col justify-start items-start gap-2.5 overflow-hidden">
-            <div className="w-[1220px] h-[491px] relative rounded-2xl overflow-hidden">
-                <div className="w-[1224px] left-0 top-0 absolute inline-flex justify-between items-end">
-                    <div className="w-96 inline-flex flex-col justify-start items-start gap-14">
+            className="w-full px-2 pt-16 pb-10 bg-white border-t-2 border-lime-800/20 inline-flex flex-col gap-2.5 overflow-hidden">
+            <div className="w-[1640px] h-[491px] relative rounded-2xl overflow-hidden">
+                <div className="w-[1640px] left-0 top-0 absolute inline-flex justify-between">
+                    <div className="w-full inline-flex flex-col justify-start items-start gap-14 px-4">
                         <div className="self-stretch justify-start text-lime-800 text-6xl font-bold font-['Rubik']">
                             {t("whoWe.whoWeAre")}
                         </div>
                         <div
-                            className="w-96 justify-start text-lime-800 text-base font-normal font-['Rubik'] leading-normal">
+                            className="w-full justify-start text-lime-800 text-base font-normal font-['Rubik'] leading-normal">
                             {t("whoWe.story")}
                         </div>
                         <div className="inline-flex justify-start items-start gap-5">

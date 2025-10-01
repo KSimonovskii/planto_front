@@ -6,15 +6,24 @@ const MainLayout = () => {
     return (
         <div className="flex flex-col min-h-screen">
 
-            <div className="sticky top-0 z-50 bg-white shadow-md">
-                <MegaMenu/>
+            <div className="sticky top-0 z-50 bg-white w-full">
+                <div className="max-w-[1640px] mx-auto my-6">
+                    <MegaMenu/>
+                </div>
             </div>
 
-            <main className="flex-1 overflow-auto">
-                <Outlet/>
+            <main className="flex-1">
+                <div className="max-w-[1640px] mx-auto">
+                    <Outlet/>
+                </div>
             </main>
 
-            <Footer/>
+            <div className="top-0 z-50">
+                <div className="max-w-[1640px] mx-auto">
+                    <Footer/>
+                </div>
+            </div>
+
         </div>
     );
 };

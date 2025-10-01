@@ -22,7 +22,7 @@ const Navigation = () => {
     }, [isAdmin]);
 
     return (
-        <header className="w-full bg-green-50 border-b border-green-200 p-4 fixed top-0 left-0 z-50 shadow">
+        <header className="w-full bg-green-50 border-b border-green-200 p-4 fixed top-0 left-0 z-50">
             <div className="max-w-7xl mx-auto flex justify-between items-center">
                 <nav className="flex space-x-6">
                   

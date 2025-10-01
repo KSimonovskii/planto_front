@@ -5,7 +5,7 @@ import imageAbout3 from "../../../assets/imagesHeader/imageAbout3_3.png"
 
 const PanelAbout = () => (
 
-    <div className="flex flex-col md:flex-row justify-start items-start gap-6 md:gap-24 w-full">
+    <div className="flex flex-row justify-between">
             <PanelColumn
                 title="Our Roots"
                 img={imageAbout1}
