@@ -1,6 +1,7 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {DATA_FOR_PRODUCT_FILTERS} from "../../utils/constants.ts";
-import type {AnswerTable, RootState} from "../../utils/types.d.ts";
+import type {AnswerTable, FilterDto, RootState} from "../../utils/types.d.ts";
+import type Product from "../classes/Product.ts";
 
 interface DataForFilters {
     price: number,
@@ -12,6 +13,19 @@ interface DataForFilters {
 interface CategoryData {
     category: string,
     count: number
+}
+
+interface QueryParams {
+    page: number,
+    size: number,
+    field: string,
+    direction: number,
+    criteria: FilterDto[]
+}
+
+interface ProductsResult {
+    products: Product[];
+    pages: number;
 }
 
 export const productApi = createApi({
@@ -31,12 +45,12 @@ export const productApi = createApi({
     }),
     endpoints: (build) => ({
         getProductsTableRTK: build.query({
-                query: (body) => ({
+                query: (body: QueryParams) => ({
                     url: "",
                     method: "POST",
                     body,
                 }),
-                transformResponse: (response: AnswerTable,) => {
+                transformResponse: (response: AnswerTable,) : ProductsResult => {
                     return {products: response.content, pages: response.page.totalPages};
                 },
                 transformErrorResponse: (

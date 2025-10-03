@@ -13,7 +13,7 @@ import {useGetProductsTableRTKQuery} from "../../../features/api/productApi.ts";
 import {getBodyForQueryGetTable} from "../../../features/api/apiUtils.ts";
 import {dataTypes} from "../../../utils/enums/dataTypes.ts";
 
-const Store = () => {
+const Store_01 = () => {
     const {pageNumber, sort, filters} = useContext(PageProductContext);
 
     const {addToCart, message} = useCartActions()
@@ -141,7 +141,6 @@ const Store = () => {
                         isOpen={isImagePopupOpen}
                         setIsOpen={setImagePopupOpen}
                         name={currentImageProduct.name}
-                        category={currentImageProduct.category}
                         url={currentImageProduct.imageUrl}
                     />
                 )}
@@ -150,4 +149,4 @@ const Store = () => {
         </div>
     );
 };
-export default Store
+export default Store_01

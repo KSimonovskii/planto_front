@@ -23,6 +23,17 @@ export interface PageTableData {
     filters: Filter[]
 }
 
+export interface FilterDto {
+    field: string;
+    type: filterTypes;
+    typeValue: string;
+    isChanged: boolean;
+    value?: filterValueType;
+    valueFrom?: filterValueType;
+    valueTo?: filterValueType;
+    valueList: filterValueType[]
+}
+
 //Auth
 interface UserInterfaceAccount {
     login: string;

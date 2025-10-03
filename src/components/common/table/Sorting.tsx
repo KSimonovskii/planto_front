@@ -2,6 +2,8 @@ import {DEFAULT_SORT, KINDS_OF_SORTING} from "../../../utils/constants.ts";
 import {useContext} from "react";
 import {PageProductContext} from "../../../utils/context.ts";
 import type {dataTypes} from "../../../utils/enums/dataTypes.ts";
+import {getToInitialStateStorePage} from "../../../features/slices/flagFilterOrSortChangeSlice.ts";
+import {useDispatch} from "react-redux";
 
 interface SortingProps {
     dataType: dataTypes;
@@ -10,6 +12,7 @@ interface SortingProps {
 const Sorting = ({dataType} : SortingProps) => {
 
     const {setPage} = useContext(PageProductContext);
+    const dispatch = useDispatch();
 
     let sorting = KINDS_OF_SORTING.get(dataType);
     if (!sorting) {
@@ -22,6 +25,7 @@ const Sorting = ({dataType} : SortingProps) => {
             return;
         }
 
+        dispatch(getToInitialStateStorePage());
         setPage((prevState) => ({...prevState, sort: currSort}));
     }
 

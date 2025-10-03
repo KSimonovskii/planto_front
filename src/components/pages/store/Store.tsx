@@ -14,10 +14,12 @@ import spinner from "../../../assets/spinner2.png";
 import {useCartContext} from "../../../features/context/CartContext.tsx";
 import ImagePopup from "../../common/ImagePopup.tsx";
 import ProductCard from "../products/ProductCard.tsx";
+import {changeFlag} from "../../../features/slices/flagFilterOrSortChangeSlice.ts";
+import {useDispatch} from "react-redux";
+import {useAppSelector} from "../../../app/hooks.ts";
 
 const Store = () => {
     const {sort, filters} = useContext(PageProductContext);
-    const [currentPage, setCurrentPage] = useState(1);
     const {addToCart, addToLocalCart, isInCart, isInLocalCart} = useCartActions(); // Добавляем isInLocalCart
     const {refreshCart} = useCartContext();
     const {isAuthenticated} = useCurrentUser();
@@ -30,12 +32,14 @@ const Store = () => {
     const [currentImageProduct] = useState<Product | null>(null);
     const [isImagePopupOpen, setImagePopupOpen] = useState(false);
 
-
     const match = useMatch("/store/*");
     const params: string = match?.params["*"] ?? "";
     const arrHierarchy = params ? params.split("/") : [];
 
-    const {data = {products: [], pages: 0}, isLoading, isError, error} = useGetProductsTableRTKQuery(getBodyForQueryGetTable(dataTypes.products, currentPage, sort, filters));
+    const dispatch = useDispatch();
+    const {isRefillTable, currentPage} = useAppSelector(state => state.flagFilterOrSortChange);
+
+    const {data = {products: [], pages: 0}, isLoading, isFetching, isError, error} = useGetProductsTableRTKQuery(getBodyForQueryGetTable(dataTypes.products, currentPage, sort, filters));
     const products = useMemo(() => {
             return data.products.map((p: Product) => new Product(p.id, p.name, p.category, p.quantity, p.price, p.imageUrl, p.description));
         },
@@ -43,29 +47,22 @@ const Store = () => {
     )
 
     useEffect(() => {
-        if (data.products.length > 0) {
-            const newProducts = data.products.map(
-                (p: Product) =>
-                    new Product(
-                        p.id,
-                        p.name,
-                        p.category,
-                        p.quantity,
-                        p.price,
-                        p.imageUrl,
-                        p.description
-                    )
-            );
-            setAllProducts((prev) => [...prev, ...newProducts]);
+        if (isFetching) return;
+        if (isRefillTable) {
+            setAllProducts(products.slice());
+        } else {
+            setAllProducts((prev) => [...prev, ...products]);
         }
-    }, [data.products]);
+    }, [products, isRefillTable, isFetching, dispatch, currentPage]);
+
 
     useEffect(() => {
-        if (!observerRef.current || !currentPage || currentPage >= data.pages) return;
+        if (!observerRef.current
+            || currentPage >= data.pages) return;
         const observer = new IntersectionObserver(
             (entries) => {
                 if (entries[0].isIntersecting) {
-                    setCurrentPage((prev) => Math.min(prev + 1, data.pages));
+                    dispatch(changeFlag({isChanged: false, currentPage: currentPage + 1}));
                 }
             },
             {
@@ -76,7 +73,7 @@ const Store = () => {
         );
         observer.observe(observerRef.current);
         return () => observer.disconnect();
-    }, [data.pages, currentPage, setCurrentPage]);
+    }, [data.pages, currentPage, dispatch, isFetching]);
 
     const handleAddToCart = useCallback(
         async (productId: string) => {
@@ -95,10 +92,8 @@ const Store = () => {
         [isAuthenticated, addToCart, refreshCart, addToLocalCart]
     );
 
-
-
     return (
-        <div ref={observerRef} className="min-h-screen bg-white text-[#2a4637] p-6">
+        <div className="min-h-screen bg-white text-[#2a4637] p-6">
             <ProductsContext.Provider
                 value={{
                     table: products, pages: data.pages, setTableData: () => {
@@ -128,8 +123,8 @@ const Store = () => {
                         (<div className="text-center text-gray-500 mt-20">
                             No products found.
                         </div>)}
-                <div className="w-full h-6"/>
-                {isLoading && (
+                <div ref={observerRef} className="w-full h-6"/>
+                {isFetching && allProducts.length > 0 && (
                     <div className="flex justify-center items-center mt-4">
                         <img src={spinner} alt="loading..." className="spinner-icon"/>
                     </div>
@@ -145,7 +140,7 @@ const Store = () => {
                         isOpen={isImagePopupOpen}
                         setIsOpen={setImagePopupOpen}
                         name={currentImageProduct.name}
-                        category={currentImageProduct.category}
+                        // category={currentImageProduct.category}
                         url={currentImageProduct.imageUrl}
                     />
                 )}
@@ -155,3 +150,4 @@ const Store = () => {
 };
 
 export default Store;
+

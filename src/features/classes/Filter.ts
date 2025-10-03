@@ -1,4 +1,5 @@
 import {filterTypes} from "../../utils/enums/filterTypes.ts";
+import type {FilterDto} from "../../utils/types";
 
 export type filterValueType = string | number | null;
 
@@ -110,13 +111,3 @@ export default class Filter {
     }
 }
 
-interface FilterDto {
-    field: string;
-    type: filterTypes;
-    typeValue: string;
-    isChanged: boolean;
-    value?: filterValueType;
-    valueFrom?: filterValueType;
-    valueTo?: filterValueType;
-    valueList: filterValueType[]
-}

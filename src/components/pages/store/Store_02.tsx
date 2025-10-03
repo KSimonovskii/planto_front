@@ -21,7 +21,7 @@ const Store_02 = () => {
     const closeAuthModal = () => setAuthModalVisible(false);
 
     const match = useMatch("/store/*");
-    let params = "";
+    let params: string | undefined = "";
     if (match) {
         params = match.params["*"];
     }
@@ -89,7 +89,6 @@ const Store_02 = () => {
                         isOpen={isImagePopupOpen}
                         setIsOpen={setImagePopupOpen}
                         name={currentImageProduct.name}
-                        category={currentImageProduct.category}
                         url={currentImageProduct.imageUrl}
                     />
                 )}
