@@ -17,7 +17,7 @@ const TopPanel = ({
                       setMobileMenuOpen
                   }: TopPanelProps) => {
     return (
-        <div className="flex flex-col w-full max-w-[1218px] mx-auto gap-4 px-4 md:px-0">
+        <div className="flex flex-col w-full max-w-[1640px] mx-auto gap-4 md:px-0">
             <FrameWithLogo />
             <FrameWithNavigationPanel
                 setActivePanel={setActivePanel}

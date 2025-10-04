@@ -44,8 +44,8 @@ const WhatOurCustomersSay = () => {
     ];
 
     return (
-        <div className="w-[1440px] px-28 py-16 bg-white border-t-2 border-lime-800/20 inline-flex flex-col justify-start items-start gap-2.5 overflow-hidden">
-            <div className="w-[1221px] flex flex-col justify-start items-start gap-12">
+        <div className="w-full px-2 py-4 bg-white border-t-2 border-lime-800/20 inline-flex flex-col justify-start items-start gap-2.5 overflow-hidden">
+            <div className="w-full flex flex-col justify-start items-start gap-4 mb-8">
                 <div className="self-stretch justify-start text-lime-800 text-6xl font-bold font-['Rubik']">
                     {t("reviews.whatSay")}
                 </div>
@@ -60,9 +60,9 @@ const WhatOurCustomersSay = () => {
                     {reviews.map((review, index) => (
                         <SwiperSlide
                             key={index}
-                            className="!w-96 h-80 px-6 inline-flex justify-start items-center"
+                            className="!w-96 h-60 px-2 inline-flex justify-start items-center"
                         >
-                            <div className="w-96 h-80 p-6 bg-zinc-100 rounded-lg inline-flex flex-col justify-start items-start gap-6">
+                            <div className="w-96 h-70 p-6 bg-zinc-100 rounded-lg inline-flex flex-col justify-start items-start gap-6">
                                 <div className="self-stretch text-lime-800 text-base font-normal font-['Rubik'] leading-normal">
                                     {review.text}
                                 </div>

@@ -12,23 +12,23 @@ const {t} = useTranslation();
 
     return (
         <div
-            className="w-[1440px] px-28 pt-16 pb-10 bg-white border-t-2 border-lime-800/20 inline-flex flex-col justify-start items-start gap-2.5 overflow-hidden">
-            <div className="w-[1222px] h-60 flex flex-col justify-start items-start gap-14">
-                <div className="self-stretch justify-start text-lime-800 text-6xl font-bold font-['Rubik']">
+            className="w-full px-2 pt-16 pb-10 bg-white inline-flex flex-col gap-2.5 overflow-hidden border-t-2 border-lime-800/20">
+            <div className="w-full h-60 flex flex-col gap-14">
+                <div className="text-lime-800 px-2 text-6xl font-bold font-['Rubik']">
                     {t("clientsFriends")}
                 </div>
-                <div data-property-1="Default" className="w-[1221px] h-16 relative overflow-hidden">
-                    <img className="w-44 h-16 left-0 top-0 absolute rounded-lg"
+                <div data-property-1="Default" className="w-full h-16 flex items-center justify-between">
+                    <img className="object-contain"
                          src={cf1}/>
-                    <img className="w-44 h-16 left-[207px] top-0 absolute rounded-lg"
+                    <img className="object-contain"
                          src={cf2}/>
-                    <img className="w-44 h-16 left-[415px] top-0 absolute rounded-lg"
+                    <img className="object-contain"
                          src={cf3}/>
-                    <img className="w-44 h-16 left-[622px] top-0 absolute rounded-lg"
+                    <img className="object-contain"
                          src={cf4}/>
-                    <img className="w-44 h-16 left-[829px] top-0 absolute rounded-lg"
+                    <img className="object-contain"
                          src={cf5}/>
-                    <img className="w-44 h-16 left-[1037px] top-0 absolute rounded-lg"
+                    <img className="object-contain"
                          src={cf6}/>
                 </div>
             </div>

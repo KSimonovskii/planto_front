@@ -67,8 +67,8 @@ const SliderMainPage = () => {
     );
 
     return (
-        <div className="self-stretch inline-flex flex-col justify-start items-start relative">
-            <div className="w-[1280px] flex flex-col justify-start items-start gap-4 overflow-hidden">
+        <div className="inline-flex flex-col">
+            <div className="w-[1640px] flex flex-col overflow-hidden">
                 {isLoading ? (
                     <div className="flex justify-center items-center w-full h-64">
                         <img src={spinner} alt="loading..." className="spinner-icon"/>
@@ -79,7 +79,7 @@ const SliderMainPage = () => {
                     <>
                         <Swiper
                             modules={[Navigation]}
-                            spaceBetween={30}
+                            spaceBetween={38}
                             slidesPerView={"auto"}
                             onSwiper={(swiper) => (swiperRef.current = swiper)}
                             className="w-full"

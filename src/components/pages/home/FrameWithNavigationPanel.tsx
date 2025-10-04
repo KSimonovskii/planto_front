@@ -23,7 +23,7 @@ const FrameWithNavigationPanel = ({
     const { t } = useTranslation();
 
     return (
-        <nav className={`flex ${isMobile ? "flex-col gap-4" : "items-center gap-[191px]"} w-full`}>
+        <nav className={`flex ${isMobile ? "flex-col gap-4" : "items-center gap-[191px] justify-between"} w-full`}>
             <NavItemWithPanel
                 label={t("nav.about")}
                 panel={<PanelAbout />}
