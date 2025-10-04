@@ -20,7 +20,6 @@ import {useAppSelector} from "../../../app/hooks.ts";
 
 const Store = () => {
     const {sort, filters} = useContext(PageProductContext);
-    const [currentPage, setCurrentPage] = useState(1);
     const {addToCart, addToLocalCart, isInCart, isInLocalCart} = useCartActions(); // Добавляем isInLocalCart
     const {refreshCart} = useCartContext();
     const {isAuthenticated} = useCurrentUser();
