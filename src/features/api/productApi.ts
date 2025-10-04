@@ -26,6 +26,7 @@ interface QueryParams {
 interface ProductsResult {
     products: Product[];
     pages: number;
+    totalElements: number
 }
 
 export const productApi = createApi({
@@ -51,7 +52,7 @@ export const productApi = createApi({
                     body,
                 }),
                 transformResponse: (response: AnswerTable,) : ProductsResult => {
-                    return {products: response.content, pages: response.page.totalPages};
+                    return {products: response.content, pages: response.page.totalPages, totalElements: response.page.totalElements};
                 },
                 transformErrorResponse: (
                     response: { status: string | number },
