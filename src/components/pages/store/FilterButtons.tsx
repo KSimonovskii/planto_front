@@ -11,7 +11,7 @@ import {getToInitialState} from "../../../features/slices/priceRangeSlice.ts";
 import {clearCategoriesFilter} from "../../../features/slices/filterCategorySlice.ts";
 import {useClose} from "@headlessui/react";
 import {resetFilterStock} from "../../../features/slices/filterStockSlice.ts";
-import {getToInitialStateStorePage} from "../../../features/slices/flagFilterOrSortChangeSlice.ts";
+import {getToInitialTableStates} from "../../../features/slices/tableStatesSlice.ts";
 
 const FilterButtons = () => {
 
@@ -84,7 +84,7 @@ const FilterButtons = () => {
             }
         })
 
-        dispatch(getToInitialStateStorePage());
+        dispatch(getToInitialTableStates({tableName: "store"}));
         setPage((prevState) => ({...prevState, filters: newFilters}));
         close();
     }
@@ -101,7 +101,7 @@ const FilterButtons = () => {
             }
         }
 
-        dispatch(getToInitialStateStorePage());
+        dispatch(getToInitialTableStates({tableName: "store"}));
         dispatch(clearCategoriesFilter());
         dispatch(resetFilterStock());
         dispatch(getToInitialState());
