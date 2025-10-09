@@ -35,7 +35,7 @@ function ProductsColumns() {
                 header: "Description",
                 cell: (props) => <textarea
                     id={`description_${props.row.id}`}
-                    className={"overscroll-y-auto"}
+                    className={"w-full overscroll-y-auto"}
                     rows={3}
                     value={props.getValue()}/>,
                 size: 677

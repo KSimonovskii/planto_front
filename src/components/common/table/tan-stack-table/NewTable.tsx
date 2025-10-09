@@ -30,7 +30,7 @@ const NewTable = () => {
         }
 
         resetState();
-    });
+    }, []);
 
     const {data = {products: [], pages: 0, totalElements: 0}, isFetching} = useGetProductsTableRTKQuery(getBodyForQueryGetTable(dataTypes.products, currentPage, sort, filters));
     const products = useMemo(() => {
@@ -75,7 +75,9 @@ const NewTable = () => {
         data: fetchedTable,
         columns,
         getCoreRowModel: getCoreRowModel(),
-        debugTable: true
+        debugTable: true,
+        columnResizeMode: "onChange",
+        enableColumnResizing: true
     })
 
     const {rows} = table.getRowModel();
@@ -104,7 +106,7 @@ const NewTable = () => {
             {fetchedTable.length} of {totalRow} rows fetched
             <div
                 className={"container rounded-lg shadow-md m-4"}>
-                <table className={"grid border-collapse border-spacing-0 w-full divide-y divide-gray-200"}>
+                <table className={"grid border-collapse border-spacing-0 w-full divide-y divide-gray-200 table-fixed"}>
                     <thead className={"grid sticky top-0 z-1 bg-gray-50 w-full text-gray-500 uppercase"}>
                     {table.getHeaderGroups().map(headerGroup => (
                         <tr
@@ -113,12 +115,17 @@ const NewTable = () => {
                             {headerGroup.headers.map(header => (
                                 <th
                                     key={header.id}
-                                    className={`flex border-y border-gray-200 px-6 py-3 justify-start text-xs font-bold text-gray-500 uppercase tracking-wider`}
+                                    className={`flex relative border border-gray-200 px-6 py-3 justify-start text-xs font-bold text-gray-500 uppercase tracking-wider`}
                                     style={{width: header.getSize()}}>
                                     {flexRender(
                                         header.column.columnDef.header,
                                         header.getContext())
                                     }
+                                    <div
+                                        className={"absolute opacity-0 top-0 right-0 h-full w-1 bg-gray-400 cursor-col-resize rounded-md touch-none select-none"}
+                                        onMouseDown={header.getResizeHandler()}
+                                        onTouchStart={header.getResizeHandler()}>
+                                    </div>
                                 </th>
                             ))
                             }
@@ -132,8 +139,7 @@ const NewTable = () => {
                     onScroll={e => getAdditionalRows(e.currentTarget)}>
                     <table className={"grid w-full divide-y divide-gray-200"}>
                         <tbody
-                            className={`grid relative w-full divide-y divide-gray-200`}
-                            style={{width:  rowVirtualizer.getTotalSize()}}>
+                            className={`grid relative w-full divide-y divide-gray-200`}>
                         {rowVirtualizer.getVirtualItems().map(virtualRow => {
                             const row = rows[virtualRow.index] as Row<Product>
                             return (
