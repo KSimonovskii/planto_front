@@ -16,7 +16,7 @@ import {useGetProductsTableRTKQuery} from "../../../features/api/productApi.ts";
 import {getBodyForQueryGetTable} from "../../../features/api/apiUtils.ts";
 import {dataTypes} from "../../../utils/enums/dataTypes.ts";
 import {useProductsQuantity} from "../../../features/hooks/useProductsSimple.ts";
-import NewTable from "../../common/table/NewTable.tsx";
+import NewTable from "../../common/table/tan-stack-table/NewTable.tsx";
 
 const AdminDashboard = () => {
     const {user, loadingUser, errorUser} = useCurrentUser();

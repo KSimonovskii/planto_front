@@ -14,9 +14,10 @@ import spinner from "../../../assets/spinner2.png";
 import {useCartContext} from "../../../features/context/CartContext.tsx";
 import ImagePopup from "../../common/ImagePopup.tsx";
 import ProductCard from "../products/ProductCard.tsx";
-import {changeFlag} from "../../../features/slices/flagFilterOrSortChangeSlice.ts";
+import {changeFlag} from "../../../features/slices/tableStatesSlice.ts";
 import {useDispatch} from "react-redux";
 import {useAppSelector} from "../../../app/hooks.ts";
+
 
 const Store = () => {
     const {sort, filters} = useContext(PageProductContext);
@@ -38,7 +39,7 @@ const Store = () => {
     const arrHierarchy = params ? params.split("/") : [];
 
     const dispatch = useDispatch();
-    const {isRefillTable, currentPage} = useAppSelector(state => state.flagFilterOrSortChange);
+    const {isRefillTable, currentPage} = useAppSelector(state => state.tableStates.store);
 
     const {data = {products: [], pages: 0}, isLoading, isFetching, isError, error} = useGetProductsTableRTKQuery(getBodyForQueryGetTable(dataTypes.products, currentPage, sort, filters));
     const products = useMemo(() => {
@@ -63,7 +64,7 @@ const Store = () => {
         const observer = new IntersectionObserver(
             (entries) => {
                 if (entries[0].isIntersecting) {
-                    dispatch(changeFlag({isChanged: false, currentPage: currentPage + 1}));
+                    dispatch(changeFlag({tableName: "store", changes: {isRefillTable: false, currentPage: currentPage + 1}}));
                 }
             },
             {

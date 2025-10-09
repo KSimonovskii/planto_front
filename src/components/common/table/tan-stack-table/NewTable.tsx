@@ -1,6 +1,4 @@
 import {
-    type ColumnDef,
-    createColumnHelper,
     flexRender,
     getCoreRowModel,
     type Row,
@@ -8,16 +6,16 @@ import {
 } from '@tanstack/react-table'
 import {useVirtualizer} from '@tanstack/react-virtual'
 import {useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
-import {PageProductContext} from "../../../utils/context.ts";
-import {useGetProductsTableRTKQuery} from "../../../features/api/productApi.ts";
-import {getBodyForQueryGetTable} from "../../../features/api/apiUtils.ts";
-import {dataTypes} from "../../../utils/enums/dataTypes.ts";
-import Product from "../../../features/classes/Product.ts";
-import {SquarePen, Trash2} from "lucide-react";
-import {EMPTY_PHOTO, SIZE_PAGE} from "../../../utils/constants.ts";
-import {useAppSelector} from "../../../app/hooks.ts";
+import {PageProductContext} from "../../../../utils/context.ts";
+import {useGetProductsTableRTKQuery} from "../../../../features/api/productApi.ts";
+import {getBodyForQueryGetTable} from "../../../../features/api/apiUtils.ts";
+import {dataTypes} from "../../../../utils/enums/dataTypes.ts";
+import Product from "../../../../features/classes/Product.ts";
+import {SIZE_PAGE} from "../../../../utils/constants.ts";
+import {useAppSelector} from "../../../../app/hooks.ts";
 import {useDispatch} from "react-redux";
-import {changeFlag} from "../../../features/slices/flagFilterOrSortChangeSlice.ts";
+import {changeFlag, getToInitialTableStates} from "../../../../features/slices/tableStatesSlice.ts";
+import ProductsColumns from "./ProductsColumns.tsx";
 
 
 const NewTable = () => {
@@ -25,9 +23,16 @@ const NewTable = () => {
     const [fetchedTable, setFetchedTable] = useState<Product[]>([]);
 
     const dispatch = useDispatch();
-    const {isRefillTable, currentPage} = useAppSelector(state => state.flagFilterOrSortChange);
+    const {isRefillTable, currentPage} = useAppSelector(state => state.tableStates.products);
+    useEffect(() => {
+        const resetState = () => {
+            dispatch(getToInitialTableStates({tableName: "products"}));
+        }
 
-    const {data = {products: [], pages: 0, totalElements: 0}, isLoading, isFetching, isError, error} = useGetProductsTableRTKQuery(getBodyForQueryGetTable(dataTypes.products, currentPage, sort, filters));
+        resetState();
+    });
+
+    const {data = {products: [], pages: 0, totalElements: 0}, isFetching} = useGetProductsTableRTKQuery(getBodyForQueryGetTable(dataTypes.products, currentPage, sort, filters));
     const products = useMemo(() => {
             return data.products.map((p: Product) => new Product(p.id, p.name, p.category, p.quantity, p.price, p.imageUrl, p.description));
         },
@@ -35,7 +40,6 @@ const NewTable = () => {
     )
 
     const tableContainerRef = useRef<HTMLDivElement>(null);
-    const columnHelper = createColumnHelper<Product>();
 
     useEffect(() => {
         if (isFetching) return;
@@ -44,55 +48,11 @@ const NewTable = () => {
         } else {
             setFetchedTable((prev) => [...prev, ...products]);
         }
-    }, [products]);
+    }, [products, isFetching, isRefillTable]);
 
-    const columns = useMemo<ColumnDef<Product>[]>(
-        () => [
-            {
-                accessorKey: "imageUrl",
-                header: "IMAGE",
-                cell: (info) => <img
-                    src={info.getValue() || EMPTY_PHOTO}
-                    alt="image"
-                    className={"w-full h-full object-cover border border-gray-200"}
-                />,
-                size: 64
-            },
-            {
-                accessorKey: "name",
-                header: "NAME",
-                size: 200
-            },
-            {
-                accessorKey: "quantity",
-                header: "QUANTITY",
-                size: 90
-            },
-            {
-                accessorKey: "price",
-                header: "PRICE",
-                size: 70
-            },
-            {
-                accessorKey: "description",
-                header: "DESCRIPTION",
-                size: 800
-            },
-            columnHelper.display({
-                id: "actions",
-                cell: () => (<div>
-                    <SquarePen
-                    // onClick={() => editProduct(product.id)}
-                    className="w-5 h-5 text-gray-500 hover:text-lime-600 transition cursor-pointer"
-                    />
-                    <Trash2
-                        // onClick={() => handleRemoveProduct(product.id)}
-                        className="w-5 h-5 text-gray-500 hover:text-red-600 transition cursor-pointer"
-                    /></div>)
-            })
-        ],
-        []
-    )
+    const columns = useMemo(
+        () => ProductsColumns(),
+        []);
 
     const totalRow = data.totalElements;
     const totalFetched = fetchedTable.length;
@@ -105,9 +65,8 @@ const NewTable = () => {
                 if (isFetching) return;
                 const {scrollHeight, scrollTop, clientHeight} = containerRefElement;
                 if (scrollHeight - scrollTop - clientHeight < borderMargin
-                    // && scrollHeight != clientHeight
                     && totalFetched < totalRow) {
-                    dispatch(changeFlag({isChanged: false, currentPage: currentPage + 1}));
+                    dispatch(changeFlag({tableName: "products", changes: {isRefillTable: false, currentPage: currentPage + 1}}));
                 }
             }
         }, [isFetching, totalFetched, totalRow, dispatch, currentPage]);
@@ -133,21 +92,28 @@ const NewTable = () => {
         overscan: 5,
     })
 
+    const getTailwindClassById = (id: string) => {
+        switch (id) {
+            case "name": return "flex items-center px-6 py-4 whitespace-nowrap font-medium text-gray-900";
+            default: return "flex items-center px-6 py-4 whitespace-nowrap text-sm text-gray-500";
+        }
+    }
+
     return (
         <div className={"m-4 text-center"}>
             {fetchedTable.length} of {totalRow} rows fetched
             <div
-                className={"container border border-gray-400 m-4"}>
-                <table className={"grid border-collapse border-spacing-0 w-full"}>
-                    <thead className={"grid sticky top-0 z-1 bg-gray-400 w-full"}>
+                className={"container rounded-lg shadow-md m-4"}>
+                <table className={"grid border-collapse border-spacing-0 w-full divide-y divide-gray-200"}>
+                    <thead className={"grid sticky top-0 z-1 bg-gray-50 w-full text-gray-500 uppercase"}>
                     {table.getHeaderGroups().map(headerGroup => (
                         <tr
                             key={headerGroup.id}
-                            className={"flex w-full border-b border-gray-400"}>
+                            className={"flex w-full"}>
                             {headerGroup.headers.map(header => (
                                 <th
                                     key={header.id}
-                                    className={`flex border-b border-r border-gray-400 px-0.5 py-1 text-left`}
+                                    className={`flex border-y border-gray-200 px-6 py-3 justify-start text-xs font-bold text-gray-500 uppercase tracking-wider`}
                                     style={{width: header.getSize()}}>
                                     {flexRender(
                                         header.column.columnDef.header,
@@ -164,9 +130,9 @@ const NewTable = () => {
                     className={"relative overflow-y-scroll h-[600px]"}
                     ref={tableContainerRef}
                     onScroll={e => getAdditionalRows(e.currentTarget)}>
-                    <table className={"grid border-collapse border-spacing-0 w-full"}>
+                    <table className={"grid w-full divide-y divide-gray-200"}>
                         <tbody
-                            className={`grid relative w-full`}
+                            className={`grid relative w-full divide-y divide-gray-200`}
                             style={{width:  rowVirtualizer.getTotalSize()}}>
                         {rowVirtualizer.getVirtualItems().map(virtualRow => {
                             const row = rows[virtualRow.index] as Row<Product>
@@ -175,13 +141,15 @@ const NewTable = () => {
                                     data-index={virtualRow.index}
                                     ref={node => rowVirtualizer.measureElement(node)}
                                     key={row.id}
-                                    className={`flex absolute w-full border-b border-gray-400 h-20`}
+                                    className={`flex absolute w-full border-y border-gray-200
+                                                ${row.index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}
+                                                transition-colors duration-200 ease-in-out`}
                                     style={{transform: `translateY(${virtualRow.start}px)` }}>
                                     {
                                         row.getVisibleCells().map(cell => (
                                             <td
                                                 key={cell.id}
-                                                className={`flex`}
+                                                className={getTailwindClassById(cell.column.id)}
                                                 style={{width: cell.column.getSize()}}>
                                                 {flexRender(
                                                     cell.column.columnDef.cell,

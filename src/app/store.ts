@@ -2,7 +2,7 @@ import {configureStore} from "@reduxjs/toolkit";
 import filterPrice from "../features/slices/priceRangeSlice.ts"
 import userAuthSlice from "../features/slices/userAuthSlice.ts";
 import filterCategorySlice from "../features/slices/filterCategorySlice.ts";
-import flagFilterOrSortChange from "../features/slices/flagFilterOrSortChangeSlice.ts";
+import tableStates from "../features/slices/tableStatesSlice.ts";
 import {productApi} from "../features/api/productApi.ts";
 import {orderApi} from "../features/api/orderApi.ts";
 import filterStock from "../features/slices/filterStockSlice.ts";
@@ -13,7 +13,7 @@ export const store = configureStore({
         filterCategorySlice,
         userAuthSlice,
         filterStock,
-        flagFilterOrSortChange,
+        tableStates,
         [productApi.reducerPath]: productApi.reducer,
         [orderApi.reducerPath]: orderApi.reducer
     },
