@@ -30,7 +30,7 @@ const NewTable = () => {
         }
 
         resetState();
-    });
+    }, []);
 
     const {data = {products: [], pages: 0, totalElements: 0}, isFetching} = useGetProductsTableRTKQuery(getBodyForQueryGetTable(dataTypes.products, currentPage, sort, filters));
     const products = useMemo(() => {
@@ -132,8 +132,7 @@ const NewTable = () => {
                     onScroll={e => getAdditionalRows(e.currentTarget)}>
                     <table className={"grid w-full divide-y divide-gray-200"}>
                         <tbody
-                            className={`grid relative w-full divide-y divide-gray-200`}
-                            style={{width:  rowVirtualizer.getTotalSize()}}>
+                            className={`grid relative w-full divide-y divide-gray-200`}>
                         {rowVirtualizer.getVirtualItems().map(virtualRow => {
                             const row = rows[virtualRow.index] as Row<Product>
                             return (
