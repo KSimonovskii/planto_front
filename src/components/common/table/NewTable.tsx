@@ -27,7 +27,10 @@ const NewTable = () => {
     const dispatch = useDispatch();
     const {isRefillTable, currentPage} = useAppSelector(state => state.flagFilterOrSortChange);
 
-    const {data = {products: [], pages: 0, totalElements: 0}, isLoading, isFetching, isError, error} = useGetProductsTableRTKQuery(getBodyForQueryGetTable(dataTypes.products, currentPage, sort, filters));
+    const {
+        data = {products: [], pages: 0, totalElements: 0},
+              isFetching
+    } = useGetProductsTableRTKQuery(getBodyForQueryGetTable(dataTypes.products, currentPage, sort, filters));
     const products = useMemo(() => {
             return data.products.map((p: Product) => new Product(p.id, p.name, p.category, p.quantity, p.price, p.imageUrl, p.description));
         },
@@ -52,7 +55,7 @@ const NewTable = () => {
                 accessorKey: "imageUrl",
                 header: "IMAGE",
                 cell: (info) => <img
-                    src={info.getValue() || EMPTY_PHOTO}
+                    src={info.getValue() as string || EMPTY_PHOTO}
                     alt="image"
                     className={"w-full h-full object-cover border border-gray-200"}
                 />,
@@ -82,8 +85,8 @@ const NewTable = () => {
                 id: "actions",
                 cell: () => (<div>
                     <SquarePen
-                    // onClick={() => editProduct(product.id)}
-                    className="w-5 h-5 text-gray-500 hover:text-lime-600 transition cursor-pointer"
+                        // onClick={() => editProduct(product.id)}
+                        className="w-5 h-5 text-gray-500 hover:text-lime-600 transition cursor-pointer"
                     />
                     <Trash2
                         // onClick={() => handleRemoveProduct(product.id)}
@@ -126,10 +129,10 @@ const NewTable = () => {
         estimateSize: () => SIZE_PAGE,
         getScrollElement: () => tableContainerRef.current,
         measureElement:
-        typeof window !== 'undefined' &&
+            typeof window !== 'undefined' &&
             navigator.userAgent.indexOf('Firefox') === -1
-            ? element => element?.getBoundingClientRect().height
-            : undefined,
+                ? element => element?.getBoundingClientRect().height
+                : undefined,
         overscan: 5,
     })
 
@@ -167,7 +170,7 @@ const NewTable = () => {
                     <table className={"grid border-collapse border-spacing-0 w-full"}>
                         <tbody
                             className={`grid relative w-full`}
-                            style={{width:  rowVirtualizer.getTotalSize()}}>
+                            style={{width: rowVirtualizer.getTotalSize()}}>
                         {rowVirtualizer.getVirtualItems().map(virtualRow => {
                             const row = rows[virtualRow.index] as Row<Product>
                             return (
@@ -176,7 +179,7 @@ const NewTable = () => {
                                     ref={node => rowVirtualizer.measureElement(node)}
                                     key={row.id}
                                     className={`flex absolute w-full border-b border-gray-400 h-20`}
-                                    style={{transform: `translateY(${virtualRow.start}px)` }}>
+                                    style={{transform: `translateY(${virtualRow.start}px)`}}>
                                     {
                                         row.getVisibleCells().map(cell => (
                                             <td

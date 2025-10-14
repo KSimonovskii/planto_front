@@ -6,3 +6,4 @@ export const getProductById = async (productId: string): Promise<Product> => {
     if (!response.ok) throw new Error("Product not found");
     return await response.json();
 };
+

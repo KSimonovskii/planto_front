@@ -4,9 +4,9 @@ interface Props {
 
 const ProductHierarchy = ({hierarchy} : Props) => {
 
-    const prepareString = (str) => (str.replace("-"," "));
+    const prepareString = (str: string) => (str.replace("-"," "));
 
-    const getDiv = (str, i) => {
+    const getDiv = (str: string, i: number) => {
 
         const isLast = (i === hierarchy.length - 1);
 

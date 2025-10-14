@@ -1,14 +1,15 @@
 import {Dialog, DialogPanel} from "@headlessui/react";
 import {X} from "lucide-react";
 
-interface PropsProduct {
+interface PropsImagePopup {
     name: string,
+    category: string,
     url: string,
     isOpen: boolean,
     setIsOpen: (a: boolean) => void
 }
 
-const ImagePopup = ({name, url, isOpen, setIsOpen}: PropsProduct) => {
+const ImagePopup = ({name, url, isOpen, setIsOpen}: PropsImagePopup) => {
 
     return (
         <Dialog

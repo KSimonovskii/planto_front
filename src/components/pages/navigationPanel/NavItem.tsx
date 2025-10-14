@@ -29,7 +29,7 @@ const NavItem = (props: Props) => {
                      className={({isActive}) =>
                     (`flex items-center my-3 w-full h-10 ${isActive? activeStyle : defaultStyle} font-bold hover:bg-alt-text hover:text-base-bg hover:rounded-md`)}
             onClick={handleNavClick}>
-                <props.item.icon/> <span>{props.item.title}</span>
+                <span>{props.item.title}</span>
             </NavLink>
         </li>
     )

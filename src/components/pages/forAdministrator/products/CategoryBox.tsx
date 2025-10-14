@@ -9,6 +9,7 @@ import {
     Field,
 } from "@headlessui/react";
 import {CheckIcon, ChevronDownIcon} from "lucide-react";
+import type {CategoryFilterItem} from "../../../../utils/types";
 
 interface PropsCategoryBox {
     category: string,
@@ -19,9 +20,11 @@ interface PropsCategoryBox {
 const CategoryBox = ({category, setCategory, twClass}: PropsCategoryBox) => {
     const [query, setQuery] = useState("");
 
-    const categories = DATA_FOR_PRODUCT_FILTERS.categories;
+    const categories = DATA_FOR_PRODUCT_FILTERS.categories as CategoryFilterItem[];
 
-    const filtered = query === "" ? [] : categories.filter(category => category.toLowerCase().includes(query.toLowerCase()));
+    const filtered = query === ""
+        ? categories
+        : categories.filter(item => item.category.toLowerCase().includes(query.toLowerCase()));
 
     return (
         <Field className={"flex items-center w-full"}>
@@ -50,15 +53,15 @@ const CategoryBox = ({category, setCategory, twClass}: PropsCategoryBox) => {
                             Create <span className={"font-bold"}>"{query}"</span>
                         </ComboboxOption>
                     )}
-                    {filtered.map(category => (
+                    {filtered.map(item => (
                         <ComboboxOption
-                            key={category}
-                            value={category}
+                            key={item.category}
+                            value={item.category}
                             className={"group flex text-base-text cursor-default select-none data-focus:bg-base-form/10"}>
                             <CheckIcon className={"invisible size-5 fill-white group-data-selected:visible"}/>
-                            <div className={"text-base-form"}>{category}</div>
+                            <div className={"text-base-form"}>{item.category}</div>
                         </ComboboxOption>
-                        ))}
+                    ))}
                 </ComboboxOptions>
             </Combobox>
         </Field>

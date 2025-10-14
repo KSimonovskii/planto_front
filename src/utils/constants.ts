@@ -60,3 +60,4 @@ export interface FILTER_PROPS {
     filter: Filter
     setFilter: Dispatch<SetStateAction<Filter>>
 }
+

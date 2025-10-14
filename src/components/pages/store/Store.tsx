@@ -141,7 +141,7 @@ const Store = () => {
                         isOpen={isImagePopupOpen}
                         setIsOpen={setImagePopupOpen}
                         name={currentImageProduct.name}
-                        // category={currentImageProduct.category}
+                        category={currentImageProduct.category}
                         url={currentImageProduct.imageUrl}
                     />
                 )}

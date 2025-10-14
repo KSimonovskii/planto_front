@@ -4,6 +4,12 @@ import type {OrderStatus} from "../components/pages/orders/OrderStatus.ts";
 import type {CartItem} from "../components/pages/orders/CartItem.ts";
 import type Product from "../features/classes/Product.ts";
 
+
+export interface CategoryFilterItem {
+    category: string;
+    count: number;
+}
+
 //Common
 interface NavItem {
     title: string

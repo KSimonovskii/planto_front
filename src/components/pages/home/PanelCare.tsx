@@ -1,5 +1,3 @@
-import PanelColumn from "./PanelColumn.tsx";
-
 const PanelCare = () => {
 
     // const items = [
@@ -15,10 +13,10 @@ const PanelCare = () => {
 
     return (
     <div className="flex flex-row justify-between">
-        <PanelColumn
-            // title="Watering"
-            // items={items}
-        />
+        {/*<PanelColumn*/}
+        {/*    title="Watering"*/}
+        {/*    items={items}*/}
+        {/*/>*/}
 
     </div>
 )};

@@ -3,7 +3,8 @@ import {useState} from "react";
 import {ShoppingCart} from "lucide-react"
 import {Image} from "@imagekit/react";
 import ImagePopup from "../ImagePopup.tsx";
-import type Product from "../../../clasess/Product.ts";
+import type Product from "../../../../features/classes/Product.ts";
+
 
 interface PropsProduct {
     product: Product,

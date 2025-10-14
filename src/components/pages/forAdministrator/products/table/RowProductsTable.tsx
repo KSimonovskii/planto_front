@@ -9,12 +9,12 @@ import {uploadFile} from "../../../../../features/api/imageAction.ts";
 import {useInputProduct} from "../hooks/useInputProduct.tsx";
 import {useAppSelector} from "../../../../../app/hooks.ts";
 
-interface PropsProduct {
+interface PropsProductOnTable {
     product: Product,
     isOdd: boolean,
 }
 
-const RowProductsTable = ({product, isOdd}: PropsProduct) => {
+const RowProductsTable = ({product, isOdd}: PropsProductOnTable) => {
 
     const {table} = useContext(ProductsContext);
     const [removeProduct] = useRemoveProductMutation();
@@ -135,8 +135,13 @@ const RowProductsTable = ({product, isOdd}: PropsProduct) => {
                         onClick={handlerClickImage}
                     />
                 </div>
-                <ImagePopup name={product.name} url={imageUrl} isOpen={isOpen}
-                            setIsOpen={setIsOpen}/>
+                <ImagePopup
+                    name={product.name}
+                    category={product.category}
+                    url={imageUrl}
+                    isOpen={isOpen}
+                    setIsOpen={setIsOpen}
+                />
                 <input type="file" accept="image/*" hidden ref={inputFileRef} onChange={handleSelectFile}/>
             </td>
             <td className={`${cellClass} font-medium text-gray-900`}>
