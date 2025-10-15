@@ -11,9 +11,10 @@ type PanelColumnProps = {
     path?: string;
     hierarchy?: string;
     items?: Item[];
+    onClick?: () => void;
 };
 
-const PanelColumn = ({ title, items, img, path, hierarchy }: PanelColumnProps) => {
+const PanelColumn = ({ title, items, img, path, hierarchy, onClick }: PanelColumnProps) => {
     const isSubMenu = items && items.length > 0;
 
     const encode = (str: string) => encodeURIComponent(str);
@@ -31,7 +32,8 @@ const PanelColumn = ({ title, items, img, path, hierarchy }: PanelColumnProps) =
     };
 
     return (
-        <div className="flex flex-col md:flex-row justify-start items-start md:items-center gap-4 w-full md:w-auto">
+        <div className="flex flex-col md:flex-row justify-start items-start md:items-center gap-4 w-full md:w-auto cursor-pointer"
+             onClick={onClick}>
             <div className="flex flex-col justify-start items-start gap-2 md:gap-4 w-full md:w-36">
                 {isSubMenu ? (
                     <div className="text-lime-800 text-base font-bold font-['Rubik']">

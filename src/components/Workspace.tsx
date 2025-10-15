@@ -20,6 +20,7 @@ import MainLayout from "./pages/home/MainLayout.tsx";
 import UsersManager from "./pages/users/UsersManager.tsx";
 import {OrdersProvider} from "./pages/orders/OrderProvider.tsx";
 import Store from "./pages/store/Store.tsx";
+import OurRoots from "./pages/home/aboutUs/OurRoots.tsx";
 
 const Workspace = () => {
 
@@ -33,6 +34,7 @@ const Workspace = () => {
                     <Route path="/" element={<Home2/>}/>
                     <Route path="/main" element={<Home2/>}/>
                     <Route path="/main/*" element={<Home2/>}/>
+                    <Route path="/our-roots" element={<OurRoots/>} />
                     <Route path={navItems[1].path} element={<AboutUs/>}/>
                     <Route path={navItems[2].path} element={<ShoppingCart/>}/>
 
