@@ -64,7 +64,7 @@ export interface ProductData {
     id?: string,
     name: string,
     category: string,
-    qty: number,
+    quantity: number,
     price: number,
     description: string,
     imageUrl: string,
@@ -75,7 +75,7 @@ export interface ProductDataForTable {
     imageUrl: string,
     name: string,
     category: string,
-    qty: number,
+    quantity: number,
     price: number,
     description: string,
 }

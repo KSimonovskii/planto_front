@@ -1,13 +1,18 @@
 import {
+    createColumnHelper,
     flexRender,
     getCoreRowModel,
-    type Row,
+    type Row, type RowData,
     useReactTable,
 } from '@tanstack/react-table'
 import {useVirtualizer} from '@tanstack/react-virtual'
 import {useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
 import {PageProductContext} from "../../../../utils/context.ts";
-import {useGetProductsTableRTKQuery} from "../../../../features/api/productApi.ts";
+import {
+    useGetProductsTableRTKQuery,
+    useRemoveProductMutation,
+    useUpdateProductMutation
+} from "../../../../features/api/productApi.ts";
 import {getBodyForQueryGetTable} from "../../../../features/api/apiUtils.ts";
 import {dataTypes} from "../../../../utils/enums/dataTypes.ts";
 import Product from "../../../../features/classes/Product.ts";
@@ -17,13 +22,35 @@ import {useDispatch} from "react-redux";
 import {changeFlag, getToInitialTableStates} from "../../../../features/slices/tableStatesSlice.ts";
 import ProductsColumns from "./ProductsColumns.tsx";
 
+declare module '@tanstack/react-table' {
+    interface TableMeta<TData extends RowData> {
+        updateData: (rowIndex: number, columnId: string, value: unknown) => void
+    }
+}
+
+type ProductProperties = {
+    imageUrl: string,
+    name: string,
+    category: string,
+    quantity: number,
+    price: number,
+    description: string,
+}
 
 const NewTable = () => {
     const {sort, filters} = useContext(PageProductContext);
     const [fetchedTable, setFetchedTable] = useState<Product[]>([]);
+    const [editRowIndex, setEditRowIndex] = useState(-1);
 
     const dispatch = useDispatch();
     const {isRefillTable, currentPage} = useAppSelector(state => state.tableStates.products);
+    const {accessToken} = useAppSelector(state => state.userAuthSlice);
+
+    const [removeProduct] = useRemoveProductMutation();
+    const [updateProduct] = useUpdateProductMutation();
+
+
+    // initial table states
     useEffect(() => {
         const resetState = () => {
             dispatch(getToInitialTableStates({tableName: "products"}));
@@ -41,6 +68,7 @@ const NewTable = () => {
 
     const tableContainerRef = useRef<HTMLDivElement>(null);
 
+    // scrolling
     useEffect(() => {
         if (isFetching) return;
         if (isRefillTable) {
@@ -51,8 +79,8 @@ const NewTable = () => {
     }, [products, isFetching, isRefillTable]);
 
     const columns = useMemo(
-        () => ProductsColumns(),
-        []);
+        () => ProductsColumns({editRowIndex, setEditRowIndex}),
+        [editRowIndex]);
 
     const totalRow = data.totalElements;
     const totalFetched = fetchedTable.length;
@@ -77,7 +105,20 @@ const NewTable = () => {
         getCoreRowModel: getCoreRowModel(),
         debugTable: true,
         columnResizeMode: "onChange",
-        enableColumnResizing: true
+        enableColumnResizing: true,
+        meta: {
+            updateData: (rowIndex, columnId, value) => {
+                setFetchedTable(prevState =>
+                    prevState.map((row, index) => {
+                        if (index === rowIndex) {
+                            const columnName = columnId as keyof ProductProperties;
+                            (row as any)[columnName] = value;
+                        }
+                        return row;
+                    })
+                )
+            },
+        },
     })
 
     const {rows} = table.getRowModel();
@@ -96,8 +137,8 @@ const NewTable = () => {
 
     const getTailwindClassById = (id: string) => {
         switch (id) {
-            case "name": return "flex items-center px-6 py-4 whitespace-nowrap font-medium text-gray-900";
-            default: return "flex items-center px-6 py-4 whitespace-nowrap text-sm text-gray-500";
+            case "name": return "flex items-center px-2 py-2 whitespace-nowrap font-medium text-gray-900";
+            default: return "flex items-center px-2 py-2 whitespace-nowrap text-sm text-gray-500";
         }
     }
 

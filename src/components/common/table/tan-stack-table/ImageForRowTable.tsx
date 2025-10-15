@@ -5,20 +5,19 @@ import {useInputProduct} from "../../../pages/forAdministrator/products/hooks/us
 import type Product from "../../../../features/classes/Product.ts";
 
 interface PropsImage {
-    product: Product
+    product: Product,
+    isEditMode: boolean
 }
 
-const ImageForRowTable = ({product} : PropsImage) => {
+const ImageForRowTable = ({product, isEditMode} : PropsImage) => {
 
-    const [isEditing, setIsEditing] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
-    const [idEditProduct, setIdEditProduct] = useState("");
     const inputFileRef = useRef<HTMLInputElement>(null);
 
     const {handleSelectFile} = useInputProduct(product.getProductData());
 
     const handlerClickImage = () => {
-        if (idEditProduct === product.id) {
+        if (isEditMode) {
             inputFileRef.current!.click();
         } else {
             setIsOpen(true);
@@ -28,7 +27,7 @@ const ImageForRowTable = ({product} : PropsImage) => {
     return (
         <>
             <div
-                className={`w-16 h-16 rounded-full overflow-hidden mx-auto ${isEditing ? 'cursor-pointer' : 'cursor-zoom-in'}`}>
+                className={`w-16 h-16 rounded-full overflow-hidden mx-auto ${isEditMode ? 'cursor-pointer' : 'cursor-zoom-in'}`}>
                 <img
                     src={product.imageUrl || EMPTY_PHOTO}
                     alt={product.name}

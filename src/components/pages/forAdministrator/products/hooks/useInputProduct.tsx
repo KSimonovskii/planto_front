@@ -7,7 +7,7 @@ import {useAppSelector} from "../../../../../app/hooks.ts";
 const emptyData = {
     name: "",
     category: "",
-    qty: 0,
+    quantity: 0,
     price: 0,
     description: "",
     imageUrl: "",
@@ -24,7 +24,7 @@ export const useInputProduct = (initialData: ProductData | null) => {
     const [initialProductData] = useState(initialData);
     const [productData, setProductData] = useState(initialData);
     const [addProduct] = useAddProductMutation();
-    const NUM_FIELDS = ["qty", "price"];
+    const NUM_FIELDS = ["quantity", "price"];
     const {imageFile} = productData;
 
     useEffect(() => {
@@ -67,16 +67,16 @@ export const useInputProduct = (initialData: ProductData | null) => {
     const handleAddProduct = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const {name, category, qty, price, imageFile, description} = productData;
+        const {name, category, quantity, price, imageFile, description} = productData;
 
         const imageUrl = imageFile? await uploadFile(imageFile, name.trim(), accessToken) : "";
 
         const raw = {
             name: name.trim(),
             category: category.trim(),
-            quantity: qty,
-            price: price,
-            imageUrl: imageUrl,
+            quantity,
+            price,
+            imageUrl,
             description: description.trim()
         };
 
