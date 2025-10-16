@@ -21,6 +21,8 @@ import UsersManager from "./pages/users/UsersManager.tsx";
 import {OrdersProvider} from "./pages/orders/OrderProvider.tsx";
 import Store from "./pages/store/Store.tsx";
 import OurRoots from "./pages/home/aboutUs/OurRoots.tsx";
+import {October7} from "./pages/home/aboutUs/October7.tsx";
+import {Rebuilding} from "./pages/home/aboutUs/Rebuilding.tsx";
 
 const Workspace = () => {
 
@@ -35,6 +37,8 @@ const Workspace = () => {
                     <Route path="/main" element={<Home2/>}/>
                     <Route path="/main/*" element={<Home2/>}/>
                     <Route path="/our-roots" element={<OurRoots/>} />
+                    <Route path="/october-7" element={<October7/>} />
+                    <Route path="/rebuilding-now" element={<Rebuilding/>} />
                     <Route path={navItems[1].path} element={<AboutUs/>}/>
                     <Route path={navItems[2].path} element={<ShoppingCart/>}/>
 

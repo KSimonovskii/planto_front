@@ -11,9 +11,8 @@ const PanelAbout = () => {
                 if (title === "Our Roots") {
                         navigate("/our-roots");
                 }
-
-                // else if (title === "October 7") navigate("/october-7");
-                // else if (title === "Rebuilding Now") navigate("/rebuilding-now");
+                else if (title === "October 7") navigate("/october-7");
+                else if (title === "Rebuilding Now") navigate("/rebuilding-now");
         };
 
     return (
@@ -26,10 +25,12 @@ const PanelAbout = () => {
             <PanelColumn
                 title="October 7"
                 img={imageAbout2}
+                onClick={() => handleClick("October 7")}
             />
             <PanelColumn
                 title="Rebuilding Now"
                 img={imageAbout3}
+                onClick={() => handleClick("Rebuilding Now")}
             />
         </div>
     )
