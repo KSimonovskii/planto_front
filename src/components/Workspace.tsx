@@ -21,8 +21,9 @@ import UsersManager from "./pages/users/UsersManager.tsx";
 import {OrdersProvider} from "./pages/orders/OrderProvider.tsx";
 import Store from "./pages/store/Store.tsx";
 import OurRoots from "./pages/home/aboutUs/OurRoots.tsx";
-import {October7} from "./pages/home/aboutUs/October7.tsx";
+
 import {Rebuilding} from "./pages/home/aboutUs/Rebuilding.tsx";
+import October7 from "./pages/home/aboutUs/October7.tsx";
 
 const Workspace = () => {
 
