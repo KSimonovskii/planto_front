@@ -24,7 +24,7 @@ const Store = () => {
     const {addToCart, addToLocalCart, isInCart, isInLocalCart} = useCartActions(); // Добавляем isInLocalCart
     const {refreshCart} = useCartContext();
     const {isAuthenticated} = useCurrentUser();
-    const [errorMsg, setError] = useState<string | null>(null);
+    // const [errorMsg, setError] = useState<string | null>(null);
     const [isAuthModalVisible, setAuthModalVisible] = useState(false);
     const [allProducts, setAllProducts] = useState<Product[]>([]);
     const observerRef = useRef<HTMLDivElement | null>(null);
@@ -87,7 +87,7 @@ const Store = () => {
                 await addToCart(productId);
                 await refreshCart();
             } catch (err: unknown) {
-                if (err instanceof Error) setError(err.message);
+                if (err instanceof Error) console.log(err.message); //setError
             }
         },
         [isAuthenticated, addToCart, refreshCart, addToLocalCart]
@@ -109,7 +109,9 @@ const Store = () => {
                         <img src={spinner} alt="loading..." className="spinner-icon"/>
                     </div>) :
                     isError ? (
-                        <p className="text-center text-red-500 mt-20">{errorMsg}</p>) :
+                            <p className="text-center text-red-500 mt-4">
+                                {(typeof error === `object`) && 'status' in error ? `Error: ${error.status} - ${error.data}` : "Unknown error"}
+                            </p>) :
                     allProducts.length > 0 ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
                             {allProducts.map((product: Product) => (
@@ -129,11 +131,6 @@ const Store = () => {
                     <div className="flex justify-center items-center mt-4">
                         <img src={spinner} alt="loading..." className="spinner-icon"/>
                     </div>
-                )}
-                {isError && (
-                    <p className="text-center text-red-500 mt-4">
-                        {(typeof error === `object`) && 'status' in error ? `Error: ${error.status} - ${error.data}` : "Unknown error"}
-                    </p>
                 )}
                 <AuthPromptModal isOpen={isAuthModalVisible} onClose={closeAuthModal}/>
                 {currentImageProduct && (

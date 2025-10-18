@@ -18,12 +18,12 @@ const Filters = () => {
         {
             title: "In stock",
             count: data.inStock,
-            handleClick: () => (dispatch(setFilterInStock()))
+            handleClick: (value: boolean) => (dispatch(setFilterInStock({value})))
         },
         {
             title: "Out of stock",
             count: data.outStock,
-            handleClick: () => (dispatch(setFilterOutStock()))
+            handleClick: (value: boolean) => (dispatch(setFilterOutStock({value})))
         }
     ]
 
