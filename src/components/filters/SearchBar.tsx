@@ -1,6 +1,8 @@
 import {useContext, useState} from "react";
 import {FILTER_NAME} from "../../utils/constants.ts";
 import {PageProductContext} from "../../utils/context.ts";
+import {useDispatch} from "react-redux";
+import {getToInitialTableStates} from "../../features/slices/tableStatesSlice.ts";
 
 export const SearchBar = () => {
 
@@ -8,6 +10,8 @@ export const SearchBar = () => {
 
     const [strSearch, setSearch] = useState("");
     const [filterName, setFilterName] = useState(FILTER_NAME);
+
+    const dispatch = useDispatch();
 
     const handleChangeSearch = (inputString: string) => {
         setSearch(inputString);
@@ -40,7 +44,7 @@ export const SearchBar = () => {
 
         setFilterName(filterSearch);
         setPage((prevState) => ({...prevState, filters: newFilters}));
-
+        dispatch(getToInitialTableStates({tableName: "products"}));
     }
 
     return (
@@ -48,7 +52,7 @@ export const SearchBar = () => {
             <input
                 type="search"
                 name="searchField"
-                className="flex-1 w-full px-4 py-2 rounded-lg border border-gray-300 shadow-sm focus:border-lime-500 focus:ring focus:ring-lime-200 focus:ring-opacity-50 transition"
+                className="inputFieldTable border-gray-300 hover:bg-white rounded-lg focus:border-lime-500"
                 placeholder="Find product by name..."
                 value={strSearch}
                 onChange={(e) => handleChangeSearch(e.target.value)}

@@ -16,7 +16,6 @@ import {useGetProductsTableRTKQuery} from "../../../features/api/productApi.ts";
 import {getBodyForQueryGetTable} from "../../../features/api/apiUtils.ts";
 import {dataTypes} from "../../../utils/enums/dataTypes.ts";
 import {useProductsQuantity} from "../../../features/hooks/useProductsSimple.ts";
-import NewTable from "../../common/table/tan-stack-table/NewTable.tsx";
 
 const AdminDashboard = () => {
     const {user, loadingUser, errorUser} = useCurrentUser();
@@ -144,13 +143,6 @@ const AdminDashboard = () => {
                     >
                         Clients
                     </button>
-                    <button
-                        onClick={() => setActiveSection("newTable")}
-                        className={`w-full px-4 py-2 bg-lime-600 hover:bg-lime-800 rounded-lg text-white font-medium text-base text-center transition ${
-                                    activeSection === "newTable" ? "ring-2 ring-lime-400" : ""}`}>
-                        New product table
-                    </button>
-
 
                     <button
                         onClick={handleLogout}
@@ -189,12 +181,6 @@ const AdminDashboard = () => {
                     <>
                         <h1 className="text-3xl font-bold mb-6 text-gray-800">Clients Management</h1>
                         <UsersManager/>
-                    </>
-                )}
-                {activeSection === "newTable" && (
-                    <>
-                        <h1 className="text-3xl font-bold mb-6 text-gray-800">Test new product table</h1>
-                        <NewTable/>
                     </>
                 )}
             </main>

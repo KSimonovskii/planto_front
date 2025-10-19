@@ -103,9 +103,9 @@ export default class Filter {
             type: this._type,
             typeValue: this._typeValue,
             isChanged: this.isChanged,
-            value: this.value,
-            valueFrom: this.valueFrom,
-            valueTo: this.valueTo,
+            value: this.field === "price" ? this.value?.toString() : this.value,
+            valueFrom: this.field === "price" ? this.valueFrom?.toString() : this.valueFrom,
+            valueTo: this.field === "price" ? this.valueTo?.toString() : this.valueTo,
             valueList: this.valueList
         }
     }

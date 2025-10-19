@@ -3,13 +3,28 @@ import Product from "../../../../features/classes/Product.ts";
 import ImageForRowTable from "./ImageForRowTable.tsx";
 import {SquareCheckBig, SquarePen, SquareX, Trash2} from "lucide-react";
 import InputTableField from "./InputTableField.tsx";
+import type {ProductDataForTable} from "../../../../utils/types";
+import {type RefObject} from "react";
 
 interface PropsEditRow {
     editRowIndex: number,
-    setEditRowIndex: (index: number) => void
+    accessToken: string,
+    refFocusField: RefObject<HTMLInputElement | null>
+    setEditRowIndex: (index: number) => void,
+    updateProduct: (raw: ProductDataForTable) => void,
+    handleCancelDataChanges: (idProduct: string) => void,
+    handleRemoveProduct: (idProduct: string) => void
 }
 
-const ProductsColumns = ({editRowIndex, setEditRowIndex}: PropsEditRow) => {
+const ProductsColumns = ({
+                             editRowIndex,
+                             accessToken,
+                             refFocusField,
+                             setEditRowIndex,
+                             updateProduct,
+                             handleCancelDataChanges,
+                             handleRemoveProduct
+                         }: PropsEditRow) => {
 
     const columnHelper = createColumnHelper<Product>();
 
@@ -46,9 +61,7 @@ const ProductsColumns = ({editRowIndex, setEditRowIndex}: PropsEditRow) => {
             imageUrl: newImageUrl,
             description: description
         };
-        // updateProduct(raw);
-        console.log(raw);
-
+        updateProduct(raw);
         setEditRowIndex(-1);
     }
 
@@ -69,7 +82,8 @@ const ProductsColumns = ({editRowIndex, setEditRowIndex}: PropsEditRow) => {
                     id={props.column.id}
                     field={{...fieldString, disabled: props.row.index != editRowIndex}}
                     row = {props.row}
-                    table = {props.table}/>,
+                    table = {props.table}
+                    refFocusField = {props.row.index === editRowIndex? refFocusField: undefined}/>,
             size: 200
         }),
         columnHelper.accessor("quantity", {
@@ -101,7 +115,7 @@ const ProductsColumns = ({editRowIndex, setEditRowIndex}: PropsEditRow) => {
                 cell: (props) =>
                     <InputTableField
                         id={props.column.id}
-                        field={{...fieldFlNumber, disabled: props.row.index != editRowIndex}}
+                        field={{...fieldString, disabled: props.row.index != editRowIndex}}
                         row = {props.row}
                         table = {props.table}/>,
                 size: 677
@@ -116,7 +130,7 @@ const ProductsColumns = ({editRowIndex, setEditRowIndex}: PropsEditRow) => {
                         className={`w-5 h-5 text-gray-500 hover:text-lime-600 transition cursor-pointer ${props.row.index === editRowIndex ? 'hidden' : `visible`}`}
                     />
                     <Trash2
-                        // onClick={() => handleRemoveProduct(product.id)}
+                        onClick={() => handleRemoveProduct(props.row.original.id)}
                         className={`w-5 h-5 text-gray-500 hover:text-red-600 transition cursor-pointer ${props.row.index === editRowIndex ? 'hidden' : `visible`}`}
                     />
                     <SquareCheckBig
@@ -124,7 +138,7 @@ const ProductsColumns = ({editRowIndex, setEditRowIndex}: PropsEditRow) => {
                         className={`w-5 h-5 text-green-500 hover:text-green-600 transition cursor-pointer ${props.row.index != editRowIndex ? 'hidden' : `visible`}`}
                     />
                     <SquareX
-                        //onClick={cancelChanges}
+                        onClick={() => handleCancelDataChanges(props.row.original.id)}
                         className={`w-5 h-5 text-red-500 hover:text-red-600 transition cursor-pointer ${props.row.index != editRowIndex ? 'hidden' : `visible`}`}
                     />
                 </div>),

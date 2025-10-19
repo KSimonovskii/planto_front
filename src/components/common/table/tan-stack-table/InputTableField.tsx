@@ -2,6 +2,7 @@ import {useInputProduct} from "../../../pages/forAdministrator/products/hooks/us
 import type Product from "../../../../features/classes/Product.ts";
 import {Input} from "@headlessui/react"
 import type {Row, Table} from "@tanstack/react-table";
+import type {RefObject} from "react";
 
 type ProductProperties = {
     name: string,
@@ -23,10 +24,11 @@ interface PropsTableInput {
     id: string,
     field: FieldProperties,
     row: Row<Product>,
-    table: Table<Product>
+    table: Table<Product>,
+    refFocusField?: RefObject<HTMLInputElement | null>
 }
 
-const InputTableField = ({id, field, row, table}: PropsTableInput) => {
+const InputTableField = ({id, field, row, table, refFocusField}: PropsTableInput) => {
 
     const {type, disabled, step, minValue, maxValue} = field;
     const product = row.original;
@@ -54,6 +56,7 @@ const InputTableField = ({id, field, row, table}: PropsTableInput) => {
                 <Input
                     disabled={disabled}
                     className={"inputFieldTable w-full"}
+                    ref={refFocusField}
                     value={productData[id as keyof ProductProperties]}
                     type={type}
                     step={step}

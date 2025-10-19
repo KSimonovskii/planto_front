@@ -61,7 +61,7 @@ interface AuthContextType {
 
 //Products
 export interface ProductData {
-    id?: string,
+    id: string,
     name: string,
     category: string,
     quantity: number,
@@ -72,6 +72,7 @@ export interface ProductData {
 }
 
 export interface ProductDataForTable {
+    id?: string,
     imageUrl: string,
     name: string,
     category: string,

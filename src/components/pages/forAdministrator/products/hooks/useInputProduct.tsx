@@ -5,6 +5,7 @@ import type {ProductData} from "../../../../../utils/types";
 import {useAppSelector} from "../../../../../app/hooks.ts";
 
 const emptyData = {
+    id: Math.random().toString(12),
     name: "",
     category: "",
     quantity: 0,
@@ -21,11 +22,11 @@ export const useInputProduct = (initialData: ProductData | null) => {
     }
 
     const { accessToken } = useAppSelector(state => state.userAuthSlice);
-    const [initialProductData] = useState(initialData);
     const [productData, setProductData] = useState(initialData);
     const [addProduct] = useAddProductMutation();
     const NUM_FIELDS = ["quantity", "price"];
     const {imageFile} = productData;
+    const productId = initialData.id;
 
     useEffect(() => {
 
@@ -39,6 +40,11 @@ export const useInputProduct = (initialData: ProductData | null) => {
             }
         }
     }, [imageFile])
+
+    useEffect(() => {
+        const cloneData = {...initialData};
+        setProductData(cloneData)
+    }, [productId])
 
     const handleInputProductData = (id: string, value : string | number) => {
 
@@ -92,16 +98,11 @@ export const useInputProduct = (initialData: ProductData | null) => {
         }
     }
 
-    const handleCancelDataChanges = () => {
-        setProductData(initialProductData);
-    }
-
     return {
         productData,
         handleInputProductData,
         handleInputCategory,
         handleSelectFile,
-        handleAddProduct,
-        handleCancelDataChanges
+        handleAddProduct
     }
 }
