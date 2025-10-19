@@ -24,6 +24,7 @@ import OurRoots from "./pages/home/aboutUs/OurRoots.tsx";
 
 import {Rebuilding} from "./pages/home/aboutUs/Rebuilding.tsx";
 import October7 from "./pages/home/aboutUs/October7.tsx";
+import ProductPage from "./pages/store/ProductPage.tsx";
 
 const Workspace = () => {
 
@@ -53,6 +54,7 @@ const Workspace = () => {
                     />
 
                     <Route path={`${navItems[4].path}/*`} element={<Store/>}/>
+                    <Route path={"/product/:id"} element={<ProductPage/>}/>
                     <Route path="auth/login" element={<PersonalAccount/>}/>
                     <Route path="account/register" element={<AccountRegister/>}/>
 

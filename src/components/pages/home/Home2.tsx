@@ -7,7 +7,7 @@ import WhatOurCustomersSay from "./WhatOurCustomersSay.tsx";
 const Home2 = () => {
 
     return (
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col w-full font-['Rubik']">
             <Hero/>
             <CorporateFavorites/>
             <WhoWeAre/>
