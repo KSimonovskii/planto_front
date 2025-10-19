@@ -40,7 +40,7 @@ const ProductCard = ({product, isInCart, onAddToCart, onOpen}: ProductCardProps)
                 onClick={() => onAddToCart(product.id)}
                 className={`self-stretch px-6 py-3 rounded-lg outline outline-1 outline-offset-[-1px] outline-lime-800 inline-flex justify-center items-center gap-2 overflow-hidden text-base font-medium font-['Rubik'] leading-normal transition
                     ${isInCart
-                    ? "bg-lime-600 text-white cursor-default"
+                    ? "bg-lime-800 text-white cursor-default"
                     : "bg-white text-lime-800 hover:bg-lime-800 hover:text-white"
                 }`}
                 disabled={isInCart}

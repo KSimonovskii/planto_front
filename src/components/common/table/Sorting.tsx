@@ -2,8 +2,8 @@ import {DEFAULT_SORT, KINDS_OF_SORTING} from "../../../utils/constants.ts";
 import {useContext} from "react";
 import {PageProductContext} from "../../../utils/context.ts";
 import type {dataTypes} from "../../../utils/enums/dataTypes.ts";
-import {useDispatch} from "react-redux";
 import {getToInitialTableStates} from "../../../features/slices/tableStatesSlice.ts";
+import {useDispatch} from "react-redux";
 
 interface SortingProps {
     dataType: dataTypes,

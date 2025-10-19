@@ -15,6 +15,7 @@ import {useGetProductsTableRTKQuery} from "../../../features/api/productApi.ts";
 import {getBodyForQueryGetTable} from "../../../features/api/apiUtils.ts";
 import {dataTypes} from "../../../utils/enums/dataTypes.ts";
 import ProductCard from "../products/ProductCard.tsx";
+import {useNavigate} from "react-router-dom";
 
 
 const SliderMainPage = () => {
@@ -28,7 +29,7 @@ const SliderMainPage = () => {
     const body = useMemo(() => (
         getBodyForQueryGetTable(dataTypes.products, pageNumber, sort, filters)
     ), [pageNumber, sort, filters]);
-
+    const navigate = useNavigate();
     const {data = {products: [], pages: 0}, isLoading, isError, error} = useGetProductsTableRTKQuery(body);
     const products = useMemo(() => {
             return data.products.map((p: Product) => new Product(p.id, p.name, p.category, p.quantity, p.price, p.imageUrl, p.description));
@@ -93,6 +94,7 @@ const SliderMainPage = () => {
                                         product={product}
                                         onAddToCart={handleAddToCart}
                                         isInCart={isInCart(product.id) || isInLocalCart(product.id)}
+                                        onOpen ={()=> navigate(`/product/${product.id}`)}
                                     />
                                 </SwiperSlide>
                             ))}

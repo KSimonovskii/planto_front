@@ -1,15 +1,20 @@
-import React, { useCallback, useState } from "react";
-import { useGetProductByIdQuery } from "../../../features/api/productApi";
-import { useParams, useNavigate } from "react-router-dom";
-import spinner from "../../../assets/spinner2.png";
+import React, {useCallback, useEffect, useState} from "react";
+import {useGetProductByIdQuery} from "../../../features/api/productApi";
+import {useParams, useNavigate} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
-import { useCartActions } from "../../../features/hooks/useCartAction";
-import { useCartContext } from "../../../features/context/CartContext";
-import { useCurrentUser } from "../../../features/hooks/useCurrentUser";
+import spinner from "../../../assets/spinner2.png";
+import {useCartActions} from "../../../features/hooks/useCartAction";
+import {useCartContext} from "../../../features/context/CartContext";
+import {useCurrentUser} from "../../../features/hooks/useCurrentUser";
+import BrandedPots from "./BrandedPots.tsx";
+import CustomerReviews from "./CustomerReviews.tsx";
+import SliderMainPage from "../home/SliderMainPage.tsx";
 
 const ProductPage: React.FC = () => {
-    const { id } = useParams<{ id?: string }>();
+    const {id} = useParams<{ id?: string }>();
     const navigate = useNavigate();
+    const {t} = useTranslation();
 
     const {
         data: product,
@@ -17,23 +22,27 @@ const ProductPage: React.FC = () => {
         isError,
     } = useGetProductByIdQuery(id ?? "");
 
-    const { addToCart, addToLocalCart, isInCart, isInLocalCart } = useCartActions();
-    const { refreshCart } = useCartContext();
-    const { isAuthenticated } = useCurrentUser();
+    const {addToCart, addToLocalCart, isInCart, isInLocalCart, getCart} = useCartActions();
+    const {refreshCart} = useCartContext();
+    const {isAuthenticated} = useCurrentUser();
 
-    // const [quantity, setQuantity] = useState<number>(1);
-    const [btnLoading, setBtnLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
     const productId = product?.id ?? "";
+    const alreadyInCart = productId
+        ? isInCart(productId) || isInLocalCart(productId)
+        : false;
 
-    const alreadyInCart = productId ? (isInCart(productId) || isInLocalCart(productId)) : false;
+    useEffect(() => {
+        if (isAuthenticated) {
+            getCart();
+        }
+    }, [isAuthenticated, getCart]);
 
     const handleAddToCart = useCallback(
         async (productIdToAdd: string) => {
             setErrorMsg(null);
             if (!productIdToAdd) return;
-            setBtnLoading(true);
 
             if (!isAuthenticated) {
                 try {
@@ -41,8 +50,6 @@ const ProductPage: React.FC = () => {
                     await refreshCart();
                 } catch (err: unknown) {
                     if (err instanceof Error) setErrorMsg(err.message);
-                } finally {
-                    setBtnLoading(false);
                 }
                 return;
             }
@@ -52,8 +59,6 @@ const ProductPage: React.FC = () => {
                 await refreshCart();
             } catch (err: unknown) {
                 if (err instanceof Error) setErrorMsg(err.message);
-            } finally {
-                setBtnLoading(false);
             }
         },
         [isAuthenticated, addToCart, addToLocalCart, refreshCart]
@@ -62,7 +67,7 @@ const ProductPage: React.FC = () => {
     if (isLoading) {
         return (
             <div className="flex items-center justify-center h-64">
-                <img src={spinner} alt="loading..." className="w-12" />
+                <img src={spinner} alt="loading..." className="w-12"/>
             </div>
         );
     }
@@ -96,7 +101,7 @@ const ProductPage: React.FC = () => {
     }
 
     return (
-        <div className="max-w-6xl mx-auto p-6 font-['Rubik']">
+        <div className="w-full mx-auto p-6 font-['Rubik']">
             <button
                 className="mb-4 text-sm text-lime-800 hover:underline"
                 onClick={() => navigate(-1)}
@@ -104,21 +109,26 @@ const ProductPage: React.FC = () => {
                 ← Back
             </button>
 
-            <div className="flex flex-col lg:flex-row gap-8">
-                <div className="w-full lg:w-1/2 flex justify-center items-start">
+            <div className="flex flex-col lg:flex-row gap-8 w-full">
+
+                <div className="w-full flex justify-center items-start">
                     <img
                         src={product.imageUrl}
                         alt={product.name}
-                        className="w-full max-w-[540px] object-cover rounded-lg shadow-md"
+                        className="w-full object-cover rounded-lg shadow-md"
                     />
                 </div>
 
-                <div className="w-full lg:w-1/2">
+                <div className="w-full flex flex-col gap-4">
                     <h1 className="text-3xl font-bold text-lime-800">{product.name}</h1>
 
-                    <div className="mt-3 flex items-center gap-4">
-                        <div className="text-2xl font-bold text-lime-800">₪{product.price}</div>
-                        <div className="text-sm text-red-500 bg-red-100 px-3 py-1 rounded-full">-40%</div>
+                    <div className="flex items-center gap-4 flex-wrap">
+                        <div className="text-2xl font-bold text-lime-800">
+                            ₪{product.price.toFixed(2)}
+                        </div>
+                        <div className="text-sm text-red-500 bg-red-100 px-3 py-1 rounded-full">
+                            -40%
+                        </div>
                     </div>
 
                     <p className="mt-6 text-base text-lime-800">{product.description}</p>
@@ -128,50 +138,51 @@ const ProductPage: React.FC = () => {
                         <ul className="mt-3 list-disc list-inside text-lime-800 space-y-2">
                             <li>Minimal care — loves sun, needs little water</li>
                             <li>Symbol of resilience — thrives like our community</li>
-                            <li>Purposeful purchase — helps rebuild a kibbutz affected by October 7</li>
+                            <li>
+                                Purposeful purchase — helps rebuild a kibbutz affected by October 7
+                            </li>
                         </ul>
                     </div>
 
                     <div className="mt-6 flex items-center gap-4">
-                        {/*<div className="flex items-center gap-2">*/}
-                        {/*    <button*/}
-                        {/*        onClick={() => setQuantity((q) => Math.max(1, q - 1))}*/}
-                        {/*        className="px-3 py-1 bg-zinc-100 rounded disabled:opacity-50"*/}
-                        {/*        aria-label="decrease"*/}
-                        {/*    >*/}
-                        {/*        -*/}
-                        {/*    </button>*/}
-                        {/*    <div className="px-4">{quantity}</div>*/}
-                        {/*    <button*/}
-                        {/*        onClick={() => setQuantity((q) => q + 1)}*/}
-                        {/*        className="px-3 py-1 bg-zinc-100 rounded"*/}
-                        {/*        aria-label="increase"*/}
-                        {/*    >*/}
-                        {/*        +*/}
-                        {/*    </button>*/}
-                        {/*</div>*/}
-
-                        <div className="ml-auto flex gap-3 w-full lg:w-auto">
+                        <div className="flex justify-start w-full lg:w-auto">
                             <button
                                 onClick={() => handleAddToCart(product.id)}
-                                disabled={alreadyInCart || btnLoading}
-                                className={`px-6 py-3 rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden text-base font-medium transition
-                  ${alreadyInCart ? "bg-lime-600 text-white cursor-default" : "bg-white text-lime-800 hover:bg-lime-800 hover:text-white"}
-                `}
+                                disabled={alreadyInCart}
+                                className={`w-full lg:w-72 px-6 py-3 rounded-lg outline outline-1 outline-lime-800 inline-flex justify-center items-center gap-2 overflow-hidden text-base font-medium font-['Rubik'] leading-normal transition
+        ${
+                                    alreadyInCart
+                                        ? "bg-lime-800 text-white cursor-default"
+                                        : "bg-white text-lime-800 hover:bg-lime-800 hover:text-white"
+                                }`}
                             >
-                                {btnLoading ? (
-                                    <img src={spinner} alt="loading" className="w-5 h-5" />
-                                ) : alreadyInCart ? (
-                                    "In cart"
-                                ) : (
-                                    "Add to Cart"
-                                )}
+                                {alreadyInCart ? t("cart.addedToCart") : t("cart.addToCart")}
                             </button>
                         </div>
+
                     </div>
 
-                    {errorMsg && <p className="text-sm text-red-500 mt-3">{errorMsg}</p>}
+
+                    {errorMsg && (
+                        <p className="text-sm text-red-500 mt-3">{errorMsg}</p>
+                    )}
                 </div>
+
+            </div>
+            <div className="w-full my-8">
+                <BrandedPots/>
+            </div>
+
+            <div className="w-full my-8">
+                <CustomerReviews/>
+            </div>
+
+            <div className="w-full my-12 text-lime-800 text-6xl font-bold leading-[56px]">
+                You Might Also Like
+            </div>
+
+            <div className="w-full my-8">
+                <SliderMainPage/>
             </div>
         </div>
     );
