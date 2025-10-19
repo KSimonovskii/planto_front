@@ -21,4 +21,5 @@ const Star: React.FC<StarProps> = ({ type, className }) => {
     }
 };
 
+
 export default Star;
