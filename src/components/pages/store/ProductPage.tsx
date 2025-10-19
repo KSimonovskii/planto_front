@@ -66,8 +66,8 @@ const ProductPage: React.FC = () => {
 
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center h-64">
-                <img src={spinner} alt="loading..." className="w-12"/>
+            <div className="flex justify-center items-center w-full h-64">
+                <img src={spinner} alt="loading..." className="spinner-icon"/>
             </div>
         );
     }
