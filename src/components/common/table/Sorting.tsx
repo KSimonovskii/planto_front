@@ -6,10 +6,11 @@ import {getToInitialTableStates} from "../../../features/slices/tableStatesSlice
 import {useDispatch} from "react-redux";
 
 interface SortingProps {
-    dataType: dataTypes;
+    dataType: dataTypes,
+    tableName: string
 }
 
-const Sorting = ({dataType} : SortingProps) => {
+const Sorting = ({dataType, tableName} : SortingProps) => {
 
     const {setPage} = useContext(PageProductContext);
     const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const Sorting = ({dataType} : SortingProps) => {
             return;
         }
 
-        dispatch(getToInitialTableStates({tableName: "store"}));
+        dispatch(getToInitialTableStates({tableName}));
         setPage((prevState) => ({...prevState, sort: currSort}));
     }
 

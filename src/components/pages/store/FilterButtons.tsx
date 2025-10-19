@@ -89,7 +89,7 @@ const FilterButtons = () => {
         close();
     }
 
-    const handlerResetFilters = () => {
+    function handlerResetFilters() {
 
         const fields = ["category", "price", "quantity"];
         const newFilter = filters.slice();

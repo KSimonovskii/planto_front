@@ -35,13 +35,6 @@ export const getBodyForQueryGetTable = (typeData: dataTypes, page: number, sort?
         criteria: criteria
     }
 
-    // return JSON.stringify({
-    //     page: page - 1,
-    //     size: SIZE_PAGE,
-    //     field: sort.field,
-    //     direction: sort.direction,
-    //     criteria: criteria
-    // })
 }
 
 export const getSortByDefault = (typeData : dataTypes) : Sort => {

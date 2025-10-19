@@ -28,7 +28,7 @@ const RowProductsTable = ({product, isOdd}: PropsProduct) => {
         handleCancelDataChanges
     } = useInputProduct(product.getProductData())
 
-    const {name, category, qty, price, description, imageUrl, imageFile} = productData;
+    const {name, category, quantity, price, description, imageUrl, imageFile} = productData;
 
     const [idEditProduct, setIdEditProduct] = useState("");
     const inputFileRef = useRef<HTMLInputElement>(null);
@@ -56,7 +56,7 @@ const RowProductsTable = ({product, isOdd}: PropsProduct) => {
             id: id,
             name: name,
             category: category,
-            quantity: qty,
+            quantity: quantity,
             price: price,
             imageUrl: newImageUrl,
             description: description
@@ -95,7 +95,7 @@ const RowProductsTable = ({product, isOdd}: PropsProduct) => {
         className={"inputFieldTable w-34"}
         type={"number"}
         min={0}
-        value={qty}
+        value={quantity}
         onChange={handleChangeDataProduct}/>
     const fieldPrice = <input
         id={`price_${product.id}`}
@@ -144,7 +144,7 @@ const RowProductsTable = ({product, isOdd}: PropsProduct) => {
             </td>
 
             <td className={cellClass}>
-                {isEditing ? fieldQty : qty}
+                {isEditing ? fieldQty : quantity}
             </td>
             <td className={cellClass}>
                 {isEditing ? fieldPrice : price}

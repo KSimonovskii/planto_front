@@ -7,6 +7,7 @@ import {getToInitialState} from "../../features/slices/priceRangeSlice.ts";
 import Filter from "../../features/classes/Filter.ts";
 import {filterTypes} from "../../utils/enums/filterTypes.ts";
 import {useGetDataForFiltersQuery} from "../../features/api/productApi.ts";
+import {getToInitialTableStates} from "../../features/slices/tableStatesSlice.ts";
 
 export const FiltersAdmin = () => {
 
@@ -51,10 +52,12 @@ export const FiltersAdmin = () => {
                 newFilters.splice(index, 1);
             }
         })
+        dispatch(getToInitialTableStates({tableName: "products"}));
         setPage((prevState) => ({...prevState, filters: newFilters}))
+
     }
 
-    const handlerResetFilters = () => {
+    function handlerResetFilters() {
 
         const fields = ["category", "price"];
         const newFilter = filters.slice();
@@ -67,6 +70,7 @@ export const FiltersAdmin = () => {
         }
 
         setFilterCategory(FILTER_CATEGORY.getCopy({...FILTER_CATEGORY}));
+        dispatch(getToInitialTableStates({tableName: "products"}));
         dispatch(getToInitialState());
         setPage((prevState) => ({...prevState, filters: newFilter}))
     }

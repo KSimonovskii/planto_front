@@ -1,8 +1,77 @@
 @import "tailwindcss";
-@tailwind base;
+@import "rc-slider/assets/index.css";
 
-@tailwind components;
-@tailwind utilities;
+@theme {
+    --color-base-bg: #f5eade;
+    --color-base-text: #57805b;
+    --color-alt-text: #cd663d;
+    --color-light-green: #9dbfab;
+    --color-light-orange: #eec3a9;
+    --color-base-form: #405443
+}
+
+.rc-slider-handle:hover {
+    @apply border-alt-text
+}
+
+
+
+@layer base{
+    html, body{
+        height: 100%;
+    }
+    #root{
+        height: 100%;
+    }
+    table{
+        margin-bottom: 1em;
+        margin-top: 1em;
+        width: 100em;
+        text-align: left;
+    }
+    #productQuantity input::-webkit-outer-spin-button,
+    #productQuantity input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    #productQuantity input {
+        -moz-appearance: textfield
+    }
+
+}
+
+@layer components {
+    .inputField {
+        flex: auto;
+        align-items: center;
+        padding-inline: 24px;
+        padding-block: 16px;
+        white-space: nowrap;
+    }
+    .inputField:focus {
+        border-color: var(--color-gray-200);
+        outline: none;
+    }
+    .inputFieldTable {
+        flex: auto;
+        align-items: center;
+        padding-inline: 12px;
+        padding-block: 8px;
+        white-space: nowrap;
+        border-width: 1px;
+        border-radius: 3px;
+        color: var(--color-gray-500);
+        border-color: var(--color-gray-200);
+    }
+    .inputFieldTable:focus {
+        border-color: var(--color-gray-700);
+        color: var(--color-gray-700);
+        outline: none;
+    }
+    .inputFieldTable:hover{
+        background-color: var(--color-gray-200);
+    }
+}
 
 .custom-pagination .swiper-pagination-bullet {
     background-color: #9acfaf;
@@ -18,3 +87,11 @@
     height: 430px;
     animation: spin 1.5s linear infinite;
 }
+
+.spinner-icon {
+    width: 650px;
+    height: 430px;
+    animation: spin 1.5s linear infinite;
+}
+
+@tailwind utilities;

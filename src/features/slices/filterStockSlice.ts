@@ -1,4 +1,4 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, type PayloadAction} from "@reduxjs/toolkit";
 
 interface FilterStockSlice {
     type: number,
@@ -14,27 +14,44 @@ const initialState : FilterStockSlice  = {
     valueTo: null
 }
 
+interface FilterStockAction {
+    value: boolean;
+}
+
+function applyInitialState(state: FilterStockSlice)  {
+    state.type = -1;
+    state.value = null;
+    state.valueFrom = null;
+    state.valueTo = null;
+}
+
 const filterStockSlice = createSlice({
     name: "filterStock",
     initialState: initialState,
     reducers: {
-        setFilterInStock(state ) {
-            state.type = 2;
-            state.value = null;
-            state.valueFrom = 0;
-            state.valueTo = Number.MAX_SAFE_INTEGER;
+        setFilterInStock(state, action: PayloadAction<FilterStockAction> ) {
+            if (action.payload.value) {
+                state.type = 2;
+                state.value = null;
+                state.valueFrom = 0;
+                state.valueTo = null;
+            } else if (state.type != 0) {
+                applyInitialState(state);
+            }
         },
-        setFilterOutStock(state) {
-            state.type = 0;
-            state.value = 0;
-            state.valueFrom = null;
-            state.valueTo = null;
+        setFilterOutStock(state, action: PayloadAction<FilterStockAction>) {
+            if (action.payload.value) {
+                state.type = 0;
+                state.value = 0;
+                state.valueFrom = null;
+                state.valueTo = null;
+            } else if (state.type != 2) { //if not selected option In stock
+                applyInitialState(state);
+            }
+
         },
         resetFilterStock(state) {
-            state.type = -1;
-            state.value = null;
-            state.valueFrom = null;
-            state.valueTo = null;
+           applyInitialState(state);
         }
     }
 })

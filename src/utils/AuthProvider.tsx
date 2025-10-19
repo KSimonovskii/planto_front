@@ -29,7 +29,7 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
                 const newAccessToken = await refreshToken();
                 if (newAccessToken) {
                     newToken = newAccessToken;
-                    console.log("AuthContext: Access token restored on app load.");
+                    console.log(`AuthContext: Access token restored on app load.`);
                 } else {
                     console.warn("AuthContext: Could not refresh token on app load: No new token received. User is not authenticated.");
                 }
