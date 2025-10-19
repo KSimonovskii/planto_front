@@ -118,7 +118,7 @@ const ProductsColumns = ({
                         field={{...fieldString, disabled: props.row.index != editRowIndex}}
                         row = {props.row}
                         table = {props.table}/>,
-                size: 677
+                size: 550
             }),
         columnHelper.display({
             header: "actions",
