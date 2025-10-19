@@ -13,7 +13,7 @@ import spinner from "../../../assets/spinner2.png";
 import {useCartContext} from "../../../features/context/CartContext.tsx";
 import ImagePopup from "../../common/ImagePopup.tsx";
 import ProductCard from "../products/ProductCard.tsx";
-import {changeFlag} from "../../../features/slices/flagFilterOrSortChangeSlice.ts";
+import {changeFlag} from "../../../features/slices/tableStatesSlice.ts";
 import {useDispatch} from "react-redux";
 import {useAppSelector} from "../../../app/hooks.ts";
 import {useNavigate} from "react-router-dom";
@@ -37,7 +37,7 @@ const Store = () => {
     const arrHierarchy = params ? params.split("/") : [];
 
     const dispatch = useDispatch();
-    const {isRefillTable, currentPage} = useAppSelector(state => state.flagFilterOrSortChange);
+    const {isRefillTable, currentPage} = useAppSelector(state => state.tableStates.store);
 
     const {data = {products: [], pages: 0}, isLoading, isFetching, isError, error} = useGetProductsTableRTKQuery(
         getBodyForQueryGetTable(dataTypes.products, currentPage, sort, filters)
@@ -58,57 +58,39 @@ const Store = () => {
     }, [isAuthenticated, getCart]);
 
     useEffect(() => {
-        if (isFetching) {
-            console.log("Store: currently fetching, skip merging");
-            return;
-        }
-
-        console.log('Store: productsReceived', {
-            currentPage,
-            productsCount: products.length,
-            isRefillTable
-        });
-
+        if (isFetching) return;
         if (isRefillTable) {
             setAllProducts(products.slice());
         } else {
-            setAllProducts(prev => {
+
+            setAllProducts((prev) => {
                 const existingIds = new Set(prev.map(p => p.id));
-                const newItems = products.filter(p => !existingIds.has(p.id));
-                if (newItems.length === 0) {
-                    return prev;
-                }
-                return [...prev, ...newItems];
+                const uniqueNewProducts = products.filter(p => !existingIds.has(p.id));
+                return [...prev, ...uniqueNewProducts];
             });
         }
-    }, [products, isRefillTable, isFetching, currentPage]);
+    }, [products, isRefillTable, isFetching, dispatch, currentPage]);
+
 
 
     useEffect(() => {
-        if (!observerRef.current) return;
-        if (currentPage >= data.pages) {
-            console.log("Store: reached last page", currentPage, data.pages);
-            return;
-        }
-
+        if (!observerRef.current
+            || currentPage >= data.pages) return;
         const observer = new IntersectionObserver(
             (entries) => {
                 if (entries[0].isIntersecting) {
-                    console.log('Store: observer intersect, request next page', currentPage + 1);
-                    dispatch(changeFlag({isChanged: false, currentPage: currentPage + 1}));
+                    dispatch(changeFlag({tableName: "store", changes: {isRefillTable: false, currentPage: currentPage + 1}}));
                 }
             },
             {
                 root: null,
-                rootMargin: "400px",
-                threshold: 0.1
+                rootMargin: "200px",
+                threshold: 1.0
             }
         );
-
         observer.observe(observerRef.current);
-
         return () => observer.disconnect();
-    }, [data.pages, currentPage, dispatch]);
+    }, [data.pages, currentPage, dispatch, isFetching]);
 
     const handleAddToCart = useCallback(
         async (productId: string) => {
@@ -132,7 +114,7 @@ const Store = () => {
     );
 
     return (
-        <div className="min-h-screen bg-white text-[#2a4637] p-6">
+        <div className="bg-white text-[#2a4637] p-6">
 
             <ProductsContext.Provider
                 value={{
@@ -140,12 +122,10 @@ const Store = () => {
                     }
                 }}
             >
-
                 <ProductHierarchy hierarchy={arrHierarchy}/>
-
                 <FiltersAndSorting/>
 
-                {isLoading ? (
+                {isLoading && allProducts.length === 0 ? ( // Показывать спиннер только если нет продуктов
                     <div className="flex justify-center items-center w-full h-64">
                         <img src={spinner} alt="loading..." className="spinner-icon"/>
                     </div>

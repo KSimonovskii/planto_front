@@ -8,7 +8,7 @@ const AddProduct = () => {
         handleSelectFile,
         handleAddProduct} = useInputProduct(null);
 
-    const {name, qty, price, description, imageUrl} = productData;
+    const {name, quantity, price, description, imageUrl} = productData;
 
     const handleChangeDataProduct = (e: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement>) => {
         handleInputProductData(e.target.id, e.target.value);
@@ -39,7 +39,7 @@ const AddProduct = () => {
                         <input
                             type="number"
                             id="qty"
-                            value={qty === 0 ? "" : qty}
+                            value={quantity === 0 ? "" : quantity}
                             min={0}
                             onChange={handleChangeDataProduct}
                             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-lime-500 focus:ring focus:ring-lime-200 focus:ring-opacity-50"
