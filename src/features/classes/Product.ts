@@ -78,7 +78,7 @@ export default class Product {
             id: this.id,
             name: this.name,
             category: this.category,
-            qty: this.quantity,
+            quantity: this.quantity,
             price: this.price,
             imageUrl: this.imageUrl,
             description: this.description,
@@ -91,7 +91,7 @@ export default class Product {
             imageUrl: this.imageUrl,
             name: this.name,
             category: this.category,
-            qty: this.quantity,
+            quantity: this.quantity,
             price: this.price,
             description: this.description,
         }

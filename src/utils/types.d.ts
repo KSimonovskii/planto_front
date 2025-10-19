@@ -67,10 +67,10 @@ interface AuthContextType {
 
 //Products
 export interface ProductData {
-    id?: string,
+    id: string,
     name: string,
     category: string,
-    qty: number,
+    quantity: number,
     price: number,
     description: string,
     imageUrl: string,
@@ -78,10 +78,11 @@ export interface ProductData {
 }
 
 export interface ProductDataForTable {
+    id?: string,
     imageUrl: string,
     name: string,
     category: string,
-    qty: number,
+    quantity: number,
     price: number,
     description: string,
 }
@@ -95,7 +96,6 @@ export interface AnswerTable {
         totalPages: number
     }
 }
-
 //Orders
 interface OrderDto {
     id: string;

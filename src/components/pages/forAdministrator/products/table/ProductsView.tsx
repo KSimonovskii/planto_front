@@ -1,9 +1,9 @@
 import {SearchBar} from "../../../../filters/SearchBar.tsx";
 import {FiltersAdmin} from "../../../../filters/Filters.admin.tsx";
-import ProductsTable from "./ProductsTable.tsx";
 
 import Sorting from "../../../../common/table/Sorting.tsx";
 import {dataTypes} from "../../../../../utils/enums/dataTypes.ts";
+import NewTable from "../../../../common/table/tan-stack-table/NewTable.tsx";
 
 const ProductsView = () => {
 
@@ -17,17 +17,18 @@ const ProductsView = () => {
                 </div>
 
                 <div className="hidden md:flex items-center gap-4">
-                    <Sorting dataType={dataTypes.products}/>
+                    <Sorting dataType={dataTypes.products} tableName={"products"}/>
                     <FiltersAdmin/>
                 </div>
 
                 <div className="md:hidden flex flex-col gap-4 w-full">
-                    <Sorting dataType={dataTypes.products}/>
+                    <Sorting dataType={dataTypes.products} tableName={"products"}/>
                     <FiltersAdmin/>
                 </div>
             </div>
 
-            <ProductsTable/>
+            {/*<ProductsTable/>*/}
+            <NewTable/>
 
         </div>
     )

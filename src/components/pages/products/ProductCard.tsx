@@ -1,30 +1,33 @@
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 import Product from "../../../features/classes/Product.ts";
 
 interface ProductCardProps {
     product: Product;
     isInCart: boolean;
     onAddToCart: (productId: string) => void;
+    onOpen?: () => void;
 }
 
-const ProductCard = ({ product, isInCart, onAddToCart }: ProductCardProps) => {
-    const { t } = useTranslation();
+const ProductCard = ({product, isInCart, onAddToCart, onOpen}: ProductCardProps) => {
+    const {t} = useTranslation();
 
     return (
         <div
             className="w-72 h-[430px] inline-flex flex-col justify-start items-start gap-2"
         >
             <div className="self-stretch flex flex-col justify-start items-start gap-3">
-                <div className="w-72 h-72 relative rounded-lg overflow-hidden">
+                <div className="w-72 h-72 relative rounded-lg overflow-hidden cursor-pointer"
+                onClick={onOpen}>
                     <img
                         src={product.imageUrl}
                         alt={product.name}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover hover:scale-105"
                     />
                 </div>
                 <div className="self-stretch flex flex-col gap-1">
                     <div className="w-72 flex items-center overflow-hidden py-4">
-                        <div className="flex-1 min-w-0 text-lime-800 text-xl font-bold font-['Rubik'] truncate">
+                        <div className="flex-1 min-w-0 text-lime-800 text-xl font-bold font-['Rubik'] truncate cursor-pointer hover:underline"
+                        onClick={onOpen}>
                             {product.name}
                         </div>
                         <div className="ml-2 shrink-0 text-right text-lime-800 text-xl font-bold font-['Rubik']">

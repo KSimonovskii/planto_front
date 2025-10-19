@@ -2,14 +2,15 @@ import {DEFAULT_SORT, KINDS_OF_SORTING} from "../../../utils/constants.ts";
 import {useContext} from "react";
 import {PageProductContext} from "../../../utils/context.ts";
 import type {dataTypes} from "../../../utils/enums/dataTypes.ts";
-import {getToInitialStateStorePage} from "../../../features/slices/flagFilterOrSortChangeSlice.ts";
 import {useDispatch} from "react-redux";
+import {getToInitialTableStates} from "../../../features/slices/tableStatesSlice.ts";
 
 interface SortingProps {
-    dataType: dataTypes;
+    dataType: dataTypes,
+    tableName: string
 }
 
-const Sorting = ({dataType} : SortingProps) => {
+const Sorting = ({dataType, tableName} : SortingProps) => {
 
     const {setPage} = useContext(PageProductContext);
     const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const Sorting = ({dataType} : SortingProps) => {
             return;
         }
 
-        dispatch(getToInitialStateStorePage());
+        dispatch(getToInitialTableStates({tableName}));
         setPage((prevState) => ({...prevState, sort: currSort}));
     }
 

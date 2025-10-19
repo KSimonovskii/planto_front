@@ -6,6 +6,7 @@ import flagFilterOrSortChange from "../features/slices/flagFilterOrSortChangeSli
 import {productApi} from "../features/api/productApi.ts";
 import {orderApi} from "../features/api/orderApi.ts";
 import filterStock from "../features/slices/filterStockSlice.ts";
+import tableStates from "../features/slices/tableStatesSlice.ts";
 
 export const store = configureStore({
     reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
         userAuthSlice,
         filterStock,
         flagFilterOrSortChange,
+        tableStates,
         [productApi.reducerPath]: productApi.reducer,
         [orderApi.reducerPath]: orderApi.reducer
     },
