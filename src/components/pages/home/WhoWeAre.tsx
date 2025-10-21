@@ -7,8 +7,8 @@ const {t} = useTranslation();
     return (
         <div
             className="w-full px-2 pt-16 pb-10 bg-white border-t-2 border-lime-800/20 inline-flex flex-col gap-2.5 overflow-hidden">
-            <div className="w-[1640px] h-[491px] relative rounded-2xl overflow-hidden">
-                <div className="w-[1640px] left-0 top-0 absolute inline-flex justify-between">
+            <div className="h-auto md:h-[491px] relative rounded-2xl overflow-hidden">
+                <div className="left-0 top-0 absolute inline-flex justify-between">
                     <div className="w-full inline-flex flex-col justify-start items-start gap-14 px-4">
                         <div className="self-stretch justify-start text-lime-800 text-6xl font-bold font-['Rubik']">
                             {t("whoWe.whoWeAre")}
@@ -35,7 +35,7 @@ const {t} = useTranslation();
                             </div>
                         </div>
                     </div>
-                    <img className="w-[809px] h-[437px] relative rounded-lg" src={photo}/>
+                    <img className="h-auto md:h-[437px] relative rounded-lg" src={photo}/>
                 </div>
             </div>
         </div>

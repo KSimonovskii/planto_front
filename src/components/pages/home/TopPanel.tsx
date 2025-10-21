@@ -1,32 +1,21 @@
-import FrameWithLogo from "./FrameWithLogo";
-import FrameWithNavigationPanel from "./FrameWithNavigationPanel";
+import TopPanelMobile from "./TopPanel.mobile.tsx";
+import TopPanelDesktop from "./TopPanel.desktop.tsx";
 
 type TopPanelProps = {
     setActivePanel: (panel: React.ReactNode) => void;
     onPanelLeave: () => void;
     isMobile: boolean;
-    isMobileMenuOpen: boolean;
-    setMobileMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const TopPanel = ({
                       setActivePanel,
                       onPanelLeave,
                       isMobile,
-                      isMobileMenuOpen,
-                      setMobileMenuOpen
                   }: TopPanelProps) => {
-    return (
-        <div className="flex flex-col w-full max-w-[1640px] mx-auto gap-4 md:px-0">
-            <FrameWithLogo />
-            <FrameWithNavigationPanel
-                setActivePanel={setActivePanel}
-                onPanelLeave={onPanelLeave}
-                isMobile={isMobile}
-                isMobileMenuOpen={isMobileMenuOpen}
-                setMobileMenuOpen={setMobileMenuOpen}
-            />
-        </div>
+    return isMobile ? (
+        <TopPanelMobile setActivePanel={setActivePanel} onPanelLeave={onPanelLeave} />
+    ) : (
+        <TopPanelDesktop setActivePanel={setActivePanel} onPanelLeave={onPanelLeave} />
     );
 };
 

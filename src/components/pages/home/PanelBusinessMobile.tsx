@@ -7,7 +7,7 @@ type PanelProps = {
     onItemClick: () => void;
 }
 
-const PanelBusiness = ({ onItemClick }: PanelProps) => { // Принимаем пропс
+const PanelBusinessMobile = ({ onItemClick }: PanelProps) => { // Принимаем пропс
     const hierarchy = "Succulents for business";
 
     const handleColumnClick = () => {
@@ -15,7 +15,7 @@ const PanelBusiness = ({ onItemClick }: PanelProps) => { // Принимаем �
     };
 
     return (
-        <div className="flex flex-row justify-between">
+        <div className="flex flex-col gap-3">
             <PanelColumn
                 title="Mini gifts"
                 img={imageBusiness1}
@@ -38,4 +38,4 @@ const PanelBusiness = ({ onItemClick }: PanelProps) => { // Принимаем �
     );
 };
 
-export default PanelBusiness;
+export default PanelBusinessMobile;

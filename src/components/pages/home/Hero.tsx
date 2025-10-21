@@ -9,11 +9,16 @@ const Hero = () => {
     const handelClickExploreColection = () => {
         navigate("store");
     }
+
+    const handelClickAboutProject = () => {
+        navigate("/october-7");
+    }
+
     const {t} = useTranslation();
 
     return (
         <section
-            className="self-stretch h-[734px] relative overflow-hidden flex items-center"
+            className="self-stretch relative overflow-hidden flex items-center"
             style={{
                 backgroundImage: `url(${hero})`,
                 backgroundSize: "cover",
@@ -21,10 +26,10 @@ const Hero = () => {
             }}
         >
 
-            <div className="w-[588px] left-[110px] top-[195px] absolute inline-flex flex-col justify-center items-start gap-8"/>
+            <div className="absolute inline-flex flex-col justify-center items-start gap-8"/>
 
 
-            <div className="relative w-[588px] ml-[110px] flex flex-col justify-center items-start gap-8">
+            <div className="relative flex flex-col justify-center items-start gap-8">
                 <h1 className="text-white text-7xl font-bold font-rubik">
                     {t("hero.smallPlant")}
                 </h1>
@@ -35,13 +40,14 @@ const Hero = () => {
 
                 <div className="flex gap-6">
                     <button onClick={handelClickExploreColection}
-                            className="w-183px px-6 py-3 bg-lime-600 rounded-lg flex justify-center items-center gap-2 hover:bg-lime-800
+                            className="px-6 py-3 bg-lime-600 rounded-lg flex justify-center items-center gap-2 hover:bg-lime-800
                             text-white text-base font-medium font-rubik leading-normal">
                         {t("hero.exploreCollection")}
                     </button>
 
                     <button
-                        className="w-183px px-6 py-3 bg-white hover:bg-lime-800 rounded-lg outline outline-1 outline-lime-800 flex justify-center items-center gap-2
+                        onClick={handelClickAboutProject}
+                        className="px-6 py-3 bg-white hover:bg-lime-800 rounded-lg outline outline-1 outline-lime-800 flex justify-center items-center gap-2
                         text-lime-800 hover:text-white text-base font-medium font-rubik leading-normal">
                         {t("hero.aboutProject")}
                     </button>

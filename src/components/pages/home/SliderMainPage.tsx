@@ -69,7 +69,7 @@ const SliderMainPage = () => {
 
     return (
         <div className="inline-flex flex-col">
-            <div className="w-[1640px] flex flex-col overflow-hidden">
+            <div className="flex flex-col overflow-hidden">
                 {isLoading ? (
                     <div className="flex justify-center items-center w-full h-64">
                         <img src={spinner} alt="loading..." className="spinner-icon"/>
@@ -88,7 +88,7 @@ const SliderMainPage = () => {
                             {products.map((product) => (
                                 <SwiperSlide
                                     key={product.id}
-                                    className="!w-72 h-[430px] inline-flex justify-start items-center px-6"
+                                    className="!w-72 h-80 sm:h-[350px] md:h-[430px] inline-flex justify-start items-center px-6"
                                 >
                                     <ProductCard
                                         product={product}

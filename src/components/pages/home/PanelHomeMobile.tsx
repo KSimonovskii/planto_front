@@ -7,7 +7,7 @@ type PanelProps = {
     onItemClick: () => void;
 }
 
-const PanelHome = ({ onItemClick }: PanelProps) => {
+const PanelHomeMobile = ({ onItemClick }: PanelProps) => {
     const hierarchy = "Succulents for home";
 
     const handleColumnClick = () => {
@@ -15,7 +15,7 @@ const PanelHome = ({ onItemClick }: PanelProps) => {
     };
 
     return (
-        <div className="flex flex-row justify-between">
+        <div className="flex flex-col gap-3">
             <PanelColumn
                 title="Indoor Succulents"
                 img={imageHome1}
@@ -38,4 +38,4 @@ const PanelHome = ({ onItemClick }: PanelProps) => {
     );
 };
 
-export default PanelHome;
+export default PanelHomeMobile;

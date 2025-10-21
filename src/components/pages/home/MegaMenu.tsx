@@ -1,20 +1,13 @@
-import { useState, useRef, useEffect } from "react";
+import {useEffect, useRef, useState} from "react";
 import TopPanel from "./TopPanel";
+import {useIsMobile} from "../../../features/hooks/useIsMobile.ts";
 
 const MegaMenu = () => {
     const [activePanel, setActivePanel] = useState<React.ReactNode | null>(null);
     const [isVisible, setIsVisible] = useState(false);
-    const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const [isMobile, setIsMobile] = useState(false);
     const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-
-    useEffect(() => {
-        const handleResize = () => setIsMobile(window.innerWidth < 768);
-        handleResize();
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
+    const isMobile = useIsMobile(768);
 
     const handlePanelEnter = (panel: React.ReactNode) => {
         if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -29,15 +22,19 @@ const MegaMenu = () => {
         }, 150);
     };
 
-    return (
-        <div className="w-full mx-auto bg-white">
-                <TopPanel
-                    setActivePanel={handlePanelEnter}
-                    onPanelLeave={handlePanelLeave}
-                    isMobile={isMobile}
-                    isMobileMenuOpen={isMobileMenuOpen}
-                    setMobileMenuOpen={setMobileMenuOpen}
-                />
+    useEffect(() => {
+        return () => {
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        };
+    }, []);
+
+       return (
+        <div className="w-full bg-white">
+            <TopPanel
+                setActivePanel={handlePanelEnter}
+                onPanelLeave={handlePanelLeave}
+                isMobile={isMobile}
+            />
 
 
             {activePanel && (
@@ -50,7 +47,7 @@ const MegaMenu = () => {
                     }}
                     onMouseLeave={handlePanelLeave}
                 >
-                    <div className="w-full max-w-[1640px] mx-auto bg-white px-4 md:px-28 py-6">
+                    <div className="bg-white">
                         {activePanel}
                     </div>
                 </div>
