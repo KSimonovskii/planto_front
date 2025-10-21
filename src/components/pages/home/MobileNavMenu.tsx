@@ -54,7 +54,7 @@ const MobileNavMenu: React.FC<MobileNavMenuProps> = ({onClose, onPanelLeave}) =>
 
             <div
                 ref={ref}
-                className="absolute left-0 top-full w-full bg-white shadow-md z-50 transform transition ease-out duration-200"
+                className="absolute left-0 top-full w-full bg-white shadow-md z-50 transform transition ease-out duration-200 max-h-[90vh] overflow-y-auto"
                 role="dialog"
                 aria-modal="true"
             >

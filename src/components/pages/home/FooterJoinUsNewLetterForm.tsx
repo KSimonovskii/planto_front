@@ -36,8 +36,8 @@ const FooterJoinUsNewLetterForm = () => {
     };
 
     return (
-        <div className="flex flex-col gap-4">
-            <div className="w-60 text-white text-base font-normal font-['Rubik'] leading-normal">
+        <div className="flex flex-col gap-4 font-['Rubik']">
+            <div className="w-60 text-white text-base font-normal font-['Rubik'] leading-normal font-['Rubik']">
                 {t("footer.getUpdate")}
             </div>
 
@@ -52,14 +52,14 @@ const FooterJoinUsNewLetterForm = () => {
                 {error && <span className="text-red-400 text-sm">{error}</span>}
             </div>
 
-            <div className="flex items-start gap-3">
+            <div className="flex items-start gap-3 font-['Rubik']">
                 <input
                     type="checkbox"
                     checked={checked}
                     onChange={(e) => setChecked(e.target.checked)}
                     className="w-5 h-5 rounded border-neutral-400"
                 />
-                <div className="w-60 text-white text-xs font-normal font-['Lato'] leading-tight">
+                <div className="w-60 text-white text-xs font-normal leading-tight font-['Rubik']">
                     {t("footer.agree")}
                 </div>
             </div>
@@ -67,7 +67,7 @@ const FooterJoinUsNewLetterForm = () => {
             <button
                 onClick={handleSubmit}
                 disabled={!isActive}
-                className={`px-6 py-3 rounded-lg inline-flex justify-center items-center gap-2 transition ${
+                className={`px-6 py-3 rounded-lg inline-flex justify-center items-center gap-2 transition font-['Rubik'] ${
                     isActive
                         ? "bg-lime-600 text-white hover:bg-lime-700"
                         : "bg-gray-400 text-white cursor-not-allowed"

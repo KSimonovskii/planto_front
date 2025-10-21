@@ -13,7 +13,7 @@ const FrameWithLogo = () => {
     }
 
     return (
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mb-8">
             <button onClick={handlerClickLogo}
             className="focus:outline-none transition-transform duration-200 hover:scale-125 active:scale-95">
                 <Logo/>

@@ -1,13 +1,11 @@
-import {Navigation} from "swiper/modules";
 import {Swiper, SwiperSlide} from "swiper/react";
 import {useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
 import {PageProductContext} from "../../../utils/context.ts";
 import {useCartActions} from "../../../features/hooks/useCartAction.ts";
 import {useCurrentUser} from "../../../features/hooks/useCurrentUser.ts";
 import "swiper/css";
-import "swiper/css/navigation";
 import spinner from "../../../assets/spinner2.png";
-import FramePaginationCorporateFavorites from "./FramePaginationCorporateFavorites.tsx";
+// FramePaginationCorporateFavorites удален
 import {useCartContext} from "../../../features/context/CartContext.tsx";
 import AuthModal from "./AuthModal.tsx";
 import Product from "../../../features/classes/Product.ts";
@@ -18,7 +16,7 @@ import ProductCard from "../products/ProductCard.tsx";
 import {useNavigate} from "react-router-dom";
 
 
-const SliderMainPage = () => {
+const SliderMainPageMobile = () => {
     const [errorMsg, setErrorMsg] = useState("");
     const {addToCart, addToLocalCart, getCart, isInCart, isInLocalCart} = useCartActions();
     const {isAuthenticated} = useCurrentUser();
@@ -70,8 +68,7 @@ const SliderMainPage = () => {
     return (
 
         <div className="w-full">
-            <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
-
+            <div className="w-full px-0">
                 <div className="relative">
                     {isLoading ? (
                         <div className="flex justify-center items-center w-full h-64">
@@ -82,18 +79,19 @@ const SliderMainPage = () => {
                     ) : (
                         <>
                             <Swiper
-                                modules={[Navigation]}
-                                spaceBetween={24}
-                                slidesPerView={"auto"}
+                                spaceBetween={16}
+                                slidesPerView={1}
                                 onSwiper={(swiper) => (swiperRef.current = swiper)}
                                 className="w-full py-6"
+                                touchEventsTarget="container"
+                                grabCursor={true}
                             >
                                 {products.map((product) => (
                                     <SwiperSlide
                                         key={product.id}
-                                        className="!w-[220px] sm:!w-[260px] md:!w-[300px] lg:!w-[340px] xl:!w-[380px] h-auto inline-flex justify-start items-stretch px-2"
+                                        className="!w-full flex justify-center items-center"
                                     >
-                                        <div className="w-full h-full">
+                                        <div className="w-full flex justify-center sm:justify-center">
                                             <ProductCard
                                                 product={product}
                                                 onAddToCart={handleAddToCart}
@@ -105,13 +103,6 @@ const SliderMainPage = () => {
                                 ))}
                             </Swiper>
 
-                            <div className="mt-4">
-                                <FramePaginationCorporateFavorites
-                                    onPrev={() => swiperRef.current?.slidePrev()}
-                                    onNext={() => swiperRef.current?.slideNext()}
-                                />
-                            </div>
-
                             <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
                         </>
                     )}
@@ -120,4 +111,4 @@ const SliderMainPage = () => {
         </div>
     );
 };
-export default SliderMainPage;
+export default SliderMainPageMobile;

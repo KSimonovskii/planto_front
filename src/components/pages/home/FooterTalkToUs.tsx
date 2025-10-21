@@ -7,10 +7,10 @@ import IconFacebook from "../../icons/IconFacebook.tsx";
 import {useTranslation} from "react-i18next";
 
 const FooterTalkToUs = () => {
-const {t} = useTranslation();
+    const {t} = useTranslation();
 
     return (
-        <div className="w-80 opacity-80 inline-flex flex-col justify-start items-start gap-20">
+        <div className="w-full md:w-80 opacity-80 inline-flex flex-col justify-start items-start gap-20">
             <div className="self-stretch flex flex-col justify-start items-start gap-6">
                 <div
                     className="self-stretch justify-start text-white text-base font-normal font-['Rubik'] uppercase">

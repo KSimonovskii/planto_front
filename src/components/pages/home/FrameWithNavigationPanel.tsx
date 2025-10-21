@@ -19,12 +19,15 @@ const FrameWithNavigationPanel = ({
 
 
         <nav className="flex flex-row justify-between">
+
             <NavItemWithPanel
                 label={t("nav.about")}
                 panel={<PanelAbout onItemClick={()=> {}}/>}
                 setActivePanel={setActivePanel}
                 onPanelLeave={onPanelLeave}
+
             />
+
             <NavItemWithPanel
                 label={t("nav.business")}
                 panel={<PanelBusiness onItemClick={()=> {}}/>}

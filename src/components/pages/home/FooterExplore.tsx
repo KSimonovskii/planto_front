@@ -1,10 +1,10 @@
 import {useTranslation} from "react-i18next";
 
 const FooterExplore = () => {
-  const {t} = useTranslation();
+    const {t} = useTranslation();
 
     return (
-        <div className="w-44 inline-flex flex-col justify-start items-start gap-8">
+        <div className="w-full md:w-44 inline-flex flex-col justify-start items-start gap-8">
             <div
                 className="self-stretch justify-start text-white text-base font-normal font-['Rubik'] uppercase">
                 {t("footer.explore")}

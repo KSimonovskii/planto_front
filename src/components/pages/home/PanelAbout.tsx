@@ -22,7 +22,7 @@ const PanelAbout = ({ onItemClick }: PanelProps) => {
         };
 
         return (
-            <div className="flex flex-row justify-between">
+            <div className="flex flex-row justify-between items-center px-16 gap-10">
                     <PanelColumn
                         title="Our Roots"
                         img={imageAbout1}

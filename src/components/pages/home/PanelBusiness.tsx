@@ -15,7 +15,7 @@ const PanelBusiness = ({ onItemClick }: PanelProps) => { // Принимаем �
     };
 
     return (
-        <div className="flex flex-row justify-between">
+        <div className="flex flex-row justify-between items-center px-16 gap-10">
             <PanelColumn
                 title="Mini gifts"
                 img={imageBusiness1}

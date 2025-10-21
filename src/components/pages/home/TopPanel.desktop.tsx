@@ -12,7 +12,7 @@ const TopPanelDesktop = ({
                          }: TopPanelDesktopProps) => {
     return (
 
-        <div>
+        <div className="mx-16">
             <FrameWithLogo/>
             <FrameWithNavigationPanel
                 setActivePanel={setActivePanel}

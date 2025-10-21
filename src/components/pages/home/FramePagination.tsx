@@ -10,7 +10,7 @@ type Props = {
 const FramePagination = ({onPrev, onNext}: Props) => {
 
     return (
-        <div className="w-full flex justify-center items-center gap-10 pt-6">
+        <div className="w-full flex justify-center items-center gap-10 pt-6 font-['Rubik']">
 
 
             <div className="relative w-full">
@@ -19,7 +19,7 @@ const FramePagination = ({onPrev, onNext}: Props) => {
                     className="absolute left-0 top-1/2 -translate-y-1/2
                    w-12 h-12 flex justify-center items-center
                    bg-white rounded-full shadow
-                   hover:bg-gray-100 transition"
+                   hover:bg-gray-100 transition font-['Rubik']"
                 >
                     <img src={arrowLeft} alt="Previous" className="w-6 h-6"/>
                 </button>
@@ -32,7 +32,7 @@ const FramePagination = ({onPrev, onNext}: Props) => {
                     className="absolute right-0 top-1/2 -translate-y-1/2
                    w-12 h-12 flex justify-center items-center
                    bg-white rounded-full shadow
-                   hover:bg-gray-100 transition">
+                   hover:bg-gray-100 transition font-['Rubik']">
                     <img src={arrowRight} alt="Next" className="w-6 h-6"/>
                 </button>
             </div>

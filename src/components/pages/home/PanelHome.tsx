@@ -15,7 +15,7 @@ const PanelHome = ({ onItemClick }: PanelProps) => {
     };
 
     return (
-        <div className="flex flex-row justify-between">
+        <div className="flex flex-row justify-between items-center px-16 gap-10">
             <PanelColumn
                 title="Indoor Succulents"
                 img={imageHome1}

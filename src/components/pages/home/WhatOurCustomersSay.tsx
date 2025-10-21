@@ -44,9 +44,9 @@ const WhatOurCustomersSay = () => {
     ];
 
     return (
-        <div className="w-full px-2 py-4 bg-white border-t-2 border-lime-800/20 inline-flex flex-col justify-start items-start gap-2.5 overflow-hidden">
-            <div className="w-full flex flex-col justify-start items-start gap-4 mb-8">
-                <div className="self-stretch justify-start text-lime-800 text-6xl font-bold font-['Rubik']">
+        <div className="w-full px-4 py-4 bg-white border-t-2 border-lime-800/20 inline-flex flex-col justify-start items-start gap-2.5 overflow-hidden">
+            <div className="w-full flex flex-col justify-start items-start gap-6 mb-8">
+                <div className="self-stretch justify-start text-lime-800 text-6xl font-bold font-['Rubik'] px-4">
                     {t("reviews.whatSay")}
                 </div>
 
@@ -60,13 +60,13 @@ const WhatOurCustomersSay = () => {
                     {reviews.map((review, index) => (
                         <SwiperSlide
                             key={index}
-                            className="!w-96 h-60 px-2 inline-flex justify-start items-center"
+                            className="!w-96 h-60 px-2 inline-flex justify-start items-center font-['Rubik']"
                         >
-                            <div className="w-96 h-70 p-6 bg-zinc-100 rounded-lg inline-flex flex-col justify-start items-start gap-6">
+                            <div className="w-96 h-70 p-6 bg-zinc-100 rounded-lg inline-flex flex-col justify-start items-start gap-6 font-['Rubik']">
                                 <div className="self-stretch text-lime-800 text-base font-normal font-['Rubik'] leading-normal">
                                     {review.text}
                                 </div>
-                                <div className="w-64 flex flex-col justify-start items-start gap-[5px]">
+                                <div className="w-64 flex flex-col justify-start items-start gap-[5px] font-['Rubik']">
                                     <div className="self-stretch text-lime-800 text-base font-bold font-['Rubik']">
                                         {review.author}
                                     </div>
