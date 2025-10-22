@@ -9,11 +9,14 @@ import BrandedPots from "./BrandedPots.tsx";
 import CustomerReviews from "./CustomerReviews.tsx";
 import SliderMainPage from "../home/SliderMainPage.tsx";
 import SpinnerFlower from "../../../assets/SpinnerFlower.tsx";
+import {useIsMobile} from "../../../features/hooks/useIsMobile.ts";
+import SliderMainPageMobile from "../home/SliderMainPageMobile.tsx";
 
 const ProductPage: React.FC = () => {
     const {id} = useParams<{ id?: string }>();
     const navigate = useNavigate();
     const {t} = useTranslation();
+    const isMobile = useIsMobile();
 
     const {
         data: product,
@@ -99,12 +102,12 @@ const ProductPage: React.FC = () => {
 
     return (
         <div className="w-full mx-auto p-6 font-['Rubik']">
-            <button
-                className="mb-4 text-sm text-lime-800 hover:underline"
-                onClick={() => navigate(-1)}
-            >
-                ← Back
-            </button>
+            {/*<button*/}
+            {/*    className="mb-4 text-sm text-lime-800 hover:underline"*/}
+            {/*    onClick={() => navigate(-1)}*/}
+            {/*>*/}
+            {/*    ← Back*/}
+            {/*</button>*/}
 
             <div className="flex flex-col lg:flex-row gap-8 w-full">
 
@@ -179,7 +182,7 @@ const ProductPage: React.FC = () => {
             </div>
 
             <div className="w-full my-8">
-                <SliderMainPage/>
+                {!isMobile ? <SliderMainPage/> : <SliderMainPageMobile/>}
             </div>
         </div>
     );

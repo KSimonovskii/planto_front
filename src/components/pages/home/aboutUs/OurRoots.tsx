@@ -64,19 +64,16 @@ const ImageSwitcherSection: React.FC<ImageSwitcherSectionProps> = ({
 
     return (
         <div
-            // ИЗМЕНЕНИЕ: flex-col по умолчанию (мобильные) и flex-row для md и выше. h-auto на мобильных.
             className={`bg-white flex flex-col md:flex-row items-center w-full h-auto md:h-80 overflow-hidden ${reverse ? "md:flex-row-reverse" : ""} ${className}`}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >
-            {/* text */}
             <div className="w-full md:w-1/2 h-auto md:h-full flex items-center p-6">
                 <div className="text-lime-800 text-base font-['Rubik'] leading-relaxed">
                     {textNode}
                 </div>
             </div>
 
-            {/* image */}
             <div className="w-full md:w-1/2 h-64 md:h-full relative flex justify-center items-center">
                 {images.map((src, i) => (
                     <img

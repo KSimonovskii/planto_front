@@ -32,12 +32,12 @@ const Sorting = ({dataType, tableName} : SortingProps) => {
 
     return (
         <div className="flex items-center gap-2">
-            <label className="text-gray-700 font-medium whitespace-nowrap" htmlFor="sorting">
+            <label className="text-lime-800 font-['Rubik'] font-bold whitespace-nowrap" htmlFor="sorting">
                 Sort by:
             </label>
             <select
                 id="sorting"
-                className="px-3 py-2 rounded-lg border border-gray-300 bg-white shadow-sm focus:border-lime-500 focus:ring focus:ring-lime-200 focus:ring-opacity-50 transition"
+                className="text-lime-800 px-3 py-2 rounded-lg border border-lime-600 bg-white shadow-sm focus:border-lime-800 focus:ring focus:ring-lime-200 focus:ring-opacity-50 transition"
                 onChange={(e) => handleSelectSort(e.target.value)}>
                 {sorting.map((sort) => <option value={sort.name} key={sort.name}>{sort.alias}</option>)}
             </select>

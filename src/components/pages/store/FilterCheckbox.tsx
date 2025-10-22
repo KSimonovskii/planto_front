@@ -38,8 +38,8 @@ const FilterCheckbox = ({title, count, handleClick}: Props) => {
                     <path d="M3 8L6 11L11 3.5" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
             </Checkbox>
-            <Label className="w-32 justify-start text-zinc-600 text-sm font-normal font-['Poppins'] leading-tight">{title}</Label>
-            <Description className="w-9 text-right justify-start text-neutral-400 text-xs font-normal font-['Poppins'] leading-none">{count}</Description>
+            <Label className="w-32 justify-start text-sm font-normal font-['Rubik'] text-lime-800 leading-tight">{title}</Label>
+            <Description className="w-9 text-right justify-start text-xs font-normal font-['Rubik'] text-lime-800 leading-none">{count}</Description>
         </Field>
     );
 };

@@ -220,7 +220,7 @@ const ShoppingCart = () => {
                                 onClick={handleCheckoutClick}
                                 className="w-40 px-3 py-2 rounded-lg outline outline-1 outline-lime-800 font-medium font-['Rubik'] text-lime-800 bg-white hover:bg-lime-800 hover:text-white transition"
                             >
-                                Shop Now
+                                Go to Checkout
                             </button>
                         </div>
                     </>

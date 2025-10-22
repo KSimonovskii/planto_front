@@ -9,7 +9,6 @@ import AccountDashboard from "./pages/personalAccount/AccountDashboard.tsx";
 import AccountRegister from "./pages/personalAccount/AccountRegister.tsx";
 import ShoppingCart from "./pages/shoppingCart/ShoppingCart.tsx";
 import RequireAuth from "./RequireAuth.tsx";
-import AboutUs from "./pages/aboutUs/AboutUs.tsx";
 import RequireAuthAdministrator from "./RequireAuthAdministrator.tsx";
 import AdminDashboard from "./pages/forAdministrator/AdminDashboard.tsx";
 
@@ -41,7 +40,6 @@ const Workspace = () => {
                     <Route path="/our-roots" element={<OurRoots/>} />
                     <Route path="/october-7" element={<October7/>} />
                     <Route path="/rebuilding-now" element={<Rebuilding/>} />
-                    <Route path={navItems[1].path} element={<AboutUs/>}/>
                     <Route path={navItems[2].path} element={<ShoppingCart/>}/>
 
                     <Route

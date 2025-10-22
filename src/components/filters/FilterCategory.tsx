@@ -20,7 +20,7 @@ const FilterCategory = ({filter, setFilter}: FILTER_PROPS) => {
 
 
     return (
-        <div className={"flex space-x-1 w-4/6"}>
+        <div className={"flex space-x-1 w-4/6 font-['Rubik']"}>
             <label className={"text-base-text py-2"} htmlFor={"categoryFilter"}>
                 Filter by category:
             </label>

@@ -12,7 +12,7 @@ interface Props {
 
 const FilterElement = ({filterData} : Props) => {
     return (
-        <div className={"self-stretch flex flex-col justify-start items-start gap-6"}>
+        <div className={"self-stretch flex flex-col justify-start items-start gap-6 "}>
             <div className="self-stretch flex flex-col justify-center items-center gap-4">
                 <div className="self-stretch px-4 flex flex-col justify-start items-start gap-4">
                     {filterData.map((data, i) => (

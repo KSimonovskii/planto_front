@@ -48,11 +48,11 @@ const PriceSlider = () => {
                     background: '#d4d4d8'
                 },
                 track: {
-                    background: '#171717'
+                    background: '#3c6300'
                 },
                 handle: {
-                    background: '#171717',
-                    borderColor: '#171717',
+                    background: '#3c6300',
+                    borderColor: '#3c6300',
                 }
             }}/>
         </>
