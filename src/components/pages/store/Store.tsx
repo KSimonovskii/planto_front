@@ -9,7 +9,6 @@ import {dataTypes} from "../../../utils/enums/dataTypes.ts";
 import ProductHierarchy from "./ProductHierarchy.tsx";
 import FiltersAndSorting from "./FiltersAndSorting.tsx";
 import {useMatch} from "react-router";
-import spinner from "../../../assets/spinner2.png";
 import {useCartContext} from "../../../features/context/CartContext.tsx";
 import ImagePopup from "../../common/ImagePopup.tsx";
 import ProductCard from "../products/ProductCard.tsx";
@@ -17,6 +16,7 @@ import {changeFlag} from "../../../features/slices/tableStatesSlice.ts";
 import {useDispatch} from "react-redux";
 import {useAppSelector} from "../../../app/hooks.ts";
 import {useNavigate} from "react-router-dom";
+import SpinnerFlower from "../../../assets/SpinnerFlower.tsx";
 
 const Store = () => {
     const {sort, filters} = useContext(PageProductContext);
@@ -125,10 +125,8 @@ const Store = () => {
                 <ProductHierarchy hierarchy={arrHierarchy}/>
                 <FiltersAndSorting/>
 
-                {isLoading && allProducts.length === 0 ? ( // Показывать спиннер только если нет продуктов
-                    <div className="flex justify-center items-center w-full h-64">
-                        <img src={spinner} alt="loading..." className="spinner-icon"/>
-                    </div>
+                {isLoading && allProducts.length === 0 ? (
+                    <SpinnerFlower/>
                 ) : isError ? (
                     <p className="text-center text-red-500 mt-20">{errorMsg}</p>
                 ) : allProducts.length > 0 ? (
@@ -152,9 +150,7 @@ const Store = () => {
                 <div ref={observerRef} className="w-full h-6"/>
 
                 {isFetching && allProducts.length > 0 && (
-                    <div className="flex justify-center items-center mt-4">
-                        <img src={spinner} alt="loading..." className="spinner-icon"/>
-                    </div>
+                    <SpinnerFlower/>
                 )}
 
                 {isError && (

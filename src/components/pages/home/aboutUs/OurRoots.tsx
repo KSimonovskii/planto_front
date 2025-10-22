@@ -26,12 +26,12 @@ type ImageSwitcherSectionProps = {
 };
 
 const ImageSwitcherSection: React.FC<ImageSwitcherSectionProps> = ({
-images,
-textNode,
-reverse = false,
-intervalMs = 1200,
-className = "",
-}) => {
+                                                                       images,
+                                                                       textNode,
+                                                                       reverse = false,
+                                                                       intervalMs = 1200,
+                                                                       className = "",
+                                                                   }) => {
     const [index, setIndex] = useState(0);
     const intervalRef = useRef<number | null>(null);
 
@@ -64,18 +64,20 @@ className = "",
 
     return (
         <div
-            className={`flex items-center w-full h-80 overflow-hidden ${reverse ? "flex-row-reverse" : ""} ${className}`}
+            // ИЗМЕНЕНИЕ: flex-col по умолчанию (мобильные) и flex-row для md и выше. h-auto на мобильных.
+            className={`bg-white flex flex-col md:flex-row items-center w-full h-auto md:h-80 overflow-hidden ${reverse ? "md:flex-row-reverse" : ""} ${className}`}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >
             {/* text */}
-            <div className="w-1/2 h-full flex items-center px-6">
+            <div className="w-full md:w-1/2 h-auto md:h-full flex items-center p-6">
                 <div className="text-lime-800 text-base font-['Rubik'] leading-relaxed">
                     {textNode}
                 </div>
             </div>
 
-            <div className="w-1/2 h-full relative flex justify-center items-center">
+            {/* image */}
+            <div className="w-full md:w-1/2 h-64 md:h-full relative flex justify-center items-center">
                 {images.map((src, i) => (
                     <img
                         key={i}
@@ -93,13 +95,13 @@ className = "",
 
 const OurRoots: React.FC = () => {
     return (
-        <div className="w-full flex flex-col gap-12 mb-10">
+        <div className="w-full flex flex-col gap-12 mb-10 bg-white">
 
             <div>
                 <img src={image0} alt="Our Roots" className="w-full object-cover"/>
             </div>
 
-{/*1*/}
+            {/*1*/}
             <ImageSwitcherSection
                 images={[image1, image1_1, image1_2, image1_3]}
                 intervalMs={1200}
@@ -115,7 +117,7 @@ const OurRoots: React.FC = () => {
                 }
             />
 
-{/*2*/}
+            {/*2*/}
             <ImageSwitcherSection
                 images={[image2, image1_3, image2_2, image2_3]}
                 reverse
@@ -129,7 +131,7 @@ const OurRoots: React.FC = () => {
                 }
             />
 
-{/*3*/}
+            {/*3*/}
             <ImageSwitcherSection
                 images={[image3, image3_1, image1_1, image3_3]}
                 intervalMs={1200}
@@ -143,7 +145,7 @@ const OurRoots: React.FC = () => {
                 }
             />
 
-{/*4*/}
+            {/*4*/}
             <ImageSwitcherSection
                 images={[image4, image4_1, image1_1, image1]}
                 reverse

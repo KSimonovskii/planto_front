@@ -5,7 +5,6 @@ import {useAuth} from "../../../features/hooks/useAuth.ts";
 
 import OrderTable from "./OrderTable.tsx";
 import StatsWidgets, {type Stats} from "./StatsWidgets.tsx";
-import spinner from "../../../assets/spinner2.png";
 import ProductsManager2 from "./products/ProductsManager2.tsx";
 import UsersManager from "../users/UsersManager.tsx";
 import {getAllOrders} from "../../../features/api/orderAction.ts";
@@ -16,6 +15,7 @@ import {useGetProductsTableRTKQuery} from "../../../features/api/productApi.ts";
 import {getBodyForQueryGetTable} from "../../../features/api/apiUtils.ts";
 import {dataTypes} from "../../../utils/enums/dataTypes.ts";
 import {useProductsQuantity} from "../../../features/hooks/useProductsSimple.ts";
+import SpinnerFlower from "../../../assets/SpinnerFlower.tsx";
 
 const AdminDashboard = () => {
     const {user, loadingUser, errorUser} = useCurrentUser();
@@ -89,9 +89,7 @@ const AdminDashboard = () => {
     }, [fetchStatsClients, fetchStatsOrders, fetchStatsProducts]);
 
     if (loadingUser) return (
-        <div className="flex justify-center items-center w-full h-64">
-            <img src={spinner} alt="loading..." className="spinner-icon"/>
-        </div>
+        <SpinnerFlower/>
     );
 
     if (errorUser) return <div className="text-center mt-40 text-red-500">Error loading admin data: {errorUser}</div>;

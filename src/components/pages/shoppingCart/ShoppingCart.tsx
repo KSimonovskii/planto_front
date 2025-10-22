@@ -8,7 +8,7 @@ import OrderSuccessPopup from "../../common/OrderSuccessPopup.tsx";
 import {useNavigate} from "react-router";
 import {useCartContext} from "../../../features/context/CartContext.tsx";
 import type {CartItemDto, CartItemType} from "../../../utils/types";
-import spinner from "../../../assets/spinner2.png";
+import SpinnerFlower from "../../../assets/SpinnerFlower.tsx";
 
 const ShoppingCart = () => {
     const [items, setItems] = useState<CartItemType[]>([]);
@@ -185,9 +185,7 @@ const ShoppingCart = () => {
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center w-full h-64">
-                <img src={spinner} alt="loading..." className="spinner-icon"/>
-            </div>
+            <SpinnerFlower/>
         );
     }
 

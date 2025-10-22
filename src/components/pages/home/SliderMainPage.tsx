@@ -6,7 +6,6 @@ import {useCartActions} from "../../../features/hooks/useCartAction.ts";
 import {useCurrentUser} from "../../../features/hooks/useCurrentUser.ts";
 import "swiper/css";
 import "swiper/css/navigation";
-import spinner from "../../../assets/spinner2.png";
 import FramePaginationCorporateFavorites from "./FramePaginationCorporateFavorites.tsx";
 import {useCartContext} from "../../../features/context/CartContext.tsx";
 import AuthModal from "./AuthModal.tsx";
@@ -16,6 +15,7 @@ import {getBodyForQueryGetTable} from "../../../features/api/apiUtils.ts";
 import {dataTypes} from "../../../utils/enums/dataTypes.ts";
 import ProductCard from "../products/ProductCard.tsx";
 import {useNavigate} from "react-router-dom";
+import SpinnerFlower from "../../../assets/SpinnerFlower.tsx";
 
 
 const SliderMainPage = () => {
@@ -74,9 +74,7 @@ const SliderMainPage = () => {
 
                 <div className="relative">
                     {isLoading ? (
-                        <div className="flex justify-center items-center w-full h-64">
-                            <img src={spinner} alt="loading..." className="spinner-icon" />
-                        </div>
+                       <SpinnerFlower/>
                     ) : isError ? (
                         <p className="text-center text-red-500">{errorMsg}</p>
                     ) : (

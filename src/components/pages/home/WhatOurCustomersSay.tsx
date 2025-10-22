@@ -44,7 +44,7 @@ const WhatOurCustomersSay = () => {
     ];
 
     return (
-        <div className="w-full px-4 py-4 bg-white border-t-2 border-lime-800/20 inline-flex flex-col justify-start items-start gap-2.5 overflow-hidden">
+        <div className="w-full px-10 py-4 bg-white border-t-2 border-lime-800/20 inline-flex flex-col justify-start items-start gap-2.5 overflow-hidden">
             <div className="w-full flex flex-col justify-start items-start gap-6 mb-8">
                 <div className="self-stretch justify-start text-lime-800 text-6xl font-bold font-['Rubik'] px-4">
                     {t("reviews.whatSay")}

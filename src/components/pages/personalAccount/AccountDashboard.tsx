@@ -1,8 +1,8 @@
 import {useNavigate} from "react-router";
 import {useAuth} from "../../../features/hooks/useAuth.ts";
 import {useCurrentUser} from "../../../features/hooks/useCurrentUser.ts";
-import spinner from "../../../assets/spinner2.png";
 import {useEffect} from "react";
+import SpinnerFlower from "../../../assets/SpinnerFlower.tsx";
 
 const AccountDashboard = () => {
     const navigate = useNavigate();
@@ -22,9 +22,7 @@ const AccountDashboard = () => {
 
     if (loadingUser) {
         return (
-            <div className="flex justify-center items-center w-full h-64">
-                <img src={spinner} alt="loading..." className="spinner-icon"/>
-            </div>
+            <SpinnerFlower/>
         );
     }
 

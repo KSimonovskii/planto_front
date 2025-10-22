@@ -21,7 +21,7 @@ const OurClientsAndFriends = () => {
 
     return (
         <div className="w-full bg-white py-12 border-t-2 border-lime-800/20">
-            <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-14 flex flex-col gap-8">
+            <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-12 flex flex-col gap-8">
 
                 <h2 className="text-lime-800 text-4xl sm:text-5xl lg:text-6xl font-bold font-['Rubik']">
                     {t("clientsFriends")}

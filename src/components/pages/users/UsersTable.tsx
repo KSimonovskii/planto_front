@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
-import spinner from "../../../assets/spinner2.png";
 import {useAppSelector} from "../../../app/hooks.ts";
 import {getUsersTable, useUserActions} from "../../../features/hooks/useUserAction.ts";
 import type { UserInterfaceAccount } from "../../../utils/types";
+import SpinnerFlower from "../../../assets/SpinnerFlower.tsx";
 
 const columnsConfig = [
     {
@@ -121,9 +121,7 @@ const UsersTable = () => {
     }, [accessToken]);
 
     if (loading) {
-        return (<div className="flex justify-center items-center w-full h-64">
-            <img src={spinner} alt="loading..." className="spinner-icon"/>
-        </div>)
+        return ( <SpinnerFlower/>)
     }
 
     if (error) {
@@ -160,10 +158,7 @@ const UsersTable = () => {
                         <tr key={`${u.login}-orders`}>
                             <td colSpan={columnsConfig.length} className="bg-gray-100 p-4">
                                 {loadingOrders === u.login ? (
-                                    <div className="flex items-center">
-                                        <img src={spinner} alt="loading..." className="spinner-icon w-4 h-4 mr-2"/>
-                                        <span className="text-gray-500">Loading orders...</span>
-                                    </div>
+                                    <SpinnerFlower/>
                                 ) : u.orders && u.orders.length > 0 ? (
                                     <>
                                         <h4 className="font-semibold text-gray-700 mb-2">

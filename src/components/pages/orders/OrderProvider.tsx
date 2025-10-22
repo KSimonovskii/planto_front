@@ -4,8 +4,8 @@ import { Decimal } from "decimal.js";
 import { OrderContext } from "./OrderContext.ts";
 import type { OrderDto } from "../../../utils/types";
 import { secureFetch } from "../../../utils/secureFetch.ts";
-import spinner from "../../../assets/spinner2.png";
 import {useAppSelector} from "../../../app/hooks.ts";
+import SpinnerFlower from "../../../assets/SpinnerFlower.tsx";
 
 
 type OrdersProviderProps = {
@@ -79,9 +79,7 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center w-full h-64">
-                <img src={spinner} alt="loading..." className="spinner-icon" />
-            </div>
+            <SpinnerFlower/>
         );
     }
 

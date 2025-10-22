@@ -2,14 +2,13 @@ import React, {useCallback, useEffect, useState} from "react";
 import {useGetProductByIdQuery} from "../../../features/api/productApi";
 import {useParams, useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
-
-import spinner from "../../../assets/spinner2.png";
 import {useCartActions} from "../../../features/hooks/useCartAction";
 import {useCartContext} from "../../../features/context/CartContext";
 import {useCurrentUser} from "../../../features/hooks/useCurrentUser";
 import BrandedPots from "./BrandedPots.tsx";
 import CustomerReviews from "./CustomerReviews.tsx";
 import SliderMainPage from "../home/SliderMainPage.tsx";
+import SpinnerFlower from "../../../assets/SpinnerFlower.tsx";
 
 const ProductPage: React.FC = () => {
     const {id} = useParams<{ id?: string }>();
@@ -66,9 +65,7 @@ const ProductPage: React.FC = () => {
 
     if (isLoading) {
         return (
-            <div className="flex justify-center items-center w-full h-64">
-                <img src={spinner} alt="loading..." className="spinner-icon"/>
-            </div>
+            <SpinnerFlower/>
         );
     }
 

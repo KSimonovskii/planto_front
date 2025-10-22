@@ -16,7 +16,7 @@ const MainLayout = () => {
                 </div>
             </div>
 
-            <main className="flex-1">
+            <main className="flex-1 bg-white">
                 <div className="w-full">
                     <Outlet/>
                 </div>

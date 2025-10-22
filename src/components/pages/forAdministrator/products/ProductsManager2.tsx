@@ -5,9 +5,9 @@ import ProductsView from "./table/ProductsView.tsx";
 import {useGetProductsTableRTKQuery} from "../../../../features/api/productApi.ts";
 import Product from "../../../../features/classes/Product.ts";
 import {dataTypes} from "../../../../utils/enums/dataTypes.ts";
-import spinner from "../../../../assets/spinner2.png";
 import {ModalWindowAddProduct} from "./table/ModalWindowAddProduct.tsx";
 import AddProduct from "./AddProduct.tsx";
+import SpinnerFlower from "../../../../assets/SpinnerFlower.tsx";
 
 const ProductsManager2 = () => {
     const {pageNumber, sort, filters} = useContext(PageProductContext);
@@ -41,9 +41,7 @@ const ProductsManager2 = () => {
 
     if (isLoading)
         return (
-            <div className="flex justify-center items-center w-full h-64">
-                <img src={spinner} alt="loading..." className="spinner-icon"/>
-            </div>
+            <SpinnerFlower/>
         );
 
     if (isError) {
