@@ -3,12 +3,12 @@
     import {useNavigate} from "react-router";
     import {useEffect} from "react";
     import {useCartContext} from "../../../features/context/CartContext.tsx";
-    import {useTranslation} from "react-i18next";
+    // import {useTranslation} from "react-i18next";
 
     const FrameWithCartIcon = () => {
         const { productsInCart, refreshCart } = useCartContext();
         const navigate = useNavigate();
-        const {i18n} = useTranslation();
+        // const {i18n} = useTranslation();
 
 
         const handleUserClickAccountDashboard = () => {
@@ -18,10 +18,10 @@
             navigate("cart")
         }
 
-        const toggleLanguage = () => {
-            const newLanguage = i18n.language === "en" ? "he" : "en";
-            i18n.changeLanguage(newLanguage);
-        }
+        // const toggleLanguage = () => {
+        //     const newLanguage = i18n.language === "en" ? "he" : "en";
+        //     i18n.changeLanguage(newLanguage);
+        // }
 
         useEffect(() => {
             refreshCart();
@@ -29,13 +29,13 @@
 
         return (
             <div className="flex items-center md:gap-[26px] sm:gap-[18px]">
-                <button
-                    onClick={toggleLanguage}
-                    className="text-[#415A2A] font-rubik text-[20px] md:text-[14px] sm:text-[12px] uppercase
-                               focus:outline-none transition-transform duration-200 hover:scale-115 active:scale-95"
-                >
-                    {i18n.language === "en" ? "EN" : "HEB"}
-                </button>
+                {/*<button*/}
+                {/*    onClick={toggleLanguage}*/}
+                {/*    className="text-[#415A2A] font-rubik text-[20px] md:text-[14px] sm:text-[12px] uppercase*/}
+                {/*               focus:outline-none transition-transform duration-200 hover:scale-115 active:scale-95"*/}
+                {/*>*/}
+                {/*    {i18n.language === "en" ? "EN" : "HEB"}*/}
+                {/*</button>*/}
 
 
                 <button onClick={handleUserClickCart}
