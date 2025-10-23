@@ -1,17 +1,11 @@
-import spinner from "../assets/spinner2.png";
-
-const SpinnerFlower = () => {
-
+const SpinnerCircle = () => {
     return (
-        <div className="flex justify-center items-center w-full h-40 sm:h-56 lg:h-64">
-            <img
-                src={spinner}
-                alt="loading..."
-                className="w-12 h-12 sm:w-16 sm:h-16 animate-spin"
+        <div className="flex justify-center items-center">
+            <div
+                className="w-10 h-10 border-4 border-lime-800 border-t-pink-400 rounded-full animate-spin"
             />
         </div>
-    )
+    );
+};
 
-}
-
-export default SpinnerFlower;
+export default SpinnerCircle;
