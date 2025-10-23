@@ -1,6 +1,8 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {DATA_FOR_ORDER_FILTERS} from "../../utils/constants.ts";
 import Order from "../classes/Order.ts";
+import type {OrderDto} from "../../utils/types";
+import type {RootState} from "../../app/store.ts";
 
 interface DataForFilters {
     statuses: [""];
@@ -27,8 +29,20 @@ export const orderApi = createApi({
     tagTypes: ["Orders"],
     baseQuery: fetchBaseQuery({
         baseUrl: `${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_BASE_ORDER_ENDPOINT}`,
-        headers: new Headers({"content-type": "application/json"}),
-        credentials: "include"
+        // headers: new Headers({"content-type": "application/json"}),
+        credentials: "include",
+        prepareHeaders: (headers, { getState }) => {
+            try {
+                const state = getState() as RootState;
+                const token = state.userAuthSlice?.accessToken ?? state.userAuthSlice?.accessToken ?? "";
+                if (token) {
+                    headers.set("Authorization", `Bearer ${token}`);
+                }
+            } catch (e) {
+            }
+            headers.set("content-type", "application/json");
+            return headers;
+        },
     }),
     endpoints: (build) => ({
         getOrdersTable: build.query({
@@ -68,10 +82,19 @@ export const orderApi = createApi({
             },
         }),
 
+        getOrdersByUser: build.query<OrderDto[], string>({
+            query: (login) => `${login}/orders`,
+            providesTags: (result, login) =>
+                result ? [...result.map((r) => ({ type: "Orders" as const, id: r.id })), { type: "Orders", id: `USER_${login}` }] : [{ type: "Orders", id: `USER_${login}` }],
+        }),
+
     })
 })
 
-export const {useGetOrdersTableQuery,
-                useGetDataForFiltersQuery} = orderApi;
+export const {
+    useGetOrdersTableQuery,
+    useGetDataForFiltersQuery,
+    useGetOrdersByUserQuery
+} = orderApi;
 
 

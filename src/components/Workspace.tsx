@@ -24,9 +24,11 @@ import OurRoots from "./pages/home/aboutUs/OurRoots.tsx";
 import {Rebuilding} from "./pages/home/aboutUs/Rebuilding.tsx";
 import October7 from "./pages/home/aboutUs/October7.tsx";
 import ProductPage from "./pages/store/ProductPage.tsx";
+import {useIsMobile} from "../features/hooks/useIsMobile.ts";
+import ShoppingCartMobile from "./pages/shoppingCart/ShoppingCartMobile.tsx";
 
 const Workspace = () => {
-
+    const isMobile = useIsMobile(900)
     const [pageData, setPage] = useState<PageTableData>({pageNumber: 1, sort: DEFAULT_SORT_PRODUCT, filters: []});
 
     return (
@@ -37,11 +39,13 @@ const Workspace = () => {
                     <Route path="/" element={<Home2/>}/>
                     <Route path="/main" element={<Home2/>}/>
                     <Route path="/main/*" element={<Home2/>}/>
-                    <Route path="/our-roots" element={<OurRoots/>} />
-                    <Route path="/october-7" element={<October7/>} />
-                    <Route path="/rebuilding-now" element={<Rebuilding/>} />
-                    <Route path={navItems[2].path} element={<ShoppingCart/>}/>
-
+                    <Route path="/our-roots" element={<OurRoots/>}/>
+                    <Route path="/october-7" element={<October7/>}/>
+                    <Route path="/rebuilding-now" element={<Rebuilding/>}/>
+                    {!isMobile ?
+                        <Route path={navItems[2].path} element={<ShoppingCart/>}/>
+                        :
+                        <Route path={navItems[2].path} element={<ShoppingCartMobile/>}/>}
                     <Route
                         path={navItems[3].path}
                         element={

@@ -1,6 +1,5 @@
-import {useCallback, useEffect, useMemo, useState, type ChangeEvent} from "react";
+import {type ChangeEvent, useCallback, useEffect, useMemo, useState} from "react";
 import {getProductById} from "../../../features/api/productAction.ts";
-import CartItem from "./CartItem.tsx";
 import {useCartActions} from "../../../features/hooks/useCartAction.ts";
 import CheckoutForm from "../../common/CheckoutForm.tsx";
 import {useCurrentUser} from "../../../features/hooks/useCurrentUser.ts";
@@ -9,11 +8,12 @@ import {useNavigate} from "react-router";
 import {useCartContext} from "../../../features/context/CartContext.tsx";
 import type {CartItemDto, CartItemType} from "../../../utils/types";
 import SpinnerFlower from "../../../assets/SpinnerFlower.tsx";
+import CartItemMobile from "./CartItemMobile.tsx";
 
 const PROMO_CODE = "EINHASHLOSHA";
 const PROMO_PERCENT = 0.10;
 
-const ShoppingCart = () => {
+const ShoppingCartMobile = () => {
     const [items, setItems] = useState<CartItemType[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -276,34 +276,35 @@ const ShoppingCart = () => {
     if (error) return <div className="text-center text-red-500">Error: {error}</div>;
 
     return (
-        <div className="p-6 sm:p-8 bg-[#f6f8f6] text-[#2a4637] min-h-screen">
-            <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-6">
+        <div className="p-4 sm:p-6 bg-[#f6f8f6] text-[#2a4637] min-h-screen">
+            <div className="max-w-xl mx-auto">
 
-                <div className="md:col-span-8 bg-white rounded-lg p-4 sm:p-6 shadow-sm">
-                    <h2 className="text-2xl sm:text-3xl font-extrabold mb-4 sm:mb-6 uppercase">Your Cart</h2>
-                    <div className="space-y-4">
-                        {items.length > 0 ? (
-                            items.map(({product, quantity}) => (
-                                <CartItem
-                                    key={product.id}
-                                    product={product}
-                                    quantity={quantity}
-                                    onAdd={() => handleAdd(product.id)}
-                                    onRemove={() => handleRemove(product.id)}
-                                    onRemoveAll={() => handleRemoveAll(product.id)}
-                                    onSetQuantity={(n: number) => handleSetQuantity(product.id, n)}
-                                    onOpen={() => navigate(`/product/${product.id}`)}
-                                />
-                            ))
-                        ) : (
-                            <div className="text-center text-gray-500 py-8">Your cart is still empty</div>
-                        )}
-                    </div>
+                <div className="mb-4">
+                    <h2 className="text-2xl font-extrabold uppercase">Your Cart</h2>
                 </div>
 
-                <aside className="md:col-span-4">
-                    <div className="sticky top-6 bg-white rounded-lg border border-gray-200 p-4 sm:p-6 shadow-sm">
-                        <h3 className="text-xl font-semibold mb-4">Order Summary</h3>
+                <div className="space-y-4">
+                    {items.length > 0 ? (
+                        items.map(({product, quantity}) => (
+                            <CartItemMobile
+                                key={product.id}
+                                product={product}
+                                quantity={quantity}
+                                onAdd={() => handleAdd(product.id)}
+                                onRemove={() => handleRemove(product.id)}
+                                onRemoveAll={() => handleRemoveAll(product.id)}
+                                onSetQuantity={(n: number) => handleSetQuantity(product.id, n)}
+                                onOpen={() => navigate(`/product/${product.id}`)}
+                            />
+                        ))
+                    ) : (
+                        <div className="text-center text-gray-500 py-8">Your cart is still empty</div>
+                    )}
+                </div>
+
+                <div className="mt-6">
+                    <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+                        <h3 className="text-lg font-semibold mb-3">Order Summary</h3>
 
                         <div className="flex justify-between text-sm mb-2">
                             <span>Subtotal</span>
@@ -319,7 +320,8 @@ const ShoppingCart = () => {
 
                         <div className="flex justify-between text-sm mb-4">
                             <span>Delivery</span>
-                            <span className="font-medium">{deliveryFee === 0 ? "₪0" : `₪${deliveryFee.toFixed(0)}`}</span>
+                            <span
+                                className="font-medium">{deliveryFee === 0 ? "₪0" : `₪${deliveryFee.toFixed(0)}`}</span>
                         </div>
 
                         <div className="border-t pt-4 flex justify-between items-center mb-4">
@@ -327,7 +329,7 @@ const ShoppingCart = () => {
                             <span className="text-lg font-bold">₪{total.toFixed(0)}</span>
                         </div>
 
-                        <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-3">
                             <input
                                 type="text"
                                 placeholder="Add promo code"
@@ -337,6 +339,8 @@ const ShoppingCart = () => {
                                 aria-label="promo-code"
                                 disabled={isPromoApplied}
                             />
+
+
 
                             {!isPromoApplied ? (
                                 <button
@@ -363,9 +367,9 @@ const ShoppingCart = () => {
                         >
                             Go to Checkout
                         </button>
-
                     </div>
-                </aside>
+                </div>
+
             </div>
 
             <CheckoutForm isOpen={isCheckoutOpen} onClose={() => setIsCheckoutOpen(false)} items={items}
@@ -375,4 +379,4 @@ const ShoppingCart = () => {
     );
 };
 
-export default ShoppingCart;
+export default ShoppingCartMobile;

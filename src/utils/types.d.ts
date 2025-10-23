@@ -97,7 +97,7 @@ export interface AnswerTable {
     }
 }
 //Orders
-interface OrderDto {
+export interface OrderDto {
     id: string;
     items: OrderItemDto[];
     status: OrderStatus;
@@ -112,6 +112,7 @@ export interface OrderItemDto {
     name: string;
     quantity: number;
     priceUnit: Decimal;
+    imageUrl: string;
 }
 
 interface CartItemDto {
