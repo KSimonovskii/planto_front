@@ -7,7 +7,7 @@ const CorporateFavoritesMobile = () => {
     const navigate = useNavigate();
 
     const handleViewAll = () => {
-        navigate("/products");
+        navigate("/store");
     };
 
     return (
@@ -26,7 +26,7 @@ const CorporateFavoritesMobile = () => {
                         onClick={handleViewAll}
                         className="w-full max-w-xs py-3 px-6 text-lg font-medium text-white bg-lime-800 rounded-lg hover:bg-lime-700 transition duration-300 shadow-md transform hover:scale-[1.01] active:scale-[0.99]"
                     >
-                        {t("viewAll") ?? "Посмотреть все"}
+                        {t("viewAll")}
                     </button>
                 </div>
             </div>

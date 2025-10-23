@@ -14,7 +14,7 @@ const FramePaginationCorporateFavorites = ({onPrev, onNext}: Props) => {
     const {t} = useTranslation();
 
     const handleClickViewAll = () => {
-        navigate("store");
+        navigate("/store");
     }
 
     return (

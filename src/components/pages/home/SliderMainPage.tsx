@@ -8,7 +8,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import FramePaginationCorporateFavorites from "./FramePaginationCorporateFavorites.tsx";
 import {useCartContext} from "../../../features/context/CartContext.tsx";
-import AuthModal from "./AuthModal.tsx";
+// import AuthModal from "./AuthModal.tsx";
 import Product from "../../../features/classes/Product.ts";
 import {useGetProductsTableRTKQuery} from "../../../features/api/productApi.ts";
 import {getBodyForQueryGetTable} from "../../../features/api/apiUtils.ts";
@@ -24,7 +24,7 @@ const SliderMainPage = () => {
     const {isAuthenticated} = useCurrentUser();
     const swiperRef = useRef<any>(null);
     const {refreshCart} = useCartContext();
-    const [showAuthModal, setShowAuthModal] = useState(false);
+    // const [showAuthModal, setShowAuthModal] = useState(false);
     const {pageNumber, sort, filters} = useContext(PageProductContext);
     const body = useMemo(() => (
         getBodyForQueryGetTable(dataTypes.products, pageNumber, sort, filters)
@@ -110,7 +110,7 @@ const SliderMainPage = () => {
                                 />
                             </div>
 
-                            <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
+                            {/*<AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />*/}
                         </>
                     )}
                 </div>

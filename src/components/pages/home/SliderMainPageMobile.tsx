@@ -5,7 +5,7 @@ import {useCartActions} from "../../../features/hooks/useCartAction.ts";
 import {useCurrentUser} from "../../../features/hooks/useCurrentUser.ts";
 import "swiper/css";
 import {useCartContext} from "../../../features/context/CartContext.tsx";
-import AuthModal from "./AuthModal.tsx";
+// import AuthModal from "./AuthModal.tsx";
 import Product from "../../../features/classes/Product.ts";
 import {useGetProductsTableRTKQuery} from "../../../features/api/productApi.ts";
 import {getBodyForQueryGetTable} from "../../../features/api/apiUtils.ts";
@@ -21,7 +21,7 @@ const SliderMainPageMobile = () => {
     const {isAuthenticated} = useCurrentUser();
     const swiperRef = useRef<any>(null);
     const {refreshCart} = useCartContext();
-    const [showAuthModal, setShowAuthModal] = useState(false);
+    // const [showAuthModal, setShowAuthModal] = useState(false);
     const {pageNumber, sort, filters} = useContext(PageProductContext);
     const body = useMemo(() => (
         getBodyForQueryGetTable(dataTypes.products, pageNumber, sort, filters)
@@ -64,6 +64,7 @@ const SliderMainPageMobile = () => {
         [isAuthenticated, addToCart, refreshCart]
     );
 
+
     return (
 
         <div className="w-full">
@@ -100,7 +101,7 @@ const SliderMainPageMobile = () => {
                                 ))}
                             </Swiper>
 
-                            <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
+                            {/*<AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />*/}
                         </>
                     )}
                 </div>

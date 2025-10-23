@@ -26,6 +26,7 @@ import October7 from "./pages/home/aboutUs/October7.tsx";
 import ProductPage from "./pages/store/ProductPage.tsx";
 import {useIsMobile} from "../features/hooks/useIsMobile.ts";
 import ShoppingCartMobile from "./pages/shoppingCart/ShoppingCartMobile.tsx";
+import StoreMobile from "./pages/store/StoreMobile.tsx";
 
 const Workspace = () => {
     const isMobile = useIsMobile(900)
@@ -54,8 +55,11 @@ const Workspace = () => {
                             </RequireAuth>
                         }
                     />
+                    {!isMobile ?
+                        <Route path={`${navItems[4].path}/*`} element={<Store/>}/>
+                        :
+                        <Route path={`${navItems[4].path}/*`} element={<StoreMobile/>}/>}
 
-                    <Route path={`${navItems[4].path}/*`} element={<Store/>}/>
                     <Route path={"/product/:id"} element={<ProductPage/>}/>
                     <Route path="auth/login" element={<PersonalAccount/>}/>
                     <Route path="account/register" element={<AccountRegister/>}/>
