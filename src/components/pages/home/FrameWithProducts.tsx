@@ -8,7 +8,7 @@ const FrameWithProducts = () => {
                         <div className="self-stretch flex flex-col justify-start items-start gap-3">
                             <div className="w-72 h-72 relative rounded-lg overflow-hidden">
                                 <div className="w-5 h-4">
-                                    <div className="w-5 h-4 left-0 top-0 bg-white/20 outline outline-2 outline-offset-[-1px] outline-lime-800" />
+                                    <div className="w-5 h-4 left-0 top-0 bg-white/20 outline outline-2 outline-offset-[-1px] outline-lime-900" />
                                 </div>
                             </div>
                         </div>

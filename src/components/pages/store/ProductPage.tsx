@@ -76,7 +76,7 @@ const ProductPage: React.FC = () => {
         return (
             <div className="max-w-4xl mx-auto p-6 text-center">
                 <button
-                    className="mb-4 text-sm text-lime-800 hover:underline"
+                    className="mb-4 text-sm text-lime-900 hover:underline"
                     onClick={() => navigate(-1)}
                 >
                     ← Back
@@ -90,7 +90,7 @@ const ProductPage: React.FC = () => {
         return (
             <div className="max-w-4xl mx-auto p-6 text-center">
                 <button
-                    className="mb-4 text-sm text-lime-800 hover:underline"
+                    className="mb-4 text-sm text-lime-900 hover:underline"
                     onClick={() => navigate(-1)}
                 >
                     ← Back
@@ -103,7 +103,7 @@ const ProductPage: React.FC = () => {
     return (
         <div className="w-full mx-auto p-6 font-['Rubik']">
             {/*<button*/}
-            {/*    className="mb-4 text-sm text-lime-800 hover:underline"*/}
+            {/*    className="mb-4 text-sm text-lime-900 hover:underline"*/}
             {/*    onClick={() => navigate(-1)}*/}
             {/*>*/}
             {/*    ← Back*/}
@@ -120,10 +120,10 @@ const ProductPage: React.FC = () => {
                 </div>
 
                 <div className="w-full flex flex-col gap-4">
-                    <h1 className="text-3xl font-bold text-lime-800">{product.name}</h1>
+                    <h1 className="text-3xl font-bold text-lime-900">{product.name}</h1>
 
                     <div className="flex items-center gap-4 flex-wrap">
-                        <div className="text-2xl font-bold text-lime-800">
+                        <div className="text-2xl font-bold text-lime-900">
                             ₪{product.price.toFixed(2)}
                         </div>
                         <div className="text-sm text-red-500 bg-red-100 px-3 py-1 rounded-full">
@@ -131,11 +131,11 @@ const ProductPage: React.FC = () => {
                         </div>
                     </div>
 
-                    <p className="mt-6 text-base text-lime-800">{product.description}</p>
+                    <p className="mt-6 text-base text-lime-900">{product.description}</p>
 
                     <div className="mt-6">
-                        <h3 className="font-semibold text-lime-800">ADVANTAGES</h3>
-                        <ul className="mt-3 list-disc list-inside text-lime-800 space-y-2">
+                        <h3 className="font-semibold text-lime-900">ADVANTAGES</h3>
+                        <ul className="mt-3 list-disc list-inside text-lime-900 space-y-2">
                             <li>Minimal care — loves sun, needs little water</li>
                             <li>Symbol of resilience — thrives like our community</li>
                             <li>
@@ -149,11 +149,11 @@ const ProductPage: React.FC = () => {
                             <button
                                 onClick={() => handleAddToCart(product.id)}
                                 disabled={alreadyInCart}
-                                className={`w-full lg:w-72 px-6 py-3 rounded-lg outline outline-1 outline-lime-800 inline-flex justify-center items-center gap-2 overflow-hidden text-base font-medium font-['Rubik'] leading-normal transition
+                                className={`w-full lg:w-72 px-6 py-3 rounded-lg outline outline-1 outline-lime-900 inline-flex justify-center items-center gap-2 overflow-hidden text-base font-medium font-['Rubik'] leading-normal transition
         ${
                                     alreadyInCart
-                                        ? "bg-lime-800 text-white cursor-default"
-                                        : "bg-white text-lime-800 hover:bg-lime-800 hover:text-white"
+                                        ? "bg-lime-900 text-white cursor-default"
+                                        : "bg-white text-lime-900 hover:bg-lime-900 hover:text-white"
                                 }`}
                             >
                                 {alreadyInCart ? t("cart.addedToCart") : t("cart.addToCart")}
@@ -177,7 +177,7 @@ const ProductPage: React.FC = () => {
                 <CustomerReviews/>
             </div>
 
-            <div className="w-full my-12 text-lime-800 text-6xl font-bold leading-[56px]">
+            <div className="w-full my-12 text-lime-900 text-6xl font-bold leading-[56px]">
                 You Might Also Like
             </div>
 

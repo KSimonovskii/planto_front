@@ -11,7 +11,7 @@ const MainLayout = () => {
         <div className="max-w-[1440px] mx-auto flex flex-col min-h-screen font-['Rubik'] overflow-hidden">
 
             <div className="flex-1 sticky top-0 z-50 bg-white ">
-                <div className="my-6 w-full">
+                <div className="w-full">
                     <MegaMenu/>
                 </div>
             </div>

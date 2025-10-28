@@ -322,7 +322,7 @@ const CheckoutForm = ({
                                         <button type="button" onClick={onClose} className="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-50 transition">
                                             Cancel
                                         </button>
-                                        <button type="submit" disabled={loading} className={`px-4 py-2 rounded-md text-white font-semibold transition ${loading ? "bg-gray-400" : "bg-lime-700 hover:bg-lime-800"}`}>
+                                        <button type="submit" disabled={loading} className={`px-4 py-2 rounded-md text-white font-semibold transition ${loading ? "bg-gray-400" : "bg-lime-700 hover:bg-lime-900"}`}>
                                             {loading ? "Processing..." : "Place Order"}
                                         </button>
                                     </div>

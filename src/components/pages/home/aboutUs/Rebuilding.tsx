@@ -75,7 +75,7 @@ export const Rebuilding: React.FC = () => {
                     />
                 </div>
 
-                <div className="w-full max-w-7xl text-lime-800 text-base font-['Rubik'] leading-relaxed">
+                <div className="w-full max-w-7xl text-lime-900 text-base font-['Rubik'] leading-relaxed">
                     <p>
                         <span className="font-bold">Kibbutz Ein HaShlosha</span> is now in a stage of rebuilding and renewal. In <span className="font-bold">August 2025</span>, our residents
                         finally returned home after a long evacuation. We warmly invite you to support our recovery, either

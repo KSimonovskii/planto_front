@@ -89,7 +89,7 @@ const CustomerReviews: React.FC = () => {
 
     return (
         <div className="w-full bg-white flex flex-col gap-6">
-            <div className="text-lime-800 text-4xl font-bold mb-4">What Our Customers Say</div>
+            <div className="text-lime-900 text-4xl font-bold mb-4">What Our Customers Say</div>
 
             <Swiper
                 modules={[Navigation]}
@@ -106,13 +106,13 @@ const CustomerReviews: React.FC = () => {
                         <div className="flex flex-col bg-zinc-100 rounded-xl p-6 flex-1 gap-4">
                             {renderStars(review.stars)}
                             <div>
-                                <div className="text-lime-800 font-bold">{review.name}</div>
+                                <div className="text-lime-900 font-bold">{review.name}</div>
                                 {review.role && (
-                                    <div className="text-lime-800/60 text-sm">{review.role}</div>
+                                    <div className="text-lime-900/60 text-sm">{review.role}</div>
                                 )}
                             </div>
-                            <p className="text-lime-800 text-base">{review.text}</p>
-                            <div className="text-lime-800/60 text-xs mt-2">{review.date}</div>
+                            <p className="text-lime-900 text-base">{review.text}</p>
+                            <div className="text-lime-900/60 text-xs mt-2">{review.date}</div>
                         </div>
                     </SwiperSlide>
                 ))}

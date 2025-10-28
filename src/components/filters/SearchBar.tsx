@@ -59,7 +59,7 @@ export const SearchBar = () => {
             />
             <button
                 type="submit"
-                className="px-6 py-2 rounded-lg bg-lime-600 hover:bg-lime-800 text-white font-medium transition"
+                className="px-6 py-2 rounded-lg bg-lime-600 hover:bg-lime-900 text-white font-medium transition"
                 onClick={(e) => handlerClickSearch(e, strSearch)}
             >
                 Search

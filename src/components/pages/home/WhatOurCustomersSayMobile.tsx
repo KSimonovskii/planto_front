@@ -15,28 +15,39 @@ const WhatOurCustomersSayMobile = () => {
     ];
 
     return (
-        <div className="w-full px-4 py-6 bg-white border-t-2 border-lime-800/20 flex flex-col gap-4">
-
-            <h2 className="text-lime-800 text-2xl sm:text-3xl font-bold font-['Rubik']">
+        <div className="w-full px-4 py-6 bg-white border-t-2 border-lime-900/20 flex flex-col gap-4">
+            <h2 className="text-lime-900 text-2xl sm:text-3xl font-bold font-['Rubik']">
                 {t("reviews.whatSay")}
             </h2>
 
             <Swiper
-                spaceBetween={20}
-                slidesPerView={1}
+                spaceBetween={16}
+                slidesPerView={1.3}
+                centeredSlides={false}
+                grabCursor={true}
                 className="w-full py-4"
             >
                 {reviews.map((review, index) => (
-                    <SwiperSlide key={index} className="flex justify-center items-center px-2">
-                        <div className="w-full max-w-xs p-4 bg-zinc-100 rounded-lg flex flex-col justify-start items-start gap-4">
-                            <div className="text-lime-800 text-sm sm:text-base font-normal font-['Rubik'] leading-normal">
+                    <SwiperSlide key={index} className="flex justify-center items-stretch px-2">
+                        <div className="w-full max-w-xs h-[250px] p-4 bg-zinc-100 rounded-lg flex flex-col justify-between items-start gap-4">
+
+                            <div
+                                className="text-lime-900 text-sm sm:text-base font-normal font-['Rubik'] leading-normal"
+                                style={{
+                                    display: "-webkit-box",
+                                    WebkitLineClamp: 6,
+                                    WebkitBoxOrient: "vertical",
+                                    overflow: "hidden",
+                                }}
+                            >
                                 {review.text}
                             </div>
+
                             <div className="flex flex-col justify-start items-start gap-1">
-                                <div className="text-lime-800 text-sm sm:text-base font-bold font-['Rubik']">
+                                <div className="text-lime-900 text-sm sm:text-base font-bold font-['Rubik']">
                                     {review.author}
                                 </div>
-                                <div className="text-lime-800 text-sm sm:text-base font-normal font-['Rubik'] leading-normal">
+                                <div className="text-lime-900 text-sm sm:text-base font-normal font-['Rubik'] leading-normal">
                                     {review.position}
                                 </div>
                             </div>
@@ -44,7 +55,6 @@ const WhatOurCustomersSayMobile = () => {
                     </SwiperSlide>
                 ))}
             </Swiper>
-
         </div>
     );
 };

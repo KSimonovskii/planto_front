@@ -5,7 +5,7 @@ import FooterTalkToUs from "./FooterTalkToUs.tsx";
 
 const Footer = () => {
     return (
-        <footer className="w-full bg-lime-800 px-6 md:px-10 lg:px-20 py-4 flex flex-col gap-10 text-white">
+        <footer className="w-full bg-lime-900 px-6 md:px-10 lg:px-20 py-4 flex flex-col gap-10 text-white">
 
             <div className="flex justify-between md:justify-start font-['Rubik']">
                 <LogoWhite/>

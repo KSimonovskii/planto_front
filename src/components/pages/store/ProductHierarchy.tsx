@@ -12,11 +12,11 @@ const ProductHierarchy = ({hierarchy} : Props) => {
 
         return (
             <div className={"inline-flex justify-start items-center"} key = {`--${i}`}>
-                <span className={`justify-start text-lime-800 text-base font-['Rubik'] ${isLast? "font-bold" : "font-normal leading-normal"}`} key={i}>
+                <span className={`justify-start text-lime-900 text-base font-['Rubik'] ${isLast? "font-bold" : "font-normal leading-normal"}`} key={i}>
                     {prepareString(str)}
                 </span>
                 {!isLast &&
-                    (<span className={"justify-start text-lime-800 text-base font-normal font-['Rubik'] uppercase mx-1"} key={`${i}/`}>/</span>)
+                    (<span className={"justify-start text-lime-900 text-base font-normal font-['Rubik'] uppercase mx-1"} key={`${i}/`}>/</span>)
                 }
             </div>
     )

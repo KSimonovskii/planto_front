@@ -84,7 +84,7 @@ export const FiltersAdmin = () => {
 
             <div className="flex items-center gap-2 mt-4 md:mt-0">
                 <button
-                    className="px-6 py-2 rounded-lg bg-lime-600 hover:bg-lime-800 text-white font-medium transition"
+                    className="px-6 py-2 rounded-lg bg-lime-600 hover:bg-lime-900 text-white font-medium transition"
                     onClick={handlerAcceptFilters}
                 >
                     Accept

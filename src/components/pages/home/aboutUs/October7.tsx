@@ -69,7 +69,7 @@ const October7: React.FC = () => {
                     />
                 </div>
 
-                <div className="w-full max-w-7xl text-lime-800 text-base font-['Rubik'] leading-relaxed">
+                <div className="w-full max-w-7xl text-lime-900 text-base font-['Rubik'] leading-relaxed">
                     <p>
                         On October 7, Hamas terrorists invaded{" "}
                         <span className="font-bold">Kibbutz Ein HaShlosha</span> as part of the

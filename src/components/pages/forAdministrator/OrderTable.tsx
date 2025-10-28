@@ -53,7 +53,7 @@ const OrdersTable = () => {
                             {/* User */}
                             <td className="px-4 py-2 border">
                                 <div
-                                    className="cursor-pointer text-lime-800 font-semibold hover:underline"
+                                    className="cursor-pointer text-lime-900 font-semibold hover:underline"
                                 >
                                     {o.user?.login || "Unknown"}
                                 </div>
@@ -118,7 +118,7 @@ const OrdersTable = () => {
                             <td className="px-4 py-2 border text-center">
                                 <button
                                     onClick={() => handleDeleteOrder(o.id)}
-                                    className="text-lime-800 hover:text-red-800 transition-colors"
+                                    className="text-lime-900 hover:text-red-800 transition-colors"
                                     title="Delete Order"
                                 >
                                     <Trash2 size={18} className="inline-block"/>

@@ -47,7 +47,7 @@ const CartItemMobile = ({ product, quantity, onAdd, onRemove, onRemoveAll, onSet
                     <h4 className="text-base font-semibold leading-tight truncate">{product.name}</h4>
 
                     <div className="mt-1 text-sm text-gray-600">
-                        <div className="text-sm text-lime-800">Available: {product.quantity}</div>
+                        <div className="text-sm text-lime-900">Available: {product.quantity}</div>
                         <div className="mt-1">Pot branding: <span className="text-gray-800">Not included</span></div>
                     </div>
 

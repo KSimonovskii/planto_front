@@ -40,16 +40,16 @@ const ProductsCards: React.FC<ProductsCardsProps> = ({
                                 alt={p.name}
                                 className="object-cover w-full h-full transform hover:scale-105 transition duration-300"
                             />
-                            <div className="absolute top-4 right-4 w-6 h-5 bg-white/20 outline outline-2 outline-offset-[-1px] outline-lime-800 rounded-sm" />
+                            <div className="absolute top-4 right-4 w-6 h-5 bg-white/20 outline outline-2 outline-offset-[-1px] outline-lime-900 rounded-sm" />
                         </div>
 
                         {/*content*/}
                         <div className="flex flex-col flex-1 p-4">
                             <div className="flex justify-between items-start mb-2">
-                                <div className="text-lime-800 text-lg md:text-xl font-bold font-['Rubik'] truncate">
+                                <div className="text-lime-900 text-lg md:text-xl font-bold font-['Rubik'] truncate">
                                     {p.name}
                                 </div>
-                                <div className="text-lime-800 text-lg md:text-xl font-bold font-['Rubik'] whitespace-nowrap">
+                                <div className="text-lime-900 text-lg md:text-xl font-bold font-['Rubik'] whitespace-nowrap">
                                     ₪ {p.price}
                                 </div>
                             </div>

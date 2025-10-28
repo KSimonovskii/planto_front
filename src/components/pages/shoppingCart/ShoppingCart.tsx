@@ -359,7 +359,7 @@ const ShoppingCart = () => {
 
                         <button
                             onClick={handleCheckoutClick}
-                            className="w-full py-3 rounded-lg bg-lime-700 text-white font-medium hover:bg-lime-800 transition"
+                            className="w-full py-3 rounded-lg bg-lime-700 text-white font-medium hover:bg-lime-900 transition"
                         >
                             Go to Checkout
                         </button>

@@ -36,7 +36,7 @@ const CartItem = ({ product, quantity, onAdd, onRemove, onRemoveAll, onSetQuanti
                 <div className="flex justify-between items-start">
                     <div>
                         <h4 className="font-semibold truncate">{product.name}</h4>
-                        <div className="text-sm text-lime-800">Available: {product.quantity}</div>
+                        <div className="text-sm text-lime-900">Available: {product.quantity}</div>
                         <div className="text-xs text-gray-400">Pot branding: Not included</div>
                     </div>
 

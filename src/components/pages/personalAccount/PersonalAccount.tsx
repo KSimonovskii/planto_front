@@ -83,7 +83,7 @@ const PersonalAccount = () => {
                         type="submit"
                         disabled={loading}
                         className={`w-full py-3 rounded-lg font-rubik text-white transition-transform duration-200
-              ${loading ? "bg-lime-300 cursor-not-allowed" : "bg-lime-600 hover:bg-lime-800 hover:scale-105 active:scale-95"}`}
+              ${loading ? "bg-lime-300 cursor-not-allowed" : "bg-lime-600 hover:bg-lime-900 hover:scale-105 active:scale-95"}`}
                     >
                         {loading ? "Logging in..." : "Login"}
                     </button>

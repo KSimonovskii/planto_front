@@ -112,13 +112,13 @@ const FilterButtons = () => {
     return (
         <div className={"flex flex-row space-x-1 font-['Rubik']"}>
             <div
-                 className="bg-lime-800 text-white hover:bg-lime-900  px-6 py-3 rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
+                 className="bg-lime-900 text-white hover:bg-lime-900  px-6 py-3 rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
                 <button className={" text-base font-medium font-['Rubik'] leading-normal cursor-pointer transition"}
                         onClick={handlerAcceptFilters}>Filter
                 </button>
             </div>
             <div
-                 className="bg-lime-800 text-white hover:bg-lime-900  px-6 py-3 rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
+                 className="bg-lime-900 text-white hover:bg-lime-900  px-6 py-3 rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
                 <button className={"text-white text-base font-medium font-['Rubik'] leading-normal cursor-pointer"}
                         onClick={handlerResetFilters}>Reset
                 </button>

@@ -41,7 +41,7 @@ const Filters = () => {
         <Popover className="group">
             <PopoverButton
                 className={"inline-flex justify-start items-center gap-2"}>
-                <div className="justify-start text-lime-800 text-base font-bold font-['Rubik']">
+                <div className="justify-start text-lime-900 text-base font-bold font-['Rubik']">
                     Filters
                 </div>
                 <ChevronDownIcon className="size-5 group-data-open:rotate-180" />

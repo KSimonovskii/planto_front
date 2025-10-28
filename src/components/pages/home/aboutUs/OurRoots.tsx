@@ -69,7 +69,7 @@ const ImageSwitcherSection: React.FC<ImageSwitcherSectionProps> = ({
             onMouseLeave={handleMouseLeave}
         >
             <div className="w-full md:w-1/2 h-auto md:h-full flex items-center p-6">
-                <div className="text-lime-800 text-base font-['Rubik'] leading-relaxed">
+                <div className="text-lime-900 text-base font-['Rubik'] leading-relaxed">
                     {textNode}
                 </div>
             </div>

@@ -34,11 +34,19 @@ const SliderMainPageMobile = () => {
         [data.products]
     );
 
-    let msg = "";
-    if (isError) {
-        msg = 'status' in error ? `Error: ${error.status} - ${error.data}` : "Unknown error";
-        setErrorMsg(msg);
-    }
+    useEffect(() => {
+        if (isError) {
+            let msg = "";
+            if (typeof error === "object" && error !== null && "status" in error) {
+                msg = `Error: ${error.status} - ${JSON.stringify((error as any).data)}`;
+            } else if (typeof error === "string") {
+                msg = `Error: ${error}`;
+            } else {
+                msg = "Unknown error";
+            }
+            setErrorMsg(msg);
+        }
+    }, [isError, error]);
 
     useEffect(() => {
         if (isAuthenticated) {
@@ -78,11 +86,12 @@ const SliderMainPageMobile = () => {
                         <>
                             <Swiper
                                 spaceBetween={16}
-                                slidesPerView={1}
+                                slidesPerView={1.3}
                                 onSwiper={(swiper) => (swiperRef.current = swiper)}
                                 className="w-full py-6"
                                 touchEventsTarget="container"
                                 grabCursor={true}
+                                centeredSlides={false}
                             >
                                 {products.map((product) => (
                                     <SwiperSlide

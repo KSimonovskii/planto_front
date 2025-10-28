@@ -37,14 +37,14 @@ const Hero = () => {
                 <div className="flex gap-4 mt-4">
                     <button
                         onClick={handleClickExploreCollection}
-                        className="px-6 py-3 bg-lime-700 rounded-lg text-white text-base font-medium font-['Rubik'] hover:bg-lime-800 transition"
+                        className="px-6 py-3 bg-lime-900 rounded-lg text-white text-base font-medium font-['Rubik'] hover:bg-lime-900 transition"
                     >
                         {t("hero.exploreCollection")}
                     </button>
 
                     <button
                         onClick={handleClickAboutProject}
-                        className="px-6 py-3 bg-white/90 rounded-lg outline outline-1 outline-lime-800 text-lime-800 text-base font-medium font-['Rubik'] hover:bg-lime-800 hover:text-white transition"
+                        className="px-6 py-3 bg-white/90 rounded-lg outline outline-1 outline-lime-900 text-lime-900 text-base font-medium font-['Rubik'] hover:bg-lime-900 hover:text-white transition"
                     >
                         {t("hero.aboutProject")}
                     </button>

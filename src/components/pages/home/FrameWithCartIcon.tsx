@@ -1,9 +1,9 @@
-    import CartIcon from "./CartIcon.tsx";
-    import UserIcon from "./UserIcon.tsx";
-    import {useNavigate} from "react-router";
-    import {useEffect} from "react";
-    import {useCartContext} from "../../../features/context/CartContext.tsx";
-    // import {useTranslation} from "react-i18next";
+import CartIcon from "./CartIcon.tsx";
+import UserIcon from "./UserIcon.tsx";
+import {useNavigate} from "react-router";
+import {useEffect} from "react";
+import {useCartContext} from "../../../features/context/CartContext.tsx";
+// import {useTranslation} from "react-i18next";
 
     const FrameWithCartIcon = () => {
         const { productsInCart, refreshCart } = useCartContext();
@@ -36,7 +36,6 @@
                 {/*>*/}
                 {/*    {i18n.language === "en" ? "EN" : "HEB"}*/}
                 {/*</button>*/}
-
 
                 <button onClick={handleUserClickCart}
                         className="focus:outline-none transition-transform duration-200 hover:scale-150 active:scale-95">

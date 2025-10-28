@@ -39,7 +39,7 @@ const PanelColumn = ({ title, items, img, path, hierarchy, onClick }: PanelColum
 
             <NavLink
                 to={getBasePath()}
-                className="text-lime-800 text-lg font-bold font-['Rubik'] mb-2 hover:underline transition"
+                className="text-lime-900 text-lg font-bold font-['Rubik'] mb-2 hover:underline transition"
             >
                 {title}
             </NavLink>
@@ -60,7 +60,7 @@ const PanelColumn = ({ title, items, img, path, hierarchy, onClick }: PanelColum
                         <NavLink
                             key={i}
                             to={getPathForItem(item)}
-                            className="text-lime-800 text-base font-normal font-['Rubik'] hover:underline transition"
+                            className="text-lime-900 text-base font-normal font-['Rubik'] hover:underline transition"
                         >
                             {item.title}
                         </NavLink>

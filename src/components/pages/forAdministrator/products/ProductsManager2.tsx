@@ -61,7 +61,7 @@ const ProductsManager2 = () => {
 
                     <button
                         onClick={() => setOpen(true)}
-                        className="px-4 py-2 rounded-lg bg-lime-600 hover:bg-lime-800 text-white text-base font-medium transition-colors"
+                        className="px-4 py-2 rounded-lg bg-lime-600 hover:bg-lime-900 text-white text-base font-medium transition-colors"
                     >
                         Add New Product
                     </button>

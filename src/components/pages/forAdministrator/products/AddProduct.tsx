@@ -79,7 +79,7 @@ const AddProduct = () => {
                     />
 
                     <label className="w-full">
-                        <div className="px-4 py-2 bg-lime-600 hover:bg-lime-800 text-white rounded-md text-center cursor-pointer transition-colors">
+                        <div className="px-4 py-2 bg-lime-600 hover:bg-lime-900 text-white rounded-md text-center cursor-pointer transition-colors">
                             Download image
                         </div>
                         <input
@@ -93,7 +93,7 @@ const AddProduct = () => {
 
                     <button
                         type="submit"
-                        className="mt-6 w-full px-4 py-2 bg-lime-600 hover:bg-lime-800 text-white font-medium rounded-md transition-colors"
+                        className="mt-6 w-full px-4 py-2 bg-lime-600 hover:bg-lime-900 text-white font-medium rounded-md transition-colors"
                     >
                         Add product
                     </button>

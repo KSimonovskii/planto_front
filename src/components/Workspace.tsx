@@ -27,6 +27,7 @@ import ProductPage from "./pages/store/ProductPage.tsx";
 import {useIsMobile} from "../features/hooks/useIsMobile.ts";
 import ShoppingCartMobile from "./pages/shoppingCart/ShoppingCartMobile.tsx";
 import StoreMobile from "./pages/store/StoreMobile.tsx";
+import UnderConstructionPage from "./pages/home/UnderConstructionPage.tsx";
 
 const Workspace = () => {
     const isMobile = useIsMobile(900)
@@ -93,7 +94,7 @@ const Workspace = () => {
                     />
 
                 </Route>
-
+                <Route path={"/under-construction"} element={<UnderConstructionPage/>}/>
                 <Route path="/main" element={<Navigate to="/" replace/>}/>
                 <Route path="*" element={<ErrorPage msg="Page not found"/>}/>
 

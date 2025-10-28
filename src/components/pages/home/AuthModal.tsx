@@ -32,8 +32,8 @@ const AuthModal: React.FC<AuthModalProps> = ({isOpen, onClose}) => {
                 className="bg-white p-6 rounded-lg shadow-lg w-80 text-center"
                 onClick={(e) => e.stopPropagation()}
             >
-                <h2 className="text-xl font-bold text-lime-800 mb-4">{t("authModal.title")}</h2>
-                <p className="mb-6 text-lime-800">{t("authModal.message")}</p>
+                <h2 className="text-xl font-bold text-lime-900 mb-4">{t("authModal.title")}</h2>
+                <p className="mb-6 text-lime-900">{t("authModal.message")}</p>
                 <div className="flex justify-center gap-4">
                     <button
                         onClick={handleLogin}

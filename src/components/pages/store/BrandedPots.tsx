@@ -5,7 +5,7 @@ const BrandedPots = () => {
             <div className="">
                 <div className="bg-white rounded-lg p-6 md:p-8 relative">
 
-                    <h2 className="text-lime-800 text-2xl sm:text-3xl font-bold  leading-tight ">
+                    <h2 className="text-lime-900 text-2xl sm:text-3xl font-bold  leading-tight ">
                         Interested in branded pots?
                     </h2>
 
@@ -20,7 +20,7 @@ const BrandedPots = () => {
                                     name="fullName"
                                     type="text"
                                     placeholder="Full Name"
-                                    className="w-full bg-neutral-50 rounded-lg outline outline-1 outline-offset-[-1px] outline-lime-800 px-3 py-2 text-stone-700 placeholder:text-stone-300 font-['Rubik']"
+                                    className="w-full bg-neutral-50 rounded-lg outline outline-1 outline-offset-[-1px] outline-lime-900 px-3 py-2 text-stone-700 placeholder:text-stone-300 font-['Rubik']"
                                 />
                             </div>
 
@@ -33,7 +33,7 @@ const BrandedPots = () => {
                                     name="email"
                                     type="email"
                                     placeholder="Email"
-                                    className="w-full bg-neutral-50 rounded-lg outline outline-1 outline-offset-[-1px] outline-lime-800 px-3 py-2 text-stone-700 placeholder:text-stone-300 font-['Rubik']"
+                                    className="w-full bg-neutral-50 rounded-lg outline outline-1 outline-offset-[-1px] outline-lime-900 px-3 py-2 text-stone-700 placeholder:text-stone-300 font-['Rubik']"
                                 />
                             </div>
                         </div>
@@ -48,7 +48,7 @@ const BrandedPots = () => {
                                     name="company"
                                     type="text"
                                     placeholder="Company Name"
-                                    className="w-full bg-neutral-50 rounded-lg outline outline-1 outline-offset-[-1px] outline-lime-800 px-3 py-2 text-stone-700 placeholder:text-stone-300 font-['Rubik']"
+                                    className="w-full bg-neutral-50 rounded-lg outline outline-1 outline-offset-[-1px] outline-lime-900 px-3 py-2 text-stone-700 placeholder:text-stone-300 font-['Rubik']"
                                 />
                             </div>
 
@@ -61,7 +61,7 @@ const BrandedPots = () => {
                                     name="phone"
                                     type="tel"
                                     placeholder="Phone"
-                                    className="w-full bg-neutral-50 rounded-lg outline outline-1 outline-offset-[-1px] outline-lime-800 px-3 py-2 text-stone-700 placeholder:text-stone-300 font-['Rubik']"
+                                    className="w-full bg-neutral-50 rounded-lg outline outline-1 outline-offset-[-1px] outline-lime-900 px-3 py-2 text-stone-700 placeholder:text-stone-300 font-['Rubik']"
                                 />
                             </div>
                         </div>
@@ -73,7 +73,7 @@ const BrandedPots = () => {
                 <div className="md:col-span-2 flex justify-center">
                     <button
                         type="submit"
-                        className="px-6 py-3 bg-lime-800 text-white rounded-lg inline-flex justify-center items-center gap-2 text-base hover:bg-lime-600 transition"
+                        className="px-6 py-3 bg-lime-900 text-white rounded-lg inline-flex justify-center items-center gap-2 text-base hover:bg-lime-600 transition"
                     >
                         Sending
                     </button>

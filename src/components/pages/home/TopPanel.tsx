@@ -13,9 +13,9 @@ const TopPanel = ({
                       isMobile,
                   }: TopPanelProps) => {
     return isMobile ? (
-        <TopPanelMobile setActivePanel={setActivePanel} onPanelLeave={onPanelLeave} />
+        <TopPanelMobile setActivePanel={setActivePanel} onPanelLeave={onPanelLeave}/>
     ) : (
-        <TopPanelDesktop setActivePanel={setActivePanel} onPanelLeave={onPanelLeave} />
+        <TopPanelDesktop setActivePanel={setActivePanel} onPanelLeave={onPanelLeave}/>
     );
 };
 

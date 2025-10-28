@@ -62,17 +62,17 @@ const MobileNavMenu: React.FC<MobileNavMenuProps> = ({onClose, onPanelLeave}) =>
 
                     <button
                         onClick={() => togglePanel("about")}
-                        className="flex items-center justify-between text-lime-800 text-base w-full px-3 py-3 rounded hover:bg-lime-50"
+                        className="flex items-center justify-between text-lime-900 text-base w-full px-3 py-3 rounded hover:bg-lime-50"
                         aria-expanded={openSubPanel === "about"}
                     >
                         <span>{t("nav.about")}</span>
-                        <span className="ml-2 text-sm text-lime-800">
+                        <span className="ml-2 text-sm text-lime-900">
             {openSubPanel === "about" ? "▲" : "▼"}
         </span>
                     </button>
 
                     {openSubPanel === "about" && (
-                        <div className="mt-2 bg-white border-t border-lime-800/10 pt-3">
+                        <div className="mt-2 bg-white border-t border-lime-900/10 pt-3">
                             <div className="px-1">
                                 <PanelAboutMobile onItemClick={handleInnerItemClick}/>
                             </div>
@@ -81,17 +81,17 @@ const MobileNavMenu: React.FC<MobileNavMenuProps> = ({onClose, onPanelLeave}) =>
 
                     <button
                         onClick={() => togglePanel("business")}
-                        className="flex items-center justify-between text-lime-800 text-base w-full px-3 py-3 rounded hover:bg-lime-50"
+                        className="flex items-center justify-between text-lime-900 text-base w-full px-3 py-3 rounded hover:bg-lime-50"
                         aria-expanded={openSubPanel === "business"}
                     >
                         <span>{t("nav.business")}</span>
-                        <span className="ml-2 text-sm text-lime-800">
+                        <span className="ml-2 text-sm text-lime-900">
             {openSubPanel === "business" ? "▲" : "▼"}
         </span>
                     </button>
 
                     {openSubPanel === "business" && (
-                        <div className="mt-2 bg-white border-t border-lime-800/10 pt-3">
+                        <div className="mt-2 bg-white border-t border-lime-900/10 pt-3">
                             <div className="px-1">
                                 <PanelBusinessMobile onItemClick={handleInnerItemClick}/>
                             </div>
@@ -100,17 +100,17 @@ const MobileNavMenu: React.FC<MobileNavMenuProps> = ({onClose, onPanelLeave}) =>
 
                     <button
                         onClick={() => togglePanel("home")}
-                        className="flex items-center justify-between text-lime-800 text-base w-full px-3 py-3 rounded hover:bg-lime-50"
+                        className="flex items-center justify-between text-lime-900 text-base w-full px-3 py-3 rounded hover:bg-lime-50"
                         aria-expanded={openSubPanel === "home"}
                     >
                         <span>{t("nav.home")}</span>
-                        <span className="ml-2 text-sm text-lime-800">
+                        <span className="ml-2 text-sm text-lime-900">
             {openSubPanel === "home" ? "▲" : "▼"}
         </span>
                     </button>
 
                     {openSubPanel === "home" && (
-                        <div className="mt-2 bg-white border-t border-lime-800/10 pt-3">
+                        <div className="mt-2 bg-white border-t border-lime-900/10 pt-3">
                             <div className="px-1">
                                 <PanelHomeMobile onItemClick={handleInnerItemClick}/>
                             </div>

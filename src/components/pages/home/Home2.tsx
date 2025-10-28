@@ -9,6 +9,7 @@ import CorporateFavoritesMobile from "./CorporateFavoritesMobile.tsx";
 import WhoWeAreMobile from "./WhoWeAreMobile.tsx";
 import OurClientsAndFriendsMobile from "./OurClientsAndFriendsMobile.tsx";
 import WhatOurCustomersSayMobile from "./WhatOurCustomersSayMobile.tsx";
+import SubscribeMobile from "./SubscribeMobile.tsx";
 
 const Home2 = () => {
 
@@ -29,7 +30,7 @@ const Home2 = () => {
                 <WhoWeAreMobile/>
                 <OurClientsAndFriendsMobile/>
                 <WhatOurCustomersSayMobile/>
-
+                <SubscribeMobile/>
             </div>
         )
 

@@ -108,7 +108,7 @@ const AdminDashboard = () => {
                 <nav className="flex flex-col gap-3 mt-4">
                     <button
                         onClick={() => setActiveSection("dashboard")}
-                        className={`w-full px-4 py-2 bg-lime-600 hover:bg-lime-800 rounded-lg text-white font-medium text-base text-center transition ${
+                        className={`w-full px-4 py-2 bg-lime-600 hover:bg-lime-900 rounded-lg text-white font-medium text-base text-center transition ${
                             activeSection === "dashboard" ? "ring-2 ring-lime-400" : ""
                         }`}
                     >
@@ -117,7 +117,7 @@ const AdminDashboard = () => {
 
                     <button
                         onClick={() => setActiveSection("products")}
-                        className={`w-full px-4 py-2 bg-lime-600 hover:bg-lime-800 rounded-lg text-white font-medium text-base text-center transition ${
+                        className={`w-full px-4 py-2 bg-lime-600 hover:bg-lime-900 rounded-lg text-white font-medium text-base text-center transition ${
                             activeSection === "products" ? "ring-2 ring-lime-400" : ""
                         }`}
                     >
@@ -126,7 +126,7 @@ const AdminDashboard = () => {
 
                     <button
                         onClick={() => setActiveSection("orders")}
-                        className={`w-full px-4 py-2 bg-lime-600 hover:bg-lime-800 rounded-lg text-white font-medium text-base text-center transition ${
+                        className={`w-full px-4 py-2 bg-lime-600 hover:bg-lime-900 rounded-lg text-white font-medium text-base text-center transition ${
                             activeSection === "orders" ? "ring-2 ring-lime-400" : ""
                         }`}
                     >
@@ -135,7 +135,7 @@ const AdminDashboard = () => {
 
                     <button
                         onClick={() => setActiveSection("clients")}
-                        className={`w-full px-4 py-2 bg-lime-600 hover:bg-lime-800 rounded-lg text-white font-medium text-base text-center transition ${
+                        className={`w-full px-4 py-2 bg-lime-600 hover:bg-lime-900 rounded-lg text-white font-medium text-base text-center transition ${
                             activeSection === "clients" ? "ring-2 ring-lime-400" : ""
                         }`}
                     >
@@ -144,7 +144,7 @@ const AdminDashboard = () => {
 
                     <button
                         onClick={handleLogout}
-                        className="w-full px-4 py-2 bg-lime-600 hover:bg-lime-800 rounded-lg text-white font-medium text-base text-center transition"
+                        className="w-full px-4 py-2 bg-lime-600 hover:bg-lime-900 rounded-lg text-white font-medium text-base text-center transition"
                     >
                         Logout
                     </button>
