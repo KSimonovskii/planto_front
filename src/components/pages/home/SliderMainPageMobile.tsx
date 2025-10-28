@@ -86,7 +86,7 @@ const SliderMainPageMobile = () => {
                         <>
                             <Swiper
                                 spaceBetween={16}
-                                slidesPerView={1.3}
+                                slidesPerView={2.3}
                                 onSwiper={(swiper) => (swiperRef.current = swiper)}
                                 className="w-full py-6"
                                 touchEventsTarget="container"
