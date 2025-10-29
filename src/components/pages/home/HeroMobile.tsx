@@ -11,18 +11,20 @@ const HeroMobile = () => {
 
     return (
         <section
-            className="relative w-full h-[500px] flex items-end justify-start overflow-hidden
-                 bg-cover bg-[position:65%_center] sm:bg-center"
-            style={{ backgroundImage: `url(${hero})` }}
+            className="relative w-full h-[520px] flex items-end justify-center overflow-hidden bg-cover"
+            style={{
+                backgroundImage: `url(${hero})`,
+                backgroundPosition: "68%"
+            }}
         >
-            <div className="absolute inset-0 bg-black/40" />
+            <div className="absolute inset-0 bg-black/30"/>
 
-            <div className="relative z-10 flex flex-col items-start justify-end gap-3 px-6 pb-10 text-left text-white font-['Rubik'] max-w-[320px]">
-                <h1 className="text-3xl font-bold leading-snug drop-shadow-md">
+            <div className="relative z-10 flex flex-col pb-4 text-white font-['Rubik'] max-w-[320px] justify-center">
+                <h1 className="text-5xl font-bold text-center">
                     {t("hero.smallPlant")}
                 </h1>
 
-                <p className="text-base font-normal leading-relaxed drop-shadow-sm">
+                <p className="text-base font-normal leading-relaxed text-center">
                     {t("hero.everySucculent")}
                 </p>
 
@@ -36,7 +38,7 @@ const HeroMobile = () => {
 
                     <button
                         onClick={handleClickAboutProject}
-                        className="w-full px-4 py-4 bg-white/90 rounded-lg outline outline-1 outline-lime-900 text-lime-900 text-sm font-medium hover:bg-lime-900 hover:text-white transition"
+                        className="w-full px-4 py-4 bg-white rounded-lg outline outline-1 outline-lime-900 text-lime-900 text-sm font-medium hover:bg-lime-900 hover:text-white transition"
                     >
                         {t("hero.aboutProject")}
                     </button>

@@ -16,9 +16,14 @@ const FooterMobile = () => {
                 <FooterTalkToUs/>
             </div>
 
-            <div className="border-t border-white/20 pt-4 text-center text-sm opacity-80">
-                © {new Date().getFullYear()} Planto. All rights reserved.
-            </div>
+            <a
+                href="https://www.linkedin.com/in/katyamamaev"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border-t border-white/20 pt-4 text-center text-sm opacity-80 hover:underline"
+            >
+                © {new Date().getFullYear()} Planto. Design by Katya Mamaev
+            </a>
         </footer>
     );
 };

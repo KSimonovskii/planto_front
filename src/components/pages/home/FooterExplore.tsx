@@ -18,7 +18,7 @@ const FooterExplore = () => {
     };
 
     const goToAboutUs = () => {
-        navigate("/our-roots");
+        navigate("/our-roots-mobile");
     };
 
     const goToForSucculentBusiness = () => {
