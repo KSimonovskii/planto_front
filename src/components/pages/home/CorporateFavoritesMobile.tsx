@@ -24,7 +24,7 @@ const CorporateFavoritesMobile = () => {
                 <div className="flex justify-center mt-6 px-4">
                     <button
                         onClick={handleViewAll}
-                        className="w-full max-w-xs py-3 px-6 text-lg font-medium text-white bg-lime-900 rounded-lg hover:bg-lime-700 transition duration-300 shadow-md transform hover:scale-[1.01] active:scale-[0.99]"
+                        className="w-full max-w-[18rem] py-3 px-6 text-lg font-medium text-white bg-lime-900 rounded-lg hover:bg-lime-700 transition duration-300 shadow-md transform hover:scale-[1.01] active:scale-[0.99]"
                     >
                         {t("viewAll")}
                     </button>

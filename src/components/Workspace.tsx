@@ -28,6 +28,9 @@ import {useIsMobile} from "../features/hooks/useIsMobile.ts";
 import ShoppingCartMobile from "./pages/shoppingCart/ShoppingCartMobile.tsx";
 import StoreMobile from "./pages/store/StoreMobile.tsx";
 import UnderConstructionPage from "./pages/home/UnderConstructionPage.tsx";
+import OurRootsMobile from "./pages/home/aboutUs/OurRootsMobile.tsx";
+import October7Mobile from "./pages/home/aboutUs/October7Mobile.tsx";
+import RebuildingMobile from "./pages/home/aboutUs/RebuildingMobile.tsx";
 
 const Workspace = () => {
     const isMobile = useIsMobile(900)
@@ -42,8 +45,11 @@ const Workspace = () => {
                     <Route path="/main" element={<Home2/>}/>
                     <Route path="/main/*" element={<Home2/>}/>
                     <Route path="/our-roots" element={<OurRoots/>}/>
+                    <Route path="/our-roots-mobile" element={<OurRootsMobile/>}/>
                     <Route path="/october-7" element={<October7/>}/>
+                    <Route path="/october-7-mobile" element={<October7Mobile/>}/>
                     <Route path="/rebuilding-now" element={<Rebuilding/>}/>
+                    <Route path="/rebuilding-now-mobile" element={<RebuildingMobile/>}/>
                     {!isMobile ?
                         <Route path={navItems[2].path} element={<ShoppingCart/>}/>
                         :

@@ -5,15 +5,13 @@ import {useCartActions} from "../../../features/hooks/useCartAction.ts";
 import {useCurrentUser} from "../../../features/hooks/useCurrentUser.ts";
 import "swiper/css";
 import {useCartContext} from "../../../features/context/CartContext.tsx";
-// import AuthModal from "./AuthModal.tsx";
 import Product from "../../../features/classes/Product.ts";
 import {useGetProductsTableRTKQuery} from "../../../features/api/productApi.ts";
 import {getBodyForQueryGetTable} from "../../../features/api/apiUtils.ts";
 import {dataTypes} from "../../../utils/enums/dataTypes.ts";
-import ProductCard from "../products/ProductCard.tsx";
 import {useNavigate} from "react-router-dom";
 import SpinnerFlower from "../../../assets/SpinnerFlower.tsx";
-
+import ProductCardMobile from "../products/ProductCardMobile.tsx";
 
 const SliderMainPageMobile = () => {
     const [errorMsg, setErrorMsg] = useState("");
@@ -21,7 +19,6 @@ const SliderMainPageMobile = () => {
     const {isAuthenticated} = useCurrentUser();
     const swiperRef = useRef<any>(null);
     const {refreshCart} = useCartContext();
-    // const [showAuthModal, setShowAuthModal] = useState(false);
     const {pageNumber, sort, filters} = useContext(PageProductContext);
     const body = useMemo(() => (
         getBodyForQueryGetTable(dataTypes.products, pageNumber, sort, filters)
@@ -72,46 +69,40 @@ const SliderMainPageMobile = () => {
         [isAuthenticated, addToCart, refreshCart]
     );
 
-
     return (
-
         <div className="w-full">
             <div className="w-full px-0">
                 <div className="relative">
                     {isLoading ? (
-                       <SpinnerFlower/>
+                        <SpinnerFlower/>
                     ) : isError ? (
                         <p className="text-center text-red-500">{errorMsg}</p>
                     ) : (
-                        <>
-                            <Swiper
-                                spaceBetween={16}
-                                slidesPerView={2.3}
-                                onSwiper={(swiper) => (swiperRef.current = swiper)}
-                                className="w-full py-6"
-                                touchEventsTarget="container"
-                                grabCursor={true}
-                                centeredSlides={false}
-                            >
-                                {products.map((product) => (
-                                    <SwiperSlide
-                                        key={product.id}
-                                        className="!w-full flex justify-center items-center"
-                                    >
-                                        <div className="w-full flex justify-center sm:justify-center">
-                                            <ProductCard
-                                                product={product}
-                                                onAddToCart={handleAddToCart}
-                                                isInCart={isInCart(product.id) || isInLocalCart(product.id)}
-                                                onOpen={() => navigate(`/product/${product.id}`)}
-                                            />
-                                        </div>
-                                    </SwiperSlide>
-                                ))}
-                            </Swiper>
-
-                            {/*<AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />*/}
-                        </>
+                        <Swiper
+                            spaceBetween={16}
+                            slidesPerView={"auto"}
+                            onSwiper={(swiper) => (swiperRef.current = swiper)}
+                            className="w-full py-6"
+                            touchEventsTarget="container"
+                            grabCursor={true}
+                            centeredSlides={false}
+                        >
+                            {products.map((product) => (
+                                <SwiperSlide
+                                    key={product.id}
+                                    className="!w-[18rem] flex justify-start"
+                                >
+                                    <div className="flex-none">
+                                        <ProductCardMobile
+                                            product={product}
+                                            onAddToCart={handleAddToCart}
+                                            isInCart={isInCart(product.id) || isInLocalCart(product.id)}
+                                            onOpen={() => navigate(`/product/${product.id}`)}
+                                        />
+                                    </div>
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
                     )}
                 </div>
             </div>

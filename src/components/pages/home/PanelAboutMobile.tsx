@@ -15,10 +15,10 @@ const PanelAboutMobile = ({ onItemClick }: PanelProps) => {
         onItemClick();
 
         if (title === "Our Roots") {
-            navigate("/our-roots");
+            navigate("/our-roots-mobile");
         }
-        else if (title === "October 7") navigate("/october-7");
-        else if (title === "Rebuilding Now") navigate("/rebuilding-now");
+        else if (title === "October 7") navigate("/october-7-mobile");
+        else if (title === "Rebuilding Now") navigate("/rebuilding-now-mobile");
     };
 
     return (

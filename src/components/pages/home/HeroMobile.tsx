@@ -29,14 +29,14 @@ const HeroMobile = () => {
                 <div className="flex flex-col sm:flex-row gap-3 mt-4 w-full">
                     <button
                         onClick={handleClickExploreCollection}
-                        className="w-full px-4 py-2 bg-lime-900 rounded-lg text-white text-sm font-medium hover:bg-lime-700 transition"
+                        className="w-full px-4 py-4 bg-lime-900 rounded-lg text-white text-sm font-medium hover:bg-lime-700 transition"
                     >
                         {t("hero.exploreCollection")}
                     </button>
 
                     <button
                         onClick={handleClickAboutProject}
-                        className="w-full px-4 py-2 bg-white/90 rounded-lg outline outline-1 outline-lime-900 text-lime-900 text-sm font-medium hover:bg-lime-900 hover:text-white transition"
+                        className="w-full px-4 py-4 bg-white/90 rounded-lg outline outline-1 outline-lime-900 text-lime-900 text-sm font-medium hover:bg-lime-900 hover:text-white transition"
                     >
                         {t("hero.aboutProject")}
                     </button>
