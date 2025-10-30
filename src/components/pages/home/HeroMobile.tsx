@@ -14,17 +14,17 @@ const HeroMobile = () => {
             className="relative w-full h-[520px] flex items-end justify-center overflow-hidden bg-cover"
             style={{
                 backgroundImage: `url(${hero})`,
-                backgroundPosition: "68%"
+                backgroundPosition: "67%"
             }}
         >
             <div className="absolute inset-0 bg-black/30"/>
 
-            <div className="relative z-10 flex flex-col pb-4 text-white font-['Rubik'] max-w-[320px] justify-center">
-                <h1 className="text-5xl font-bold text-center">
+            <div className="relative z-10 flex flex-col pb-8 text-white max-w-[320px] justify-center">
+                <h1 className="text-[2.5rem] font-bold text-center font-['Rubik']">
                     {t("hero.smallPlant")}
                 </h1>
 
-                <p className="text-base font-normal leading-relaxed text-center">
+                <p className="text-base font-normal leading-relaxed text-center font-['Rubik']">
                     {t("hero.everySucculent")}
                 </p>
 

@@ -10,6 +10,10 @@ const WhoWeAreMobile = () => {
         navigate("/under-construction");
     };
 
+    const goToAboutUs = () => {
+        navigate("/our-roots-mobile");
+    };
+
 
     return (
         <section className="relative w-full py-6 px-4 bg-white border-t-2 border-lime-900/20 overflow-hidden font-['Rubik']">
@@ -41,7 +45,7 @@ const WhoWeAreMobile = () => {
 
                     <button
                         type="button"
-                        onClick={goToUnderConstruction}
+                        onClick={goToAboutUs}
                         className="flex-1 px-5 py-2.5 bg-white hover:bg-lime-900 rounded-lg outline outline-1 outline-lime-900 text-lime-900 hover:text-white text-sm sm:text-base font-medium transition font-['Rubik']"
                     >
                         {t("whoWe.learnMore")}

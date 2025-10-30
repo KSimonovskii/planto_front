@@ -9,6 +9,11 @@ const WhoWeAre = () => {
     const goToUnderConstruction = () => {
         navigate("/under-construction");
     };
+
+    const goToAboutUs = () => {
+        navigate("/our-roots");
+    };
+
     return (
         <section className="w-full bg-white border-t-2 border-lime-900/20 py-12 font-['Rubik']">
             <div className="max-w-[1340px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -34,7 +39,7 @@ const WhoWeAre = () => {
 
                             <button
                                 type="button"
-                                onClick={goToUnderConstruction}
+                                onClick={goToAboutUs}
                                 className="px-5 py-2.5 bg-white hover:bg-lime-900 rounded-lg outline outline-1 outline-lime-900 text-lime-900 hover:text-white text-sm sm:text-base font-medium transition"
                             >
                                 {t("whoWe.learnMore")}

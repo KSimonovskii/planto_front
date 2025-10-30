@@ -25,7 +25,7 @@ const FrameWithLogoMobile: React.FC<{
 
     return (
         <div className="relative w-full bg-white my-3">
-            <div className="max-w-screen-xl mx-auto px-4 py-2 flex items-center justify-between">
+            <div className="max-w-screen-xl mx-auto px-4 py-1 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                     <button
                         aria-label={menuOpen ? "Close menu" : "Open menu"}
