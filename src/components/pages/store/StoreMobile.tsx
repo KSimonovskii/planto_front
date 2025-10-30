@@ -130,7 +130,7 @@ const StoreMobile = () => {
                 ) : isError ? (
                     <p className="text-center text-red-500 mt-20">{errorMsg}</p>
                 ) : allProducts.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
+                    <div className="grid grid-cols-1 place-items-center mt-6 gap-6">
                         {allProducts.map((product: Product) => (
                             <ProductCard
                                 key={product.id}

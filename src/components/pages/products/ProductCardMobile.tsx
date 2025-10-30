@@ -55,7 +55,7 @@ const ProductCardMobile = ({product, isInCart, onAddToCart, onOpen}: ProductCard
                 className={`self-stretch px-6 py-3 rounded-lg outline outline-1 outline-offset-[-1px] outline-lime-900 inline-flex justify-center items-center gap-2 overflow-hidden text-base font-medium font-['Rubik'] leading-normal transition
           ${isInCart ? "bg-lime-900 text-white hover:bg-lime-800" : "bg-white text-lime-900 hover:bg-lime-900 hover:text-white"}`}
             >
-                {isInCart ? "Product added. Go to cart" : t("cart.addToCart")}
+                {isInCart ? "Added! Go to cart" : t("cart.addToCart")}
             </button>
         </div>
     );

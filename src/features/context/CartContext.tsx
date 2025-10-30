@@ -11,7 +11,7 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | null>(null);
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
-    const { getCart, getLocalCart } = useCartActions();
+    const { getCart, getLocalCart} = useCartActions();
     const [productsInCart, setProductsInCart] = useState(0);
     const {isAuthenticated} = useCurrentUser();
     const [refreshTrigger, setRefreshTrigger] = useState(0);
