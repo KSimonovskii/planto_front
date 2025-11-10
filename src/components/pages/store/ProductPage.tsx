@@ -165,8 +165,6 @@ const ProductPage: React.FC = () => {
         navigate("/cart");
     }
 
-    const priceNumber = Number(product.price ?? 0);
-
 
     if (isLoading) {
         return <SpinnerFlower/>;
@@ -196,6 +194,8 @@ const ProductPage: React.FC = () => {
     const alreadyInCart = productId
         ? isInCart(productId) || isInLocalCart(productId)
         : false;
+
+    const priceNumber = Number(product.price ?? 0);
 
     return (
         <div className="w-full mx-auto p-6 font-['Rubik']">
