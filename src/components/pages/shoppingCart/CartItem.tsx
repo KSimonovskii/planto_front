@@ -51,6 +51,7 @@ const CartItem = ({ product, quantity, onAdd, onRemove, onRemoveAll, onSetQuanti
                     <div className="text-lg font-bold">₪{product.price}</div>
 
                     <div className="cart-item__controls flex items-center gap-2">
+
                         <button
                             onClick={onRemove}
                             className="w-8 h-8 flex items-center justify-center rounded-full border border-gray-200 hover:bg-gray-100"

@@ -8,7 +8,6 @@ import {useCurrentUser} from "../../../features/hooks/useCurrentUser";
 import BrandedPots from "./BrandedPots.tsx";
 import CustomerReviews from "./CustomerReviews.tsx";
 import SliderMainPage from "../home/SliderMainPage.tsx";
-import SpinnerFlower from "../../../assets/SpinnerFlower.tsx";
 import {useIsMobile} from "../../../features/hooks/useIsMobile.ts";
 import SliderMainPageMobile from "../home/SliderMainPageMobile.tsx";
 
@@ -19,16 +18,27 @@ const ProductPage: React.FC = () => {
     const isMobile = useIsMobile();
 
     const {
-        data: product,
-        isLoading,
-        isError,
+        data: product
     } = useGetProductByIdQuery(id ?? "");
 
-    const {addToCart, addToLocalCart, isInCart, isInLocalCart, getCart} = useCartActions();
+    const {
+        addToCart,
+        addToLocalCart,
+        removeFromCart,
+        removeFromLocalCart,
+        isInCart,
+        isInLocalCart,
+        getCart,
+        getLocalCart
+    } = useCartActions();
+
+
     const {refreshCart} = useCartContext();
     const {isAuthenticated} = useCurrentUser();
-
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
+    const [quantity, setQuantity] = useState<number>(0);
+    const [inputBusy, setInputBusy] = useState<boolean>(false);
+
 
     const productId = product?.id ?? "";
     const alreadyInCart = productId
@@ -36,78 +46,189 @@ const ProductPage: React.FC = () => {
         : false;
 
     useEffect(() => {
-        if (isAuthenticated) {
-            getCart();
-        }
-    }, [isAuthenticated, getCart]);
+        let mounted = true;
 
-    const handleAddToCart = useCallback(
-        async (productIdToAdd: string) => {
-            setErrorMsg(null);
-            if (!productIdToAdd) return;
-
-            if (!isAuthenticated) {
-                try {
-                    addToLocalCart(productIdToAdd);
-                    await refreshCart();
-                } catch (err: unknown) {
-                    if (err instanceof Error) setErrorMsg(err.message);
-                }
+        const loadQuantity = async () => {
+            if (!product?.id) {
+                if (mounted) setQuantity(0);
                 return;
             }
-
             try {
-                await addToCart(productIdToAdd);
-                await refreshCart();
-            } catch (err: unknown) {
-                if (err instanceof Error) setErrorMsg(err.message);
+                if (isAuthenticated) {
+                    const serverCart = await getCart();
+                    const item = serverCart.find((ci: any) => ci.productId === product.id);
+                    if (mounted) setQuantity(item ? item.quantity : 0);
+                } else {
+                    const local = getLocalCart();
+                    const item = local.find((ci: any) => ci.productId === product.id);
+                    if (mounted) setQuantity(item ? item.quantity : 0);
+                }
+            } catch (e) {
+                console.error(e);
+                if (mounted) setQuantity(0);
             }
-        },
-        [isAuthenticated, addToCart, addToLocalCart, refreshCart]
-    );
+        };
 
-    if (isLoading) {
-        return (
-            <SpinnerFlower/>
-        );
-    }
+        loadQuantity();
 
-    if (isError) {
-        return (
-            <div className="max-w-4xl mx-auto p-6 text-center">
-                <button
-                    className="mb-4 text-sm text-lime-900 hover:underline"
-                    onClick={() => navigate(-1)}
-                >
-                    ← Back
-                </button>
-                <p className="text-red-500">Failed to load product. Please try again.</p>
-            </div>
-        );
-    }
+        return () => {
+            mounted = false;
+        };
+    }, [product?.id, isAuthenticated, getCart, getLocalCart]);
 
-    if (!product) {
-        return (
-            <div className="max-w-4xl mx-auto p-6 text-center">
-                <button
-                    className="mb-4 text-sm text-lime-900 hover:underline"
-                    onClick={() => navigate(-1)}
-                >
-                    ← Back
-                </button>
-                <p className="text-gray-600">Product not found.</p>
-            </div>
-        );
+
+
+    const onAdd = useCallback(async () => {
+        if (!product?.id) return;
+        if (quantity >= product.quantity) return;
+        setErrorMsg(null);
+        setQuantity(q => q + 1);
+
+        try {
+            if (!isAuthenticated) {
+                addToLocalCart(product.id);
+            } else {
+                await addToCart(product.id);
+            }
+            await refreshCart();
+        } catch (err: unknown) {
+            setQuantity(q => Math.max(0, q - 1));
+            if (err instanceof Error) setErrorMsg(err.message);
+        }
+    }, [product?.id, quantity, product?.quantity, isAuthenticated, addToCart, addToLocalCart, refreshCart]);
+
+    const onRemove = useCallback(async () => {
+        if (!product?.id) return;
+        if (quantity <= 0) return;
+        setErrorMsg(null);
+        setQuantity(q => Math.max(0, q - 1));
+
+        try {
+            if (!isAuthenticated) {
+                removeFromLocalCart(product.id);
+            } else {
+                await removeFromCart(product.id);
+            }
+            await refreshCart();
+        } catch (err: unknown) {
+            setQuantity(q => q + 1);
+            if (err instanceof Error) setErrorMsg(err.message);
+        }
+    }, [product?.id, quantity, isAuthenticated, removeFromCart, removeFromLocalCart, refreshCart]);
+
+    const handleInputChange = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (!product?.id) return;
+        const raw = e.target.value;
+        const parsed = parseInt(raw, 10);
+        const valid = Number.isNaN(parsed) ? 0 : Math.max(0, Math.min(parsed, product.quantity));
+        const delta = valid - quantity;
+        if (delta === 0) {
+            setQuantity(valid);
+            return;
+        }
+
+        setInputBusy(true);
+        setErrorMsg(null);
+        setQuantity(valid);
+
+        try {
+            if (isAuthenticated) {
+                if (delta > 0) {
+                    for (let i = 0; i < delta; i++) {
+                        await addToCart(product.id);
+                    }
+                } else {
+                    for (let i = 0; i < -delta; i++) {
+                        await removeFromCart(product.id);
+                    }
+                }
+            } else {
+                if (delta > 0) {
+                    for (let i = 0; i < delta; i++) addToLocalCart(product.id);
+                } else {
+                    for (let i = 0; i < -delta; i++) removeFromLocalCart(product.id);
+                }
+            }
+            await refreshCart();
+        } catch (err: unknown) {
+            if (err instanceof Error) setErrorMsg(err.message);
+            try {
+                const current = isAuthenticated ? await getCart() : getLocalCart();
+                const item = current.find((ci: any) => ci.productId === product.id);
+                setQuantity(item ? item.quantity : 0);
+            } catch {
+                setQuantity(0);
+            }
+        } finally {
+            setInputBusy(false);
+        }
+    }, [product?.id, product?.quantity, quantity, isAuthenticated, addToCart, removeFromCart, addToLocalCart, removeFromLocalCart, refreshCart, getCart, getLocalCart]);
+
+    // const handleAddToCart = useCallback(
+    //     async (productIdToAdd: string) => {
+    //         setErrorMsg(null);
+    //         if (!productIdToAdd) return;
+    //
+    //         if (!isAuthenticated) {
+    //             try {
+    //                 addToLocalCart(productIdToAdd);
+    //                 await refreshCart();
+    //             } catch (err: unknown) {
+    //                 if (err instanceof Error) setErrorMsg(err.message);
+    //             }
+    //             return;
+    //         }
+    //
+    //         try {
+    //             await addToCart(productIdToAdd);
+    //             await refreshCart();
+    //         } catch (err: unknown) {
+    //             if (err instanceof Error) setErrorMsg(err.message);
+    //         }
+    //     },
+    //     [isAuthenticated, addToCart, addToLocalCart, refreshCart]
+    // );
+    //
+    // if (isLoading) {
+    //     return (
+    //         <SpinnerFlower/>
+    //     );
+    // }
+    //
+    // if (isError) {
+    //     return (
+    //         <div className="max-w-4xl mx-auto p-6 text-center">
+    //             <button
+    //                 className="mb-4 text-sm text-lime-900 hover:underline"
+    //                 onClick={() => navigate(-1)}
+    //             >
+    //                 ← Back
+    //             </button>
+    //             <p className="text-red-500">Failed to load product. Please try again.</p>
+    //         </div>
+    //     );
+    // }
+    //
+    // if (!product) {
+    //     return (
+    //         <div className="max-w-4xl mx-auto p-6 text-center">
+    //             <button
+    //                 className="mb-4 text-sm text-lime-900 hover:underline"
+    //                 onClick={() => navigate(-1)}
+    //             >
+    //                 ← Back
+    //             </button>
+    //             <p className="text-gray-600">Product not found.</p>
+    //         </div>
+    //     );
+    // }
+
+    const handleGoToCart = () => {
+        navigate("/cart");
     }
 
     return (
         <div className="w-full mx-auto p-6 font-['Rubik']">
-            {/*<button*/}
-            {/*    className="mb-4 text-sm text-lime-900 hover:underline"*/}
-            {/*    onClick={() => navigate(-1)}*/}
-            {/*>*/}
-            {/*    ← Back*/}
-            {/*</button>*/}
 
             <div className="flex flex-col lg:flex-row gap-8 w-full">
 
@@ -144,10 +265,54 @@ const ProductPage: React.FC = () => {
                         </ul>
                     </div>
 
+
+                    <div className="mt-4 flex items-center gap-2">
+                        <button
+                            onClick={onRemove}
+                            className="w-8 h-8 flex items-center justify-center rounded-full border border-gray-200 hover:bg-gray-100"
+                            aria-label="decrease"
+                            disabled={quantity <= 0 || inputBusy}
+                            title="Decrease quantity"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20"
+                                 fill="currentColor">
+                                <path d="M6 10a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1z"/>
+                            </svg>
+                        </button>
+
+                        <input
+                            type="number"
+                            value={quantity}
+                            onChange={handleInputChange}
+                            min={0}
+                            max={product.quantity}
+                            className="w-20 text-center rounded-md border border-gray-200 px-2 py-1"
+                            aria-label="quantity"
+                            disabled={inputBusy}
+                        />
+
+                        <button
+                            onClick={onAdd}
+                            className="w-8 h-8 flex items-center justify-center rounded-full border border-gray-200 hover:bg-gray-100"
+                            aria-label="increase"
+                            disabled={quantity >= product.quantity || inputBusy}
+                            title="Increase quantity"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20"
+                                 fill="currentColor">
+                                <path
+                                    d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"/>
+                            </svg>
+                        </button>
+
+                    </div>
+
+
                     <div className="mt-6 flex items-center gap-4">
-                        <div className="flex justify-start w-full lg:w-auto">
+                        <div className="flex flex-col gap-6 justify-start w-full lg:w-auto">
+
                             <button
-                                onClick={() => handleAddToCart(product.id)}
+                                onClick={onAdd}
                                 disabled={alreadyInCart}
                                 className={`w-full lg:w-72 px-6 py-3 rounded-lg outline outline-1 outline-lime-900 inline-flex justify-center items-center gap-2 overflow-hidden text-base font-medium font-['Rubik'] leading-normal transition
         ${
@@ -158,6 +323,15 @@ const ProductPage: React.FC = () => {
                             >
                                 {alreadyInCart ? t("cart.addedToCart") : t("cart.addToCart")}
                             </button>
+
+                            <button
+                                onClick={() => handleGoToCart()}
+                                className={"w-full lg:w-72 px-6 py-3 rounded-lg outline outline-1 outline-lime-900 inline-flex justify-center items-center gap-2 " +
+                                    "overflow-hidden text-base font-medium font-['Rubik'] leading-normal transition " +
+                                    "bg-lime-700 text-white hover:bg-lime-900 hover:text-white"}                            >
+                                {"Go to cart"}
+                            </button>
+
                         </div>
 
                     </div>

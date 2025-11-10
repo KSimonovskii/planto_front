@@ -35,7 +35,7 @@ const FramePaginationCorporateFavorites = ({onPrev, onNext}: Props) => {
 
             <button
                 onClick={handleClickViewAll}
-                className="w-110 px-6 py-3 bg-lime-600 rounded-lg text-white font-medium hover:bg-lime-700 transition">
+                className="w-110 px-6 py-3 bg-lime-700 rounded-lg text-white font-medium hover:bg-lime-900 transition">
                 {t("viewAll")}
             </button>
 

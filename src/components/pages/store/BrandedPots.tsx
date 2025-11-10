@@ -73,7 +73,7 @@ const BrandedPots = () => {
                 <div className="md:col-span-2 flex justify-center">
                     <button
                         type="submit"
-                        className="px-6 py-3 bg-lime-900 text-white rounded-lg inline-flex justify-center items-center gap-2 text-base hover:bg-lime-600 transition"
+                        className="px-6 py-3 bg-lime-700 text-white rounded-lg inline-flex justify-center items-center gap-2 text-base hover:bg-lime-900 transition"
                     >
                         Sending
                     </button>
