@@ -1,5 +1,5 @@
 import Logo from "./Logo";
-import InputField from "./InputField";
+// import InputField from "./InputField";
 import FrameWithCartIcon from "./FrameWithCartIcon";
 import {useNavigate} from "react-router";
 
@@ -18,7 +18,7 @@ const FrameWithLogo = () => {
                     className="focus:outline-none transition-transform duration-200 hover:scale-125 active:scale-95">
                 <Logo/>
             </button>
-            <InputField/>
+            {/*<InputField/>*/}
             <FrameWithCartIcon/>
         </div>
     );
