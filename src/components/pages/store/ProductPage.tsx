@@ -8,6 +8,7 @@ import {useCurrentUser} from "../../../features/hooks/useCurrentUser";
 import BrandedPots from "./BrandedPots.tsx";
 import CustomerReviews from "./CustomerReviews.tsx";
 import SliderMainPage from "../home/SliderMainPage.tsx";
+import SpinnerFlower from "../../../assets/SpinnerFlower.tsx";
 import {useIsMobile} from "../../../features/hooks/useIsMobile.ts";
 import SliderMainPageMobile from "../home/SliderMainPageMobile.tsx";
 
@@ -18,7 +19,9 @@ const ProductPage: React.FC = () => {
     const isMobile = useIsMobile();
 
     const {
-        data: product
+        data: product,
+        isLoading,
+        isError,
     } = useGetProductByIdQuery(id ?? "");
 
     const {
@@ -32,7 +35,6 @@ const ProductPage: React.FC = () => {
         getLocalCart
     } = useCartActions();
 
-
     const {refreshCart} = useCartContext();
     const {isAuthenticated} = useCurrentUser();
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -40,7 +42,7 @@ const ProductPage: React.FC = () => {
     const [inputBusy, setInputBusy] = useState<boolean>(false);
 
 
-    const productId = product?.id ?? "";
+    const productId = product.id ?? "";
     const alreadyInCart = productId
         ? isInCart(productId) || isInLocalCart(productId)
         : false;
@@ -75,7 +77,6 @@ const ProductPage: React.FC = () => {
             mounted = false;
         };
     }, [product?.id, isAuthenticated, getCart, getLocalCart]);
-
 
 
     const onAdd = useCallback(async () => {
@@ -164,78 +165,44 @@ const ProductPage: React.FC = () => {
         }
     }, [product?.id, product?.quantity, quantity, isAuthenticated, addToCart, removeFromCart, addToLocalCart, removeFromLocalCart, refreshCart, getCart, getLocalCart]);
 
-    // const handleAddToCart = useCallback(
-    //     async (productIdToAdd: string) => {
-    //         setErrorMsg(null);
-    //         if (!productIdToAdd) return;
-    //
-    //         if (!isAuthenticated) {
-    //             try {
-    //                 addToLocalCart(productIdToAdd);
-    //                 await refreshCart();
-    //             } catch (err: unknown) {
-    //                 if (err instanceof Error) setErrorMsg(err.message);
-    //             }
-    //             return;
-    //         }
-    //
-    //         try {
-    //             await addToCart(productIdToAdd);
-    //             await refreshCart();
-    //         } catch (err: unknown) {
-    //             if (err instanceof Error) setErrorMsg(err.message);
-    //         }
-    //     },
-    //     [isAuthenticated, addToCart, addToLocalCart, refreshCart]
-    // );
-    //
-    // if (isLoading) {
-    //     return (
-    //         <SpinnerFlower/>
-    //     );
-    // }
-    //
-    // if (isError) {
-    //     return (
-    //         <div className="max-w-4xl mx-auto p-6 text-center">
-    //             <button
-    //                 className="mb-4 text-sm text-lime-900 hover:underline"
-    //                 onClick={() => navigate(-1)}
-    //             >
-    //                 ← Back
-    //             </button>
-    //             <p className="text-red-500">Failed to load product. Please try again.</p>
-    //         </div>
-    //     );
-    // }
-    //
-    // if (!product) {
-    //     return (
-    //         <div className="max-w-4xl mx-auto p-6 text-center">
-    //             <button
-    //                 className="mb-4 text-sm text-lime-900 hover:underline"
-    //                 onClick={() => navigate(-1)}
-    //             >
-    //                 ← Back
-    //             </button>
-    //             <p className="text-gray-600">Product not found.</p>
-    //         </div>
-    //     );
-    // }
-
     const handleGoToCart = () => {
         navigate("/cart");
     }
 
+    const priceNumber = Number(product.price ?? 0);
+
+
+    if (isLoading) {
+        return <SpinnerFlower/>;
+    }
+
+    if (isError) {
+        return (
+            <div className="max-w-4xl mx-auto p-6 text-center">
+                <button className="mb-4 text-sm text-lime-900 hover:underline" onClick={() => navigate(-1)}>← Back
+                </button>
+                <p className="text-red-500">Failed to load product. Please try again.</p>
+            </div>
+        );
+    }
+
+    if (!product) {
+        return (
+            <div className="max-w-4xl mx-auto p-6 text-center">
+                <button className="mb-4 text-sm text-lime-900 hover:underline" onClick={() => navigate(-1)}>← Back
+                </button>
+                <p className="text-gray-600">Product not found.</p>
+            </div>
+        );
+    }
+
     return (
         <div className="w-full mx-auto p-6 font-['Rubik']">
-
             <div className="flex flex-col lg:flex-row gap-8 w-full">
-
                 <div className="w-full flex justify-center items-start">
                     <img
-                        src={product.imageUrl}
-                        alt={product.name}
+                        src={product.imageUrl ?? "/placeholder.png"}
+                        alt={product.name ?? ""}
                         className="w-full object-cover rounded-lg shadow-md"
                     />
                 </div>
@@ -245,7 +212,7 @@ const ProductPage: React.FC = () => {
 
                     <div className="flex items-center gap-4 flex-wrap">
                         <div className="text-2xl font-bold text-lime-900">
-                            ₪{product.price.toFixed(2)}
+                            ₪{priceNumber.toFixed(2)}
                         </div>
                         <div className="text-sm text-red-500 bg-red-100 px-3 py-1 rounded-full">
                             -40%
@@ -328,7 +295,7 @@ const ProductPage: React.FC = () => {
                                 onClick={() => handleGoToCart()}
                                 className={"w-full lg:w-72 px-6 py-3 rounded-lg outline outline-1 outline-lime-900 inline-flex justify-center items-center gap-2 " +
                                     "overflow-hidden text-base font-medium font-['Rubik'] leading-normal transition " +
-                                    "bg-lime-700 text-white hover:bg-lime-900 hover:text-white"}                            >
+                                    "bg-lime-700 text-white hover:bg-lime-900 hover:text-white"}>
                                 {"Go to cart"}
                             </button>
 
