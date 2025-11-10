@@ -21,7 +21,7 @@ const WhoWeAre = () => {
 
                     <div className="flex flex-col gap-6">
                         <h2 className="text-lime-900 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-['Rubik'] leading-tight">
-                            {t("whoWe.whoWeAre")}
+                            {t("whoWe.story").replace(/<br\s*\/?>/gi, " ")}
                         </h2>
 
                         <p className="text-lime-900 text-sm sm:text-base md:text-lg font-normal font-['Rubik'] leading-relaxed">
