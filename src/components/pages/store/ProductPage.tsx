@@ -42,10 +42,6 @@ const ProductPage: React.FC = () => {
     const [inputBusy, setInputBusy] = useState<boolean>(false);
 
 
-    const productId = product.id ?? "";
-    const alreadyInCart = productId
-        ? isInCart(productId) || isInLocalCart(productId)
-        : false;
 
     useEffect(() => {
         let mounted = true;
@@ -195,6 +191,11 @@ const ProductPage: React.FC = () => {
             </div>
         );
     }
+
+    const productId = product.id ?? "";
+    const alreadyInCart = productId
+        ? isInCart(productId) || isInLocalCart(productId)
+        : false;
 
     return (
         <div className="w-full mx-auto p-6 font-['Rubik']">
