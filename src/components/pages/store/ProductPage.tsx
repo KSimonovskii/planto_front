@@ -286,7 +286,7 @@ const ProductPage: React.FC = () => {
         ${
                                     alreadyInCart
                                         ? "bg-lime-900 text-white cursor-default"
-                                        : "bg-white text-lime-900 hover:bg-lime-900 hover:text-white"
+                                        : "bg-lime-700 text-white hover:bg-lime-900 hover:text-white"
                                 }`}
                             >
                                 {alreadyInCart ? t("cart.addedToCart") : t("cart.addToCart")}
@@ -296,7 +296,7 @@ const ProductPage: React.FC = () => {
                                 onClick={() => handleGoToCart()}
                                 className={"w-full lg:w-72 px-6 py-3 rounded-lg outline outline-1 outline-lime-900 inline-flex justify-center items-center gap-2 " +
                                     "overflow-hidden text-base font-medium font-['Rubik'] leading-normal transition " +
-                                    "bg-lime-700 text-white hover:bg-lime-900 hover:text-white"}>
+                                    "bg-white text-lime-700 hover:bg-lime-700 hover:text-white"}>
                                 {"Go to cart"}
                             </button>
 
