@@ -47,7 +47,7 @@ const FooterJoinUsNewLetterForm = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder={t("footer.email")}
-                    className="w-72 h-10 px-4 bg-neutral-50 rounded-lg outline outline-1 outline-lime-900 text-base font-['Rubik'] placeholder-stone-400"
+                    className="text-black w-72 h-10 px-4 bg-neutral-50 rounded-lg outline outline-1 outline-lime-900 text-base font-['Rubik'] placeholder-stone-400"
                 />
                 {error && <span className="text-red-400 text-sm">{error}</span>}
             </div>
@@ -73,7 +73,7 @@ const FooterJoinUsNewLetterForm = () => {
                         : "bg-gray-400 text-white cursor-not-allowed"
                 }`}
             >
-                {submitted ? t("footer.sent") : t("footer.sending")}
+                {submitted ? t("Sent") : t("Send")}
             </button>
         </div>
     );
