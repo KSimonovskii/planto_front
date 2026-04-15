@@ -1,54 +1,36 @@
-# React + TypeScript + Vite
+# Planto — E-commerce Platform for Kibbutz Nir Oz (MVP)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### [Project Status: Functional Prototype / Archived]
 
-Currently, two official plugins are available:
+## Context
+Planto is a volunteer initiative developed to support **Kibbutz Nir Oz** following the events of October 7th, 2023. The goal was to build a functional online plant nursery to help restore the local community's business operations. 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The project reached the MVP (Minimum Viable Product) stage and was presented to the stakeholders to determine the future roadmap. As the project was intended to be community-driven and did not receive further feedback for production scaling, it is currently maintained as a high-fidelity technical prototype.
 
-## Expanding the ESLint configuration
+##Tech Stack
+* **Frontend:** TypeScript, React, Tailwind CSS.
+* **State Management:** Redux Toolkit, RTK Query.
+* **Backend:** Java Spring Boot.
+* **Database:** MongoDB.
+* **Key Libraries:** `@tanstack/react-table`, `@tanstack/react-virtual` (for high-performance UI).
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## My Contribution & Key Features
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+I served as a Full-stack Developer, focusing on the core Administrative Dashboard and Product Management systems.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Frontend (Admin Panel):
+* **High-Performance Tables:** Developed a universal, reusable table component using `TanStack Table` and `React Virtual`. It supports rendering thousands of products without performance degradation.
+* **Advanced Data Interaction:** Implemented **inline editing**, **infinite scrolling**, and complex **filtering/sorting** logic to ensure a smooth administrative experience.
+* **State Management:** Architected the frontend data flow using **RTK Query** for efficient caching and synchronization with the backend.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Backend:
+* **RESTful API:** Developed controllers and services for managing products and user data.
+* **NoSQL Integration:** Integrated with **MongoDB** to handle flexible product schemas.
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## Key Engineering Highlights
+* **UX Focus:** Implementation of "focus-on-edit" patterns and instant feedback loops during data updates.
+* **Scalability:** The table architecture is designed to handle large datasets through row virtualization and optimized Redux selectors.
+* **Clean Code:** Heavy use of TypeScript interfaces and modular architecture to ensure the project could be easily handed over or expanded.
+
+## Lessons Learned
+This project was a great exercise in building a functional prototype under time constraints while addressing real-world community needs. It allowed me to bridge my 15+ years of enterprise experience with a modern full-stack ecosystem (Java/Spring + React/TS).
